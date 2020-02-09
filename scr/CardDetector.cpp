@@ -14,7 +14,7 @@ namespace detect
 		this->live_frame_ = input_frame;
 
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks_new\\*.jpg", this->train_ranks_);
-		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits_new\\*.jpg", this->train_suits_);
+		loadTrainImages("C:\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits_new\\*.jpg", this->train_suits_);
 	}
 
 
