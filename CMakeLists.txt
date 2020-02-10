@@ -17,7 +17,7 @@ include_directories(
 
 # add executables
 file(GLOB SOURCES "src/*.cpp")
-add_executable(Pokerbot main.cpp ./src/Capture.cpp ${SOURCES})
+add_executable(Pokerbot main.cpp ${SOURCES})
 
 target_link_libraries(Pokerbot ${OpenCV_LIBS})
 link_libraries(${OpenCV_LIBS})
