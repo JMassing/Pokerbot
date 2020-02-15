@@ -10,6 +10,7 @@ class PokerbotConan(ConanFile):
     generators = "cmake"
     requires = [("opencv/4.1.1@conan/stable"), ("boost/1.72.0")]
     default_options = {"opencv:shared": False, "boost:shared": False}
+    exports_sources = "*"
 
     #def source(self):
         # This small hack might be useful to guarantee proper /MT /MD linkage
@@ -25,7 +26,7 @@ class PokerbotConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure()
+        cmake.configure(source_folder=".")
         cmake.build()
 
     #def package(self):
