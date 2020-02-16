@@ -98,7 +98,7 @@ namespace detect
 		cv::findContours(edges, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_NONE, cv::Point(0, 0));
 	}
 
-	void CardDetector::contourFilter(std::vector<std::vector<cv::Point> >& contours, int method, int value)
+	void CardDetector::contourFilter(std::vector<std::vector<cv::Point> >& contours, int method, double value)
 	{
 		// Calculate area vector first
 		std::vector<double> areas(contours.size());
