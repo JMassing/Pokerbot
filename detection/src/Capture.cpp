@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "Capture.h"
 
 namespace detect {

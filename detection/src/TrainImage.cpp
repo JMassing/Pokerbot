@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "TrainImage.h"
 
 #include <iostream>
