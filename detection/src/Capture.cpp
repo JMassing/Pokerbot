@@ -14,7 +14,7 @@ namespace detect {
 	{
 	}
 
-	// open selected camera using selected API
+	// @brief: open selected camera using selected API
 	bool Capture::init()
 	{
 		this->cap_.open(this->device_ID_ + this->api_ID_);
@@ -25,6 +25,7 @@ namespace detect {
 		return true;
 	}
 
+	//@brief: Grab live image from camera
 	bool Capture::grabLive()
 	{
 		this->cap_.read(this->frame_);
@@ -33,7 +34,7 @@ namespace detect {
 		}
 		return true;
 	}
-
+	//@brief: Grab image from Video
 	bool Capture::grabVideo()
 	{ 
 		cap_ >> this->frame_;

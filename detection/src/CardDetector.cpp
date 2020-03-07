@@ -20,9 +20,9 @@ namespace detect
 	{
 	}
 	
+	//@brief: Detect Cards in live frame 
 	void CardDetector::detectCards()
 	{
-		// Detect Cards in live frame 
 		// Step 1	: Find Contours of cards in frame
 		// Step	1.1 : Find Contours of interest in frame	
 		std::vector<std::vector<cv::Point> > card_contours;	
@@ -74,6 +74,7 @@ namespace detect
 		
 	}
 
+	// @brief: load training images for comparison with detected images
 	void CardDetector::loadTrainImages(const std::string &path, std::vector<TrainImage>& train_images)
 	{	
 		std::vector<std::string> file_names{};
@@ -87,17 +88,21 @@ namespace detect
 		
 	}
 
-	void CardDetector::findContours(const cv::Mat& src, std::vector<std::vector<cv::Point> >& contours, const int& threshold, const int& thresh_flag)
+	// @brief: finds contours in given image src for given binaryzation threshold and given binarization method 
+	void CardDetector::findContours(const cv::Mat& src, std::vector<std::vector<cv::Point> >& contours, const int& threshold, const int& thresh_method)
 	{
 		cv::Mat edges;
 		std::vector<cv::Vec4i> hierarchy;
-		cv::cvtColor(src, edges, cv::COLOR_RGB2GRAY);
-		cv::Scalar temp_mean = cv::mean(edges);
-		int mean_image_intensity = static_cast<int>(temp_mean[0]);		
-		cv::threshold(edges, edges, mean_image_intensity+threshold, 255, thresh_flag);
+		this->binarizeImage(src, edges, threshold, thresh_method);
 		cv::findContours(edges, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_NONE, cv::Point(0, 0));
 	}
 
+	// @brief: filters contours after given method. Value ist given according to method
+	// @brief: Methods are 
+	// @brief: LARGEST_AREA = 0, only keept largest contour
+	// @brief: SMALLEST_AREA = 1, only keep smalles contour 
+	// @brief: LE_AREA = 2, contour area is smaller/equal then given value
+	// @brief: GE_AREA =3 , contour area is larger/equal then given value 
 	void CardDetector::contourFilter(std::vector<std::vector<cv::Point> >& contours, int method, double value)
 	{
 		// Calculate area vector first
@@ -146,7 +151,7 @@ namespace detect
 		}
 
 	}
-
+	//@brief: calculates corner points of given contours using cv::approxPolyDP
 	void CardDetector::calculateCornerPoints(const std::vector<std::vector<cv::Point> >& contours, std::vector < std::vector< cv::Point2f >>& corners)
 	{
 		double d = 0.01;
@@ -167,6 +172,7 @@ namespace detect
 		}
 	}
 
+	//@brief: Returns Center Point of contour using the contour moments, calculated with cv::moments
 	void CardDetector::calculateCenterPoint(const std::vector<std::vector<cv::Point> >& contours, std::vector< cv::Point2f >& centers)
 	{
 		cv::Moments M;
@@ -178,6 +184,7 @@ namespace detect
 	
 	}
 
+	//@brief: Transforms perspectively distorted card image into 2D upright view of card
 	bool CardDetector::perspectiveTransformation(const cv::Mat src, cv::Mat& dst, const std::vector< cv::Point2f >& points)
 	{
 		int offset = 5;
@@ -194,6 +201,8 @@ namespace detect
 		return false;
 	}
 
+	//@brief: sorts corner points given by calculateCornerPoints method to order expected by perspectiveTransformation. 
+	//@brief: Start lower right corner -> going clockwise
 	std::vector< cv::Point2f > CardDetector::sortCorners(std::vector< cv::Point2f > points, cv::Point2f center)
 	{
 		std::vector< cv::Point2f > sorted_points;
@@ -246,6 +255,10 @@ namespace detect
 		return sorted_points;
 	}
 
+	//@brief: Identifies what card is shown in card image
+	//@brief: Card image is binarized and upper right corner is zoomed in
+	//@brief: Upper right corner is then compared from train images using L2 Norm
+	//@brief: Lowest difference wins.
 	void CardDetector::identifyCard(Card& card, const cv::Mat& card_image) 
 	{
 		// Zoom into the upper left corner
@@ -288,8 +301,11 @@ namespace detect
 				rank_binary.create(this->train_ranks_[0].getImage().size(), this->train_ranks_[0].getImage().type());
 				suit_binary.create(this->train_suits_[0].getImage().size(), this->train_suits_[0].getImage().type());
 
-				this->binarizeImage(rank, rank_binary, this->binary_threshold_ + threshold);
-				this->binarizeImage(suit, suit_binary, this->binary_threshold_ + threshold);
+				cv::resize(rank, rank, rank_binary.size(), 0, 0, cv::INTER_LINEAR);				// resize to right size befor binarizing
+				this->binarizeImage(rank, rank_binary, this->binary_threshold_ + threshold, cv::THRESH_BINARY_INV);
+				
+				cv::resize(suit, suit, suit_binary.size(), 0, 0, cv::INTER_LINEAR); 			// resize to right size befor binarizing
+				this->binarizeImage(suit, suit_binary, this->binary_threshold_ + threshold, cv::THRESH_BINARY_INV);
 
 		/*		cv::imshow("suit", suit_binary);
 				cv::imshow("rank", rank_binary);
@@ -350,15 +366,16 @@ namespace detect
 		}
 	}
 
-	void CardDetector::binarizeImage(const cv::Mat & src, cv::Mat & dst, const int& threshold)
+	//@brief: binarize given image 
+	void CardDetector::binarizeImage(const cv::Mat & src, cv::Mat & dst, const int& threshold, const int& thresh_method)
 	{
-		cv::resize(src, dst, dst.size(), 0, 0, cv::INTER_LINEAR);
-		cv::cvtColor(dst, dst, cv::COLOR_RGB2GRAY);
-		cv::Scalar temp_mean = cv::mean(dst);
+		cv::cvtColor(src, dst, cv::COLOR_RGB2GRAY);
+		cv::Scalar temp_mean = cv::mean(dst);											// calculates mean image intensity. will be added to threshold to correct for lighting
 		int mean_image_intensity = static_cast<int>(temp_mean[0]);
-		cv::threshold(dst, dst, mean_image_intensity + threshold, 255, cv::THRESH_BINARY_INV);
+		cv::threshold(dst, dst, mean_image_intensity + threshold, 255, thresh_method);
 	}
 
+	//@brief: Compares given images using L2_Norm and returns similarity
 	double CardDetector::compareImages(const cv::Mat &src, const cv::Mat &dst)
 	{
 		if (src.size() == dst.size() && src.type() == dst.type())

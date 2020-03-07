@@ -13,6 +13,7 @@ namespace detect {
 	{
 	}
 
+	//@brief: visualize cards in grabbed image. Draws contours and card names
 	void View::drawCards(const std::vector<Card> cards, cv::Mat& dst, const cv::Scalar& color)
 	{
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), CV_8UC3);
@@ -30,6 +31,7 @@ namespace detect {
 		this->writeCard(dst, cards);
 	}
 
+	//@brief: Show grabbed images
 	void View::showImages(std::vector<cv::Mat> images)
 	{
 		int i = 1;
@@ -40,6 +42,7 @@ namespace detect {
 		}
 	}
 
+	//@brief: Draw given contour into given image 
 	void View::drawContours(const std::vector<std::vector<cv::Point> >& contours, const cv::Mat& dst, const cv::Scalar& color)
 	{
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), CV_8UC3);
@@ -49,17 +52,7 @@ namespace detect {
 		drawing.copyTo(dst, drawing);
 	}
 
-	//void View::drawPoints(const cv::Mat& src, const cv::Scalar& color)
-	//{
-	//	for (auto & corner: src.contours.corners)
-	//	{
-	//		for (auto & point : corner)
-	//		{
-	//			circle(src.image, point, 3, color, 3, 8, 0);
-	//		}
-	//	}
-	//}
-
+	//@brief: Writes card type into image. Writes approx. into middle of card
 	void View::writeCard(const cv::Mat& src, const std::vector<Card>& cards)
 	{
 		

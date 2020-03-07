@@ -31,22 +31,22 @@ namespace detect
 		const int binary_threshold_ = 0;									 // threshold added to mean image intensity for binaryzing suit and rank image (rank and suit edges are close to mean image intensity, so 0);
 		const std::array<int, 15> sliding_threshold_
 			{-17, -15, -12 , -10, -7, -5, -2, 0, 2, 5, 7, 10, 12, 15, 17 };	 // arrays of values for sliding threshold for binaryzing image
-		const int min_card_size_ = 20000;									 // Min size card image in pixel�
-		const int max_card_size_ = 300000;									 // Max size card image in pixel�
+		const int min_card_size_ = 20000;									 // Min size card image in pixel²
+		const int max_card_size_ = 300000;									 // Max size card image in pixel²
 		const double min_comparison_confidence_ = 5;						 // Maximum l2 error allowed for compareImages. If error is higher, card is marked as unknown
 		std::vector<TrainImage> train_suits_;
 		std::vector<TrainImage> train_ranks_;
 
 		void loadTrainImages(const std::string &path, std::vector<TrainImage>& train_images);		
 		void contourFilter(std::vector<std::vector<cv::Point> >& contour, int method = LARGEST_AREA, double value = 0);	 
-		void calculateCornerPoints(const std::vector<std::vector<cv::Point> >& contours, std::vector < std::vector< cv::Point2f >>& corners);	// calculates card corners of card
+		void calculateCornerPoints(const std::vector<std::vector<cv::Point> >& contours, std::vector < std::vector< cv::Point2f >>& corners);	// calculates corners of card
 		void calculateCenterPoint(const std::vector<std::vector<cv::Point> >& contours, std::vector< cv::Point2f >& centers);					// calculates center point of card
 		bool perspectiveTransformation(const cv::Mat src, cv::Mat& dst, const std::vector< cv::Point2f >& points);
 		std::vector< cv::Point2f > sortCorners(std::vector< cv::Point2f > points, cv::Point2f center);
 		void identifyCard(Card& card, const cv::Mat& card_image);
-		void binarizeImage(const cv::Mat & src, cv::Mat & dst, const int& threshold);
+		void binarizeImage(const cv::Mat & src, cv::Mat & dst, const int& threshold, const int& thresh_method);
 		double compareImages(const cv::Mat &src, const cv::Mat &dst);
-		void findContours(const cv::Mat& src, std::vector<std::vector<cv::Point> >& contours, const int& threshold, const int& thresh_flag = cv::THRESH_BINARY);
+		void findContours(const cv::Mat& src, std::vector<std::vector<cv::Point> >& contours, const int& threshold, const int& thresh_method = cv::THRESH_BINARY);
 
 	public:
 		CardDetector(cv::Mat& input_frame);
