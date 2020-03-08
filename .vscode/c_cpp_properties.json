@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "C:/.conan/652d7d/1/include/",
-                "C:/.conan/f92160/1/include/"
+                "C:/.conan/f92160/1/include/",
+                "C:/.conan/26463a/1/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -30,7 +31,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "C:/.conan/652d7d/1/include/",
-                "C:/.conan/f92160/1/include/"
+                "C:/.conan/f92160/1/include/",
+                "C:/.conan/26463a/1/include"
             ],
             "defines": [
                 "_DEBUG",

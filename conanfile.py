@@ -8,8 +8,8 @@ class PokerbotConan(ConanFile):
     author = "Julian Massing julimassing@gmail.com"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    requires = [("opencv/4.1.1@conan/stable"), ("boost/1.72.0")]
-    default_options = {"opencv:shared": False, "boost:shared": False}
+    requires = [("opencv/4.1.1@conan/stable"), ("boost/1.72.0"), ("gtest/1.8.0@bincrafters/stable")]
+    default_options = {"opencv:shared": False, "boost:shared": False, "gtest:shared": False}
     exports_sources = "*"
 
     #def source(self):
@@ -38,5 +38,5 @@ class PokerbotConan(ConanFile):
     #    self.copy("*.a", dst="lib", keep_path=False)
 
     #def package_info(self):
-    #    self.cpp_info.libs = ["opencv", "boost"]
+    #    self.cpp_info.libs = ["opencv", "boost", "gtest"]
 

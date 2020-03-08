@@ -327,11 +327,11 @@ namespace detect
 
 						if (score_rank < this->min_comparison_confidence_)
 						{
-							card.rank = mapping.card_mappings.left.at(rank_name);
+							card.rank = mapping.image_mappings.left.at(rank_name);
 						}
 						else
 						{
-							card.rank = UNKNOWN_RANK;
+							card.rank = UNKNOWN;
 						}
 					}
 					rank_count++;
@@ -347,11 +347,11 @@ namespace detect
 						std::string suit_name = this->train_suits_[suit_count].getLabel();
 						if (score_suit < this->min_comparison_confidence_)
 						{
-							card.suit = mapping.card_mappings.left.at(suit_name);
+							card.suit = mapping.image_mappings.left.at(suit_name);
 						}
 						else
 						{
-							card.suit = UNKNOWN_SUIT;
+							card.suit = UNKNOWN;
 						}
 					}
 					suit_count++;
@@ -361,8 +361,8 @@ namespace detect
 		}
 		else 
 		{
-			card.rank = UNKNOWN_RANK;
-			card.suit = UNKNOWN_SUIT;
+			card.rank = UNKNOWN;
+			card.suit = UNKNOWN;
 		}
 	}
 

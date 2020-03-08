@@ -34,17 +34,19 @@ namespace poker
         }        
     }
 
-    //@brief: print hand
-    void Hand::print()
+    //@brief: returns a sstream with the current hand
+    std::stringstream Hand::print()
     {
         detect::Mapping mapping;
+        std::stringstream out;
         for(const detect::Card& card: this->hand)
         { 
             std::string rank = mapping.text_mappings.right.at(card.rank);
 			std::string	suit = mapping.text_mappings.right.at(card.suit);
 			std::string	text = rank + suit + " ";
-            std::cout << text;
+            out << text;
         }
-        std::cout << std::endl; 
+        out << std::endl; 
+        return out;
     }
 }//end namespace detect

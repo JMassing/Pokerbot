@@ -1,5 +1,8 @@
 #pragma once
+
 #include<array>
+#include <sstream>
+
 
 #include "Card.h"
 #include "Mapping.h"
@@ -17,7 +20,7 @@ namespace poker{
         ~Hand() {};
 
         void addToHand(const detect::Card& card);
-        void print();
+        std::stringstream print();
         // Using default copy and move constructors. 
 		Hand(const Hand& other) = default;	
 		Hand& operator=(const Hand& other) = default;

@@ -63,14 +63,14 @@ namespace detect {
 
 		for (int i = 0; i < cards.size(); ++i)
 		{	
-			if (cards[i].suit == UNKNOWN_SUIT || cards[i].rank == UNKNOWN_RANK)
+			if (cards[i].suit == UNKNOWN || cards[i].rank == UNKNOWN)
 			{
 				text = "Unknown";
 			}
 			else
 			{
-				rank = mapping.card_mappings.right.at(cards[i].rank);
-				suit = mapping.card_mappings.right.at(cards[i].suit);
+				rank = mapping.image_mappings.right.at(cards[i].rank);
+				suit = mapping.image_mappings.right.at(cards[i].suit);
 				text = rank + " of " + suit;
 			}
 			cv::putText(src, text, cards[i].center_point-cv::Point(85,0), cv::FONT_HERSHEY_PLAIN, 1.25, cv::Scalar(0, 0, 255), 2);

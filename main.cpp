@@ -12,16 +12,18 @@
 #include "Capture.h"
 #include "CardDetector.h"
 #include "View.h"
-
+#include "Hand.h"
 
 
 using namespace cv;
 using namespace std;
 using namespace detect;
+using namespace poker;
+
 
 int main(int argc, char* argv[])
 {
-
+	
 	//// Initialize variables for live capture and image processing
 	Capture live("C:\\Users\\julim\\Desktop\\Projects\\MultipleCards.mp4");
 	//
@@ -62,7 +64,8 @@ int main(int argc, char* argv[])
 	if (waitKey(5) >= 0)
 			break;
 	}
-	// the camera will be deinitialized automatically in VideoCapture destructor
 	
+	// the camera will be deinitialized automatically in VideoCapture destructor
+
 	return 0;
 }
