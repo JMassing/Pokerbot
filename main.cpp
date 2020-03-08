@@ -13,6 +13,7 @@
 #include "CardDetector.h"
 #include "View.h"
 #include "Hand.h"
+#include "Deck.h"
 
 
 using namespace cv;
@@ -25,7 +26,7 @@ int main(int argc, char* argv[])
 {
 	
 	//// Initialize variables for live capture and image processing
-	Capture live("C:\\Users\\julim\\Desktop\\Projects\\MultipleCards.mp4");
+	/*Capture live("C:\\Users\\julim\\Desktop\\Projects\\MultipleCards.mp4");
 	//
 	//if (!live.init()) {
 	//	cerr << "ERROR! Unable to open camera\n";
@@ -66,6 +67,5 @@ int main(int argc, char* argv[])
 	}
 	
 	// the camera will be deinitialized automatically in VideoCapture destructor
-
-	return 0;
+	*/
 }

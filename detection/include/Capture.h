@@ -9,20 +9,22 @@ namespace detect {
 
 	class Capture
 	{ 
-	public:
-		cv::Mat frame_;
-	private:
-		cv::VideoCapture cap_;
-		int device_ID_;
-		int api_ID_;
-	public:
-		Capture();
-		explicit Capture(std::string video);
-		~Capture();
+		private:
+			cv::VideoCapture cap_;
+			int device_ID_;
+			int api_ID_;
 
-		bool init();
-		bool grabLive();
-		bool grabVideo();
+		public:
+			cv::Mat frame_;
+	
+			Capture();
+			explicit Capture(std::string video);
+			~Capture();
+
+			bool init();
+			bool grabLive();
+			bool grabVideo();
+			
 	};
 
 }

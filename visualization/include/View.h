@@ -16,19 +16,19 @@ namespace detect {
 
 	class View
 	{
-	public:
-		View();
-		~View();
+		private:
 
-		void drawCards(const std::vector<Card> cards, cv::Mat& dst, const cv::Scalar& color);
-	private:
+			std::map<std::string, int> card_mappings_;
 
-		std::map<std::string, int> card_mappings_;
+			void showImages(std::vector<cv::Mat> Images);
+			void drawContours(const std::vector<std::vector<cv::Point> >& contours, const cv::Mat& dst,const cv::Scalar& color);
+			//void drawPoints(const cv::Mat& src, const cv::Scalar& color);
+			void writeCard(const cv::Mat& src, const std::vector<Card>& cards);
+		public:
+			View();
+			~View();
 
-		void showImages(std::vector<cv::Mat> Images);
-		void drawContours(const std::vector<std::vector<cv::Point> >& contours, const cv::Mat& dst,const cv::Scalar& color);
-		//void drawPoints(const cv::Mat& src, const cv::Scalar& color);
-		void writeCard(const cv::Mat& src, const std::vector<Card>& cards);
+			void drawCards(const std::vector<Card> cards, cv::Mat& dst, const cv::Scalar& color);
 
 	};
 
