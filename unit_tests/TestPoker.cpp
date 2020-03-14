@@ -2,8 +2,10 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <vector>
 
 #include "../poker/include/Hand.h"
+#include "../poker/include/Deck.h"
 #include "../detection/include/Card.h"
 
 TEST(TestPoker,TestHand)
@@ -57,4 +59,26 @@ TEST(TestPoker,TestHand)
 		hand.addToHand(card7);
 		EXPECT_EQ(hand.print().str(), test_string);
 		EXPECT_EQ(hand.hand, test_hand);
+}
+
+TEST(TestPoker,TestDeck)
+{	
+	std::array<detect::Card,2> robot_hand{detect::Card(5,17), detect::Card(11,16)};
+	poker::Deck deck(robot_hand);
+	// Does Deck initialization work
+	for(const detect::Card& card: deck.deck)
+	{
+		EXPECT_NE(card, robot_hand[0]);
+		EXPECT_NE(card, robot_hand[1]);
+	}
+
+	/*// does pull a card work
+	EXPECT_EQ(deck.pullCard(), deck.deck[0]);
+	// is pos_tracker incrementen by pullCard?
+	EXPECT_EQ(deck.getPosition(),1);
+	// is pos_tracker incremented by burnCard?
+	deck.burnCard();
+	EXPECT_EQ(deck.getPosition(),2);
+	// check pull card again to make sure
+	EXPECT_EQ(deck.pullCard(), deck.deck[2]);*/
 }
