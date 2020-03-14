@@ -2,8 +2,10 @@
 
 #include <algorithm>
 #include <random>
+#include <vector>
 
 #include "Card.h"
+#include "Hand.h"
 #include "Mapping.h"
 
 namespace poker{
@@ -16,10 +18,11 @@ namespace poker{
         
     public:
 
-        // There are only 50 cards in the deck since we know which 2 cards the robot has
-        std::array<detect::Card,50> deck;
+        // The Deck is a vector, since we do not include the known cards (=the hand of the robot)
+        // The nr. of known card changes depending on where in the game we are (start of game, flop, ...)
+        std::vector<detect::Card> deck;
 
-        explicit Deck(std::array<detect::Card,2> robot_starting_cards);
+        explicit Deck(Hand robot_hand);
         ~Deck() {};
                 
         // Using default copy and move constructors. 

@@ -2,20 +2,22 @@
 
 namespace poker
 {
-    Deck::Deck(std::array<detect::Card,2> robot_starting_cards): pos_tracker{0} {
+    Deck::Deck(Hand robot_hand): pos_tracker{0} {
         // fill Deck with cards and point to cards initially
-        int k=0;
         for(int j=15; j<=18; ++j)
         {
             for(int i=2; i<=14; ++i)
-            {
-                if(robot_starting_cards[0]==detect::Card(i,j) || robot_starting_cards[1]==detect::Card(i,j))
+            {   
+                // check if card is known 
+                if(robot_hand.contains(detect::Card(i,j)))
                 {
                     // do not add card to the deck, which is already dealt to the robot
-                    continue;
                 }
-                this->deck[k]=detect::Card(i,j);
-                ++k;
+                else
+                {
+                    //add card to deck
+                    this->deck.emplace_back(detect::Card(i,j));
+                }                
             }
         }
     }

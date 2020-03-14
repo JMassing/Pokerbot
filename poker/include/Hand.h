@@ -10,11 +10,8 @@ namespace poker{
 
     class Hand{
         
-        private:
-            bool contains(const detect::Card& card);
-
         public:
-            std::array<detect::Card,5> hand;
+            std::array<detect::Card,7> hand;
 
             Hand()
             {
@@ -23,7 +20,9 @@ namespace poker{
             ~Hand() {};
 
             void addToHand(const detect::Card& card);
+            bool contains(const detect::Card& card);
             std::stringstream print();
+            
             // Using default copy and move constructors. 
             Hand(const Hand& other) = default;	
             Hand& operator=(const Hand& other) = default;
