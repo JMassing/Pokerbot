@@ -72,7 +72,7 @@ TEST(TestPoker,TestDeck)
 		EXPECT_NE(card, robot_hand[1]);
 	}
 
-	/*// does pull a card work
+	// does pull a card work
 	EXPECT_EQ(deck.pullCard(), deck.deck[0]);
 	// is pos_tracker incrementen by pullCard?
 	EXPECT_EQ(deck.getPosition(),1);
@@ -80,5 +80,5 @@ TEST(TestPoker,TestDeck)
 	deck.burnCard();
 	EXPECT_EQ(deck.getPosition(),2);
 	// check pull card again to make sure
-	EXPECT_EQ(deck.pullCard(), deck.deck[2]);*/
+	EXPECT_EQ(deck.pullCard(), deck.deck[2]);
 }
