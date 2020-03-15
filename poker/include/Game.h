@@ -17,11 +17,12 @@ namespace poker{
 
         public:
         explicit Game(int nr_of_players);
-        ~Game();
+        ~Game() {};
 
         std::vector<Hand> getHands() {return this->player_hands;}    
         void sortHands();
-
+        bool isAceLowStreet(Hand& hand);
+      
         // Using default copy and move constructors. 
         Game(const Game& other) = default;
         Game& operator=(const Game& other) = default;

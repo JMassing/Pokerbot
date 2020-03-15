@@ -6,6 +6,7 @@
 
 #include "../poker/include/Hand.h"
 #include "../poker/include/Deck.h"
+#include "../poker/include/Game.h"
 #include "../detection/include/Card.h"
 
 TEST(TestPoker,TestHand)
@@ -81,4 +82,10 @@ TEST(TestPoker,TestDeck)
 	EXPECT_EQ(deck.getPosition(),2);
 	// check pull card again to make sure
 	EXPECT_EQ(deck.pullCard(), deck.deck[2]);
+}
+
+TEST(TestPoker,TestGame)
+{
+	poker::Game game(1);
+	
 }

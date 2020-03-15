@@ -22,6 +22,7 @@ namespace detect
 		Card(int rank, int suit, cv::Point center, std::vector<cv::Point> contour) :rank(rank), suit(suit), center_point(center), contour{contour} {};
 		~Card() {};
 
+		
 		bool operator==(const Card& other) const
 		{
 			// if suit and rank are equal, the cards are the same cards, since there is only one copy of each card in the deck.
@@ -32,16 +33,7 @@ namespace detect
 			// if suit or rank are not equal, the cards are different cards, since there is only one copy of each card in the deck.
 			return (this->rank != other.rank || this->suit != other.suit);
 		};
-		// Define comparison operators for sorting hands later in the game
-		bool operator<(const Card& other) const
-		{
-			return (this->rank < other.rank);
-		};
-		bool operator>(const Card& other) const
-		{
-			return (this->rank > other.rank);
-		};
-		// Using default copy and move constructors. 
+
 		Card(const Card& other) = default;	
 		Card& operator=(const Card& other) = default;
 		Card(Card&& other) noexcept = default;

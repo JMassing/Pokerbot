@@ -9,7 +9,7 @@ namespace poker
             for(int i=2; i<=14; ++i)
             {   
                 // check if card is known 
-                if(robot_hand.contains(detect::Card(i,j)))
+                if(robot_hand.containsCard(detect::Card(i,j)))
                 {
                     // do not add card to the deck, which is already dealt to the robot
                 }

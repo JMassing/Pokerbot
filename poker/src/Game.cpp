@@ -12,12 +12,36 @@ namespace poker{
         }
     }
 
+    //@brief sort cards in hands by rank in ascending order
     void Game::sortHands()
     {
-        for(const Hand& hand: this->player_hands)
+        for(auto& hand: this->player_hands)
         { 
-            std::sort(hand.hand.begin(), hand.hand.end());
+            std::sort(hand.hand.begin(), hand.hand.end(), [](const auto& lhs, const auto& rhs)
+            {
+                return lhs.rank < rhs.rank;
+            }
+            );
         }
     }
 
+    //@brief checks if we have a AceLowStreet
+    bool Game::isAceLowStreet(Hand& hand)
+    {
+        if(!hand.containsRank(detect::ACE))
+        {
+            return false;
+        }
+        else
+        {
+            if(hand.containsRank(detect::TWO) && hand.containsRank(detect::THREE) && hand.containsRank(detect::FOUR) && hand.containsRank(detect::FIVE))
+            {
+                return true;   
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }// end namespace poker

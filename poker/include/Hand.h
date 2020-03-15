@@ -20,7 +20,10 @@ namespace poker{
             ~Hand() {};
 
             void addToHand(const detect::Card& card);
-            bool contains(const detect::Card& card);
+            bool containsCard(const detect::Card& card);
+            bool containsRank(const int& rank);
+            bool containsSuit(const int& suit);
+
             std::stringstream print();
             
             // Using default copy and move constructors. 
