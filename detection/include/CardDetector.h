@@ -51,6 +51,12 @@ namespace detect
 		public:
 			explicit CardDetector(cv::Mat& input_frame);
 			~CardDetector();
+
+			// Using default copy and move constructors. 
+			CardDetector(const CardDetector& other) = default;	
+			CardDetector& operator=(const CardDetector& other) = default;
+			CardDetector(CardDetector&& other) noexcept = default;
+			CardDetector& operator=(CardDetector&& other) noexcept = default;
 			
 			void detectCards();
 			const std::vector<Card> getCards() { return this->cards_; }

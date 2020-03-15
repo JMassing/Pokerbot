@@ -12,4 +12,12 @@ namespace poker{
         }
     }
 
+    void Game::sortHands()
+    {
+        for(const Hand& hand: this->player_hands)
+        { 
+            std::sort(hand.hand.begin(), hand.hand.end());
+        }
+    }
+
 }// end namespace poker

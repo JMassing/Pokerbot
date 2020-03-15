@@ -21,6 +21,12 @@ namespace detect {
 			explicit Capture(std::string video);
 			~Capture();
 
+			// Using default copy and move constructors. 
+			Capture(const Capture& other) = default;	
+			Capture& operator=(const Capture& other) = default;
+			Capture(Capture&& other) noexcept = default;
+			Capture& operator=(Capture&& other) noexcept = default;
+
 			bool init();
 			bool grabLive();
 			bool grabVideo();
