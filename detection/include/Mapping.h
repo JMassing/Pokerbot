@@ -47,7 +47,7 @@ namespace detect
 				this->text_mappings.insert(boost::bimaps::bimap<std::string, int>::value_type("7", SEVEN));
 				this->text_mappings.insert(boost::bimaps::bimap<std::string, int>::value_type("8", EIGHT));
 				this->text_mappings.insert(boost::bimaps::bimap<std::string, int>::value_type("9", NINE));
-				this->text_mappings.insert(boost::bimaps::bimap<std::string, int>::value_type("10", TEN));
+				this->text_mappings.insert(boost::bimaps::bimap<std::string, int>::value_type("0", TEN));
 				this->text_mappings.insert(boost::bimaps::bimap<std::string, int>::value_type("J", JACK));
 				this->text_mappings.insert(boost::bimaps::bimap<std::string, int>::value_type("Q", QUEEN));
 				this->text_mappings.insert(boost::bimaps::bimap<std::string, int>::value_type("K", KING));

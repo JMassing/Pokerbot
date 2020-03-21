@@ -2,25 +2,20 @@
 
 namespace poker{
 
-    Game::Game(int nr_of_players):  nr_of_players{nr_of_players}
+    void Game::updatePlayerHands(std::vector<Hand> player_hands)
     {
-        // at the start of the game, we don't know any cards
-        Hand empty_hand;
-        for(int i=0; i<nr_of_players;++i)
-        {
-            this->player_hands.emplace_back(empty_hand);
-        }
+        this->player_hands_=player_hands;
     }
 
     //@brief sort cards in hands by rank in ascending order
     void Game::sortHands()
     {
-        for(auto& hand: this->player_hands)
+        for(auto& hand: this->player_hands_)
         { 
-            std::sort(hand.hand.begin(), hand.hand.end(), [](const auto& lhs, const auto& rhs)
-            {
-                return lhs.rank < rhs.rank;
-            }
+            std::sort(hand.hand_.begin(), hand.hand_.end(), [](const auto& lhs, const auto& rhs)
+                {
+                    return lhs.rank < rhs.rank;
+                }
             );
         }
     }

@@ -14,13 +14,13 @@ namespace poker{
 
     private:
         // this keeps track on where we are in the deck 
-        int pos_tracker;
+        int pos_tracker_;
         
     public:
 
         // The Deck is a vector, since we do not include the known cards (=the hand of the robot)
         // The nr. of known card changes depending on where in the game we are (start of game, flop, ...)
-        std::vector<detect::Card> deck;
+        std::vector<detect::Card> deck_;
 
         explicit Deck(Hand robot_hand);
         ~Deck() {};
@@ -36,15 +36,15 @@ namespace poker{
         //@brief: Returns card in deck at pos pos_tracker and increments pos_tracker.
         detect::Card pullCard()
         {
-            return deck[this->pos_tracker++];
+            return deck_[this->pos_tracker_++];
         };
         void burnCard() 
         {
-            ++this->pos_tracker;
+            ++this->pos_tracker_;
         };
         int getPosition()
         {
-            return this->pos_tracker;
+            return this->pos_tracker_;
         }   
         
     };

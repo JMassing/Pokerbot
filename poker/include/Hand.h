@@ -11,11 +11,11 @@ namespace poker{
     class Hand{
         
         public:
-            std::array<detect::Card,7> hand;
+            std::array<detect::Card,7> hand_;
 
             Hand()
             {
-                hand.fill(detect::Card());
+                hand_.fill(detect::Card());
             }
             ~Hand() {};
 

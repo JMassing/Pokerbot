@@ -2,7 +2,7 @@
 
 namespace poker
 {
-    Deck::Deck(Hand robot_hand): pos_tracker{0} {
+    Deck::Deck(Hand robot_hand): pos_tracker_{0} {
         // fill Deck with cards and point to cards initially
         for(int j=15; j<=18; ++j)
         {
@@ -16,7 +16,7 @@ namespace poker
                 else
                 {
                     //add card to deck
-                    this->deck.emplace_back(detect::Card(i,j));
+                    this->deck_.emplace_back(detect::Card(i,j));
                 }                
             }
         }
@@ -27,7 +27,7 @@ namespace poker
     {        
         std::random_device rd;
         std::mt19937 g(rd());
-        std::shuffle(this->deck.begin(), this->deck.end(),g);
+        std::shuffle(this->deck_.begin(), this->deck_.end(),g);
     }
 
 }//end namespace poker

@@ -8,7 +8,7 @@ namespace poker
     //@brief: Checks if Hand already contains card
     bool Hand::containsCard(const detect::Card& card)
     {
-        for(const auto& hand_card : this->hand)
+        for(const auto& hand_card : this->hand_)
         {
             if(hand_card == card)
             {
@@ -21,7 +21,7 @@ namespace poker
     //@brief: Checks if Hand contains rank 
     bool Hand::containsRank(const int& rank)
     {
-        for(const auto& hand_card : this->hand)
+        for(const auto& hand_card : this->hand_)
         {
             if(hand_card.rank == rank)
             {
@@ -34,7 +34,7 @@ namespace poker
      //@brief: Checks if Hand contains suit 
     bool Hand::containsSuit(const int& suit)
     {
-        for(const auto& hand_card : this->hand)
+        for(const auto& hand_card : this->hand_)
         {
             if(hand_card.suit == suit)
             {
@@ -49,11 +49,11 @@ namespace poker
     {
         if(!containsCard(card))
         {
-            for(int i=0; i<this->hand.size(); i++)
+            for(int i=0; i<this->hand_.size(); i++)
             {
-                if(this->hand.at(i) == detect::Card())    //replace first unknown card in hand with  card
+                if(this->hand_.at(i) == detect::Card())    //replace first unknown card in hand with  card
                 {
-                    this->hand.at(i) = card;
+                    this->hand_.at(i) = card;
                     return;
                 }
             }    
@@ -65,7 +65,7 @@ namespace poker
     {
         detect::Mapping mapping;
         std::stringstream out;
-        for(const auto& card: this->hand)
+        for(const auto& card: this->hand_)
         { 
             std::string rank = mapping.text_mappings.right.at(card.rank);
 			std::string	suit = mapping.text_mappings.right.at(card.suit);

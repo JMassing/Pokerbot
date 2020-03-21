@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <array>
 #include <algorithm>
 
 #include "Hand.h"
@@ -11,18 +12,19 @@
 namespace poker{
     
     class Game{
-        private:
-        std::vector<Hand> player_hands;
-        int nr_of_players;
+        protected:
+        std::vector<Hand> player_hands_;
 
-        public:
-        explicit Game(int nr_of_players);
-        ~Game() {};
-
-        std::vector<Hand> getHands() {return this->player_hands;}    
         void sortHands();
         bool isAceLowStreet(Hand& hand);
-      
+
+        public:
+        Game(std::vector<Hand> player_hands):player_hands_(player_hands) {};
+        ~Game() {};
+
+        std::vector<Hand> getHands() {return this->player_hands_;}    
+        void updatePlayerHands(std::vector<Hand> player_hands);
+              
         // Using default copy and move constructors. 
         Game(const Game& other) = default;
         Game& operator=(const Game& other) = default;
