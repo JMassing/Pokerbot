@@ -148,8 +148,6 @@ TEST(TestPoker,TestGetRanking)
 		std::cout << "Could not open file" << std::endl;
 	}
 
-	EXPECT_EQ(ranking.isAceLowStreet(ace_low_hand), true);
-
 }
 
 TEST(TestPoker,TestGame)
