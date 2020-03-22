@@ -15,8 +15,6 @@ namespace poker{
         protected:
         std::vector<Hand> player_hands_;
 
-        bool isAceLowStreet(Hand& hand);
-
         public:
         Game(std::vector<Hand> player_hands):player_hands_(player_hands) {};
         ~Game() {};

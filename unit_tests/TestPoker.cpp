@@ -8,9 +8,13 @@
 #include "../poker/include/Hand.h"
 #include "../poker/include/Deck.h"
 #include "../poker/include/Game.h"
+#include "../poker/include/GetRanking.h"
+
 #include "utilities/HelperClasses/GameInternal.h"
+
 #include "../detection/include/Card.h"
 #include "../detection/include/Mapping.h"
+
 
 // Converts String read from file to class hand. Examplary String: 3S 9D AS JC 4D 9H 10H
 poker::Hand convertToHand(std::string string_hand)
@@ -122,7 +126,33 @@ TEST(TestPoker,TestDeck)
 	EXPECT_EQ(deck.pullCard(), deck.deck_[2]);
 }
 
-TEST(TestPoker,TestGameBase)
+TEST(TestPoker,TestGetRanking)
+{
+	std::ifstream file;
+	// Check isAceLow
+	file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\AceLowStreet.txt");	
+	std::string line;
+	poker::Hand ace_low_hand;
+
+	poker::GetRanking ranking;
+	if(file.is_open())
+	{
+		while(std::getline(file, line))
+		{
+			ace_low_hand=convertToHand(line);
+		}
+		file.close();
+	}
+	else
+	{
+		std::cout << "Could not open file" << std::endl;
+	}
+
+	EXPECT_EQ(ranking.isAceLowStreet(ace_low_hand), true);
+
+}
+
+TEST(TestPoker,TestGame)
 {
 	std::ifstream file;
 
@@ -149,25 +179,5 @@ TEST(TestPoker,TestGameBase)
 
 	// Check Initialization
 	EXPECT_EQ(game.getHands()[0].print().str(),unsorted_hand);
-
-	// Check isAceLow
-	file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\AceLowStreet.txt");	
-
-	std::vector<poker::Hand> ace_low_hand;
-	if(file.is_open())
-	{
-		while(std::getline(file, line))
-		{
-			ace_low_hand.emplace_back(convertToHand(line));
-		}
-		file.close();
-	}
-	else
-	{
-		std::cout << "Could not open file" << std::endl;
-	}
-
-	EXPECT_EQ(game.isAceLowStreet(player_hands[0]), false);
-	EXPECT_EQ(game.isAceLowStreet(ace_low_hand[0]), true);
 
 }
