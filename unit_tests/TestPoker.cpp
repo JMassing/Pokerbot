@@ -87,6 +87,12 @@ TEST(TestPoker,TestHand)
 		test_string="3D 5D QH 8S 0C ?? ?? \n";
 		EXPECT_EQ(hand.print().str(), test_string);
 		EXPECT_EQ(hand.hand_, test_hand);
+
+		// Check sorts		
+		std::string sorted_hand="?? ?? 3D 5D 8S 0C QH \n";
+		hand.sort();
+		EXPECT_EQ(hand.print().str(),sorted_hand);
+
 }
 
 TEST(TestPoker,TestDeck)
@@ -143,10 +149,6 @@ TEST(TestPoker,TestGameBase)
 
 	// Check Initialization
 	EXPECT_EQ(game.getHands()[0].print().str(),unsorted_hand);
-
-	// Check sortHands
-	game.sortHands();
-	EXPECT_EQ(game.getHands()[0].print().str(),sorted_hand);
 
 	// Check isAceLow
 	file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\AceLowStreet.txt");	

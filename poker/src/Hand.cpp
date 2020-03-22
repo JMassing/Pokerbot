@@ -76,4 +76,16 @@ namespace poker
         return out;
     }
 
-}//end namespace detect
+        //@brief sort cards in hands by rank in ascending order
+    void Hand::sort()
+    {
+        std::sort(this->hand_.begin(), this->hand_.end(), [](const auto& lhs, const auto& rhs)
+            {
+                return lhs.rank < rhs.rank;
+            }
+        );
+        
+    }
+
+
+}//end namespace poker

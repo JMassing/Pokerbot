@@ -12,7 +12,6 @@ namespace poker{
     class GameInternal: public Game{
        
         public:
-        void sortHands() {Game::sortHands();};
         bool isAceLowStreet(Hand& hand) {return Game::isAceLowStreet(hand);};
 
         GameInternal(std::vector<Hand> player_hands) : Game(player_hands){ };

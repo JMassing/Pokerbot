@@ -23,6 +23,7 @@ namespace poker{
             bool containsCard(const detect::Card& card);
             bool containsRank(const int& rank);
             bool containsSuit(const int& suit);
+            void sort();
 
             std::stringstream print();
             

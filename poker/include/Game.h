@@ -15,7 +15,6 @@ namespace poker{
         protected:
         std::vector<Hand> player_hands_;
 
-        void sortHands();
         bool isAceLowStreet(Hand& hand);
 
         public:
