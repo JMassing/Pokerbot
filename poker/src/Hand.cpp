@@ -76,7 +76,7 @@ namespace poker
         return out;
     }
 
-        //@brief sort cards in hands by rank in ascending order
+    //@brief sort cards in hand by rank in ascending order
     void Hand::sort()
     {
         std::sort(this->hand_.begin(), this->hand_.end(), [](const auto& lhs, const auto& rhs)

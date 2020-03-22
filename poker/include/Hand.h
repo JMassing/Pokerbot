@@ -12,8 +12,9 @@ namespace poker{
         
         public:
             std::array<detect::Card,7> hand_;
+            int ranking;
 
-            Hand()
+            Hand(): ranking{}
             {
                 hand_.fill(detect::Card());
             }
