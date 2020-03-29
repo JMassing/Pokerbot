@@ -93,7 +93,7 @@ TEST(TestPoker,TestHand)
 		EXPECT_EQ(hand.hand_, test_hand);
 
 		// Check sorts		
-		std::string sorted_hand="?? ?? 3D 5D 8S 0C QH \n";
+		std::string sorted_hand="QH 0C 8S 5D 3D ?? ?? \n";
 		hand.sort();
 		EXPECT_EQ(hand.print().str(),sorted_hand);
 

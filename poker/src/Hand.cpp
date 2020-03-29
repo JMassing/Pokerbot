@@ -81,7 +81,7 @@ namespace poker
     {
         std::sort(this->hand_.begin(), this->hand_.end(), [](const auto& lhs, const auto& rhs)
             {
-                return lhs.rank < rhs.rank;
+                return lhs.rank > rhs.rank;
             }
         );
         

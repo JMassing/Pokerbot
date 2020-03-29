@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <utility>
+#include <algorithm>
 
 #include "Hand.h"
 #include "Card.h"
@@ -11,30 +13,25 @@ namespace poker{
     class GetRanking{
         
         private:
-            int ranking;
 
-            bool isPair(Hand& hand);   
-            bool isTwoPair(Hand& hand);
-            bool isThreeOfAKind(Hand& hand);
-            bool isStraight(Hand& hand);
+            int ranking_;
+            // the 5 highest card in the hand. Starting with the highest card and then decreaseing.
+            // If you have a pair, the first two cards will be the cards of the pair and then the next highest card
+            // If you have a straight, all five cards will be the highest card of the straight, since it is the only one that counds. Etc. ...
+            std::array<int,5> high_cards_;
+
+            void isMultipleOfCards(Hand& hand);   
+            void isStraight(Hand& hand);
             bool isAceLowStreet(Hand& hand);
-            bool isFlush(Hand& hand);
-            bool isFullHouse(Hand& hand);
-            bool isFourOfAKind(Hand& hand);
-
-            // we have to paths, starting from Flush we only have to check better hands than Flush, which makes it faster if we have a flush
-            // if we don't have a Flush we check for straight. If we don't have straight we check for Pair and the remaining better hands than pair
-            void FlushPath(Hand& hand);
-            void PairPath(Hand& hand);
-            // Checks Ranks
-            void checkRank(Hand& hand);
-               
+            Hand isFlush(Hand& hand);                        
 
         public:
+             // Checks Ranks
+            void run(Hand& hand);
+            int getRanking(){return this->ranking_;};
+            std::array<int,5> getHighCards(){return this->high_cards_;};
 
-            int getRank(Hand& hand){return this->ranking;};
-
-            GetRanking():ranking{detect::HIGH_CARD} {};
+            GetRanking():ranking_{}, high_cards_{} {};
             ~GetRanking() {};
 
             // Using default copy and move constructors. 
