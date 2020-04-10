@@ -1,5 +1,7 @@
 #include "GetRanking.h"
 
+#include <iostream>
+
 namespace poker {
 
     namespace{
@@ -23,7 +25,7 @@ namespace poker {
     };
     // @brief: Checks if we have a Pair, Two Pairs, Three Of A Kind, Four Of A Kind or a Full House
     void GetRanking::isMultipleOfCards(Hand& hand)
-    {
+    {   
         // Counter for number of occurences of certain rank in hand. Starts at one because there is always one of the card in the hand.
         int count{1};
         // Vector of multiples in the hand. Multiples are saved as pair(nr of cards, rank of card)
@@ -68,6 +70,7 @@ namespace poker {
             // remember current card rank
             tmp_rank = (*p1).rank;
         }
+
         if(multiples.size() > 0)
         {
             // Sort multiples in ascending order for number of multiples
@@ -76,6 +79,8 @@ namespace poker {
                     return lhs.first > rhs.first;
                 }
             );
+
+
 
             // switch how many multiples
             switch(multiples.size())
@@ -99,7 +104,7 @@ namespace poker {
                         case 2 : 
                             this-> ranking_ = detect::PAIR; 
                             this->high_cards_.at(0)=multiples.at(0).second;
-                            this->high_cards_.at(1)=multiples.at(1).second;
+                            this->high_cards_.at(1)=multiples.at(0).second;
                             int i = 2;
                             // add remaining high cards to high_cards_
                             for(const auto& card: hand.hand_)
@@ -127,6 +132,7 @@ namespace poker {
                     }
                     break;
                 // two multiples in the hand
+
                 case 2: 
                     switch(multiples.at(0).first)
                     {
@@ -206,6 +212,7 @@ namespace poker {
                     }
                     break;
                 // We have three multiples
+
                 case 3:
                     switch(multiples.at(0).first)
                     {
@@ -358,6 +365,11 @@ namespace poker {
         }
       
         // check if straight
+        if(unique_hand.hand_.size()<5)
+        {
+            //Can't be a straight, so we exit the method
+            return;  
+        }
       
         for(int i=0; i<unique_hand.hand_.size()-4; ++i)
         {
@@ -368,7 +380,7 @@ namespace poker {
                 this->ranking_ = detect::STRAIGHT;
                 this->high_cards_.fill(unique_hand.hand_[i].rank);
 
-                // exit the function            
+                // exit the method            
                 return;
             }    
             else
@@ -431,7 +443,7 @@ namespace poker {
            
            // here we need all cards of the flush, since we want to return them to check them for a straight (straight flush) later. Also we can add the high_cards 
            // in the same step
-           int i=0;
+            int i=0;
             for(const auto& card: hand.hand_)
             {   
                 if(card.suit==flush){
@@ -448,6 +460,7 @@ namespace poker {
         {
             //do nothing
         }
+
         return flush_cards;
     }
 
@@ -458,11 +471,14 @@ namespace poker {
         this->ranking_=detect::HIGH_CARD;
         // Check if hand has multiples
         this->isMultipleOfCards(hand);
+
         if(this->ranking_ == detect::FOUR_OF_A_KIND || this->ranking_ == detect::FULL_HOUSE)
         {   
             // We can't get any higher rank for this hand
             return;
         }
+
+     
         Hand flush_cards = this->isFlush(hand);
         //Check if straight flush
         if(this->ranking_ == detect::FLUSH)
@@ -474,7 +490,10 @@ namespace poker {
                 this->ranking_ = detect::STRAIGHT_FLUSH;
                 return;
             }
+            return;
         }
+   
+           // Check if isStraight
         this->isStraight(hand);
 
         if(this->ranking_==detect::HIGH_CARD)
@@ -483,6 +502,10 @@ namespace poker {
             {
                 this->high_cards_.at(i)=hand.hand_.at(i).rank;
             }
+        }
+        else
+        {
+            // do nothing
         }
     }
 } //end namespace poker

@@ -129,17 +129,20 @@ TEST(TestPoker,TestDeck)
 TEST(TestPoker,TestGetRanking)
 {
 	std::ifstream file;
-	// Check isAceLow
-	file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\AceLowStreet.txt");	
+	file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\Rankings.txt");	
 	std::string line;
-	poker::Hand ace_low_hand;
-
-	poker::GetRanking ranking;
 	if(file.is_open())
 	{
 		while(std::getline(file, line))
 		{
-			ace_low_hand=convertToHand(line);
+			char delim=';';
+			auto pos=line.find(delim);
+			std::string hand_string = line.substr(0,pos);
+			int ranking = std::stoi(line.substr(pos+1));
+			poker::Hand hand=convertToHand(hand_string);
+			poker::GetRanking get_ranking;
+			get_ranking.run(hand);
+			EXPECT_EQ(get_ranking.getRanking(), ranking);
 		}
 		file.close();
 	}
