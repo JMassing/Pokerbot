@@ -11,10 +11,12 @@ namespace poker{
     class Hand{
         
         public:
-            std::array<detect::Card,7> hand_;
-            int ranking;
 
-            Hand(): ranking{}
+            std::array<detect::Card,7> hand_;
+            std::array<int,5> high_cards_;
+            int ranking_;
+
+            Hand(): ranking_{}, high_cards_{0}
             {
                 hand_.fill(detect::Card());
             }

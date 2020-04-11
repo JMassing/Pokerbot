@@ -13,7 +13,7 @@ namespace poker{
        
         public:
    
-        GameInternal(std::vector<Hand> player_hands) : Game(player_hands){ };
+        GameInternal(int nr_of_players) : Game(nr_of_players){ };
         ~GameInternal() {};
         // Using default copy and move constructors. 
         GameInternal(const GameInternal& other) = default;

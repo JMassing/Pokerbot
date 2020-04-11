@@ -176,9 +176,5 @@ TEST(TestPoker,TestGame)
 	{
 		std::cout << "Could not open file" << std::endl;
 	}
-	poker::GameInternal game(player_hands);
-
-	// Check Initialization
-	EXPECT_EQ(game.getHands()[0].print().str(),unsorted_hand);
 
 }
