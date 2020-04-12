@@ -7,10 +7,10 @@
 
 #include "../poker/include/Hand.h"
 #include "../poker/include/Deck.h"
-#include "../poker/include/Game.h"
+#include "../poker/include/Simulation.h"
 #include "../poker/include/GetRanking.h"
 
-#include "utilities/HelperClasses/GameInternal.h"
+#include "utilities/HelperClasses/SimulationInternal.h"
 
 #include "../detection/include/Card.h"
 #include "../detection/include/Mapping.h"
@@ -153,7 +153,7 @@ TEST(TestPoker,TestGetRanking)
 
 }
 
-TEST(TestPoker,TestGame)
+TEST(TestPoker,TestSimulation)
 {
 	std::ifstream file;
 

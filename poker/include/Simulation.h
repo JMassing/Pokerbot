@@ -13,7 +13,7 @@
 
 namespace poker{
     
-    class Game{
+    class Simulation{
         
         protected: //this is protected for unit testing purposes
 
@@ -26,22 +26,22 @@ namespace poker{
         int getWinner();
 
         public:
-        explicit Game(int nr_of_players): nr_of_players_{nr_of_players}, robot_hand_() 
+        explicit Simulation(int nr_of_players): nr_of_players_{nr_of_players}, robot_hand_() 
         {
             
             this->player_hands_.resize(nr_of_players, Hand());
         };
-        ~Game() {};
+        ~Simulation() {};
 
         std::vector<Hand> getHands() {return this->player_hands_;}    
        
         
               
         // Using default copy and move constructors. 
-        Game(const Game& other) = default;
-        Game& operator=(const Game& other) = default;
-        Game(Game&& other) noexcept = default;
-        Game& operator=(Game&& other) noexcept = default;
+        Simulation(const Simulation& other) = default;
+        Simulation& operator=(const Simulation& other) = default;
+        Simulation(Simulation&& other) noexcept = default;
+        Simulation& operator=(Simulation&& other) noexcept = default;
     };
 
 }//end namespace poker

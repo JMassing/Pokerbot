@@ -1,10 +1,10 @@
-#include "Game.h"
+#include "Simulation.h"
 
 
 namespace poker{
 
     // Update Hands with knwon cards
-    void Game::updateHands(std::array<detect::Card,5> public_cards, std::array<detect::Card,2> robot_cards)
+    void Simulation::updateHands(std::array<detect::Card,5> public_cards, std::array<detect::Card,2> robot_cards)
     {
         // Add known cards to robot_hand_
         for(const auto& card: robot_cards)
@@ -28,7 +28,7 @@ namespace poker{
     }
 
     //get Rankings of hands
-    void Game::getHandRankings()
+    void Simulation::getHandRankings()
     {
         GetRanking get_ranking;
         // Get ranking
@@ -44,7 +44,7 @@ namespace poker{
     }	
     
     // Compare hands and get the winner
-    int Game::getWinner()
+    int Simulation::getWinner()
     {
         int winner=0;
         int count=0;
