@@ -48,6 +48,7 @@ namespace poker{
     {
         int winner=0;
         int count=0;
+        bool tie=false;
         this->getHandRankings();
         Hand winner_hand=this->robot_hand_;
         for(const auto& hand: this->player_hands_)
@@ -59,6 +60,7 @@ namespace poker{
                 // new winner
                 winner_hand=hand;
                 winner=count;
+                tie=false;
             }
             else if(hand.ranking_==winner_hand.ranking_)
             {
@@ -70,10 +72,23 @@ namespace poker{
                         //new winner
                         winner_hand=hand;
                         winner=count;
+                        tie=false;
+                        break;
+                    }
+                    else if(hand.high_cards_.at(i) < winner_hand.high_cards_.at(i))
+                    {
+                        //winner stays
+                        tie=false;
+                        break;
+                    }
+                    else if(i == hand.high_cards_.size()-1 && hand.high_cards_.at(i) == winner_hand.high_cards_.at(i))
+                    {
+                        //we have a tie
+                        tie=true;
                     }
                     else
                     {
-                        // winner stays 
+                        // we don't know the winner yet
                     }
                     
                 }
@@ -81,7 +96,13 @@ namespace poker{
             else
             {
                 //winner stays
+                tie=false;
             }
+        }
+
+        if(tie==true)
+        {
+            winner=-1;
         }
 
         return winner;
