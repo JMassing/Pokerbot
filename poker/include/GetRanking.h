@@ -30,8 +30,12 @@ namespace poker{
             void run(Hand& hand);
             int getRanking(){return this->ranking_;};
             std::array<int,5> getHighCards(){return this->high_cards_;};
-
-            GetRanking():ranking_{}, high_cards_{} {};
+            void clear()
+            {
+                this->ranking_=-1;
+                this->high_cards_.fill(0);
+            }
+            GetRanking():ranking_{-1}, high_cards_{-1} {};
             ~GetRanking() {};
 
             // Using default copy and move constructors. 

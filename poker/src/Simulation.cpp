@@ -1,5 +1,7 @@
 #include "Simulation.h"
 
+#include <iostream>
+
 
 namespace poker{
 
@@ -27,8 +29,8 @@ namespace poker{
 
     }
 
-    //get Rankings of hands
-    void Simulation::getHandRankings()
+    //@brief: get Rankings of hands
+    void Simulation::determineHandRankings()
     {
         GetRanking get_ranking;
         // Get ranking
@@ -37,20 +39,23 @@ namespace poker{
         this->robot_hand_.high_cards_=get_ranking.getHighCards();
         for(auto& hand: this->player_hands_)
         {
+            get_ranking.clear();
             get_ranking.run(hand);
             hand.ranking_=get_ranking.getRanking();
             hand.high_cards_=get_ranking.getHighCards();
         }
     }	
     
-    // Compare hands and get the winner
-    int Simulation::getWinner()
+    //@brief: Compare hands and get the winner. -1 signals a tie, 0 signals the robot wins, >0 is one of the players
+    int Simulation::determineWinner()
     {
         int winner=0;
         int count=0;
         bool tie=false;
-        this->getHandRankings();
-        Hand winner_hand=this->robot_hand_;
+        this->determineHandRankings();
+
+                Hand winner_hand=this->robot_hand_;
+
         for(const auto& hand: this->player_hands_)
         {
             ++count;
@@ -75,13 +80,11 @@ namespace poker{
                         tie=false;
                         break;
                     }
-                    else if(hand.high_cards_.at(i) < winner_hand.high_cards_.at(i))
+                    else if(hand.high_cards_.at(i) < winner_hand.high_cards_.at(i) && tie==false)
                     {
-                        //winner stays
-                        tie=false;
                         break;
                     }
-                    else if(i == hand.high_cards_.size()-1 && hand.high_cards_.at(i) == winner_hand.high_cards_.at(i))
+                    else if(i==hand.high_cards_.size()-1 && hand.high_cards_.at(i) == winner_hand.high_cards_.at(i))
                     {
                         //we have a tie
                         tie=true;
@@ -96,7 +99,6 @@ namespace poker{
             else
             {
                 //winner stays
-                tie=false;
             }
         }
 
