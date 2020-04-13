@@ -6,7 +6,7 @@
 namespace poker{
 
     // Update Hands with knwon cards
-    void Simulation::updateHands(std::array<detect::Card,5> public_cards, std::array<detect::Card,2> robot_cards)
+    void Simulation::updateHands(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards)
     {
         // Add known cards to robot_hand_
         for(const auto& card: robot_cards)
@@ -54,7 +54,7 @@ namespace poker{
         bool tie=false;
         this->determineHandRankings();
 
-                Hand winner_hand=this->robot_hand_;
+        Hand winner_hand=this->robot_hand_;
 
         for(const auto& hand: this->player_hands_)
         {
@@ -109,5 +109,86 @@ namespace poker{
 
         return winner;
     }
-   
+    
+    // Runs the simulation
+    double Simulation::run(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards)
+    {
+       
+        double nr_of_wins{0};
+        // Run Monte Carlo Simulation for nr_of_iterations_ iterations.
+        std::vector<detect::Card> public_cards_tmp{};
+        this->updateHands(public_cards, robot_cards);
+        // Make the remaining deck
+        Deck deck(this->robot_hand_);
+        for(int i=0; i<this->nr_of_iterations_-1; ++i)
+        {
+            public_cards_tmp=public_cards;
+            // update hands with known cards;
+            this->updateHands(public_cards_tmp, robot_cards);         
+            
+            // Step 1 shuffle deck;
+            deck.shuffle();
+            // Add hand cards to player hands;
+            for(auto& hand : this->player_hands_)
+            {
+                hand.addToHand(deck.pullCard()); // add first hand card
+                hand.addToHand(deck.pullCard()); // add second hand card
+            }
+            // flop, turn, river
+            switch(public_cards_tmp.size())
+            {
+                // pre flop
+                case 0: 
+                    // flop
+                    deck.burnCard();
+                    for(int i=0; i<3; ++i)
+                    {
+                        public_cards_tmp.emplace_back(deck.pullCard());
+                    }
+                    // turn
+                    deck.burnCard();
+                    public_cards_tmp.emplace_back(deck.pullCard());
+                    // river
+                    deck.burnCard();
+                    public_cards_tmp.emplace_back(deck.pullCard());
+                    break;
+                // pre river
+                case 3:
+                    // turn
+                    deck.burnCard();
+                    public_cards_tmp.emplace_back(deck.pullCard());
+                    // river
+                    deck.burnCard();
+                    public_cards_tmp.emplace_back(deck.pullCard());
+                    break;
+                // pre river
+                case 4:
+                    // river
+                    deck.burnCard();
+                    public_cards_tmp.emplace_back(deck.pullCard());
+                    break;
+            }
+            // update hands with drawn public cards and clear drawn public cards
+            this->updateHands(public_cards_tmp, robot_cards);
+            public_cards_tmp.clear();
+
+            // determine winner from hands
+            int winner=this->determineWinner();
+
+            // revert hands
+            for(auto& hand: this->player_hands_)
+            {
+                hand.clear();
+            }
+            this->robot_hand_.clear();
+
+            if(winner==0)
+            {
+                ++nr_of_wins;
+            }       
+        
+        }
+        return nr_of_wins/static_cast<double>(this->nr_of_iterations_)*100.0;
+        
+    }
 }// end namespace poker

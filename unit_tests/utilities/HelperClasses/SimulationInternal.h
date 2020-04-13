@@ -16,7 +16,7 @@ namespace UnitTest{
         void setPlayerHands(poker::Hand hand, int i){this->player_hands_.at(i)=hand;};
         int getWinner(){return this->determineWinner();};
 
-        SimulationInternal(int nr_of_players) : Simulation(nr_of_players){ };
+        SimulationInternal(int nr_of_players, int nr_of_iterations) : Simulation(nr_of_players, nr_of_iterations){ };
         ~SimulationInternal() {};
         // Using default copy and move constructors. 
         SimulationInternal(const SimulationInternal& other) = default;

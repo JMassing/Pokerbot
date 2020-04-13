@@ -27,6 +27,7 @@ namespace poker{
             bool containsRank(const int& rank);
             bool containsSuit(const int& suit);
             void sort();
+            void clear();
 
             std::stringstream print();
             

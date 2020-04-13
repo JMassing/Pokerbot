@@ -234,6 +234,7 @@ namespace poker {
                         // We have a full house with one triplet and two pairs. We need to check which pair is the higher one and counts for the full house
                         case 3 : 
                             this-> ranking_ = detect::FULL_HOUSE;
+                            this->high_cards_.fill(-1);
                             this->high_cards_.at(0)=multiples.at(0).second;
                             // Check which pair is the higher one
                             if(multiples.at(1).second>multiples.at(2).second)
@@ -251,9 +252,10 @@ namespace poker {
                                 }
                             }
                             break;
-                        // We have three pairs. We have to find the two highest pairs. Then we have to fill the fith high_card with the highest remaining card in the deck
+                        // We have three pairs. We have to find the two highest pairs. Then we have to fill the fifth high_card with the highest remaining card in the deck
                         case 2 : 
                             this-> ranking_ = detect::TWO_PAIR;
+                            this->high_cards_.fill(-1);
                             if(multiples.at(0).second>multiples.at(1).second && multiples.at(0).second>multiples.at(2).second)
                             {
                                 for(auto p = high_cards_.begin(); p != high_cards_.begin()+1; ++p)
@@ -323,7 +325,7 @@ namespace poker {
                             // add the 5th high card in case we have two same pairs
                             for(const auto& card: hand.hand_)
                             {
-                              if(!contains(this-> high_cards_,card))
+                              if(!contains(this-> high_cards_, card))
                               {
                                   this-> high_cards_.at(4)=card.rank;
                                   // we have the 5 high cards

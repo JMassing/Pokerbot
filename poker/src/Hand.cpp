@@ -51,7 +51,7 @@ namespace poker
         {
             for(int i=0; i<this->hand_.size(); i++)
             {
-                if(this->hand_.at(i) == detect::Card())    //replace first unknown card in hand with  card
+                if(this->hand_.at(i) == detect::Card())    //replace first unknown card in hand with card
                 {
                     this->hand_.at(i) = card;
                     return;
@@ -87,5 +87,11 @@ namespace poker
         
     }
 
-
+    void Hand::clear()
+    {
+        for(auto& card : this->hand_)
+        {
+            card=detect::Card();
+        }
+    }
 }//end namespace poker

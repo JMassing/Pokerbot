@@ -170,7 +170,7 @@ namespace UnitTest{
 				std::vector<std::string> cont = split(line, ';');
 				nr_of_players=std::stoi(cont.at(0));
 				int winner=std::stoi(cont.at(1));
-				SimulationInternal sim(nr_of_players);
+				SimulationInternal sim(nr_of_players, 0);
 				sim.setRobotHand(convertToHand(cont.at(2)));
 				int k=0;				
 				for(int i=3; i<cont.size()-1; ++i) 
@@ -180,6 +180,50 @@ namespace UnitTest{
 				}
 				
 				EXPECT_EQ(sim.getWinner(), winner);
+			}
+			file.close();
+		}
+		else
+		{
+			std::cout << "Could not open file" << std::endl;
+		}
+
+	}
+
+	TEST(TestPoker,TestSimulationRun)
+	{
+		std::ifstream file;
+		// Read player hands from file
+		file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\StartingHands.txt");	
+		std::string line;
+		int nr_of_players{0};
+		double probability{0};
+		int nr_of_iterations=10000;
+		std::vector<detect::Card> public_cards;
+		if(file.is_open())
+		{
+			while(std::getline(file, line))
+			{
+				std::vector<std::string> cont = split(line, ';');
+				nr_of_players=std::stoi(cont.at(0));
+				probability=std::stoi(cont.at(1));
+				// add cards to robot starting hand
+				std::array<detect::Card,2> robot_cards;
+				std::vector<std::string> cards = split(cont.at(2)); 
+				detect::Mapping mapping;
+				// Convert string to cards and add cards to hand
+				for(int i=0; i<robot_cards.size(); ++i)
+				{
+					std::string rank(1, cards.at(i).at(0) );
+					std::string suit(1, cards.at(i).at(1) );
+					detect::Card tmp(mapping.text_mappings.left.at(rank), mapping.text_mappings.left.at(suit) );
+					robot_cards.at(i)=tmp;
+				}
+
+				SimulationInternal sim(nr_of_players, nr_of_iterations);
+				double prob=sim.run(public_cards, robot_cards);
+				std::cout << prob << std::endl;
+				//EXPECT_EQ(sim.getWinner(), winner);
 			}
 			file.close();
 		}

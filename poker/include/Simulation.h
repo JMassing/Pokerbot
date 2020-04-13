@@ -20,16 +20,17 @@ namespace poker{
             std::vector<Hand> player_hands_;
             Hand robot_hand_;
             int nr_of_human_players_;
+            int nr_of_iterations_;
 
-            void updateHands(std::array<detect::Card,5> public_cards, std::array<detect::Card,2> robot_cards);
+            void updateHands(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards);
             void determineHandRankings();
             int determineWinner();
 
         public:
 
-            explicit Simulation(int nr_of_human_players): nr_of_human_players_{nr_of_human_players}, robot_hand_() 
+            double run(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards);
+            Simulation(int nr_of_human_players, int nr_of_iterations): nr_of_human_players_{nr_of_human_players}, nr_of_iterations_{nr_of_iterations}, robot_hand_() 
             {
-                
                 this->player_hands_.resize(nr_of_human_players, Hand());
             };
             ~Simulation() {};   
