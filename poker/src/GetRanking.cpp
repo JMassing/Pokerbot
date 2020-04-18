@@ -6,7 +6,7 @@ namespace poker {
 
     namespace{
         // local function to check if this->high_cards_ already contains a card
-        bool contains(std::array<int,5> high_cards, detect::Card card)
+        bool contains(std::array<int,5> high_cards, detect::BaseCard card)
         {
             for(const auto& rank: high_cards)
             {

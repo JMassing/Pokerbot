@@ -6,7 +6,7 @@
 namespace poker
 {
     //@brief: Checks if Hand already contains card
-    bool Hand::containsCard(const detect::Card& card)
+    bool Hand::containsCard(const detect::BaseCard& card)
     {
         for(const auto& hand_card : this->hand_)
         {
@@ -45,13 +45,13 @@ namespace poker
     }
 
     //@brief: Adds card to hand
-    void Hand::addToHand(const detect::Card& card)
+    void Hand::addToHand(const detect::BaseCard& card)
     {
         if(!containsCard(card))
         {
             for(int i=0; i<this->hand_.size(); i++)
             {
-                if(this->hand_.at(i) == detect::Card())    //replace first unknown card in hand with card
+                if(this->hand_.at(i) == detect::BaseCard())    //replace first unknown card in hand with card
                 {
                     this->hand_.at(i) = card;
                     return;
@@ -91,7 +91,7 @@ namespace poker
     {
         for(auto& card : this->hand_)
         {
-            card=detect::Card();
+            card=detect::BaseCard();
         }
     }
 }//end namespace poker

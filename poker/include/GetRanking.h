@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include "Hand.h"
-#include "Card.h"
+#include "BaseCard.h"
 #include "Mapping.h"
 
 namespace poker{

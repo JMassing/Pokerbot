@@ -4,7 +4,7 @@
 #include <random>
 #include <vector>
 
-#include "Card.h"
+#include "BaseCard.h"
 #include "Hand.h"
 #include "Mapping.h"
 
@@ -20,7 +20,7 @@ namespace poker{
 
         // The Deck is a vector, since we do not include the known cards (=the hand of the robot)
         // The nr. of known card changes depending on where in the game we are (start of game, flop, ...)
-        std::vector<detect::Card> deck_;
+        std::vector<detect::BaseCard> deck_;
 
         explicit Deck(Hand robot_hand);
         ~Deck() {};
@@ -34,7 +34,7 @@ namespace poker{
         void shuffle();
 
         //@brief: Returns card in deck at pos pos_tracker and increments pos_tracker.
-        detect::Card pullCard()
+        detect::BaseCard pullCard()
         {
             return deck_[this->pos_tracker_++];
         };

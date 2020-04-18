@@ -3,7 +3,7 @@
 #include <array>
 #include <sstream>
 
-#include "Card.h"
+#include "BaseCard.h"
 #include "Mapping.h"
 
 namespace poker{
@@ -12,18 +12,18 @@ namespace poker{
         
         public:
 
-            std::array<detect::Card,7> hand_;
+            std::array<detect::BaseCard,7> hand_;
             std::array<int,5> high_cards_;
             int ranking_;
 
             Hand(): ranking_{}, high_cards_{0}
             {
-                hand_.fill(detect::Card());
+                hand_.fill(detect::BaseCard());
             }
             ~Hand() {};
 
-            void addToHand(const detect::Card& card);
-            bool containsCard(const detect::Card& card);
+            void addToHand(const detect::BaseCard& card);
+            bool containsCard(const detect::BaseCard& card);
             bool containsRank(const int& rank);
             bool containsSuit(const int& suit);
             void sort();

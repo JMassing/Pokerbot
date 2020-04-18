@@ -13,7 +13,8 @@
 
 #include "utilities/HelperClasses/SimulationInternal.h"
 
-#include "../detection/include/Card.h"
+#include "../detection/include/BaseCard.h"
+
 #include "../detection/include/Mapping.h"
 
 namespace UnitTest{
@@ -45,7 +46,7 @@ namespace UnitTest{
 		{
 			std::string rank(1, card.at(0) );
 			std::string suit(1, card.at(1) );
-			detect::Card tmp(mapping.text_mappings.left.at(rank), mapping.text_mappings.left.at(suit) );
+			detect::BaseCard tmp(mapping.text_mappings.left.at(rank), mapping.text_mappings.left.at(suit) );
 			hand.addToHand(tmp);
 		}
 		return hand;
@@ -56,40 +57,40 @@ namespace UnitTest{
 			poker::Hand hand;
 			// Test initialization of hand
 			std::string test_string{"?? ?? ?? ?? ?? ?? ?? \n"};
-			std::array<detect::Card,7> test_hand;
-			test_hand.fill(detect::Card());
+			std::array<detect::BaseCard,7> test_hand;
+			test_hand.fill(detect::BaseCard());
 			ASSERT_EQ(hand.print().str(), test_string);
 			ASSERT_EQ(hand.hand_, test_hand);
 			// Add a card
-			detect::Card card1(3,15);
+			detect::BaseCard card1(3,15);
 			hand.addToHand(card1);
 			test_hand[0]=card1;
 			test_string="3D ?? ?? ?? ?? ?? ?? \n";
 			EXPECT_EQ(hand.print().str(), test_string);
 			EXPECT_EQ(hand.hand_, test_hand);
 			// Add another card
-			detect::Card card2(5,15);
+			detect::BaseCard card2(5,15);
 			hand.addToHand(card2);
 			test_hand[1]=card2;
 			test_string="3D 5D ?? ?? ?? ?? ?? \n";
 			EXPECT_EQ(hand.print().str(), test_string);
 			EXPECT_EQ(hand.hand_, test_hand);
 			// Add another card
-			detect::Card card3(12,17);
+			detect::BaseCard card3(12,17);
 			hand.addToHand(card3);
 			test_hand[2]=card3;
 			test_string="3D 5D QH ?? ?? ?? ?? \n";
 			EXPECT_EQ(hand.print().str(), test_string);
 			EXPECT_EQ(hand.hand_, test_hand);
 			// Try to add a card thats already in the hand
-			detect::Card card4(12,17);
+			detect::BaseCard card4(12,17);
 			hand.addToHand(card4);
 			test_string="3D 5D QH ?? ?? ?? ?? \n";
 			EXPECT_EQ(hand.print().str(), test_string);
 			EXPECT_EQ(hand.hand_, test_hand);
 			// Add two more cards
-			detect::Card card5(8,18);
-			detect::Card card6(10,16);
+			detect::BaseCard card5(8,18);
+			detect::BaseCard card6(10,16);
 			hand.addToHand(card5);
 			hand.addToHand(card6);
 			test_hand[3]=card5;
@@ -109,12 +110,12 @@ namespace UnitTest{
 	{	
 		poker::Hand robot_hand;
 		// add cards to hand
-		robot_hand.addToHand(detect::Card(3,18));
-		robot_hand.addToHand(detect::Card(11,16));
+		robot_hand.addToHand(detect::BaseCard(3,18));
+		robot_hand.addToHand(detect::BaseCard(11,16));
 
 		poker::Deck deck(robot_hand);
 		// Does Deck initialization work
-		for(const detect::Card& card: deck.deck_)
+		for(const detect::BaseCard& card: deck.deck_)
 		{
 			EXPECT_NE(card, robot_hand.hand_.at(0));
 			EXPECT_NE(card, robot_hand.hand_.at(1));
@@ -200,7 +201,7 @@ namespace UnitTest{
 		int nr_of_players{0};
 		double probability{0};
 		int nr_of_iterations=10000;
-		std::vector<detect::Card> public_cards;
+		std::vector<detect::BaseCard> public_cards;
 		if(file.is_open())
 		{
 			while(std::getline(file, line))
@@ -209,7 +210,7 @@ namespace UnitTest{
 				nr_of_players=std::stoi(cont.at(0));
 				probability=std::stod(cont.at(1));
 				// add cards to robot starting hand
-				std::array<detect::Card,2> robot_cards;
+				std::array<detect::BaseCard,2> robot_cards;
 				std::vector<std::string> cards = split(cont.at(2)); 
 				detect::Mapping mapping;
 				// Convert string to cards and add cards to hand
@@ -217,7 +218,7 @@ namespace UnitTest{
 				{
 					std::string rank(1, cards.at(i).at(0) );
 					std::string suit(1, cards.at(i).at(1) );
-					detect::Card tmp(mapping.text_mappings.left.at(rank), mapping.text_mappings.left.at(suit) );
+					detect::BaseCard tmp(mapping.text_mappings.left.at(rank), mapping.text_mappings.left.at(suit) );
 					robot_cards.at(i)=tmp;
 				}
 

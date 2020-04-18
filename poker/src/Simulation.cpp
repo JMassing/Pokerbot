@@ -6,7 +6,7 @@
 namespace poker{
 
     // Update Hands with knwon cards
-    void Simulation::updateHands(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards)
+    void Simulation::updateHands(const std::vector<detect::BaseCard>& public_cards, const std::array<detect::BaseCard,2>& robot_cards)
     {
         // Add known cards to robot_hand_
         for(const auto& card: robot_cards)
@@ -120,7 +120,7 @@ namespace poker{
     
     // Runs the simulation. Return value is a pair of probabilities. pair.first gives the probability to outright win with the robot hand. 
     // pair.second gives the probability for the robot to have the highest ranking hand but tie with another player 
-    std::pair<double,double> Simulation::run(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards)
+    std::pair<double,double> Simulation::run(const std::vector<detect::BaseCard>& public_cards, const std::array<detect::BaseCard,2>& robot_cards)
     {
        
         int nr_of_wins{0};
@@ -136,7 +136,7 @@ namespace poker{
 
         for(int i=0; i<this->nr_of_iterations_; ++i)
         {
-            std::vector<detect::Card> public_cards_tmp{};
+            std::vector<detect::BaseCard> public_cards_tmp{};
             public_cards_tmp=public_cards;
             // update hands with known cards
             this->updateHands(public_cards_tmp, robot_cards);         

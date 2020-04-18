@@ -1,7 +1,6 @@
 #include "Deck.h"
 
 #include <random>       // std::default_random_engine
-#include <chrono>       // std::chrono::system_clock
 
 namespace poker
 {
@@ -12,14 +11,14 @@ namespace poker
             for(int i=2; i<=14; ++i)
             {   
                 // check if card is known 
-                if(robot_hand.containsCard(detect::Card(i,j)))
+                if(robot_hand.containsCard(detect::BaseCard(i,j)))
                 {
                     // do not add card to the deck, which is already dealt to the robot
                 }
                 else
                 {
                     //add card to deck
-                    this->deck_.emplace_back(detect::Card(i,j));
+                    this->deck_.emplace_back(detect::BaseCard(i,j));
                 }                
             }
         }
