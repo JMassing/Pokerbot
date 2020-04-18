@@ -121,7 +121,11 @@ namespace poker {
                         case 4 : 
                             this-> ranking_ = detect::FOUR_OF_A_KIND; 
                             this->high_cards_.fill(-1);
-                            this->high_cards_.fill(multiples.at(0).second);
+                            this->high_cards_.at(0)=multiples.at(0).second;
+                            this->high_cards_.at(1)=multiples.at(0).second;
+                            this->high_cards_.at(2)=multiples.at(0).second;
+                            this->high_cards_.at(3)=multiples.at(0).second;
+                            addCards(this->high_cards_,hand,4);
                             break;
                         // We have three of a kind. Three of a kind is first high card, then it goes down the line.
                         case 3 : 
@@ -147,11 +151,15 @@ namespace poker {
                 case 2: 
                     switch(multiples.at(0).first)
                     {
-                        // We have four of a kind. The highest card that matters is the four of a kind. We can't have the same four of a kind twice
+                        // We have four of a kind. The highest card that matters is the four of a kind.
                         case 4 : 
                             this-> ranking_ = detect::FOUR_OF_A_KIND; 
                             this->high_cards_.fill(-1);
-                            this->high_cards_.fill(multiples.at(0).second);
+                            this->high_cards_.at(0)=multiples.at(0).second;
+                            this->high_cards_.at(1)=multiples.at(0).second;
+                            this->high_cards_.at(2)=multiples.at(0).second;
+                            this->high_cards_.at(3)=multiples.at(0).second;
+                            addCards(this->high_cards_,hand,4);
                             break;
                         // We have three of a kind and another multiple, so we have a full house. The main high card is the three of a kind then the pair.
                         // We might have three of a kind twice though, so we have to check which one is higher and counts in the full house as the triplet
@@ -370,7 +378,7 @@ namespace poker {
 
         for(const auto& card : hand.hand_)
         {
-            if(!unique_hand.containsCard(card))
+            if(!unique_hand.containsRank(card.rank))
             {
                 unique_hand.addToHand(card);
             }
@@ -380,22 +388,15 @@ namespace poker {
             }            
         }
       
-        // check if straight
-        if(unique_hand.hand_.size()<5)
-        {
-            //Can't be a straight, so we exit the method
-            return;  
-        }
-      
         for(int i=0; i<unique_hand.hand_.size()-4; ++i)
         {
-            if(unique_hand.hand_[i].rank!=detect::UNKNOWN &&
-                unique_hand.hand_[i].rank==unique_hand.hand_[i+1].rank+1 && unique_hand.hand_[i].rank==unique_hand.hand_[i+2].rank+2 
-                && unique_hand.hand_[i].rank==unique_hand.hand_[i+3].rank+3 && unique_hand.hand_[i].rank==unique_hand.hand_[i+4].rank+4) 
+            if(unique_hand.hand_.at(i).rank!=detect::UNKNOWN &&
+                unique_hand.hand_.at(i).rank==unique_hand.hand_.at(i+1).rank+1 && unique_hand.hand_.at(i).rank==unique_hand.hand_.at(i+2).rank+2 
+                && unique_hand.hand_.at(i).rank==unique_hand.hand_.at(i+3).rank+3 && unique_hand.hand_.at(i).rank==unique_hand.hand_.at(i+4).rank+4) 
             {
                 this->ranking_ = detect::STRAIGHT;
                 this->high_cards_.fill(-1);
-                this->high_cards_.fill(unique_hand.hand_[i].rank);
+                this->high_cards_.fill(unique_hand.hand_.at(i).rank);
 
                 // exit the method            
                 return;
@@ -499,9 +500,10 @@ namespace poker {
 
      
         Hand flush_cards = this->isFlush(hand);
-        //Check if straight flush
+        
         if(this->ranking_ == detect::FLUSH)
         {
+            //Check if straight flush
             this->isStraight(flush_cards);
             if(this->ranking_ == detect::STRAIGHT)
             {

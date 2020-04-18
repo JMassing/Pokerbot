@@ -4,6 +4,7 @@
 #include <array>
 #include <vector>
 #include <fstream>
+#include <utility>
 
 #include "../poker/include/Hand.h"
 #include "../poker/include/Deck.h"
@@ -128,7 +129,7 @@ namespace UnitTest{
 		deck.burnCard();
 		EXPECT_EQ(deck.getPosition(),2);
 		// check pull card again to make sure
-		EXPECT_EQ(deck.pullCard(), deck.deck_[2]);
+		EXPECT_EQ(deck.pullCard(), deck.deck_.at(2));
 	}
 
 	TEST(TestPoker,TestGetRanking)
@@ -151,7 +152,7 @@ namespace UnitTest{
 		}
 		else
 		{
-			std::cout << "Could not open file" << std::endl;
+			std::cerr << "Could not open file" << std::endl;
 		}
 
 	}
@@ -185,7 +186,7 @@ namespace UnitTest{
 		}
 		else
 		{
-			std::cout << "Could not open file" << std::endl;
+			std::cerr << "Could not open file" << std::endl;
 		}
 
 	}
@@ -206,7 +207,7 @@ namespace UnitTest{
 			{
 				std::vector<std::string> cont = split(line, ';');
 				nr_of_players=std::stoi(cont.at(0));
-				probability=std::stoi(cont.at(1));
+				probability=std::stod(cont.at(1));
 				// add cards to robot starting hand
 				std::array<detect::Card,2> robot_cards;
 				std::vector<std::string> cards = split(cont.at(2)); 
@@ -220,10 +221,10 @@ namespace UnitTest{
 					robot_cards.at(i)=tmp;
 				}
 
-				SimulationInternal sim(nr_of_players, nr_of_iterations);
-				double prob=sim.run(public_cards, robot_cards);
-				std::cout << prob << std::endl;
-				//EXPECT_EQ(sim.getWinner(), winner);
+				SimulationInternal sim(nr_of_players, nr_of_iterations, true);
+				std::pair<double,double> prob=sim.run(public_cards, robot_cards);
+				std::cout << prob.first << ", " << prob.second << std::endl;
+				EXPECT_TRUE((prob.first >= probability-1) && (prob.first <= probability+1));
 			}
 			file.close();
 		}

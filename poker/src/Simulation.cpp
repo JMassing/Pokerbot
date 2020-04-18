@@ -1,7 +1,7 @@
 #include "Simulation.h"
 
 #include <iostream>
-
+#include <fstream>
 
 namespace poker{
 
@@ -102,32 +102,56 @@ namespace poker{
             }
         }
 
-        if(tie==true)
+        if(tie==true && winner==0)
         {
             winner=-1;
+        }
+        else if(tie==true && winner!=0)
+        {
+            winner=-2;
+        }
+        else
+        {
+            // do nothing
         }
 
         return winner;
     }
     
-    // Runs the simulation
-    double Simulation::run(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards)
+    // Runs the simulation. Return value is a pair of probabilities. pair.first gives the probability to outright win with the robot hand. 
+    // pair.second gives the probability for the robot to have the highest ranking hand but tie with another player 
+    std::pair<double,double> Simulation::run(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards)
     {
        
-        double nr_of_wins{0};
+        int nr_of_wins{0};
+        int nr_of_ties_with_highest_hand{0};
         // Run Monte Carlo Simulation for nr_of_iterations_ iterations.
-        std::vector<detect::Card> public_cards_tmp{};
         this->updateHands(public_cards, robot_cards);
-        // Make the remaining deck
+        
+        // set up logging of % of hands dealt in simulation
+        std::array<int,9> hand_count{0};
+        
+         // Make the deck, without the robot cards
         Deck deck(this->robot_hand_);
-        for(int i=0; i<this->nr_of_iterations_-1; ++i)
+
+        for(int i=0; i<this->nr_of_iterations_; ++i)
         {
+            std::vector<detect::Card> public_cards_tmp{};
             public_cards_tmp=public_cards;
-            // update hands with known cards;
+            // update hands with known cards
             this->updateHands(public_cards_tmp, robot_cards);         
             
-            // Step 1 shuffle deck;
+            // Step 1 reset position in deck and shuffle deck;
+            deck.resetPosition();
             deck.shuffle();
+            // Add hand cards to robot hand, if it is unknown
+            for(int i=0; i<2; ++i)
+            {
+                if(this->robot_hand_.hand_.at(i).rank==detect::UNKNOWN)
+                {
+                    this->robot_hand_.addToHand(deck.pullCard());
+                }
+            }
             // Add hand cards to player hands;
             for(auto& hand : this->player_hands_)
             {
@@ -168,12 +192,31 @@ namespace poker{
                     public_cards_tmp.emplace_back(deck.pullCard());
                     break;
             }
-            // update hands with drawn public cards and clear drawn public cards
+            // update hands with drawn public cards
             this->updateHands(public_cards_tmp, robot_cards);
-            public_cards_tmp.clear();
-
+           
             // determine winner from hands
             int winner=this->determineWinner();
+            
+            if(winner==0)
+            {
+                ++nr_of_wins;
+            } 
+            else if(winner==-1)
+            {
+                ++nr_of_ties_with_highest_hand;
+            }
+            else
+            {
+                //do nothing
+            }
+
+            // sim logging
+            if(this->log_sim_==true)
+            {
+                ++hand_count.at(this->robot_hand_.ranking_);
+                this->logRun(winner);
+            }
 
             // revert hands
             for(auto& hand: this->player_hands_)
@@ -181,14 +224,56 @@ namespace poker{
                 hand.clear();
             }
             this->robot_hand_.clear();
-
-            if(winner==0)
-            {
-                ++nr_of_wins;
-            }       
-        
+     
         }
-        return nr_of_wins/static_cast<double>(this->nr_of_iterations_)*100.0;
         
+        // log hands 
+        if(this->log_sim_==true)
+        {
+            std::ofstream logfile;
+            logfile.open("simlog.txt", std::ios::app);
+            if(logfile.is_open())
+            {
+                for(int i=0; i<hand_count.size(); ++i)
+                {
+                    logfile << static_cast<double>(i) << ": " << static_cast<double>(hand_count.at(i))/static_cast<double>(this->nr_of_iterations_)*100.0 << "%" << std::endl;
+                }
+                logfile.close();
+            }
+            else
+            {
+                std::cerr << "Error: Could not write to log file. File could not be opened." << std::endl;
+            }  
+        }
+
+        std::pair<double,double> probabilities = 
+            std::make_pair(static_cast<double>(nr_of_wins)/static_cast<double>(this->nr_of_iterations_)*100.0,
+                static_cast<double>(nr_of_ties_with_highest_hand)/static_cast<double>(this->nr_of_iterations_)*100.0);
+
+        return probabilities;
+        
+    }
+
+    void Simulation::logRun(const int& winner)
+    {
+        std::ofstream logfile;
+        logfile.open("simlog.txt", std::ios::app);
+        if(logfile.is_open())
+        {
+            std::string robot_hand = robot_hand_.print().str();
+            // print robot hand to file, erase last character, since it is a \n and we don't want a line break here
+            logfile << winner << ";" << robot_hand.erase(robot_hand.size()-1) << ";" << this->robot_hand_.ranking_ << ";";
+            for(auto& hand: this->player_hands_)
+            {
+                std::string hand_string = hand.print().str();
+                logfile << hand_string.erase(hand_string.size()-1) << ";" << hand.ranking_ << ";"; 
+            } 
+            logfile << std::endl;
+            logfile.close();
+        }
+        else
+        {
+            std::cerr << "Error: Could not write to log file. File could not be opened." << std::endl;
+        }   
     }
 }// end namespace poker

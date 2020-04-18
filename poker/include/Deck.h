@@ -38,15 +38,21 @@ namespace poker{
         {
             return deck_[this->pos_tracker_++];
         };
+        //@brief: Burns card in deck by incrementing pos_tracker.
         void burnCard() 
         {
             ++this->pos_tracker_;
         };
+        //@brief: Returns position in deck.
         int getPosition()
         {
             return this->pos_tracker_;
-        }   
-        
+        };  
+        //@brief: Sets position to top of deck
+        void resetPosition()
+        {
+            this->pos_tracker_=0;
+        };
     };
 
 }// end namespace poker

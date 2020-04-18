@@ -1,5 +1,8 @@
 #include "Deck.h"
 
+#include <random>       // std::default_random_engine
+#include <chrono>       // std::chrono::system_clock
+
 namespace poker
 {
     Deck::Deck(Hand robot_hand): pos_tracker_{0} {
@@ -25,7 +28,6 @@ namespace poker
     //@brief: shuffles the deck using std::shuffle function
     void Deck::shuffle()
     {        
-        this->pos_tracker_=0;
         std::random_device rd;
         std::mt19937 g(rd());
         std::shuffle(this->deck_.begin(), this->deck_.end(),g);

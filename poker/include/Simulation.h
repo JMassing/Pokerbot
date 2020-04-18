@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include <algorithm>
+#include <utility>
 
 #include "Hand.h"
 #include "Deck.h"
@@ -21,15 +22,18 @@ namespace poker{
             Hand robot_hand_;
             int nr_of_human_players_;
             int nr_of_iterations_;
+            bool log_sim_;
 
             void updateHands(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards);
             void determineHandRankings();
             int determineWinner();
+            void logRun(const int& winner);
 
         public:
 
-            double run(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards);
-            Simulation(int nr_of_human_players, int nr_of_iterations): nr_of_human_players_{nr_of_human_players}, nr_of_iterations_{nr_of_iterations}, robot_hand_() 
+            std::pair<double,double> run(const std::vector<detect::Card>& public_cards, const std::array<detect::Card,2>& robot_cards);
+            Simulation(int nr_of_human_players, int nr_of_iterations, bool log_sim=false): nr_of_human_players_{nr_of_human_players}, 
+                nr_of_iterations_{nr_of_iterations}, robot_hand_(), log_sim_{log_sim} 
             {
                 this->player_hands_.resize(nr_of_human_players, Hand());
             };
