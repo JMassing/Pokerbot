@@ -13,7 +13,7 @@
 #include "CardDetector.h"
 #include "View.h"
 #include "Hand.h"
-#include "Deck.h"
+#include "Card.h"
 
 
 using namespace cv;
@@ -26,12 +26,12 @@ int main(int argc, char* argv[])
 {
 	
 	//// Initialize variables for live capture and image processing
-	Capture live("C:\\Users\\julim\\Desktop\\Projects\\MultipleCards.mp4");
+	Capture live("C:\\Users\\julim\\Desktop\\Projects\\DealingCards.mp4");
 	//
-	if (!live.init()) {
+	/*if (!live.init()) {
 		cerr << "ERROR! Unable to open camera\n";
 		return -2;
-	}
+	}*/
 	//	
 	//
 
@@ -51,6 +51,19 @@ int main(int argc, char* argv[])
 
 		CardDetector detect{ live.frame_ };
 		detect.detectCards();
+
+		// ************************************************ //
+		//				Simulation						//
+		// ************************************************ //
+		vector<Card> known_cards=detect.getCards();
+		array<Card,2> robot_cards;
+		vector<Card> public_cards;
+		
+		for(const auto& card: known_cards)
+		{
+			cout << card.rank << card.suit << ": (" << card.center_point.x << ", " << card.center_point.y << ")" << endl;
+		}
+
 
 		// ************************************************ //
 		//				Visualization						//
