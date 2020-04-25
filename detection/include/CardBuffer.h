@@ -9,15 +9,33 @@
 
 namespace detect
 {
-	struct CardBuffer
+	class CardBuffer
 	{
-		
-		std::array<Card,100> buffer;
-		
-		cv::Point center_point;
+	private:
+		static int id_;
+		std::array<Card,100> buffer_;
+		int pos_tracker_;
+		cv::Point center_point_;
 
-		CardBuffer() { };
-		~CardBuffer() {};
+	public:
+		
+		void addCard(Card& card);
+
+		int getId()
+		{ 
+			return this->id_; 
+		}
+
+		CardBuffer(): center_point_{}, pos_tracker_{0} 
+		{
+			++id_;
+			this->buffer_.fill(Card(-1,-1));
+		};
+
+		~CardBuffer()
+		{
+
+		};
 
 		// Use Default copy and move constructors
 		CardBuffer(const CardBuffer& other) = default;	
@@ -26,5 +44,6 @@ namespace detect
 		CardBuffer& operator=(CardBuffer&& other) noexcept = default;
 		
 	};
+	int CardBuffer::id_ = 0;
 
 }
