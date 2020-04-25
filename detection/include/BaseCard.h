@@ -11,7 +11,7 @@ namespace detect
 		int suit;
 
 		BaseCard() : rank(UNKNOWN), suit(UNKNOWN){};
-		BaseCard(int rank, int suit) :rank(rank), suit(suit){};
+		BaseCard(const int& rank, const int& suit) :rank(rank), suit(suit){};
 		~BaseCard() {};
 
 		

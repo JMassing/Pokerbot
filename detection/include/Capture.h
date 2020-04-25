@@ -18,7 +18,7 @@ namespace detect {
 			cv::Mat frame_;
 	
 			Capture();
-			explicit Capture(std::string video);
+			explicit Capture(const std::string& video);
 			~Capture();
 
 			// Using default copy and move constructors. 

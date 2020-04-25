@@ -6,7 +6,7 @@ namespace detect {
 	{
 	}
 
-	Capture::Capture(std::string video) : frame_{}, cap_(video), device_ID_(1), api_ID_(cv::CAP_ANY)
+	Capture::Capture(const std::string& video) : frame_{}, cap_(video), device_ID_(1), api_ID_(cv::CAP_ANY)
 	{
 	}
 

@@ -7,7 +7,7 @@ namespace detect
 {
 
 
-	CardDetector::CardDetector(cv::Mat& input_frame) : cards_{}
+	CardDetector::CardDetector(const cv::Mat& input_frame) : cards_{}
 	{
 		this->live_frame_ = input_frame;
 

@@ -4,7 +4,7 @@
 
 namespace poker
 {
-    Deck::Deck(Hand robot_hand): pos_tracker_{0} {
+    Deck::Deck(Hand& robot_hand): pos_tracker_{0} {
         // fill Deck with cards and point to cards initially
         for(int j=15; j<=18; ++j)
         {

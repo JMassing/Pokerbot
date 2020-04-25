@@ -16,8 +16,8 @@ namespace detect
 		std::vector<cv::Point> contour;
 
 		Card() : BaseCard(), center_point(-1, -1), contour{} { };
-		Card(int rank, int suit) : BaseCard(rank, suit), center_point(-1, -1), contour{} { };
-		Card(int rank, int suit, cv::Point center, std::vector<cv::Point> contour) : BaseCard(rank,suit), center_point(center), contour{contour} { };
+		Card(const int& rank, const int& suit) : BaseCard(rank, suit), center_point(-1, -1), contour{} { };
+		Card(const int& rank, const int& suit, const cv::Point& center, const std::vector<cv::Point>& contour) : BaseCard(rank,suit), center_point(center), contour{contour} { };
 		~Card() {};
 
 		// Use Default copy and move constructors

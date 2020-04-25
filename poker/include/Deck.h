@@ -22,7 +22,7 @@ namespace poker{
         // The nr. of known card changes depending on where in the game we are (start of game, flop, ...)
         std::vector<detect::BaseCard> deck_;
 
-        explicit Deck(Hand robot_hand);
+        explicit Deck(Hand& robot_hand);
         ~Deck() {};
                 
         // Using default copy and move constructors. 

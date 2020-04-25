@@ -49,7 +49,7 @@ namespace detect
 			void findContours(const cv::Mat& src, std::vector<std::vector<cv::Point> >& contours, const int& threshold, const int& thresh_method = cv::THRESH_BINARY);
 
 		public:
-			explicit CardDetector(cv::Mat& input_frame);
+			explicit CardDetector(const cv::Mat& input_frame);
 			~CardDetector();
 
 			// Using default copy and move constructors. 
