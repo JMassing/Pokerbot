@@ -32,7 +32,7 @@ namespace detect
 			const std::array<int, 15> sliding_threshold_
 				{-17, -15, -12 , -10, -7, -5, -2, 0, 2, 5, 7, 10, 12, 15, 17 };	 // arrays of values for sliding threshold for binaryzing image
 			const int min_card_size_ = 10000;									 // Min size card image in pixel²
-			const int max_card_size_ = 300000;									 // Max size card image in pixel²
+			const int max_card_size_ = 200000;									 // Max size card image in pixel²
 			const double min_comparison_confidence_ = 5;						 // Maximum l2 error allowed for compareImages. If error is higher, card is marked as unknown
 			std::vector<TrainImage> train_suits_;
 			std::vector<TrainImage> train_ranks_;

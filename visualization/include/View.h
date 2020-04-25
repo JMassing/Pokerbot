@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <map>
+#include <utility>
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -29,6 +30,7 @@ namespace detect {
 			~View();
 
 			void drawCards(const std::vector<Card> cards, cv::Mat& dst, const cv::Scalar& color);
+			void printProbability(const cv::Mat& src, const std::pair<double,double>& probability);
 
 	};
 

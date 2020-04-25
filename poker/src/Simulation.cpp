@@ -247,7 +247,7 @@ namespace poker{
         }
 
         std::pair<double,double> probabilities = 
-            std::make_pair(static_cast<double>(nr_of_wins)/static_cast<double>(this->nr_of_iterations_)*100.0,
+            std::make_pair(static_cast<double>(nr_of_wins)/static_cast<double>(this->nr_of_iterations_)*100.0, 
                 static_cast<double>(nr_of_ties_with_highest_hand)/static_cast<double>(this->nr_of_iterations_)*100.0);
 
         return probabilities;

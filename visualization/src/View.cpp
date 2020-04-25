@@ -78,4 +78,15 @@ namespace detect {
 
 	}
 
+	void View::printProbability(const cv::Mat& src, const std::pair<double,double>& probability)
+	{
+		std::string winning_probability;
+		std::string tie_probability;
+		winning_probability = "Winning: " + std::to_string(probability.first) + "%";
+		tie_probability = "Winning Tie: " + std::to_string(probability.second) + "%";
+
+		cv::putText(src, winning_probability, cv::Point(30,50), cv::FONT_HERSHEY_PLAIN, 1.25, cv::Scalar(255, 0, 0), 2);
+		cv::putText(src, tie_probability, cv::Point(30,70), cv::FONT_HERSHEY_PLAIN, 1.25, cv::Scalar(255, 0, 0), 2);
+
+	}
 }
