@@ -16,6 +16,8 @@
 #include "Card.h"
 #include "Simulation.h"
 #include "CardBuffer.h"
+#include "AssignCards.h"
+#include "RectangleCorners.h"
 
 
 using namespace cv;
@@ -23,20 +25,6 @@ using namespace std;
 using namespace detect;
 using namespace poker;
 using namespace templates;
-
-template<class T>
-bool contains(Card input_card, T cards)
-{
-	for(const auto& card: cards)
-	{
-		if(card.rank==input_card.rank && card.suit==input_card.suit)
-		{
-			return true;
-		}
-	} 
-	
-	return false;
-}
 
 int main(int argc, char* argv[])
 {
@@ -72,26 +60,28 @@ int main(int argc, char* argv[])
 		CardDetector detect{ live.frame_ };
 		detect.detectCards();
 
+		vector<Card> known_cards=detect.getCards();
+		vector<BaseCard> public_cards;
+		RectangleCorners<cv::Point> robot_area;
+		robot_area.upper_left= cv::Point{0,3600};
+		robot_area.upper_right= cv::Point{1500,3600};
+		robot_area.lower_right= cv::Point{1500,800};
+		robot_area.lower_left= cv::Point{0,800};
+		RectangleCorners<cv::Point> public_area;
+		public_area.upper_left= cv::Point{0,800};
+		public_area.upper_right= cv::Point{1500,800};
+		public_area.lower_right= cv::Point{1500,0};
+		public_area.lower_left= cv::Point{0,0};
+
+		AssignCards assign_cards(robot_area, public_area);
+		
+		assign_cards.assign(known_cards);
+		robot_cards=assign_cards.getRobotCards();
+		public_cards=assign_cards.getPublicCards();		
+
 		// ************************************************ //
 		//				Simulation						//
 		// ************************************************ //
-		vector<Card> known_cards=detect.getCards();
-		vector<BaseCard> public_cards;
-		
-		for(const auto& card: known_cards)
-		{	
-			for(auto&robot_card : robot_cards)
-			{
-				if(card.rank != UNKNOWN && card.suit != UNKNOWN && robot_card.rank == UNKNOWN && card.center_point.x < 1500 && card.center_point.y > 800 && !contains(card,robot_cards))
-				{
-					robot_card=card;
-				}
-				else if(card.rank != UNKNOWN && card.suit != UNKNOWN && card.center_point.x < 1500 && card.center_point.y < 800 && !contains(card,public_cards))
-				{
-					public_cards.emplace_back(card);
-				}
-			}	
-		}		
 				
 		pair<double,double> prob=sim.run(public_cards, robot_cards);
 		++nr_of_sim_runs;

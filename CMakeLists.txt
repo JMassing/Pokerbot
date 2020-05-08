@@ -7,7 +7,9 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/detection/include
     ${CMAKE_CURRENT_SOURCE_DIR}/visualization/include
     ${CMAKE_CURRENT_SOURCE_DIR}/poker/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/templates/classes )
+    ${CMAKE_CURRENT_SOURCE_DIR}/templates/classes
+    ${CMAKE_CURRENT_SOURCE_DIR}/templates/functions  
+    ${CMAKE_CURRENT_SOURCE_DIR}/globals/include)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
@@ -21,7 +23,7 @@ file(GLOB SOURCES_POKER "poker/src/*.cpp")
 add_library( PokerbotLib 
 ${SOURCES_VISULIZATION}
 ${SOURCES_DETECTION}
-${SOURCES_POKER})
+${SOURCES_POKER} )
 
 ## find gtest
 find_package(GTest REQUIRED)

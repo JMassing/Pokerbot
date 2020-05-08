@@ -4,6 +4,8 @@
 #include <array>
 #include <algorithm>
 
+#include <opencv2/core.hpp>
+
 #include "Card.h"
 #include "RingBuffer.h"
 
@@ -16,8 +18,9 @@ namespace detect
 	template<std::size_t N>
 	class CardBuffer: public templates::RingBuffer<Card, N>
 	{	
+		
 	private:
-		int id_;
+
 		cv::Point center_point_;
 		bool filled_once_;
 
@@ -25,7 +28,7 @@ namespace detect
 
 		void getCard(Card& card_out);
 
-		CardBuffer() : RingBuffer(), id_(0), center_point_(), filled_once_(false) {};
+		CardBuffer() : RingBuffer(), center_point_(), filled_once_(false) {};
 	
 		// Use Default copy and move constructors
 		CardBuffer(const CardBuffer& other) = default;	

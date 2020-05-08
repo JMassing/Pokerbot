@@ -1,9 +1,6 @@
 #pragma once
 
 #include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
 
 #include "BaseCard.h"
 
@@ -14,11 +11,10 @@ namespace detect
 	
 		cv::Point center_point;
 		std::vector<cv::Point> contour;
-		int id;
 
-		Card() : BaseCard(), center_point(-1, -1), contour{}, id{0} { };
-		Card(const int& rank, const int& suit) : BaseCard(rank, suit), center_point(-1, -1), contour{}, id{0} { };
-		Card(const int& rank, const int& suit, const cv::Point& center, const std::vector<cv::Point>& contour) : BaseCard(rank,suit), center_point(center), contour{contour}, id{0} { };
+		Card() : BaseCard(), center_point(-1, -1), contour{} { };
+		Card(const int& rank, const int& suit) : BaseCard(rank, suit), center_point(-1, -1), contour{} { };
+		Card(const int& rank, const int& suit, const cv::Point& center, const std::vector<cv::Point>& contour) : BaseCard(rank,suit), center_point(center), contour{contour} { };
 		~Card() {};
 
 		// Use Default copy and move constructors
