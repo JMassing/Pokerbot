@@ -22,15 +22,6 @@ namespace poker{
         // The nr. of known card changes depending on where in the game we are (start of game, flop, ...)
         std::vector<detect::BaseCard> deck_;
 
-        explicit Deck(Hand& robot_hand);
-        ~Deck() {};
-                
-        // Using default copy and move constructors. 
-		Deck(const Deck& other) = default;	
-		Deck& operator=(const Deck& other) = default;
-		Deck(Deck&& other) noexcept = default;
-		Deck& operator=(Deck&& other) noexcept = default;
-
         void shuffle();
 
         //@brief: Returns card in deck at pos pos_tracker and increments pos_tracker.
@@ -53,6 +44,16 @@ namespace poker{
         {
             this->pos_tracker_=0;
         };
+
+        explicit Deck(Hand& robot_hand);
+        ~Deck() {};
+                
+        // Using default copy and move constructors. 
+		Deck(const Deck& other) = default;	
+		Deck& operator=(const Deck& other) = default;
+		Deck(Deck&& other) noexcept = default;
+		Deck& operator=(Deck&& other) noexcept = default;
+
     };
 
 }// end namespace poker

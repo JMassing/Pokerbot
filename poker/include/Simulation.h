@@ -32,6 +32,7 @@ namespace poker{
         public:
 
             std::pair<double,double> run(const std::vector<detect::BaseCard>& public_cards, const std::array<detect::BaseCard,2>& robot_cards);
+            
             Simulation(const int& nr_of_human_players, const int& nr_of_iterations, const bool& log_sim=false): nr_of_human_players_{nr_of_human_players}, 
                 nr_of_iterations_{nr_of_iterations}, robot_hand_(), log_sim_{log_sim} 
             {

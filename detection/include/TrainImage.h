@@ -19,10 +19,12 @@ class TrainImage
 
 	public:
 
+		cv::Mat getImage() { return this->image_; }
+		std::string getLabel() { return this->label_; }
+
 		TrainImage();
 		explicit TrainImage(const std::string & filename);
-		~TrainImage();
-		
+		~TrainImage();		
 		
 		// Delete copy constructor, we only need each TrainImage once. Also cv::Mat only does shallow copying and processing the copy then changes
 		// the original. A .clone() function could be considered, but we only need TrainImage once.
@@ -52,7 +54,5 @@ class TrainImage
 			return *this;
 		};
 
-		cv::Mat getImage() { return this->image_; }
-		std::string getLabel() { return this->label_; }
 };
 

@@ -49,6 +49,10 @@ namespace detect
 			void findContours(const cv::Mat& src, std::vector<std::vector<cv::Point> >& contours, const int& threshold, const int& thresh_method = cv::THRESH_BINARY);
 
 		public:
+
+			void detectCards();
+			const std::vector<Card> getCards() { return this->cards_; }
+
 			explicit CardDetector(const cv::Mat& input_frame);
 			~CardDetector();
 
@@ -58,8 +62,7 @@ namespace detect
 			CardDetector(CardDetector&& other) noexcept = default;
 			CardDetector& operator=(CardDetector&& other) noexcept = default;
 			
-			void detectCards();
-			const std::vector<Card> getCards() { return this->cards_; }
+
 		
 	};
 

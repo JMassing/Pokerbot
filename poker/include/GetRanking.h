@@ -35,6 +35,7 @@ namespace poker{
                 this->ranking_=-1;
                 this->high_cards_.fill(0);
             }
+            
             GetRanking():ranking_{-1}, high_cards_{-1} {};
             ~GetRanking() {};
 

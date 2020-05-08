@@ -26,12 +26,18 @@ namespace detect {
 			//void drawPoints(const cv::Mat& src, const cv::Scalar& color);
 			void writeCard(const cv::Mat& src, const std::vector<Card>& cards);
 		public:
-			View();
-			~View();
-
+			
 			void drawCards(const std::vector<Card> cards, cv::Mat& dst, const cv::Scalar& color);
 			void printProbability(const cv::Mat& src, const std::pair<double,double>& probability);
 
+			View();
+			~View();
+
+			// Using default copy and move constructors. 
+			View(const View& other) = default;	
+			View& operator=(const View& other) = default;
+			View(View&& other) noexcept = default;
+			View& operator=(View&& other) noexcept = default;
 	};
 
 } // namespace visualize

@@ -16,6 +16,10 @@ namespace detect {
 
 		public:
 			cv::Mat frame_;
+
+			bool init();
+			bool grabLive();
+			bool grabVideo();
 	
 			Capture();
 			explicit Capture(const std::string& video);
@@ -26,10 +30,6 @@ namespace detect {
 			Capture& operator=(const Capture& other) = default;
 			Capture(Capture&& other) noexcept = default;
 			Capture& operator=(Capture&& other) noexcept = default;
-
-			bool init();
-			bool grabLive();
-			bool grabVideo();
 			
 	};
 

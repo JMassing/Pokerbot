@@ -17,18 +17,18 @@ namespace poker{
             std::array<int,5> high_cards_;
             int ranking_;
 
-            Hand(): ranking_{}, high_cards_{0}
-            {
-                hand_.fill(detect::BaseCard());
-            }
-            ~Hand() {};
-
             void addToHand(const detect::BaseCard& card);
             bool containsCard(const detect::BaseCard& card);
             bool containsRank(const int& rank);
             bool containsSuit(const int& suit);
             void sort();
             void clear();
+
+            Hand(): ranking_{}, high_cards_{0}
+            {
+                hand_.fill(detect::BaseCard());
+            }
+            ~Hand() {};
 
             std::stringstream print();
             

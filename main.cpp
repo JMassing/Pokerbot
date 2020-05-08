@@ -60,18 +60,7 @@ int main(int argc, char* argv[])
 	Simulation sim(5,10000);
 	int nr_of_sim_runs=0;
 
-	CardBuffer<12> buffer;
-	Card in(10,15);
-	Card out;
-
-	for (int i=0; i<53; i++)
-	{
-		buffer.put(in);
-		buffer.get(out);
-		cout << out.rank << ", " << out.suit << endl;
-	}
-
-	/*for (;;)
+	for (;;)
 	{
 		// Grab live frame and check if it worked
 		if (!live.grabLive()) { break; }		
@@ -121,7 +110,7 @@ int main(int argc, char* argv[])
 	if (waitKey(5) >= 0)
 			break;
 	}
-	*/
+	
 	// the camera will be deinitialized automatically in VideoCapture destructor
 	
 }
