@@ -15,12 +15,14 @@
 #include "Hand.h"
 #include "Card.h"
 #include "Simulation.h"
+#include "CardBuffer.h"
 
 
 using namespace cv;
 using namespace std;
 using namespace detect;
 using namespace poker;
+using namespace templates;
 
 template<class T>
 bool contains(Card input_card, T cards)
@@ -57,7 +59,19 @@ int main(int argc, char* argv[])
 
 	Simulation sim(5,10000);
 	int nr_of_sim_runs=0;
-	for (;;)
+
+	CardBuffer<12> buffer;
+	Card in(10,15);
+	Card out;
+
+	for (int i=0; i<53; i++)
+	{
+		buffer.put(in);
+		buffer.get(out);
+		cout << out.rank << ", " << out.suit << endl;
+	}
+
+	/*for (;;)
 	{
 		// Grab live frame and check if it worked
 		if (!live.grabLive()) { break; }		
@@ -107,7 +121,7 @@ int main(int argc, char* argv[])
 	if (waitKey(5) >= 0)
 			break;
 	}
-	
+	*/
 	// the camera will be deinitialized automatically in VideoCapture destructor
 	
 }

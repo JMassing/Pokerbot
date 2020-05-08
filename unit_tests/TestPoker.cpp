@@ -6,16 +6,14 @@
 #include <fstream>
 #include <utility>
 
-#include "../poker/include/Hand.h"
-#include "../poker/include/Deck.h"
-#include "../poker/include/Simulation.h"
-#include "../poker/include/GetRanking.h"
+#include "Hand.h"
+#include "Deck.h"
+#include "Simulation.h"
+#include "GetRanking.h"
+#include "BaseCard.h"
+#include "Mapping.h"
 
 #include "utilities/HelperClasses/SimulationInternal.h"
-
-#include "../detection/include/BaseCard.h"
-
-#include "../detection/include/Mapping.h"
 
 namespace UnitTest{
 

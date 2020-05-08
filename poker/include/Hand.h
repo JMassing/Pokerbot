@@ -2,6 +2,7 @@
 
 #include <array>
 #include <sstream>
+#include <algorithm>
 
 #include "BaseCard.h"
 #include "Mapping.h"
