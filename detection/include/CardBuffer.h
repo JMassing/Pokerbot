@@ -7,6 +7,7 @@
 #include <opencv2/core.hpp>
 
 #include "Card.h"
+#include "BaseCard.h"
 #include "RingBuffer.h"
 
 namespace detect
@@ -16,20 +17,37 @@ namespace detect
 	// wrong for a different reason. After some time the new and right detections take over the buffer and we return the right card.
 
 	template<std::size_t N>
-	class CardBuffer: public templates::RingBuffer<Card, N>
+	class CardBuffer: public templates::RingBuffer<BaseCard, N>
 	{	
 		
 	private:
 
 		cv::Point center_point_;
+		std::vector<cv::Point> contour_;
 		bool filled_once_;
 
 	public:
 
-		void getCard(Card& card_out);
+		bool getCard(Card& card_out);
+		
+		// Override put function for card buffer to also update center point and contour with the center point and contour of the latest card
+		void put(const Card& card_in);
+		cv::Point getCenter() const
+		{
+			return this->center_point_;
+		}
+		std::vector<cv::Point> getContour() const
+		{
+			return this->contour_;
+		}
 
-		CardBuffer() : RingBuffer(), center_point_(), filled_once_(false) {};
+		CardBuffer() : RingBuffer(), center_point_(), filled_once_(false), contour_() {};
+		explicit CardBuffer(const Card& card) : RingBuffer(), filled_once_(false) 
+		{
+			this->put(card);
+		};
 	
+
 		// Use Default copy and move constructors
 		CardBuffer(const CardBuffer& other) = default;	
 		CardBuffer& operator=(const CardBuffer& other) = default;
@@ -39,7 +57,15 @@ namespace detect
 	};
 
 	template<std::size_t N>
-	void CardBuffer<N>::getCard(Card& card_out)
+	void CardBuffer<N>::put(const Card& card_in)
+	{
+		RingBuffer::put(card_in);
+		this->center_point_=card_in.center_point;
+		this->contour_=card_in.contour;
+	};
+	
+	template<std::size_t N>
+	bool CardBuffer<N>::getCard(Card& card_out)
 	{
 		// Wait till the buffer was filled at least once, before returning a card. 
 		// This way we always have a sample of N detections, to compare 
@@ -55,7 +81,7 @@ namespace detect
 		if(this->filled_once_ == true)
 		{
 			// Find the card that is occuring most often in the buffer
-			std::vector<std::pair<Card, int> > card_counter;
+			std::vector<std::pair<BaseCard, int> > card_counter;
 			for(const auto& card: this->data_)
 			{
 				if(card_counter.size() == 0)
@@ -72,7 +98,7 @@ namespace detect
 							++(*p).second;
 							break;
 						}
-						// if card is not found in card_counter add it
+						// if card is not found in card_counter add it to counter
 						if(p == card_counter.end()-1)
 						{
 							card_counter.emplace_back(std::make_pair(card, 1));
@@ -88,11 +114,15 @@ namespace detect
 					return lhs.second > rhs.second;
 				}
        		);
-			card_out = card_counter.at(0).first;
+			card_out.rank = card_counter.at(0).first.rank;
+			card_out.suit = card_counter.at(0).first.suit;
+			card_out.center_point=this->center_point_;
+			card_out.contour=this->contour_;
+			return true;
 		}
 		else
 		{
-			//do nothing
+			return false;
 		}
-	}
+	};
 }

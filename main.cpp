@@ -47,6 +47,7 @@ int main(int argc, char* argv[])
 
 	Simulation sim(5,10000);
 	int nr_of_sim_runs=0;
+	CardDetector detect{};
 
 	for (;;)
 	{
@@ -56,8 +57,7 @@ int main(int argc, char* argv[])
 		// ************************************************ //
 		//		Process live Image to extract cards			//
 		// ************************************************ //
-
-		CardDetector detect{ live.frame_ };
+		detect.updateFrame(live.frame_);
 		detect.detectCards();
 
 		vector<Card> known_cards=detect.getCards();
@@ -91,8 +91,11 @@ int main(int argc, char* argv[])
 		// ************************************************ //
 		
 		View visualize;
-		visualize.drawCards(detect.getCards(), live.frame_, Scalar(0, 255, 0));
-		visualize.printProbability(live.frame_, prob);
+		if(detect.getCards().size() > 0)
+		{
+			visualize.drawCards(detect.getCards(), live.frame_, Scalar(0, 255, 0));
+			visualize.printProbability(live.frame_, prob);
+		}
 
 		imshow("live",live.frame_);
 

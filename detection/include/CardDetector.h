@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <array>
+#include <algorithm>
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -12,6 +13,9 @@
 #include "TrainImage.h"
 #include "Card.h"
 #include "Mapping.h"
+#include "CardBuffer.h"
+#include "CompiletimeConstants.h"
+#include "TemplateFunctions.h"
 
 namespace detect 
 {
@@ -24,6 +28,7 @@ namespace detect
 
 			cv::Mat live_frame_;
 			std::vector<Card> cards_;
+			std::vector<CardBuffer<globals::CARD_BUFFER_SIZE>> card_buffers_;
 			
 			const double aspect_ratio_ = 1.4;									 // Aspect Ratio of playing cards
 			const int card_width_ = 301;										 // Nr. of cols in extracted card image
@@ -48,13 +53,14 @@ namespace detect
 			void binarizeImage(const cv::Mat & src, cv::Mat & dst, const int& threshold, const int& thresh_method);
 			double compareImages(const cv::Mat &src, const cv::Mat &dst);
 			void findContours(const cv::Mat& src, std::vector<std::vector<cv::Point> >& contours, const int& threshold, const int& thresh_method = cv::THRESH_BINARY);
+			void bufferCard(const Card& card);
 
 		public:
 
 			void detectCards();
 			const std::vector<Card> getCards() { return this->cards_; }
-
-			explicit CardDetector(const cv::Mat& input_frame);
+			void updateFrame(const cv::Mat& input_frame);
+			CardDetector();
 			~CardDetector();
 
 			// Using default copy and move constructors. 

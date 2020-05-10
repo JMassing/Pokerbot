@@ -8,7 +8,7 @@
 #include "BaseCard.h"
 #include "Card.h"
 #include "RectangleCorners.h"
-#include "TemplateStubs.h"
+#include "TemplateFunctions.h"
 
 namespace detect
 {

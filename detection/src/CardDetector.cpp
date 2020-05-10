@@ -7,22 +7,25 @@ namespace detect
 {
 
 
-	CardDetector::CardDetector(const cv::Mat& input_frame) : cards_{}
+	CardDetector::CardDetector() : cards_{}, card_buffers_{}
 	{
-		this->live_frame_ = input_frame;
-
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks_new\\*.jpg", this->train_ranks_);
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits_new\\*.jpg", this->train_suits_);
 	}
 
-
 	CardDetector::~CardDetector()
 	{
+	}
+
+	void CardDetector::updateFrame(const cv::Mat& input_frame)
+	{
+		this->live_frame_ = input_frame;
 	}
 	
 	//@brief: Detect Cards in live frame 
 	void CardDetector::detectCards()
 	{
+		this->cards_.clear();
 		// Step 1	: Find Contours of cards in frame
 		// Step	1.1 : Find Contours of interest in frame	
 		std::vector<std::vector<cv::Point> > card_contours;	
@@ -63,14 +66,22 @@ namespace detect
 			Card card_tmp;
 			card_tmp.contour = contour;
 			card_tmp.center_point = card_centers.at(count);
-			this->identifyCard(card_tmp, card_image);			
-			this->cards_.emplace_back(card_tmp);
+			this->identifyCard(card_tmp, card_image);
+			this->bufferCard(card_tmp);			
 
 			card_image.release();								// clear card_image
 			std::vector< cv::Point2f > ().swap(sorted_corners);	// clear and reallocate sorted_corners
 			++count;
 		}
 
+		for(auto& buffer: this->card_buffers_)
+		{
+			Card card_tmp;
+			if(buffer.getCard(card_tmp))
+			{
+				this->cards_.emplace_back(card_tmp);
+			}
+		}
 		
 	}
 
@@ -307,9 +318,6 @@ namespace detect
 				cv::resize(suit, suit, suit_binary.size(), 0, 0, cv::INTER_LINEAR); 			// resize to right size befor binarizing
 				this->binarizeImage(suit, suit_binary, this->binary_threshold_ + threshold, cv::THRESH_BINARY_INV);
 
-		/*		cv::imshow("suit", suit_binary);
-				cv::imshow("rank", rank_binary);
-				imwrite("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\new.jpg", rank_binary);*/
 				// Compare to train images
 				// This could potentially be parallelized 
 				int rank_count = 0;
@@ -393,4 +401,33 @@ namespace detect
 
 	}
 
+	void CardDetector::bufferCard(const Card& card)
+	{
+		if(this->card_buffers_.size() == 0)
+		{
+			this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card));
+		}
+		else
+		{
+			// calculate squared distances of card to known buffers
+			std::vector<double> squared_distances;
+			for(const auto& buffer: this->card_buffers_)
+			{
+				squared_distances.emplace_back(templates::squaredEuclideanDistance2D(buffer.getCenter(), card.center_point));
+			}
+
+			// find min distance and add card to that buffer, if the distance is small enough. Otherwise it is a new card and a new buffer is created
+			auto p = std::min_element(squared_distances.begin(), squared_distances.end());
+			auto pos = std::distance(squared_distances.begin(), p);
+
+			if( *p < globals::MAX_DISTANCE_TO_BUFFER*globals::MAX_DISTANCE_TO_BUFFER)
+			{
+				this->card_buffers_.at(pos).put(card);
+			}
+			else
+			{
+				this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card));
+			}			
+		}
+	}
 }// namespace detect
