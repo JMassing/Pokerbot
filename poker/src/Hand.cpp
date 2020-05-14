@@ -14,27 +14,23 @@ namespace poker
     //@brief: Checks if Hand contains rank 
     bool Hand::containsRank(const int& rank)
     {
-        for(const auto& hand_card : this->hand_)
-        {
-            if(hand_card.rank == rank)
-            {
-                return true;
-            }
-        }
-        return false;  
+         return templates::contains(this->hand_.begin(), this->hand_.end(), rank, 
+                    [](const auto& lhs, const auto& rhs)
+                    {
+                        return lhs.rank == rhs;
+                    }
+                );
     }
 
      //@brief: Checks if Hand contains suit 
     bool Hand::containsSuit(const int& suit)
     {
-        for(const auto& hand_card : this->hand_)
-        {
-            if(hand_card.suit == suit)
-            {
-                return true;
-            }
-        }
-        return false;  
+        return templates::contains(this->hand_.begin(), this->hand_.end(), suit, 
+                    [](const auto& lhs, const auto& rhs)
+                    {
+                        return lhs.suit == rhs;
+                    }
+                );
     }
 
     //@brief: Adds card to hand
