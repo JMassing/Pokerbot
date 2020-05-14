@@ -42,7 +42,7 @@ namespace UnitTest{
 
 	TEST(TestDetect,TestCardBuffer)
 	{
-			detect::CardBuffer<10> buffer;
+		detect::CardBuffer<10> buffer(0);
 
 		std::ifstream file;
 		// Read player hands from file
@@ -59,7 +59,7 @@ namespace UnitTest{
 				for(const auto& string_card: cards)
 				{
 					detect::Card card = convertToCard(string_card);
-					buffer.put(card);					
+					buffer.put(card, 0);					
 				}
 				buffer.getCard(detected_card);
 				EXPECT_EQ(result, detected_card);

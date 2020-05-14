@@ -32,6 +32,7 @@ namespace detect {
 		if (this->frame_.empty()) {
 			return false;
 		}
+
 		return true;
 	}
 	//@brief: Grab image from Video

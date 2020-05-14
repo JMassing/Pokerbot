@@ -7,7 +7,7 @@ namespace detect
 {
 
 
-	CardDetector::CardDetector() : cards_{}, card_buffers_{}
+	CardDetector::CardDetector() : cards_{}, card_buffers_{}, frame_nr_(0)
 	{
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks_new\\*.jpg", this->train_ranks_);
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits_new\\*.jpg", this->train_suits_);
@@ -20,6 +20,7 @@ namespace detect
 	void CardDetector::updateFrame(const cv::Mat& input_frame)
 	{
 		this->live_frame_ = input_frame;
+		++this->frame_nr_;
 	}
 	
 	//@brief: Detect Cards in live frame 
@@ -74,15 +75,26 @@ namespace detect
 			++count;
 		}
 
-		for(auto& buffer: this->card_buffers_)
+		for(auto p = this->card_buffers_.begin(); p != this->card_buffers_.end(); ++p)
 		{
 			Card card_tmp;
-			if(buffer.getCard(card_tmp))
-			{
+			// only use buffers that were updated in this frame
+			if((*p).getLastUpdate() == this->frame_nr_ && (*p).getCard(card_tmp))
+			{				
 				this->cards_.emplace_back(card_tmp);
+			}	
+			// remove unused buffers
+			else if((*p).getLastUpdate() != this->frame_nr_)
+			{				
+				// p mus be decremented after erase is called, as p is invalidated by erase
+				this->card_buffers_.erase(p--);
+			}			
+			else
+			{
+					//do nothing
 			}
-		}
-		
+		}	
+	
 	}
 
 	// @brief: load training images for comparison with detected images
@@ -405,7 +417,7 @@ namespace detect
 	{
 		if(this->card_buffers_.size() == 0)
 		{
-			this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card));
+			this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card, this->frame_nr_));
 		}
 		else
 		{
@@ -422,11 +434,11 @@ namespace detect
 
 			if( *p < globals::MAX_DISTANCE_TO_BUFFER*globals::MAX_DISTANCE_TO_BUFFER)
 			{
-				this->card_buffers_.at(pos).put(card);
+				this->card_buffers_.at(pos).put(card, this->frame_nr_);
 			}
 			else
 			{
-				this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card));
+				this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card, this->frame_nr_));
 			}			
 		}
 	}

@@ -25,13 +25,14 @@ namespace detect
 		cv::Point center_point_;
 		std::vector<cv::Point> contour_;
 		bool filled_once_;
+		int last_update_;
 
 	public:
 
 		bool getCard(Card& card_out);
 		
 		// Override put function for card buffer to also update center point and contour with the center point and contour of the latest card
-		void put(const Card& card_in);
+		void put(const Card& card_in, const int& frame_nr);
 		cv::Point getCenter() const
 		{
 			return this->center_point_;
@@ -41,10 +42,15 @@ namespace detect
 			return this->contour_;
 		}
 
-		CardBuffer() : RingBuffer(), center_point_(), filled_once_(false), contour_() {};
-		explicit CardBuffer(const Card& card) : RingBuffer(), filled_once_(false) 
+		int getLastUpdate() const
 		{
-			this->put(card);
+			return this->last_update_;
+		}
+
+		explicit CardBuffer(int frame_nr) : RingBuffer(), center_point_(), filled_once_(false), contour_(), last_update_(frame_nr) {};
+		CardBuffer(const Card& card, int frame_nr) : RingBuffer(), filled_once_(false) 
+		{
+			this->put(card, frame_nr);
 		};
 	
 
@@ -57,11 +63,12 @@ namespace detect
 	};
 
 	template<std::size_t N>
-	void CardBuffer<N>::put(const Card& card_in)
+	void CardBuffer<N>::put(const Card& card_in, const int& frame_nr)
 	{
 		RingBuffer::put(card_in);
-		this->center_point_=card_in.center_point;
-		this->contour_=card_in.contour;
+		this->center_point_ = card_in.center_point;
+		this->contour_ = card_in.contour;
+		this->last_update_ = frame_nr;
 	};
 	
 	template<std::size_t N>

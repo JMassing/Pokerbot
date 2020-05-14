@@ -29,6 +29,7 @@ namespace detect
 			cv::Mat live_frame_;
 			std::vector<Card> cards_;
 			std::vector<CardBuffer<globals::CARD_BUFFER_SIZE>> card_buffers_;
+			int frame_nr_;
 			
 			const double aspect_ratio_ = 1.4;									 // Aspect Ratio of playing cards
 			const int card_width_ = 301;										 // Nr. of cols in extracted card image
