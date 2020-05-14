@@ -4,11 +4,11 @@
 namespace templates{
 
     template<class it, class T>
-    bool contains(it first, it last, const T& input)
+    bool contains(it lhs_first, it lhs_last, const T& rhs)
     {
-        for(auto p = first; p != last; ++p)
+        for(auto p = lhs_first; p != lhs_last; ++p)
         {
-            if(*p == input)
+            if(*p == rhs)
             {
                 return true;
             }
@@ -18,11 +18,11 @@ namespace templates{
     }
 
     template<class it, class T, class Compare>
-    bool contains(it first, it last, const T& input, Compare& func)
+    bool contains(it lhs_first, it lhs_last, const T& rhs, Compare& func)
     {
-        for(auto p = first; p != last; ++p)
+        for(auto p = lhs_first; p != lhs_last; ++p)
         {
-            if(func(*p, input))
+            if(func(*p, rhs))
             {
                 return true;
             }
