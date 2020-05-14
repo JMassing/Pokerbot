@@ -26,7 +26,7 @@ namespace poker{
 
             void updateHands(const std::vector<detect::BaseCard>& public_cards, const std::array<detect::BaseCard,2>& robot_cards);
             void determineHandRankings();
-            int determineWinner();
+            int  determineWinner();
             void logRun(const int& winner);
 
         public:

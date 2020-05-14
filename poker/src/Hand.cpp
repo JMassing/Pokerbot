@@ -8,14 +8,7 @@ namespace poker
     //@brief: Checks if Hand already contains card
     bool Hand::containsCard(const detect::BaseCard& card)
     {
-        for(const auto& hand_card : this->hand_)
-        {
-            if(hand_card == card)
-            {
-                return true;
-            }
-        }
-        return false;  
+        return templates::contains(this->hand_.begin(), this->hand_.end(), card);
     }
 
     //@brief: Checks if Hand contains rank 
@@ -47,7 +40,7 @@ namespace poker
     //@brief: Adds card to hand
     void Hand::addToHand(const detect::BaseCard& card)
     {
-        if(!containsCard(card))
+        if(!this->containsCard(card))
         {
             for(int i=0; i<this->hand_.size(); i++)
             {

@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "BaseCard.h"
+#include "TemplateFunctions.h"
 #include "Mapping.h"
 
 namespace poker{

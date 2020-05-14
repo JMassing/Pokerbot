@@ -3,12 +3,12 @@
 
 namespace templates{
 
-    template<class T>
-    bool contains(const detect::Card& input_card, const T& cards)
+    template<class it, class T>
+    bool contains(it first, it last, const T& input)
     {
-        for(const auto& card: cards)
+        for(auto p = first; p != last; ++p)
         {
-            if(card.rank==input_card.rank && card.suit==input_card.suit)
+            if(*p == input)
             {
                 return true;
             }

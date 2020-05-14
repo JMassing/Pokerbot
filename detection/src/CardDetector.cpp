@@ -315,7 +315,7 @@ namespace detect
 			rank = card_zoom(bounding_box[1]).clone();
 			suit = card_zoom(bounding_box[0]).clone();
 
-			for (auto const & threshold : sliding_threshold_)
+			for (auto const& threshold : sliding_threshold_)
 			{
 				cv::Mat rank_binary, suit_binary;
 

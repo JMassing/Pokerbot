@@ -7,6 +7,7 @@
 #include "Hand.h"
 #include "BaseCard.h"
 #include "Mapping.h"
+#include "TemplateFunctions.h"
 
 namespace poker{
 

@@ -2,7 +2,6 @@
 
 #include "Mapping.h"
 
-
 namespace detect
 {
 	struct BaseCard
@@ -15,6 +14,7 @@ namespace detect
 			// if suit and rank are equal, the cards are the same cards, since there is only one copy of each card in the deck.
 			return (this->rank == other.rank && this->suit == other.suit);
 		};
+
 		bool operator!=(const BaseCard& other) const
 		{
 			// if suit or rank are not equal, the cards are different cards, since there is only one copy of each card in the deck.

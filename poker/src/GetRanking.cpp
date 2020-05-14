@@ -5,31 +5,13 @@
 namespace poker {
 
     namespace{
-        // local function to check if this->high_cards_ already contains a card
-        bool contains(std::array<int,5> high_cards, detect::BaseCard card)
-        {
-            for(const auto& rank: high_cards)
-            {
-                if(rank==card.rank)
-                {
-                   return true;
-                }        
-                else
-                {
-                    //do nothing
-                }
-            }
-
-            return false;
-        }
-
         // local function to add cards to high_cards_
         void addCards(std::array<int,5>& high_cards, Hand& hand, int i)
         {
             // add remaining high cards to high_cards_
             for(const auto& card: hand.hand_)
             {
-                if(!contains(high_cards,card))
+                if(!templates::contains(high_cards.begin(), high_cards.end(), card.rank))
                 {
                     high_cards.at(i)=card.rank;
                     ++i;                                  
@@ -62,7 +44,7 @@ namespace poker {
 
         // For each card in the hand, check how many of the following cards are the same. It is a sorted hand, so if the next card is not the same 
         // there are no more occurences of this card in the deck. Also we can skip cards with ranks we already have.       
-        for(auto p1=hand.hand_.begin(); p1 != hand.hand_.end()-1; ++p1)
+        for(auto p1 = hand.hand_.begin(); p1 != hand.hand_.end()-1; ++p1)
         {
             // Make sure we havent already checked this rank and that it is not unknown
             if((*p1).rank != tmp_rank && (*p1).rank != detect::UNKNOWN)
@@ -219,7 +201,7 @@ namespace poker {
                             // Fill the 5th high card, in case we have the same two pairs
                             for(const auto& card: hand.hand_)
                             {
-                              if(!contains(this-> high_cards_,card))
+                              if(!templates::contains(this-> high_cards_.begin(), this->high_cards_.end(), card.rank))
                               {
                                   this-> high_cards_.at(4)=card.rank;
                                   // we have the 5 high cards
@@ -333,7 +315,7 @@ namespace poker {
                             // add the 5th high card in case we have two same pairs
                             for(const auto& card: hand.hand_)
                             {
-                              if(!contains(this-> high_cards_, card))
+                              if(!templates::contains(this->high_cards_.begin(), this->high_cards_.end(), card.rank))
                               {
                                   this-> high_cards_.at(4)=card.rank;
                                   // we have the 5 high cards

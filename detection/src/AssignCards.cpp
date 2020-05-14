@@ -9,17 +9,19 @@ namespace detect {
 		{	
 			for(auto& robot_card : this->robot_cards_)
 			{
-				if(card.rank != UNKNOWN && card.suit != UNKNOWN && robot_card.rank == UNKNOWN && isInArea(card, this->robot_area_corners_) && !templates::contains(card, this->robot_cards_))
+				if(card.rank != UNKNOWN && card.suit != UNKNOWN && robot_card.rank == UNKNOWN && isInArea(card, this->robot_area_corners_)
+					&& !templates::contains(this->robot_cards_.begin(), this->robot_cards_.end(), card))
 				{
 					robot_card=card;
 				}
-				else if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->public_area_corners_) && !templates::contains(card, this->public_cards_))
+				else if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->public_area_corners_) && !templates::contains(this->public_cards_.begin(), this->public_cards_.end(), card))
 				{
 					this->public_cards_.emplace_back(card);
 				}
 			}	
 		}		
 	}
+
 
 	bool AssignCards::isInArea(const Card& card, const templates::RectangleCorners<cv::Point>& area)
 	{
