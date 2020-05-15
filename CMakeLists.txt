@@ -9,7 +9,9 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/poker/include
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/classes
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/functions  
-    ${CMAKE_CURRENT_SOURCE_DIR}/globals/include)
+    ${CMAKE_CURRENT_SOURCE_DIR}/globals/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperClasses
+    ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
