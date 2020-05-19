@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 
 	array<BaseCard,2> robot_cards;
 
-	Simulation sim(5,10000);
+	Simulation sim(2,1000);
 	int nr_of_sim_runs=0;
 	CardDetector detect{};
 
@@ -91,13 +91,8 @@ int main(int argc, char* argv[])
 		// ************************************************ //
 		
 		View visualize;
-		if(detect.getCards().size() > 0)
-		{
-			visualize.drawCards(detect.getCards(), live.frame_, Scalar(0, 255, 0));
-			visualize.printProbability(live.frame_, prob);
-		}
-
-		imshow("live",live.frame_);
+		
+		visualize.show(live.frame_, detect.getCards(), prob);
 
 
 	if (waitKey(5) >= 0)

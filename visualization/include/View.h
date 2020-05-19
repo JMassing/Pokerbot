@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <map>
 #include <utility>
 
 #include <opencv2/core.hpp>
@@ -19,16 +18,19 @@ namespace detect {
 	{
 		private:
 
-			std::map<std::string, int> card_mappings_;
+			cv::Scalar color_;
 
 			void showImages(std::vector<cv::Mat> Images);
 			void drawContours(const std::vector<std::vector<cv::Point> >& contours, const cv::Mat& dst,const cv::Scalar& color);
 			//void drawPoints(const cv::Mat& src, const cv::Scalar& color);
 			void writeCard(const cv::Mat& src, const std::vector<Card>& cards);
+			void drawCards(const std::vector<Card> cards, cv::Mat& dst);
+			void printProbability(const cv::Mat& src, const std::pair<double,double>& probability);
+
 		public:
 			
-			void drawCards(const std::vector<Card> cards, cv::Mat& dst, const cv::Scalar& color);
-			void printProbability(const cv::Mat& src, const std::pair<double,double>& probability);
+			void show(cv::Mat& frame, const std::vector<Card> cards, const std::pair<double,double>& probability);
+			
 
 			View();
 			~View();

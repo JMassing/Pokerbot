@@ -4,7 +4,7 @@
 #include <string>
 
 namespace detect {
-	View::View()
+	View::View(): color_(0, 255, 0)
 	{
 	}
 
@@ -14,7 +14,7 @@ namespace detect {
 	}
 
 	//@brief: visualize cards in grabbed image. Draws contours and card names
-	void View::drawCards(const std::vector<Card> cards, cv::Mat& dst, const cv::Scalar& color)
+	void View::drawCards(const std::vector<Card> cards, cv::Mat& dst)
 	{
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), CV_8UC3);
 		std::vector<std::vector<cv::Point> > contours;
@@ -25,7 +25,7 @@ namespace detect {
 
 		for (int i = 0; i < cards.size(); ++i)
 		{
-			cv::drawContours(drawing, contours, i, color, 1, 8, cv::noArray(), 0, cv::Point());
+			cv::drawContours(drawing, contours, i, this->color_, 1, 8, cv::noArray(), 0, cv::Point());
 		}
 		drawing.copyTo(dst, drawing);
 		this->writeCard(dst, cards);
@@ -89,4 +89,20 @@ namespace detect {
 		cv::putText(src, tie_probability, cv::Point(30,70), cv::FONT_HERSHEY_PLAIN, 1.25, cv::Scalar(255, 0, 0), 2);
 
 	}
+
+	void View::show(cv::Mat& frame, const std::vector<Card> cards, const std::pair<double,double>& probability )
+	{
+		if(cards.size() > 0)
+		{
+			this->drawCards(cards, frame);
+			this->printProbability(frame, probability);
+		}
+
+		cv::Mat live_img;
+		live_img.create(cv::Size(1024, 600), frame.type());
+		cv::resize(frame, live_img, live_img.size(), 0, 0, cv::INTER_LINEAR); 
+
+		imshow("live", live_img);
+	}
+
 }
