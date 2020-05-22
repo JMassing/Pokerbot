@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-namespace detect {
+namespace visualization {
 	View::View(): color_(0, 255, 0)
 	{
 	}
@@ -14,7 +14,7 @@ namespace detect {
 	}
 
 	//@brief: visualize cards in grabbed image. Draws contours and card names
-	void View::drawCards(const std::vector<Card> cards, cv::Mat& dst)
+	void View::drawCards(const std::vector<detect::Card>& cards, cv::Mat& dst)
 	{
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), CV_8UC3);
 		std::vector<std::vector<cv::Point> > contours;
@@ -53,17 +53,17 @@ namespace detect {
 	}
 
 	//@brief: Writes card type into image. Writes approx. into middle of card
-	void View::writeCard(const cv::Mat& src, const std::vector<Card>& cards)
+	void View::writeCard(const cv::Mat& src, const std::vector<detect::Card>& cards)
 	{
 		
 		std::string rank;
 		std::string suit;
 		std::string text;
-		Mapping mapping;
+		detect::Mapping mapping;
 
 		for (int i = 0; i < cards.size(); ++i)
 		{	
-			if (cards[i].suit == UNKNOWN || cards[i].rank == UNKNOWN)
+			if (cards[i].suit == detect::UNKNOWN || cards[i].rank == detect::UNKNOWN)
 			{
 				text = "Unknown";
 			}
@@ -90,7 +90,7 @@ namespace detect {
 
 	}
 
-	void View::show(cv::Mat& frame, const std::vector<Card> cards, const std::pair<double,double>& probability )
+	void View::show(cv::Mat& frame, const std::vector<detect::Card> cards, const std::pair<double,double>& probability )
 	{
 		if(cards.size() > 0)
 		{
@@ -98,11 +98,16 @@ namespace detect {
 			this->printProbability(frame, probability);
 		}
 
-		cv::Mat live_img;
-		live_img.create(cv::Size(1024, 600), frame.type());
-		cv::resize(frame, live_img, live_img.size(), 0, 0, cv::INTER_LINEAR); 
-
+		cv::Mat live_img = this->resize(frame, 1024, 600);
 		imshow("live", live_img);
+	}
+
+	cv::Mat View::resize(const cv::Mat& frame, const int& width, const int& height)
+	{
+		cv::Mat live_img;
+		live_img.create(cv::Size(width, height), frame.type());
+		cv::resize(frame, live_img, live_img.size(), 0, 0, cv::INTER_LINEAR); 
+		return live_img;
 	}
 
 }

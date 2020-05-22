@@ -12,25 +12,25 @@
 #include "Card.h"
 #include "Mapping.h"
 
-namespace detect {
+namespace visualization {
 
 	class View
 	{
-		private:
+		protected:
 
 			cv::Scalar color_;
 
 			void showImages(std::vector<cv::Mat> Images);
 			void drawContours(const std::vector<std::vector<cv::Point> >& contours, const cv::Mat& dst,const cv::Scalar& color);
 			//void drawPoints(const cv::Mat& src, const cv::Scalar& color);
-			void writeCard(const cv::Mat& src, const std::vector<Card>& cards);
-			void drawCards(const std::vector<Card> cards, cv::Mat& dst);
+			void writeCard(const cv::Mat& src, const std::vector<detect::Card>& cards);
 			void printProbability(const cv::Mat& src, const std::pair<double,double>& probability);
 
 		public:
 			
-			void show(cv::Mat& frame, const std::vector<Card> cards, const std::pair<double,double>& probability);
-			
+			void show(cv::Mat& frame, const std::vector<detect::Card> cards, const std::pair<double,double>& probability);
+			cv::Mat resize(const cv::Mat& frame, const int& width, const int& height);
+			void drawCards(const std::vector<detect::Card>& cards, cv::Mat& dst);
 
 			View();
 			~View();
@@ -42,5 +42,5 @@ namespace detect {
 			View& operator=(View&& other) noexcept = default;
 	};
 
-} // namespace visualize
+} // namespace visualization
 

@@ -1,6 +1,5 @@
 from conans import ConanFile, CMake, tools
 
-
 class PokerbotConan(ConanFile):
     name = "Pokerbot"
     version = "0.1.0"
@@ -8,7 +7,11 @@ class PokerbotConan(ConanFile):
     author = "Julian Massing julimassing@gmail.com"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    requires = [("opencv/4.1.1@conan/stable"), ("boost/1.72.0"), ("gtest/1.8.0@bincrafters/stable")]
+    requires = [
+    ("opencv/4.1.1@conan/stable"), 
+    ("boost/1.72.0"), 
+    ("gtest/1.8.0@bincrafters/stable"), 
+    ]
     default_options = {"opencv:shared": False, "boost:shared": False, "gtest:shared": False}
     exports_sources = "*"
 
