@@ -94,12 +94,8 @@ int main(int argc, char* argv[])
 			//					Draw GUI						//
 			// ************************************************ //
 			
-			gui.setEventHandler();
-			gui.drawGuiFrame();
-			gui.drawImage(live.frame_, detect.getCards());
-			gui.showProbability(prob);
-			gui.render();
-			gui.monitorWindowCloseCondition();
+
+			gui.drawGui(live.frame_, detect.getCards(), prob);
 
 			if (gui.shouldClose())
 			{
