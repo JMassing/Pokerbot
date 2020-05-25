@@ -11,10 +11,14 @@ namespace detect
 	
 		cv::Point center_point;
 		std::vector<cv::Point> contour;
+		cv::Mat card_image;
+		cv::Mat rank_image;
+		cv::Mat suit_image;
 
 		Card() : BaseCard(), center_point(-1, -1), contour{} { };
 		Card(const int& rank, const int& suit) : BaseCard(rank, suit), center_point(-1, -1), contour{} { };
-		Card(const int& rank, const int& suit, const cv::Point& center, const std::vector<cv::Point>& contour) : BaseCard(rank,suit), center_point(center), contour{contour} { };
+		Card(const int& rank, const int& suit, const cv::Point& center, const std::vector<cv::Point>& contour) : BaseCard(rank,suit), 
+			center_point(center), contour{contour} { };
 		~Card() {};
 
 		// Use Default copy and move constructors

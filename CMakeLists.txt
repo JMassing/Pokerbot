@@ -33,7 +33,7 @@ find_package(GTest REQUIRED)
 find_package( OpenGL REQUIRED )
 
 ## tests
-add_subdirectory(unit_tests)
+#add_subdirectory(unit_tests)
 
 ## add imgui
 

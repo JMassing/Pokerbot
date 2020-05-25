@@ -39,8 +39,7 @@ int main(int argc, char* argv[])
 	}*/
 	//	
 
-	array<BaseCard,2> robot_cards;
-	Simulation sim(2,10000);
+	Simulation sim(2,1000);
 	int nr_of_sim_runs=0;
 	CardDetector detect{};
 	GUI gui;
@@ -65,7 +64,8 @@ int main(int argc, char* argv[])
 			detect.detectCards();
 
 			vector<Card> known_cards=detect.getCards();
-			vector<BaseCard> public_cards;
+			vector<Card> public_cards;
+			array<Card,2> robot_cards;
 			RectangleCorners<cv::Point> robot_area;
 			robot_area.upper_left= cv::Point{0,3600};
 			robot_area.upper_right= cv::Point{1500,3600};
@@ -78,16 +78,29 @@ int main(int argc, char* argv[])
 			public_area.lower_left= cv::Point{0,0};
 
 			AssignCards assign_cards(robot_area, public_area);
-			
+			 
 			assign_cards.assign(known_cards);
-			robot_cards=assign_cards.getRobotCards();
-			public_cards=assign_cards.getPublicCards();		
+			robot_cards = assign_cards.getRobotCards();
+			public_cards = assign_cards.getPublicCards();		
 
 			// ************************************************ //
-			//				Simulation						//
+			//					Simulation						//
 			// ************************************************ //
-					
-			pair<double,double> prob = sim.run(public_cards, robot_cards);
+			
+			// Convert Cards to BaseCard Object via object slicing for simulation methods 
+			vector<BaseCard> public_base_cards;
+			for(auto card: public_cards)
+			{
+				public_base_cards.emplace_back(card);
+			}
+			array<BaseCard,2> robot_base_cards;
+			for(int i = 0; i < robot_cards.size(); ++i)
+			{
+				robot_base_cards[i] = robot_cards[i];
+			}	
+
+			// rund simulation
+			pair<double,double> prob = sim.run(public_base_cards, robot_base_cards);
 			++nr_of_sim_runs;
 					
 			// ************************************************ //
@@ -95,7 +108,7 @@ int main(int argc, char* argv[])
 			// ************************************************ //
 			
 
-			gui.drawGui(live.frame_, detect.getCards(), prob);
+			gui.drawGui(live.frame_, robot_cards, public_cards, prob);
 
 			if (gui.shouldClose())
 			{

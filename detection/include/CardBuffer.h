@@ -24,6 +24,10 @@ namespace detect
 
 		cv::Point center_point_;
 		std::vector<cv::Point> contour_;
+		cv::Mat card_image_;
+		cv::Mat rank_image_;
+		cv::Mat suit_image_;
+
 		bool filled_once_;
 		int last_update_;
 
@@ -47,7 +51,8 @@ namespace detect
 			return this->last_update_;
 		}
 
-		explicit CardBuffer(int frame_nr) : RingBuffer(), center_point_(), filled_once_(false), contour_(), last_update_(frame_nr) {};
+		explicit CardBuffer(int frame_nr) : RingBuffer(), center_point_(), filled_once_(false), contour_(), last_update_(frame_nr),
+											card_image_(), rank_image_(), suit_image_() {};
 		CardBuffer(const Card& card, int frame_nr) : RingBuffer(), filled_once_(false) 
 		{
 			this->put(card, frame_nr);
@@ -69,6 +74,9 @@ namespace detect
 		this->center_point_ = card_in.center_point;
 		this->contour_ = card_in.contour;
 		this->last_update_ = frame_nr;
+		this->card_image_ = card_in.card_image;
+		this->rank_image_ = card_in.rank_image;
+		this->suit_image_ = card_in.suit_image;
 	};
 	
 	template<std::size_t N>
@@ -123,8 +131,11 @@ namespace detect
        		);
 			card_out.rank = card_counter.at(0).first.rank;
 			card_out.suit = card_counter.at(0).first.suit;
-			card_out.center_point=this->center_point_;
-			card_out.contour=this->contour_;
+			card_out.center_point = this->center_point_;
+			card_out.contour = this->contour_;
+			card_out.card_image = this->card_image_;
+			card_out.suit_image = this->suit_image_;
+			card_out.rank_image = this->rank_image_;
 			return true;
 		}
 		else

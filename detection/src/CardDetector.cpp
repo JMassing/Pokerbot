@@ -7,7 +7,7 @@ namespace detect
 {
 
 
-	CardDetector::CardDetector() : cards_{}, card_buffers_{}, frame_nr_(0)
+	CardDetector::CardDetector() : cards_{}, card_buffers_{}, frame_nr_(0), live_frame_{}
 	{
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks_new\\*.jpg", this->train_ranks_);
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits_new\\*.jpg", this->train_suits_);
@@ -19,7 +19,7 @@ namespace detect
 
 	void CardDetector::updateFrame(const cv::Mat& input_frame)
 	{
-		this->live_frame_ = input_frame;
+		this->live_frame_ = input_frame.clone();
 		++this->frame_nr_;
 	}
 	
@@ -62,11 +62,13 @@ namespace detect
 				card_image.release();
 				sorted_corners.clear();
 				break;
-			}
+			}			
 			
 			Card card_tmp;
 			card_tmp.contour = contour;
 			card_tmp.center_point = card_centers.at(count);
+			card_tmp.card_image=card_image;
+
 			this->identifyCard(card_tmp, card_image);
 			this->bufferCard(card_tmp);			
 
@@ -314,7 +316,7 @@ namespace detect
 			cv::Mat rank, suit;
 			rank = card_zoom(bounding_box[1]).clone();
 			suit = card_zoom(bounding_box[0]).clone();
-
+		
 			for (auto const& threshold : sliding_threshold_)
 			{
 				cv::Mat rank_binary, suit_binary;
@@ -329,7 +331,9 @@ namespace detect
 				
 				cv::resize(suit, suit, suit_binary.size(), 0, 0, cv::INTER_LINEAR); 			// resize to right size befor binarizing
 				this->binarizeImage(suit, suit_binary, this->binary_threshold_ + threshold, cv::THRESH_BINARY_INV);
-
+				card.rank_image = rank_binary;
+				card.suit_image = suit_binary;
+ 
 				// Compare to train images
 				// This could potentially be parallelized 
 				int rank_count = 0;
