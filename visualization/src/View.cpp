@@ -47,7 +47,7 @@ namespace visualization {
 	}
 
 	//@brief: Draw given contour into given image 
-	void View::drawContours(const std::vector<std::vector<cv::Point> >& contours, const cv::Mat& dst, const cv::Scalar& color)
+	void View::drawContours(const std::vector<std::vector<cv::Point> >& contours, cv::Mat& dst, const cv::Scalar& color)
 	{
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), CV_8UC3);
 		for (int i = 0; i < contours.size(); ++i) 
@@ -59,7 +59,7 @@ namespace visualization {
 	}
 
 	//@brief: Writes card type into image. Writes approx. into middle of card
-	void View::writeCard(const cv::Mat& src, const std::vector<detect::Card>& cards)
+	void View::writeCard(cv::Mat& src, const std::vector<detect::Card>& cards)
 	{
 		
 		std::string rank;
@@ -79,11 +79,15 @@ namespace visualization {
 				suit = mapping.image_mappings.right.at(cards[i].suit);
 				text = rank + " of " + suit;
 			}
-			cv::putText(src, text, cards[i].center_point-cv::Point(85,0), cv::FONT_HERSHEY_PLAIN, 1.25, cv::Scalar(0, 0, 255), 2);
+			this->printText(src, text, cards[i].center_point-cv::Point(85,0));
 		}
 
 	}
 
+	void View::printText(cv::Mat& dst, std::string& text, cv::Point& pos)
+	{
+		cv::putText(dst, text, pos, cv::FONT_HERSHEY_PLAIN, 1.25, cv::Scalar(0, 0, 255), 2);
+	}
 	void View::printProbability(const cv::Mat& src, const std::pair<double,double>& probability)
 	{
 		std::string winning_probability;
@@ -115,5 +119,12 @@ namespace visualization {
 		cv::resize(frame, live_img, live_img.size(), 0, 0, cv::INTER_LINEAR); 
 		return live_img;
 	}
+
+	void View::drawRectangle(cv::Mat& frame, const cv::Point& pt, const int& width, const int& height)
+	{
+		cv::Rect rect(pt.x, pt.y, width, height);	
+		cv::rectangle(frame, rect, cv::Scalar{255, 0, 0}, 3);
+	}
+
 
 }

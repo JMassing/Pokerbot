@@ -20,13 +20,13 @@ namespace detect
 		templates::RectangleCorners<cv::Point> robot_area_corners_;		// corner points of the area int the image where robot cards should be placed
 		templates::RectangleCorners<cv::Point> public_area_corners_;	// corner points of the area in the image where public cards should be placed
 		std::vector<Card> public_cards_;
-		std::array<Card,2> robot_cards_;
+		std::vector<Card> robot_cards_;
 
 		bool isInArea(const Card& card, const templates::RectangleCorners<cv::Point>& area);
 				
     public:
 		
-		std::array<Card,2> getRobotCards() {return this->robot_cards_;};
+		std::vector<Card> getRobotCards() {return this->robot_cards_;};
 		std::vector<Card> getPublicCards() {return this->public_cards_;};
 		void assign(std::vector<Card>& detected_cards);
 

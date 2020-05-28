@@ -64,10 +64,11 @@ namespace detect
 			boost::bimaps::bimap<std::string, int> text_mappings;
 
 
-			Mapping() {
+			Mapping() 
+			{
 				this->loadImageMapping(); 
 				this->loadTextMapping();
-				}
+			}
 			~Mapping() {};
 
 			// Using default copy and move constructors. 

@@ -16,6 +16,11 @@ namespace visualization {
                 shown_image = this->visualize_.resize(shown_image, image_width, image_height);
             }
 
+            if(this->capture_train_img_.capture_)
+            {
+                this->visualize_.drawRectangle(shown_image, cv::Point(150,100), this->live_image_width_-300, this->live_image_height_-200);
+                capture_train_img_.printInstructions(shown_image);
+            }
 
             cv::cvtColor( shown_image, shown_image, cv::COLOR_BGR2RGBA );
             GLuint texture;
@@ -37,7 +42,7 @@ namespace visualization {
     {
         for(const auto& card: cards)
         {
-            this->drawImage(card.card_image, card.card_image.cols/3, card.card_image.rows/3);
+            this->drawImage(card.card_image, card.card_image.cols/3, card.card_image.rows/3); 
             ImGui::SameLine();
         }
     }
@@ -72,27 +77,46 @@ namespace visualization {
 
     }
 
-    void GUI::drawMainWindow(const std::pair<double,double>& probability)
+    void GUI::drawMainWindow(const std::pair<double,double>& probability, const std::vector<detect::Card>& robot_cards, const std::vector<detect::Card>& public_cards)
     {
-            ImGui::Text("Probability of winning = %.2f", static_cast<float>(probability.first));
-            ImGui::Text("Probability of winning tie = %.2f", static_cast<float>(probability.second));
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::Text("");
-            ImGui::Checkbox("Show Cards", &this->show_cards_);
-            ImGui::Checkbox("Show Developer View", &this->show_developer_window_);  
-            this->addButton("Quit", [this](){this->closeWindow();});
+        ImGui::Text("Probability of winning = %.2f", static_cast<float>(probability.first));
+        ImGui::Text("Probability of winning tie = %.2f", static_cast<float>(probability.second));
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::Text("Robot Cards:");
+        ImGui::SameLine();
+        for(const auto& card: robot_cards)
+        {   
+            std::string text = this->mapping_.text_mappings.right.at(card.rank) + this->mapping_.text_mappings.right.at(card.suit) + " ";
+            ImGui::Text(text.c_str());
+            ImGui::SameLine();
+        }
+        ImGui::NewLine();
+        ImGui::Text("Public Cards:");
+        ImGui::SameLine();
+        for(const auto& card: public_cards)
+        {   
+            std::string text = this->mapping_.text_mappings.right.at(card.rank) + this->mapping_.text_mappings.right.at(card.suit) + " ";
+            ImGui::Text(text.c_str());
+            ImGui::SameLine();
+        }
+        ImGui::NewLine();
+        ImGui::NewLine();
+        ImGui::Checkbox("Show Cards", &this->show_cards_);
+        ImGui::Checkbox("Show Developer View", &this->show_developer_window_);  
+        this->addButton("Quit", [this](){this->closeWindow();});
     }
 
-    void GUI::drawDeveloperWindow()
+    void GUI::drawDeveloperWindow(int& live_threshold)
     {
-        ImGui::SliderFloat("threshold", &threshold, 0.0f, 1.0f);  
+        ImGui::SliderInt("threshold", &live_threshold, 0, 200);  
         ImGui::Checkbox("Show Card Images", &this->show_card_images_);
         ImGui::Checkbox("Show Rank Images", &this->show_rank_images_);
         ImGui::Checkbox("Show Suit Images", &this->show_suit_images_);
+        this->addButton("Capture Training Images", [this](){this->capture_train_img_.captureRequested();});
     }
 
-
-    void GUI::drawGui(const cv::Mat& frame, const std::array<detect::Card,2>& robot_cards, const std::vector<detect::Card>& public_cards, const std::pair<double,double>& probability)
+    
+    void GUI::drawGui(const cv::Mat& frame, const std::vector<detect::Card>& robot_cards, const std::vector<detect::Card>& public_cards, const std::pair<double,double>& probability, int& live_threshold)
     {   
         
         // set up GUI
@@ -103,23 +127,46 @@ namespace visualization {
         cards.insert(cards.end(), robot_cards.begin(), robot_cards.end());
 
         // Add Elements to GUI
-        this->addWindow("Live Image", this->show_frame_, [this, frame, cards](){this->drawLiveView(frame,cards);});
-        this->addWindow("Main Window", this->show_main_window_, [this, probability](){this->drawMainWindow(probability);});
-        this->addWindow("Developer Mode", this->show_developer_window_, [this](){this->drawDeveloperWindow();});
+        this->addWindow("Live Image", this->show_frame_, [this, &frame, &cards](){this->drawLiveView(frame, cards);});
+        this->addWindow("Main Window", this->show_main_window_, [this, &probability, &robot_cards, &public_cards](){this->drawMainWindow(probability, robot_cards, public_cards);});
+        this->addWindow("Developer Mode", this->show_developer_window_, [this, &live_threshold](){this->drawDeveloperWindow(live_threshold);});
 
         if(this->show_card_images_)
         {
-            this->addWindow("Detected Cards", this->show_card_images_, [this, cards](){this->drawCardImages(cards);});
+            this->addWindow("Detected Cards", this->show_card_images_, [this, &cards](){this->drawCardImages(cards);});
         }
 
         if(this->show_rank_images_)
         {
-            this->addWindow("Binarized Ranks", this->show_rank_images_, [this, cards](){this->drawRankImages(cards);});
+            this->addWindow("Binarized Ranks", this->show_rank_images_, [this, &cards](){this->drawRankImages(cards);});
         }
 
         if(this->show_suit_images_)
         {
-            this->addWindow("Binarized Suits", this->show_suit_images_, [this, cards](){this->drawSuitImages(cards);});
+            this->addWindow("Binarized Suits", this->show_suit_images_, [this, &cards](){this->drawSuitImages(cards);});
+        }
+        
+        if(capture_train_img_.capture_button_pressed_ || capture_train_img_.capture_)
+        {
+            capture_train_img_.drawTrainImagesGuiWindow();
+            if(capture_train_img_.capture_)
+            {
+                this->show_card_images_ = true;
+                this->show_rank_images_ = true;
+                this->show_suit_images_ = true;
+                this->capture_train_img_.nr_of_cards_ = cards.size();
+                if(cards.size() > 0)
+                {
+                    if(this->capture_train_img_.type_ == "rank")
+                    {
+                        this->capture_train_img_.setTrainImage(cards[0].rank_image);
+                    }
+                    else
+                    {
+                        this->capture_train_img_.setTrainImage(cards[0].suit_image);
+                    }
+                } 
+            }
         }
 
         //Render and Check if Close is called on GUI

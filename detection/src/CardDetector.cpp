@@ -9,8 +9,8 @@ namespace detect
 
 	CardDetector::CardDetector() : cards_{}, card_buffers_{}, frame_nr_(0), live_frame_{}
 	{
-		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks_new\\*.jpg", this->train_ranks_);
-		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits_new\\*.jpg", this->train_suits_);
+		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks\\*.jpg", this->train_ranks_);
+		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits\\*.jpg", this->train_suits_);
 	}
 
 	CardDetector::~CardDetector()
@@ -287,8 +287,8 @@ namespace detect
 	void CardDetector::identifyCard(Card& card, const cv::Mat& card_image) 
 	{
 		// Zoom into the upper left corner
-		int zoom_width = this->card_width_ / 6;
-		int zoom_height = static_cast<int>(static_cast<double>(this->card_width_)*this->aspect_ratio_ / 2.5);
+		int zoom_width = this->card_width_ / 5;
+		int zoom_height = static_cast<int>(static_cast<double>(this->card_width_)*this->aspect_ratio_ / 2);
 		cv::Rect zoom(0, 0, zoom_width, zoom_height);
 		cv::Mat card_zoom = card_image(zoom).clone();
 		// find contours in the zoomed in image giving rank and suit contours

@@ -33,7 +33,6 @@ namespace detect
 			
 			const double aspect_ratio_ = 1.4;									 // Aspect Ratio of playing cards
 			const int card_width_ = 301;										 // Nr. of cols in extracted card image
-			const int live_threshold_ = 40;										 // threshold added to mean image intensity for finding cards in live image (cards are brighter than background, so +)
 			const int card_threshold_ = -10;									 // threshold added to mean image intensity for finding the rank and suit in the card image (rank and suit are darker than card image, so -)
 			const int binary_threshold_ = 0;									 // threshold added to mean image intensity for binaryzing suit and rank image (rank and suit edges are close to mean image intensity, so 0);
 			const std::array<int, 15> sliding_threshold_
@@ -58,6 +57,7 @@ namespace detect
 
 		public:
 
+			int live_threshold_ = 40;										 // threshold added to mean image intensity for finding cards in live image (cards are brighter than background, so +)
 			void detectCards();
 			const std::vector<Card> getCards() { return this->cards_; }
 			void updateFrame(const cv::Mat& input_frame);

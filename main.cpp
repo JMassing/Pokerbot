@@ -33,10 +33,11 @@ int main(int argc, char* argv[])
 	//// Initialize variables for live capture and image processing
 	Capture live("C:\\Users\\julim\\Desktop\\Projects\\DealingCards.mp4");
 	//
-	/*if (!live.init()) {
+	if (!live.init()) {
 		cerr << "ERROR! Unable to open camera\n";
 		return -2;
-	}*/
+	}
+	
 	//	
 
 	Simulation sim(2,1000);
@@ -55,7 +56,8 @@ int main(int argc, char* argv[])
 				// set gui state to should_close_ = true and exit for loop
 				gui.closeWindow();
 				break;
-			}		
+			}
+					
 			
 			// ************************************************ //
 			//		Process live Image to extract cards			//
@@ -63,9 +65,9 @@ int main(int argc, char* argv[])
 			detect.updateFrame(live.frame_);
 			detect.detectCards();
 
-			vector<Card> known_cards=detect.getCards();
+			vector<Card> known_cards = detect.getCards();
 			vector<Card> public_cards;
-			array<Card,2> robot_cards;
+			vector<Card> robot_cards;
 			RectangleCorners<cv::Point> robot_area;
 			robot_area.upper_left= cv::Point{0,3600};
 			robot_area.upper_right= cv::Point{1500,3600};
@@ -93,10 +95,10 @@ int main(int argc, char* argv[])
 			{
 				public_base_cards.emplace_back(card);
 			}
-			array<BaseCard,2> robot_base_cards;
-			for(int i = 0; i < robot_cards.size(); ++i)
+			vector<BaseCard> robot_base_cards;
+			for(auto card: robot_cards)
 			{
-				robot_base_cards[i] = robot_cards[i];
+				robot_base_cards.emplace_back(card);
 			}	
 
 			// rund simulation
@@ -108,7 +110,7 @@ int main(int argc, char* argv[])
 			// ************************************************ //
 			
 
-			gui.drawGui(live.frame_, robot_cards, public_cards, prob);
+			gui.drawGui(live.frame_, robot_cards, public_cards, prob, detect.live_threshold_);
 
 			if (gui.shouldClose())
 			{
