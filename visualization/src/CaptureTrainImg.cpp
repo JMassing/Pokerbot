@@ -55,7 +55,7 @@ namespace visualization
         }
     }
 
-    void CaptureTrainImg::printInstructions(cv::Mat& dst)
+    void CaptureTrainImg::printInstructions(cv::Mat& dst, const cv::Scalar& color)
     {
         this->card_ = this->card_mapping_.image_mappings.right.at(this->card_value_);
         this->type_ = "";
@@ -72,12 +72,12 @@ namespace visualization
         std::string text_type = "Saving " + this->type_ + " train images.";
         std::string text_card = "Please place a " + this->card_ + " into the rectangle and hit save button when ready";
         
-        this->visualize_.printText(dst, text_type, cv::Point(230,60));
-        this->visualize_.printText(dst, text_card, cv::Point(230,80));
+        this->visualize_.printText(dst, text_type, cv::Point(230,60), color);
+        this->visualize_.printText(dst, text_card, cv::Point(230,80), color);
         if(this->nr_of_cards_ > 1)
         {
             std::string warning = "Please only place one card within the camera view";
-            this->visualize_.printText(dst, warning, cv::Point(330,400));
+            this->visualize_.printText(dst, warning, cv::Point(330,400), cv::Scalar{0,0,255});
         }
     }
 }//end namespace detect

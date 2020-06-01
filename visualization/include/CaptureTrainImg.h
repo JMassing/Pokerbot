@@ -39,7 +39,7 @@ namespace visualization
             };
             void drawTrainImagesCaptureWindow();
             void drawTrainImagesGuiWindow();
-            void printInstructions(cv::Mat& dst);
+            void printInstructions(cv::Mat& dst, const cv::Scalar& color);
             void setTrainImage(cv::Mat train_image){this->train_image_ = train_image;};
 
             CaptureTrainImg(): gui_(), train_images_folder_(), card_mapping_(), visualize_(), capture_button_pressed_(false),

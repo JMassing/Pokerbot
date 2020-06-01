@@ -4,17 +4,9 @@
 #include <string>
 
 namespace visualization {
-	View::View(): color_(0, 255, 0)
-	{
-	}
-
-
-	View::~View()
-	{
-	}
 
 	//@brief: visualize cards in grabbed image. Draws contours and card names
-	void View::drawCards(const std::vector<detect::Card>& cards, cv::Mat& dst)
+	void View::drawCards(const std::vector<detect::Card>& cards, cv::Mat& dst, const cv::Scalar& color)
 	{
 		std::vector<std::vector<cv::Point> > contours;
 		for (const auto& card : cards)
@@ -29,8 +21,8 @@ namespace visualization {
 		//
 		if(contours.size() > 0)
 		{
-			this->drawContours(contours, dst, this->color_);
-			this->writeCard(dst, cards);
+			this->drawContours(contours, dst, color);
+			this->writeCard(dst, cards, color);
 		}
 		
 	}
@@ -52,14 +44,14 @@ namespace visualization {
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), CV_8UC3);
 		for (int i = 0; i < contours.size(); ++i) 
 		{
-			cv::drawContours(drawing, contours, i, color, 1, 8, cv::noArray(), 0, cv::Point());
+			cv::drawContours(drawing, contours, i, color, 3, 8, cv::noArray(), 0, cv::Point());
 		}
 		drawing.copyTo(dst, drawing);
 	
 	}
 
 	//@brief: Writes card type into image. Writes approx. into middle of card
-	void View::writeCard(cv::Mat& src, const std::vector<detect::Card>& cards)
+	void View::writeCard(cv::Mat& src, const std::vector<detect::Card>& cards, const cv::Scalar& color)
 	{
 		
 		std::string rank;
@@ -79,14 +71,14 @@ namespace visualization {
 				suit = mapping.image_mappings.right.at(cards[i].suit);
 				text = rank + " of " + suit;
 			}
-			this->printText(src, text, cards[i].center_point-cv::Point(85,0));
+			this->printText(src, text, cards[i].center_point-cv::Point(85,0), color);
 		}
 
 	}
 
-	void View::printText(cv::Mat& dst, std::string& text, cv::Point& pos)
+	void View::printText(cv::Mat& dst, std::string& text, cv::Point& pos, const cv::Scalar& color)
 	{
-		cv::putText(dst, text, pos, cv::FONT_HERSHEY_PLAIN, 1.25, cv::Scalar(0, 0, 255), 2);
+		cv::putText(dst, text, pos, cv::FONT_HERSHEY_PLAIN, 1.25, color, 2);
 	}
 	void View::printProbability(const cv::Mat& src, const std::pair<double,double>& probability)
 	{
@@ -100,11 +92,11 @@ namespace visualization {
 
 	}
 
-	void View::show(cv::Mat& frame, const std::vector<detect::Card> cards, const std::pair<double,double>& probability )
+	void View::show(cv::Mat& frame, const std::vector<detect::Card> cards, const std::pair<double,double>& probability, const cv::Scalar& color )
 	{
 		if(cards.size() > 0)
 		{
-			this->drawCards(cards, frame);
+			this->drawCards(cards, frame, color);
 			this->printProbability(frame, probability);
 		}
 
@@ -120,10 +112,9 @@ namespace visualization {
 		return live_img;
 	}
 
-	void View::drawRectangle(cv::Mat& frame, const cv::Point& pt, const int& width, const int& height)
+	void View::drawRectangle(cv::Mat& frame, const cv::Rect& rect, const cv::Scalar& color)
 	{
-		cv::Rect rect(pt.x, pt.y, width, height);	
-		cv::rectangle(frame, rect, cv::Scalar{255, 0, 0}, 3);
+		cv::rectangle(frame, rect, color, 3);
 	}
 
 

@@ -16,6 +16,9 @@
 #include "CardBuffer.h"
 #include "CompiletimeConstants.h"
 #include "TemplateFunctions.h"
+#include "DataDetectGui.h"
+#include "DataPokerDetect.h"
+
 
 namespace detect 
 {
@@ -29,14 +32,15 @@ namespace detect
 			cv::Mat live_frame_;
 			std::vector<Card> cards_;
 			std::vector<CardBuffer<globals::CARD_BUFFER_SIZE>> card_buffers_;
+			std::shared_ptr<data::DataDetectGui> data_gui_;
+			std::shared_ptr<data::DataPokerDetect> data_poker_;
+
 			int frame_nr_;
 			
 			const double aspect_ratio_ = 1.4;									 // Aspect Ratio of playing cards
-			const int card_width_ = 301;										 // Nr. of cols in extracted card image
-			const int card_threshold_ = -10;									 // threshold added to mean image intensity for finding the rank and suit in the card image (rank and suit are darker than card image, so -)
-			const int binary_threshold_ = 0;									 // threshold added to mean image intensity for binaryzing suit and rank image (rank and suit edges are close to mean image intensity, so 0);
-			const std::array<int, 15> sliding_threshold_
-				{-17, -15, -12 , -10, -7, -5, -2, 0, 2, 5, 7, 10, 12, 15, 17 };	 // arrays of values for sliding threshold for binaryzing image
+			const int card_width_ = 301;										 // Nr. of cols in extracted card image							 
+			const std::array<int, 11> sliding_threshold_
+				{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };						 // arrays of values for sliding threshold for binaryzing image
 			const int min_card_size_ = 10000;									 // Min size card image in pixel²
 			const int max_card_size_ = 200000;									 // Max size card image in pixel²
 			const double min_comparison_confidence_ = 5;						 // Maximum l2 error allowed for compareImages. If error is higher, card is marked as unknown
@@ -54,14 +58,15 @@ namespace detect
 			double compareImages(const cv::Mat &src, const cv::Mat &dst);
 			void findContours(const cv::Mat& src, std::vector<std::vector<cv::Point> >& contours, const int& threshold, const int& thresh_method = cv::THRESH_BINARY);
 			void bufferCard(const Card& card);
+			bool isInArea(const Card& card, const cv::Rect& area);
+			void assignCards();
 
 		public:
 
-			int live_threshold_ = 40;										 // threshold added to mean image intensity for finding cards in live image (cards are brighter than background, so +)
 			void detectCards();
 			const std::vector<Card> getCards() { return this->cards_; }
 			void updateFrame(const cv::Mat& input_frame);
-			CardDetector();
+			CardDetector(std::shared_ptr<data::DataDetectGui>& data_gui, std::shared_ptr<data::DataPokerDetect>& data_poker);
 			~CardDetector();
 
 			// Using default copy and move constructors. 

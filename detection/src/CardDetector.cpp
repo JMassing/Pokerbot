@@ -7,7 +7,8 @@ namespace detect
 {
 
 
-	CardDetector::CardDetector() : cards_{}, card_buffers_{}, frame_nr_(0), live_frame_{}
+	CardDetector::CardDetector(std::shared_ptr<data::DataDetectGui>& data_gui, std::shared_ptr<data::DataPokerDetect>& data_poker) :
+		cards_{}, card_buffers_{}, frame_nr_(0), live_frame_{}, data_gui_(data_gui), data_poker_(data_poker)
 	{
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks\\*.jpg", this->train_ranks_);
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits\\*.jpg", this->train_suits_);
@@ -19,6 +20,7 @@ namespace detect
 
 	void CardDetector::updateFrame(const cv::Mat& input_frame)
 	{
+		// Clone (deep copy) live frame from camera view. We are changing the data of this cv::Mat in the Processing steps and do not want to change the original frame
 		this->live_frame_ = input_frame.clone();
 		++this->frame_nr_;
 	}
@@ -31,7 +33,7 @@ namespace detect
 		// Step	1.1 : Find Contours of interest in frame	
 		std::vector<std::vector<cv::Point> > card_contours;	
 			
-		this->findContours(this->live_frame_, card_contours, this->live_threshold_);
+		this->findContours(this->live_frame_, card_contours, this->data_gui_->live_threshold);
 
 		// Step 1.2 : Filter Contours by area to get rid of contours that are too small or large to be a card, 
 		// -> min_ and max_card size were determined empirically, and depend on camera positioning
@@ -96,7 +98,9 @@ namespace detect
 					//do nothing
 			}
 		}	
-	
+
+		// assign cards to robot or public cards
+		this->assignCards();	
 	}
 
 	// @brief: load training images for comparison with detected images
@@ -213,7 +217,8 @@ namespace detect
 	bool CardDetector::perspectiveTransformation(const cv::Mat src, cv::Mat& dst, const std::vector< cv::Point2f >& points)
 	{
 		int offset = 5;
-		std::vector<cv::Point2f> ImageCorners = { cv::Point2f(dst.size().width - offset, +offset),cv::Point2f(+offset , +offset),							// Points to transform to, corners of cards.image
+		// Points to transform to corners of cards.image
+		std::vector<cv::Point2f> ImageCorners = { cv::Point2f(dst.size().width - offset, +offset),cv::Point2f(+offset , +offset),							
 			cv::Point2f(+offset , dst.size().height - offset), cv::Point2f(dst.size().width - offset, dst.size().height - offset) };
 
 		if (ImageCorners.size() == points.size())
@@ -293,7 +298,7 @@ namespace detect
 		cv::Mat card_zoom = card_image(zoom).clone();
 		// find contours in the zoomed in image giving rank and suit contours
 		std::vector<std::vector<cv::Point> > contours;
-		this->findContours(card_zoom, contours, this->card_threshold_, cv::THRESH_BINARY);
+		this->findContours(card_zoom, contours, this->data_gui_->identification_threshold, cv::THRESH_BINARY);
 		// filter suit and rank image contours by area. Sizes were found empirically
 		double max_size = zoom_width * zoom_height * 0.8;
 		double min_size = zoom_width;
@@ -327,10 +332,10 @@ namespace detect
 				suit_binary.create(this->train_suits_[0].getImage().size(), this->train_suits_[0].getImage().type());
 
 				cv::resize(rank, rank, rank_binary.size(), 0, 0, cv::INTER_LINEAR);				// resize to right size befor binarizing
-				this->binarizeImage(rank, rank_binary, this->binary_threshold_ + threshold, cv::THRESH_BINARY_INV);
+				this->binarizeImage(rank, rank_binary, this->data_gui_->binary_threshold + threshold, cv::THRESH_BINARY_INV);
 				
 				cv::resize(suit, suit, suit_binary.size(), 0, 0, cv::INTER_LINEAR); 			// resize to right size befor binarizing
-				this->binarizeImage(suit, suit_binary, this->binary_threshold_ + threshold, cv::THRESH_BINARY_INV);
+				this->binarizeImage(suit, suit_binary, this->data_gui_->binary_threshold + threshold, cv::THRESH_BINARY_INV);
 				card.rank_image = rank_binary;
 				card.suit_image = suit_binary;
  
@@ -445,5 +450,57 @@ namespace detect
 				this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card, this->frame_nr_));
 			}			
 		}
+	}
+
+	// @brief: assigns detected cards to robot cards and public cards
+	void CardDetector::assignCards()
+	{
+		this->data_gui_->public_cards.clear();
+		this->data_gui_->robot_cards.clear();
+
+		this->data_poker_->public_cards.clear();
+		this->data_poker_->robot_cards.clear();
+
+		for(const auto& card: this->cards_)
+		{	
+				if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->data_gui_->robot_area)
+					&& !templates::contains(this->data_gui_->robot_cards.begin(), this->data_gui_->robot_cards.end(), card))
+				{
+					if(this->data_gui_->robot_cards.size()<2)
+					{
+						// assign cards to shared data with gui (plotting only) and simulation
+						this->data_gui_->robot_cards.emplace_back(card);
+						//the card object is slized here to BaseCard, which is sufficient in poker simulation. 
+						this->data_poker_->robot_cards.emplace_back(card);
+					}
+				}
+				else if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->data_gui_->public_area) &&
+						!templates::contains(this->data_gui_->public_cards.begin(), this->data_gui_->public_cards.end(), card))
+				{
+					if(this->data_gui_->public_cards.size() < 5)
+					{
+						// assign cards to shared data with gui (plotting only) and simulation
+						this->data_gui_->public_cards.emplace_back(card);
+						//the card object is slized here to BaseCard, which is sufficient in poker simulation. 
+						this->data_poker_->public_cards.emplace_back(card);
+					}
+				}
+				else
+				{
+					//do nothing
+				}	
+		}		
+	}
+
+
+	bool CardDetector::isInArea(const Card& card, const cv::Rect& area)
+	{
+
+		if(card.center_point.x > area.x && card.center_point.x < area.x + area.width 
+			&& card.center_point.y > area.y && card.center_point.y < area.y + area.height)
+		{
+			return true;
+		}
+		return false;
 	}
 }// namespace detect

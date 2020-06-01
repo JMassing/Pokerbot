@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <memory>
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -11,12 +12,10 @@
 #include "Capture.h"
 #include "CardDetector.h"
 #include "GUI.h"
-#include "Hand.h"
-#include "Card.h"
 #include "Simulation.h"
-#include "CardBuffer.h"
-#include "AssignCards.h"
-#include "RectangleCorners.h"
+#include "DataDetectGui.h"
+#include "DataPokerGui.h"
+#include "DataPokerDetect.h"
 
 
 using namespace cv;
@@ -25,6 +24,7 @@ using namespace detect;
 using namespace poker;
 using namespace templates;
 using namespace visualization;
+using namespace data;
 
 
 int main(int argc, char* argv[])
@@ -33,18 +33,23 @@ int main(int argc, char* argv[])
 	//// Initialize variables for live capture and image processing
 	Capture live("C:\\Users\\julim\\Desktop\\Projects\\DealingCards.mp4");
 	//
-	if (!live.init()) {
+	/*/if (!live.init()) {
 		cerr << "ERROR! Unable to open camera\n";
 		return -2;
-	}
+	}*/
 	
-	//	
+	//	Setup shared data structs
+	shared_ptr<DataDetectGui> shared_data_detect_gui = std::make_shared<DataDetectGui>();
+	shared_ptr<DataPokerGui> shared_data_poker_gui = std::make_shared<DataPokerGui>();
+	shared_ptr<DataPokerDetect> shared_data_poker_detect = std::make_shared<DataPokerDetect>();
 
-	Simulation sim(2,1000);
-	int nr_of_sim_runs=0;
-	CardDetector detect{};
-	GUI gui;
+
+	// initialize Simulation, CardDetector and Gui classes
+	Simulation sim(shared_data_poker_gui, shared_data_poker_detect);
+	CardDetector detect{shared_data_detect_gui, shared_data_poker_detect};
+	GUI gui{shared_data_detect_gui, shared_data_poker_gui};
 	gui.init();
+	
 	
 	while( !gui.shouldClose() )
 	{
@@ -58,60 +63,28 @@ int main(int argc, char* argv[])
 				break;
 			}
 					
-			
 			// ************************************************ //
 			//		Process live Image to extract cards			//
 			// ************************************************ //
+
 			detect.updateFrame(live.frame_);
 			detect.detectCards();
-
-			vector<Card> known_cards = detect.getCards();
-			vector<Card> public_cards;
-			vector<Card> robot_cards;
-			RectangleCorners<cv::Point> robot_area;
-			robot_area.upper_left= cv::Point{0,3600};
-			robot_area.upper_right= cv::Point{1500,3600};
-			robot_area.lower_right= cv::Point{1500,800};
-			robot_area.lower_left= cv::Point{0,800};
-			RectangleCorners<cv::Point> public_area;
-			public_area.upper_left= cv::Point{0,800};
-			public_area.upper_right= cv::Point{1500,800};
-			public_area.lower_right= cv::Point{1500,0};
-			public_area.lower_left= cv::Point{0,0};
-
-			AssignCards assign_cards(robot_area, public_area);
 			 
-			assign_cards.assign(known_cards);
-			robot_cards = assign_cards.getRobotCards();
-			public_cards = assign_cards.getPublicCards();		
 
 			// ************************************************ //
 			//					Simulation						//
 			// ************************************************ //
 			
-			// Convert Cards to BaseCard Object via object slicing for simulation methods 
-			vector<BaseCard> public_base_cards;
-			for(auto card: public_cards)
-			{
-				public_base_cards.emplace_back(card);
-			}
-			vector<BaseCard> robot_base_cards;
-			for(auto card: robot_cards)
-			{
-				robot_base_cards.emplace_back(card);
-			}	
-
-			// rund simulation
-			pair<double,double> prob = sim.run(public_base_cards, robot_base_cards);
-			++nr_of_sim_runs;
+			sim.run();
 					
 			// ************************************************ //
 			//					Draw GUI						//
 			// ************************************************ //
 			
 
-			gui.drawGui(live.frame_, robot_cards, public_cards, prob, detect.live_threshold_);
-
+			// draw Gui
+			gui.drawGui(live.frame_);
+			
 			if (gui.shouldClose())
 			{
 					break;

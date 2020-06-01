@@ -8,18 +8,12 @@ namespace visualization {
     {
         if(!frame.empty())
         {
-            //clone original frame, as we do not want to change it
+            //clone original frame, as we do not want to change the underlying data as a side effect.
             cv::Mat shown_image = frame.clone();
 
             if(image_width != shown_image.cols || image_height != shown_image.rows )
             {
                 shown_image = this->visualize_.resize(shown_image, image_width, image_height);
-            }
-
-            if(this->capture_train_img_.capture_)
-            {
-                this->visualize_.drawRectangle(shown_image, cv::Point(150,100), this->live_image_width_-300, this->live_image_height_-200);
-                capture_train_img_.printInstructions(shown_image);
             }
 
             cv::cvtColor( shown_image, shown_image, cv::COLOR_BGR2RGBA );
@@ -42,7 +36,7 @@ namespace visualization {
     {
         for(const auto& card: cards)
         {
-            this->drawImage(card.card_image, card.card_image.cols/3, card.card_image.rows/3); 
+            this->drawImage(card.card_image, card.card_image.cols/4, card.card_image.rows/4); 
             ImGui::SameLine();
         }
     }
@@ -51,7 +45,7 @@ namespace visualization {
     {
         for(const auto& card: cards)
         {
-            this->drawImage(card.rank_image, card.rank_image.cols/2, card.rank_image.rows/2);
+            this->drawImage(card.rank_image, card.rank_image.cols/3, card.rank_image.rows/3);
             ImGui::SameLine();
         }
     }
@@ -60,42 +54,56 @@ namespace visualization {
     {
         for(const auto& card: cards)
         {
-            this->drawImage(card.suit_image, card.suit_image.cols/2, card.suit_image.rows/2);
+            this->drawImage(card.suit_image, card.suit_image.cols/3, card.suit_image.rows/3);
             ImGui::SameLine();
         }
     }
 
     void GUI::drawLiveView(const cv::Mat& frame, const std::vector<detect::Card>& cards)
     {		       
-        cv::Mat image = frame.clone();
+        
+        //clone original frame, as we do not want to change the underlying data as a side effect.
+        cv::Mat shown_image = frame.clone();
+
         if(show_cards_ && cards.size() > 0)
         {
-            this->visualize_.drawCards(cards, image);
+            this->visualize_.drawCards(cards, shown_image, cv::Scalar {0, 255, 0});
         }
 
-        this->drawImage(image, this->live_image_width_, this->live_image_height_);
-
+        if(this->capture_train_img_.capture_)
+        {
+            cv::Rect capture_train_img_area(150, 100, shown_image.cols-300, shown_image.rows-200);	
+            this->visualize_.drawRectangle(shown_image, capture_train_img_area, cv::Scalar{255, 0, 0});
+            capture_train_img_.printInstructions(shown_image, cv::Scalar{255, 0, 0});
+        }
+        if(!this->capture_train_img_.capture_)
+        {
+            this->visualize_.drawRectangle(shown_image, this->data_detect_->robot_area, cv::Scalar{255, 125, 0});
+            this->visualize_.drawRectangle(shown_image, this->data_detect_->public_area, cv::Scalar{0, 255, 255});
+        }
+        this->drawImage(shown_image, this->live_image_width_, this->live_image_height_);
     }
 
-    void GUI::drawMainWindow(const std::pair<double,double>& probability, const std::vector<detect::Card>& robot_cards, const std::vector<detect::Card>& public_cards)
+    void GUI::drawMainWindow()
     {
-        ImGui::Text("Probability of winning = %.2f", static_cast<float>(probability.first));
-        ImGui::Text("Probability of winning tie = %.2f", static_cast<float>(probability.second));
+        ImGui::SliderInt("Nr. of human players", &this->data_poker_->nr_of_human_players, 1, 9);    
+        ImGui::Text("Probability of winning = %.2f", static_cast<float>(this->data_poker_->probability.first));
+        ImGui::Text("Probability of winning tie = %.2f", static_cast<float>(this->data_poker_->probability.second));
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::Text("Robot Cards:");
         ImGui::SameLine();
-        for(const auto& card: robot_cards)
+        for(const auto& card: this->data_detect_->robot_cards)
         {   
-            std::string text = this->mapping_.text_mappings.right.at(card.rank) + this->mapping_.text_mappings.right.at(card.suit) + " ";
+            std::string text = this->mapping_.text_mappings.right.at(card.rank) + this->mapping_.text_mappings.right.at(card.suit);
             ImGui::Text(text.c_str());
             ImGui::SameLine();
         }
         ImGui::NewLine();
         ImGui::Text("Public Cards:");
         ImGui::SameLine();
-        for(const auto& card: public_cards)
+        for(const auto& card: this->data_detect_->public_cards)
         {   
-            std::string text = this->mapping_.text_mappings.right.at(card.rank) + this->mapping_.text_mappings.right.at(card.suit) + " ";
+            std::string text = this->mapping_.text_mappings.right.at(card.rank) + this->mapping_.text_mappings.right.at(card.suit);
             ImGui::Text(text.c_str());
             ImGui::SameLine();
         }
@@ -106,9 +114,12 @@ namespace visualization {
         this->addButton("Quit", [this](){this->closeWindow();});
     }
 
-    void GUI::drawDeveloperWindow(int& live_threshold)
+    void GUI::drawDeveloperWindow()
     {
-        ImGui::SliderInt("threshold", &live_threshold, 0, 200);  
+        ImGui::SliderInt("Card Threshold", &this->data_detect_->live_threshold, -100, 100);
+        ImGui::SliderInt("Binarization Threshold", &this->data_detect_->binary_threshold, -100, 100);
+        ImGui::SliderInt("Rank/Suit Threshold", &this->data_detect_->identification_threshold, -100, 100);  
+        ImGui::SliderInt("Nr. of simulation runs", &this->data_poker_->nr_of_simulation_runs, 0, 100000); 
         ImGui::Checkbox("Show Card Images", &this->show_card_images_);
         ImGui::Checkbox("Show Rank Images", &this->show_rank_images_);
         ImGui::Checkbox("Show Suit Images", &this->show_suit_images_);
@@ -116,20 +127,20 @@ namespace visualization {
     }
 
     
-    void GUI::drawGui(const cv::Mat& frame, const std::vector<detect::Card>& robot_cards, const std::vector<detect::Card>& public_cards, const std::pair<double,double>& probability, int& live_threshold)
+    void GUI::drawGui(const cv::Mat& frame)
     {   
         
         // set up GUI
         this->setEventHandler();
 	    this->drawGuiFrame();
 
-        std::vector<detect::Card> cards = public_cards;
-        cards.insert(cards.end(), robot_cards.begin(), robot_cards.end());
+        std::vector<detect::Card> cards = this->data_detect_->public_cards;
+        cards.insert(cards.end(), this->data_detect_->robot_cards.begin(), this->data_detect_->robot_cards.end());
 
         // Add Elements to GUI
         this->addWindow("Live Image", this->show_frame_, [this, &frame, &cards](){this->drawLiveView(frame, cards);});
-        this->addWindow("Main Window", this->show_main_window_, [this, &probability, &robot_cards, &public_cards](){this->drawMainWindow(probability, robot_cards, public_cards);});
-        this->addWindow("Developer Mode", this->show_developer_window_, [this, &live_threshold](){this->drawDeveloperWindow(live_threshold);});
+        this->addWindow("Main Window", this->show_main_window_, [this](){this->drawMainWindow();});
+        this->addWindow("Developer Mode", this->show_developer_window_, [this](){this->drawDeveloperWindow();});
 
         if(this->show_card_images_)
         {

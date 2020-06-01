@@ -120,26 +120,30 @@ namespace poker{
     
     // Runs the simulation. Return value is a pair of probabilities. pair.first gives the probability to outright win with the robot hand. 
     // pair.second gives the probability for the robot to have the highest ranking hand but tie with another player 
-    std::pair<double,double> Simulation::run(const std::vector<detect::BaseCard>& public_cards, const std::vector<detect::BaseCard>& robot_cards)
+    void Simulation::run()
     {
        
         int nr_of_wins{0};
         int nr_of_ties_with_highest_hand{0};
+
+        // update player hands size according to nr. of human players received from gui
+        this->player_hands_.resize(this->data_gui_->nr_of_human_players, Hand());
+        
         // Run Monte Carlo Simulation for nr_of_iterations_ iterations.
-        this->updateHands(public_cards, robot_cards);
+        this->updateHands(this->data_detect_->public_cards, this->data_detect_->robot_cards);
         
         // set up logging of % of hands dealt in simulation
         std::array<int,9> hand_count{0};
         
-         // Make the deck, without the robot cards
+        // Make the deck, without the robot cards
         Deck deck(this->robot_hand_);
 
-        for(int i=0; i<this->nr_of_iterations_; ++i)
+        for(int i=0; i<this->data_gui_->nr_of_simulation_runs; ++i)
         {
             std::vector<detect::BaseCard> public_cards_tmp{};
-            public_cards_tmp=public_cards;
+            public_cards_tmp=this->data_detect_->public_cards;
             // update hands with known cards
-            this->updateHands(public_cards_tmp, robot_cards);         
+            this->updateHands(public_cards_tmp, this->data_detect_->robot_cards);         
             
             // Step 1 reset position in deck and shuffle deck;
             deck.resetPosition();
@@ -193,7 +197,7 @@ namespace poker{
                     break;
             }
             // update hands with drawn public cards
-            this->updateHands(public_cards_tmp, robot_cards);
+            this->updateHands(public_cards_tmp, this->data_detect_->robot_cards);
            
             // determine winner from hands
             int winner=this->determineWinner();
@@ -236,7 +240,7 @@ namespace poker{
             {
                 for(int i=0; i<hand_count.size(); ++i)
                 {
-                    logfile << static_cast<double>(i) << ": " << static_cast<double>(hand_count.at(i))/static_cast<double>(this->nr_of_iterations_)*100.0 << "%" << std::endl;
+                    logfile << static_cast<double>(i) << ": " << static_cast<double>(hand_count.at(i))/static_cast<double>(this->data_gui_->nr_of_simulation_runs)*100.0 << "%" << std::endl;
                 }
                 logfile.close();
             }
@@ -246,11 +250,9 @@ namespace poker{
             }  
         }
 
-        std::pair<double,double> probabilities = 
-            std::make_pair(static_cast<double>(nr_of_wins)/static_cast<double>(this->nr_of_iterations_)*100.0, 
-                static_cast<double>(nr_of_ties_with_highest_hand)/static_cast<double>(this->nr_of_iterations_)*100.0);
-
-        return probabilities;
+        this->data_gui_->probability = 
+            std::make_pair(static_cast<double>(nr_of_wins)/static_cast<double>(this->data_gui_->nr_of_simulation_runs)*100.0, 
+                static_cast<double>(nr_of_ties_with_highest_hand)/static_cast<double>(this->data_gui_->nr_of_simulation_runs)*100.0);
         
     }
 
