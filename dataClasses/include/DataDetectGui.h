@@ -22,15 +22,15 @@ namespace data
         DataDetectGui(): live_threshold(40), binary_threshold(0), identification_threshold(-10),
             robot_cards(), public_cards() 
             {
-                robot_area.x = 350;
-                robot_area.y = 620;
-                robot_area.width = 1150;
-                robot_area.height = 2800;
+                robot_area.x = 160;
+                robot_area.y = 260;
+                robot_area.width = 320;
+                robot_area.height = 200;
 
-                public_area.x = 50;
-                public_area.y = 300;
-                public_area.width = 1450;
-                public_area.height = 310;
+                public_area.x = 10;
+                public_area.y = 100;
+                public_area.width = 620;
+                public_area.height = 150;
             };
 		~DataDetectGui(){};
 

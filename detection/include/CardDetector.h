@@ -40,8 +40,8 @@ namespace detect
 			const std::array<int, 11> sliding_threshold_
 				{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };						 // arrays of values for sliding threshold for binaryzing image
 			const double aspect_ratio_ = 1.4;									 // Aspect Ratio of playing cards
-			const int min_card_size_ = 10000;									 // Min size card image in pixel²
-			const int max_card_size_ = 200000;									 // Max size card image in pixel²
+			const int min_card_size_ = 8000;									 // Min size card image in pixel²
+			const int max_card_size_ = 500000;									 // Max size card image in pixel²
 			const double min_comparison_confidence_ = 5;						 // Maximum l2 error allowed for compareImages. If error is higher, card is marked as unknown					 
 
 			void loadTrainImages(const std::string &path, std::vector<TrainImage>& train_images);			

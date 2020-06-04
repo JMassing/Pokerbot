@@ -8,7 +8,7 @@ namespace detect { namespace ImProc	{
 		cv::Mat edges;
 		std::vector<cv::Vec4i> hierarchy;
 		binarizeImage(src, edges, threshold, thresh_method);
-		cv::findContours(edges, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_NONE, cv::Point(0, 0));
+		cv::findContours(edges, contours, hierarchy, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE, cv::Point(0, 0));
 	}
 
 	// @brief: filters contours after given method. Value ist given according to method

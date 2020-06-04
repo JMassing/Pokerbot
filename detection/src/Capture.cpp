@@ -18,6 +18,10 @@ namespace detect {
 	bool Capture::init()
 	{
 		this->cap_.open(this->device_ID_ + this->api_ID_);
+		/*this->cap_.set(cv::CAP_PROP_AUTOFOCUS, true);
+		this->cap_.set(cv::CAP_PROP_AUTO_WB, true);
+		this->cap_.set(cv::CAP_PROP_AUTO_EXPOSURE, 1);*/
+
 		// check if we succeeded
 		if (!this->cap_.isOpened()) {
 			return false;

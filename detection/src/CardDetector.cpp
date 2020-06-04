@@ -151,8 +151,11 @@ namespace detect
 			double score_rank{ 1000.0 };
 			Mapping mapping;
 			cv::Mat rank, suit;
-			rank = card_zoom(bounding_box[1]).clone();
-			suit = card_zoom(bounding_box[0]).clone();
+			
+			// sort contours for size. Rank should have the largest bounding box, whereas suit should have the second largest
+			std::sort(bounding_box.begin(), bounding_box.end(), [](const cv::Rect& lhs, const cv::Rect& rhs){return lhs.area() > rhs.area();});
+			rank = card_zoom(bounding_box.at(0)).clone();
+			suit = card_zoom(bounding_box.at(1)).clone();
 		
 			for (auto const& threshold : sliding_threshold_)
 			{

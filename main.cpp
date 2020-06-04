@@ -1,13 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <array>
 #include <memory>
-
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/videoio.hpp>
 
 #include "Capture.h"
 #include "CardDetector.h"
@@ -32,11 +24,11 @@ int main(int argc, char* argv[])
 	
 	//// Initialize variables for live capture and image processing
 	Capture live("C:\\Users\\julim\\Desktop\\Projects\\DealingCards.mp4");
-	//
-	/*/if (!live.init()) {
+	
+	if (!live.init()) {
 		cerr << "ERROR! Unable to open camera\n";
 		return -2;
-	}*/
+	}
 	
 	//	Setup shared data structs
 	shared_ptr<DataDetectGui> shared_data_detect_gui = std::make_shared<DataDetectGui>();
