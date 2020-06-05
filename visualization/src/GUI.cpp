@@ -86,7 +86,8 @@ namespace visualization {
 
     void GUI::drawMainWindow()
     {
-        ImGui::SliderInt("Nr. of human players", &this->data_poker_->nr_of_human_players, 1, 9);    
+        
+        ImGui::SliderInt("# of Opponents", &this->data_poker_->nr_of_human_players, 1, 9);  ImGui::SameLine(); this->helpMarker("Nr of opponents playing against the bot. CTRL+click to input value.");  
         ImGui::Text("Probability of winning = %.2f", static_cast<float>(this->data_poker_->probability.first));
         ImGui::Text("Probability of winning tie = %.2f", static_cast<float>(this->data_poker_->probability.second));
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -110,23 +111,32 @@ namespace visualization {
         ImGui::NewLine();
         ImGui::NewLine();
         ImGui::Checkbox("Show Cards", &this->show_cards_);
+        ImGui::Checkbox("Show Camera Controls", &this->show_camera_control_);
         ImGui::Checkbox("Show Developer View", &this->show_developer_window_);  
-        this->addButton("Quit", [this](){this->closeWindow();});
+        this->addButton("Quit Program", [this](){this->closeWindow();});
     }
 
     void GUI::drawDeveloperWindow()
     {
-        ImGui::SliderInt("Card Threshold", &this->data_detect_->live_threshold, -100, 100);
-        ImGui::SliderInt("Binarization Threshold", &this->data_detect_->binary_threshold, -100, 100);
-        ImGui::SliderInt("Rank/Suit Threshold", &this->data_detect_->identification_threshold, -100, 100);  
-        ImGui::SliderInt("Nr. of simulation runs", &this->data_poker_->nr_of_simulation_runs, 0, 100000); 
+        ImGui::SliderInt("Card Threshold", &this->data_detect_->live_threshold, -100, 100); ImGui::SameLine(); this->helpMarker("Threshold for detecting cards in live image. CTRL+click to input value.");  
+        ImGui::SliderInt("Rank/Suit Threshold", &this->data_detect_->identification_threshold, -100, 100); ImGui::SameLine(); this->helpMarker("Threshold for detecting rank and suit image in upper left corner of card. CTRL+click to input value.");  
+        ImGui::SliderInt("Binarization Threshold", &this->data_detect_->binary_threshold, -100, 100); ImGui::SameLine(); this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  
+        ImGui::SliderInt("# of simulation runs", &this->data_poker_->nr_of_simulation_runs, 0, 100000); ImGui::SameLine(); this->helpMarker("Nr of times the simulation is run. CTRL+click to input value.");  
         ImGui::Checkbox("Show Card Images", &this->show_card_images_);
         ImGui::Checkbox("Show Rank Images", &this->show_rank_images_);
         ImGui::Checkbox("Show Suit Images", &this->show_suit_images_);
         this->addButton("Capture Training Images", [this](){this->capture_train_img_.captureRequested();});
     }
 
-    
+    void GUI::drawCameraControl()
+    {
+        ImGui::Checkbox("Use Auto Focus", &this->camera_control_->auto_focus);
+        ImGui::Checkbox("Use Auto Exposure", &this->camera_control_->auto_exposure);
+        ImGui::SliderInt("Exposure", &this->camera_control_->exposure_time, -12, -1); ImGui::SameLine(); this->helpMarker("CTRL+click to input value. Value should be negative.");  
+        ImGui::SliderInt("Focus", &this->camera_control_->focus, 0, 250); ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");  
+        ImGui::SliderInt("Brightness", &this->camera_control_->brightness, 0, 255); ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");  
+    }
+
     void GUI::drawGui(const cv::Mat& frame)
     {   
         
@@ -141,6 +151,7 @@ namespace visualization {
         this->addWindow("Live Image", this->show_frame_, [this, &frame, &cards](){this->drawLiveView(frame, cards);});
         this->addWindow("Main Window", this->show_main_window_, [this](){this->drawMainWindow();});
         this->addWindow("Developer Mode", this->show_developer_window_, [this](){this->drawDeveloperWindow();});
+        this->addWindow("Camera Controls", this->show_camera_control_, [this](){this->drawCameraControl();});
 
         if(this->show_card_images_)
         {

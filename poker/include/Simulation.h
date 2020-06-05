@@ -4,6 +4,7 @@
 #include <array>
 #include <algorithm>
 #include <utility>
+#include <memory>
 
 #include "Hand.h"
 #include "Deck.h"

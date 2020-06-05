@@ -1,10 +1,13 @@
 #pragma once
 
 #include <string>
+#include <memory>
+#include <iostream>
 
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 
+#include "CameraControls.h"
 
 namespace detect {
 
@@ -14,6 +17,7 @@ namespace detect {
 			cv::VideoCapture cap_;
 			int device_ID_;
 			int api_ID_;
+			std::shared_ptr<CameraControls> camera_control_;
 
 		public:
 			cv::Mat frame_;
@@ -21,9 +25,11 @@ namespace detect {
 			bool init();
 			bool grabLive();
 			bool grabVideo();
-	
-			Capture();
-			explicit Capture(const std::string& video);
+			void setCameraControls();
+			void printCameraState();
+			
+			explicit Capture(std::shared_ptr<CameraControls>& camera_control);
+			Capture(const std::string& video, std::shared_ptr<CameraControls>& camera_control);
 			~Capture();
 
 			// Using default copy and move constructors. 

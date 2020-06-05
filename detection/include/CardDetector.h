@@ -4,6 +4,7 @@
 #include <string>
 #include <array>
 #include <algorithm>
+#include <memory>
 
 #include <opencv2/core.hpp>
 

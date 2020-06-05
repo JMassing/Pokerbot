@@ -8,6 +8,7 @@
 #include "DataDetectGui.h"
 #include "DataPokerGui.h"
 #include "DataPokerDetect.h"
+#include "CameraControls.h"
 
 
 using namespace cv;
@@ -22,31 +23,41 @@ using namespace data;
 int main(int argc, char* argv[])
 {
 	
+	//	Setup shared data structs
+	shared_ptr<DataDetectGui> shared_data_detect_gui = std::make_shared<DataDetectGui>();
+	shared_ptr<DataPokerGui> shared_data_poker_gui = std::make_shared<DataPokerGui>();
+	shared_ptr<DataPokerDetect> shared_data_poker_detect = std::make_shared<DataPokerDetect>();
+	shared_ptr<CameraControls> camera_control = std::make_shared<CameraControls>();
+	CameraControls save_camera_state{}; 
 	//// Initialize variables for live capture and image processing
-	Capture live("C:\\Users\\julim\\Desktop\\Projects\\DealingCards.mp4");
+	Capture live("C:\\Users\\julim\\Desktop\\Projects\\DealingCards.mp4", camera_control);
+
 	
 	if (!live.init()) {
 		cerr << "ERROR! Unable to open camera\n";
 		return -2;
 	}
 	
-	//	Setup shared data structs
-	shared_ptr<DataDetectGui> shared_data_detect_gui = std::make_shared<DataDetectGui>();
-	shared_ptr<DataPokerGui> shared_data_poker_gui = std::make_shared<DataPokerGui>();
-	shared_ptr<DataPokerDetect> shared_data_poker_detect = std::make_shared<DataPokerDetect>();
-
 
 	// initialize Simulation, CardDetector and Gui classes
 	Simulation sim(shared_data_poker_gui, shared_data_poker_detect);
 	CardDetector detect{shared_data_detect_gui, shared_data_poker_detect};
-	GUI gui{shared_data_detect_gui, shared_data_poker_gui};
+	GUI gui{shared_data_detect_gui, shared_data_poker_gui, camera_control};
 	gui.init();
 	
-	
+	save_camera_state = *camera_control;
+
 	while( !gui.shouldClose() )
 	{
 		for (;;)
 		{
+			//set new control parameters for camera if they were changed by the user via gui
+			if(save_camera_state != *camera_control)
+			{
+				live.setCameraControls();
+				save_camera_state = *camera_control;
+			}
+
 			// Grab live frame and check if it worked
 			if (!live.grabLive())
 			{ 
@@ -54,7 +65,8 @@ int main(int argc, char* argv[])
 				gui.closeWindow();
 				break;
 			}
-					
+						
+
 			// ************************************************ //
 			//		Process live Image to extract cards			//
 			// ************************************************ //

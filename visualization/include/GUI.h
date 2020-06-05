@@ -12,6 +12,7 @@
 #include "Mapping.h"
 #include "DataDetectGui.h"
 #include "DataPokerGui.h"
+#include "CameraControls.h"
 
 #include "BaseGUI.h"
 
@@ -25,6 +26,8 @@ namespace visualization {
             detect::Mapping mapping_;
             std::shared_ptr<data::DataDetectGui> data_detect_;
             std::shared_ptr<data::DataPokerGui> data_poker_;
+       	std::shared_ptr<detect::CameraControls> camera_control_;
+
             CaptureTrainImg capture_train_img_;
             bool show_frame_;
             bool show_cards_;
@@ -33,7 +36,8 @@ namespace visualization {
             bool show_card_images_;
             bool show_rank_images_;
             bool show_suit_images_;
-            const int live_image_width_ = 1200;
+            bool show_camera_control_;
+            const int live_image_width_ = 1150;
             const int live_image_height_ = 800;   
 
             void drawLiveView(const cv::Mat& frame, const std::vector<detect::Card>& cards);
@@ -43,15 +47,16 @@ namespace visualization {
             void drawSuitImages(const std::vector<detect::Card>& cards);
             void drawImage(const cv::Mat& frame, const int& image_width, const int& image_height);
             void drawDeveloperWindow();
+            void drawCameraControl();
 
 		public:
 
             void  drawGui(const cv::Mat& frame);
       					
-	        GUI(std::shared_ptr<data::DataDetectGui>& data_detect,std::shared_ptr<data::DataPokerGui>& data_poker):  
-                    BaseGUI(), visualize_(), show_frame_(true), show_cards_(true), show_developer_window_(false),
+	        GUI(std::shared_ptr<data::DataDetectGui>& data_detect, std::shared_ptr<data::DataPokerGui>& data_poker, std::shared_ptr<detect::CameraControls>& camera_control):  
+                    BaseGUI(), visualize_(), show_frame_(true), show_cards_(true), show_developer_window_(false), show_camera_control_(false),
                     show_main_window_(true), show_card_images_(false), show_rank_images_(false), show_suit_images_(false),
-                    capture_train_img_(), mapping_(),  data_detect_(data_detect), data_poker_(data_poker) {};
+                    capture_train_img_(), mapping_(),  data_detect_(data_detect), data_poker_(data_poker), camera_control_(camera_control) {};
 	        ~GUI(){};
 
 		    // Using default copy and move constructors. 

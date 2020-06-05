@@ -22,6 +22,7 @@ namespace visualization {
             bool setupGlfwWindow();
             void setupContext();
             void tearDown();
+            void helpMarker(const char* desc);
 
 		public:
 
