@@ -44,6 +44,7 @@ class TrainImage
 				this->image_ = other.image_; // assignment operator for cv::Mat returns a pointer to the object, and not a deep copy
 				this->label_.swap(other.label_);
 
+				// releasing the old images here will decrement the ref counter, but not delete the underlying data. Other.image will point to NULL
 				other.image_.release();
 				other.label_.clear();
 							

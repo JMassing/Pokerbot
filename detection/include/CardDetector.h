@@ -12,7 +12,7 @@
 #include "Card.h"
 #include "Mapping.h"
 #include "CardBuffer.h"
-#include "CompiletimeConstants.h"
+#include "Parameters.h"
 #include "TemplateFunctions.h"
 #include "DataDetectGui.h"
 #include "DataPokerDetect.h"

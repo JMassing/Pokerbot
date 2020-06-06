@@ -79,6 +79,7 @@ namespace detect { namespace ImProc	{
 				cv::approxPolyDP(contour, corner_points, d, true);
 
 			} while (corner_points.size() > 4);
+			
 			if (corner_points.size() > 0)
 			{
 				corners.emplace_back(corner_points);
@@ -129,34 +130,34 @@ namespace detect { namespace ImProc	{
 			{
 				switch (sorted_points.size())
 				{
-				case 0:
-				{
-					if (point.x > center.x && point.y < center.y) {
-						sorted_points.emplace_back(point);
+					case 0:
+					{
+						if (point.x > center.x && point.y < center.y) {
+							sorted_points.emplace_back(point);
+						}
+						break;
 					}
-					break;
-				}
-				case 1:
-				{
-					if (point.x < center.x && point.y < center.y) {
-						sorted_points.emplace_back(point);
+					case 1:
+					{
+						if (point.x < center.x && point.y < center.y) {
+							sorted_points.emplace_back(point);
+						}
+						break;
 					}
-					break;
-				}
-				case 2:
-				{
-					if (point.x < center.x && point.y > center.y) {
-						sorted_points.emplace_back(point);
+					case 2:
+					{
+						if (point.x < center.x && point.y > center.y) {
+							sorted_points.emplace_back(point);
+						}
+						break;
 					}
-					break;
-				}
-				case 3:
-				{
-					if (point.x > center.x && point.y > center.y) {
-						sorted_points.emplace_back(point);
+					case 3:
+					{
+						if (point.x > center.x && point.y > center.y) {
+							sorted_points.emplace_back(point);
+						}
+						break;
 					}
-					break;
-				}
 				}
 			}
 			++count;
