@@ -14,7 +14,12 @@ namespace data
         std::vector<detect::BaseCard> public_cards;
         std::vector<detect::BaseCard> robot_cards;
 
-        DataPokerDetect(): public_cards(), robot_cards() {};
+        DataPokerDetect(): public_cards(), robot_cards()
+        {
+             // reserve space for robot and public cards, should be max of 2 robot and 5 public cards
+            robot_cards.reserve(2);
+            public_cards.reserve(5);
+        };
 		~DataPokerDetect(){};
 
 		// Using default copy and move constructors. 

@@ -44,7 +44,7 @@ namespace visualization {
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), CV_8UC3);
 		for (int i = 0; i < contours.size(); ++i) 
 		{
-			cv::drawContours(drawing, contours, i, color, 3, 8, cv::noArray(), 0, cv::Point());
+			cv::drawContours(drawing, contours, i, color, 2, 8, cv::noArray(), 0, cv::Point());
 		}
 		drawing.copyTo(dst, drawing);
 	
@@ -71,15 +71,16 @@ namespace visualization {
 				suit = mapping.image_mappings.right.at(cards[i].suit);
 				text = rank + " of " + suit;
 			}
-			this->printText(src, text, cards[i].center_point-cv::Point(85,0), color);
+			this->printText(src, text, cards[i].center_point-cv::Point(50,0), color);
 		}
 
 	}
 
 	void View::printText(cv::Mat& dst, std::string& text, cv::Point& pos, const cv::Scalar& color)
 	{
-		cv::putText(dst, text, pos, cv::FONT_HERSHEY_PLAIN, 1.25, color, 2);
+		cv::putText(dst, text, pos, cv::FONT_HERSHEY_PLAIN, 0.75, color, 1.5);
 	}
+	
 	void View::printProbability(const cv::Mat& src, const std::pair<double,double>& probability)
 	{
 		std::string winning_probability;
@@ -114,7 +115,7 @@ namespace visualization {
 
 	void View::drawRectangle(cv::Mat& frame, const cv::Rect& rect, const cv::Scalar& color)
 	{
-		cv::rectangle(frame, rect, color, 3);
+		cv::rectangle(frame, rect, color, 1.5);
 	}
 
 

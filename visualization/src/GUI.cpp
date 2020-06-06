@@ -67,7 +67,7 @@ namespace visualization {
 
         if(show_cards_ && cards.size() > 0)
         {
-            this->visualize_.drawCards(cards, shown_image, cv::Scalar {0, 255, 0});
+            this->visualize_.drawCards(cards, shown_image, cv::Scalar{255, 0, 0});
         }
 
         if(this->capture_train_img_.capture_)
@@ -81,6 +81,9 @@ namespace visualization {
             this->visualize_.drawRectangle(shown_image, this->data_detect_->robot_area, cv::Scalar{255, 125, 0});
             this->visualize_.drawRectangle(shown_image, this->data_detect_->public_area, cv::Scalar{0, 255, 255});
         }
+
+        //detect::ImProc::binarizeImage(shown_image, shown_image, this->data_detect_->live_threshold, cv::THRESH_BINARY);
+
         this->drawImage(shown_image, this->live_image_width_, this->live_image_height_);
     }
 
@@ -118,9 +121,9 @@ namespace visualization {
 
     void GUI::drawDeveloperWindow()
     {
-        ImGui::SliderInt("Card Threshold", &this->data_detect_->live_threshold, -100, 100); ImGui::SameLine(); this->helpMarker("Threshold for detecting cards in live image. CTRL+click to input value.");  
-        ImGui::SliderInt("Rank/Suit Threshold", &this->data_detect_->identification_threshold, -100, 100); ImGui::SameLine(); this->helpMarker("Threshold for detecting rank and suit image in upper left corner of card. CTRL+click to input value.");  
-        ImGui::SliderInt("Binarization Threshold", &this->data_detect_->binary_threshold, -100, 100); ImGui::SameLine(); this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  
+        ImGui::SliderInt("Card Threshold", &this->data_detect_->live_threshold, 0, 255); ImGui::SameLine(); this->helpMarker("Threshold for detecting cards in live image. CTRL+click to input value.");  
+        ImGui::SliderInt("Rank/Suit Threshold", &this->data_detect_->identification_threshold, 0, 255); ImGui::SameLine(); this->helpMarker("Threshold for detecting rank and suit image in upper left corner of card. CTRL+click to input value.");  
+        ImGui::SliderInt("Binarization Threshold", &this->data_detect_->binary_threshold, 0, 255); ImGui::SameLine(); this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  
         ImGui::SliderInt("# of simulation runs", &this->data_poker_->nr_of_simulation_runs, 0, 100000); ImGui::SameLine(); this->helpMarker("Nr of times the simulation is run. CTRL+click to input value.");  
         ImGui::Checkbox("Show Card Images", &this->show_card_images_);
         ImGui::Checkbox("Show Rank Images", &this->show_rank_images_);
@@ -132,6 +135,7 @@ namespace visualization {
     {
         ImGui::Checkbox("Use Auto Focus", &this->camera_control_->auto_focus);
         ImGui::Checkbox("Use Auto Exposure", &this->camera_control_->auto_exposure);
+        ImGui::Checkbox("Use Auto White Balance", &this->camera_control_->auto_wb);
         ImGui::SliderInt("Exposure", &this->camera_control_->exposure_time, -12, -1); ImGui::SameLine(); this->helpMarker("CTRL+click to input value. Value should be negative.");  
         ImGui::SliderInt("Focus", &this->camera_control_->focus, 0, 250); ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");  
         ImGui::SliderInt("Brightness", &this->camera_control_->brightness, 0, 255); ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");  

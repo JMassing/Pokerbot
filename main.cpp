@@ -51,6 +51,7 @@ int main(int argc, char* argv[])
 	{
 		for (;;)
 		{
+			shared_data_detect_gui->known_cards.clear();
 			//set new control parameters for camera if they were changed by the user via gui
 			if(save_camera_state != *camera_control)
 			{
@@ -73,7 +74,7 @@ int main(int argc, char* argv[])
 
 			detect.updateFrame(live.frame_);
 			detect.detectCards();
-			 
+			shared_data_detect_gui->known_cards = detect.getCards(); 
 
 			// ************************************************ //
 			//					Simulation						//

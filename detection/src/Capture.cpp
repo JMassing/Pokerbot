@@ -26,6 +26,7 @@ namespace detect {
 
 		// set camera controls to initial camera state
 		this->camera_control_->auto_focus = this->cap_.get(cv::CAP_PROP_AUTOFOCUS);
+		this->camera_control_->auto_wb = this->cap_.get(cv::CAP_PROP_AUTO_WB);
 		this->camera_control_->auto_exposure = this->cap_.get(cv::CAP_PROP_AUTO_EXPOSURE);
 		this->camera_control_->exposure_time = this->cap_.get(cv::CAP_PROP_EXPOSURE);
 		this->camera_control_->focus = this->cap_.get(cv::CAP_PROP_FOCUS);
@@ -60,6 +61,7 @@ namespace detect {
 	{
 		this->cap_.set(cv::CAP_PROP_AUTOFOCUS, this->camera_control_->auto_focus);
 		this->cap_.set(cv::CAP_PROP_AUTO_EXPOSURE, this->camera_control_->auto_exposure);
+		this->cap_.set(cv::CAP_PROP_AUTO_WB, this->camera_control_->auto_exposure);
 		if(!this->camera_control_->auto_exposure)
 		{
 			this->cap_.set(cv::CAP_PROP_EXPOSURE, this->camera_control_->exposure_time);

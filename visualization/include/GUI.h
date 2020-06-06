@@ -13,6 +13,7 @@
 #include "DataDetectGui.h"
 #include "DataPokerGui.h"
 #include "CameraControls.h"
+#include "ImProc.h"
 
 #include "BaseGUI.h"
 

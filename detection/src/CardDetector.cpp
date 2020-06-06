@@ -10,6 +10,10 @@ namespace detect
 	CardDetector::CardDetector(std::shared_ptr<data::DataDetectGui>& data_gui, std::shared_ptr<data::DataPokerDetect>& data_poker) :
 		cards_{}, card_buffers_{}, frame_nr_(0), live_frame_{}, data_gui_(data_gui), data_poker_(data_poker)
 	{
+		// reserve space for train images, these should be 13 ranks and 4 suits
+		this->train_ranks_.reserve(13);
+		this->train_ranks_.reserve(4);
+
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks\\*.jpg", this->train_ranks_);
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits\\*.jpg", this->train_suits_);
 	}
@@ -47,7 +51,7 @@ namespace detect
 		ImProc::calculateCenterPoint(card_contours, card_centers);
 		
 		// Step 1.4 :  Rewarp cards to correct perspective errors:
-		// This should be transformed to multithreading later
+		// This could be transformed to multithreading later
 		int count = 0;
 		
 		cv::Mat card_image;
@@ -55,6 +59,7 @@ namespace detect
 		for (const auto& contour : card_contours)
 		{
 			card_image.create(cv::Size(this->card_width_, static_cast<int>(this->card_width_*this->aspect_ratio_)), this->live_frame_.type());
+			
 			//Sort corners according to what is expected by image transformation method. Start lower right corner -> going clockwise
 			sorted_corners=ImProc::sortCorners(card_corners.at(count), card_centers.at(count));
 			bool transform_result = ImProc::perspectiveTransformation(this->live_frame_, card_image, sorted_corners);
@@ -73,7 +78,7 @@ namespace detect
 
 			this->identifyCard(card_tmp, card_image);
 			this->bufferCard(card_tmp);			
-
+			this->cards_.emplace_back(card_tmp);
 			card_image.release();								// clear card_image
 			std::vector< cv::Point2f > ().swap(sorted_corners);	// clear and reallocate sorted_corners
 			++count;
@@ -82,13 +87,13 @@ namespace detect
 		for(auto p = this->card_buffers_.begin(); p != this->card_buffers_.end(); ++p)
 		{
 			Card card_tmp;
-			// only use buffers that were updated in this frame
-			if((*p).getLastUpdate() == this->frame_nr_ && (*p).getCard(card_tmp))
+			// only use buffers that were updated in the last 3 frames
+			if((*p).getLastUpdate() >= this->frame_nr_-3 && (*p).getCard(card_tmp))
 			{				
 				this->cards_.emplace_back(card_tmp);
 			}	
-			// remove unused buffers
-			else if((*p).getLastUpdate() != this->frame_nr_)
+			// remove buffers unused within the last 3 frames
+			else if((*p).getLastUpdate() <= this->frame_nr_-3)
 			{				
 				// p mus be decremented after erase is called, as p is invalidated by erase
 				this->card_buffers_.erase(p--);
@@ -97,6 +102,7 @@ namespace detect
 			{
 					//do nothing
 			}
+			
 		}	
 
 		// assign cards to robot or public cards
@@ -124,15 +130,17 @@ namespace detect
 	void CardDetector::identifyCard(Card& card, const cv::Mat& card_image) 
 	{
 		// Zoom into the upper left corner
-		int zoom_width = this->card_width_ / 5;
-		int zoom_height = static_cast<int>(static_cast<double>(this->card_width_)*this->aspect_ratio_ / 2);
-		cv::Rect zoom(0, 0, zoom_width, zoom_height);
+		int zoom_width = this->card_width_ / 4;
+		int zoom_height = static_cast<int>(static_cast<double>(this->card_width_)*this->aspect_ratio_ / 2.5);
+		cv::Rect zoom(5, 5, zoom_width, zoom_height);
 		cv::Mat card_zoom = card_image(zoom).clone();
+
 		// find contours in the zoomed in image giving rank and suit contours
 		std::vector<std::vector<cv::Point> > contours;
 		ImProc::findContours(card_zoom, contours, this->data_gui_->identification_threshold, cv::THRESH_BINARY);
-		// filter suit and rank image contours by area. Sizes were found empirically
-		double max_size = zoom_width * zoom_height * 0.8;
+	
+		// filter suit and rank image contours by area. Sizes were found empirically, suit and rank should be < half of the image
+		double max_size = zoom_width * zoom_height * 0.6;
 		double min_size = zoom_width;
 		ImProc::contourFilter(contours, LE_AREA, max_size);
 		ImProc::contourFilter(contours, GE_AREA, min_size);

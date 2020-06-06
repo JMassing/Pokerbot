@@ -8,7 +8,7 @@ namespace detect { namespace ImProc	{
 		cv::Mat edges;
 		std::vector<cv::Vec4i> hierarchy;
 		binarizeImage(src, edges, threshold, thresh_method);
-		cv::findContours(edges, contours, hierarchy, cv::RETR_CCOMP, cv::CHAIN_APPROX_NONE, cv::Point(0, 0));
+		cv::findContours(edges, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_NONE, cv::Point(0, 0));
 	}
 
 	// @brief: filters contours after given method. Value ist given according to method
@@ -176,7 +176,9 @@ namespace detect { namespace ImProc	{
 		cv::cvtColor(src, dst, cv::COLOR_RGB2GRAY);
 		cv::Scalar temp_mean = cv::mean(dst);											// calculates mean image intensity. will be added to threshold to correct for lighting
 		int mean_image_intensity = static_cast<int>(temp_mean[0]);
-		cv::threshold(dst, dst, mean_image_intensity + threshold, 255, thresh_method);
+		//cv::threshold(dst, dst, mean_image_intensity + threshold, 255, thresh_method);
+		cv::threshold(dst, dst, threshold, 255, thresh_method);
+
 	}
 
 	//@brief: Compares given images using L2_Norm and returns similarity
