@@ -12,8 +12,7 @@ namespace data
     {
 
         std::vector<detect::Card> robot_cards;
-        std::vector<detect::Card> public_cards;
-        std::vector<detect::Card> known_cards;
+        std::vector<detect::Card> public_cards;       
         int live_threshold;            // threshold added to mean image intensity for finding cards in live image (cards are brighter than background, so +)
         int binary_threshold;          // threshold added to mean image intensity for binaryzing suit and rank image;
         int identification_threshold;  // threshold added to mean image intensity for finding the rank and suit in the card image (rank and suit are darker than card image, so -)
@@ -21,7 +20,7 @@ namespace data
         cv::Rect public_area;          // area where to place the public cards in the image
 
         DataDetectGui(): live_threshold(140), binary_threshold(140), identification_threshold(140),
-            robot_cards(), public_cards(), known_cards() 
+            robot_cards(), public_cards()
             {
                 robot_area.x = 160;
                 robot_area.y = 260;

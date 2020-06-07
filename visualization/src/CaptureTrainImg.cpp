@@ -29,7 +29,7 @@ namespace visualization
     void CaptureTrainImg::saveImage()
     {   
         std::string name = this->train_images_folder_+ "\\" + this->card_ + ".jpg";
-        cv::imwrite( name, this->train_image_ );
+        cv::imwrite( name, this->train_image_.image );
 
     }
 

@@ -6,8 +6,7 @@
 #include <algorithm>
 #include <memory>
 
-#include <opencv2/core.hpp>
-
+#include "Image.h"
 #include "TrainImage.h"
 #include "Card.h"
 #include "Mapping.h"
@@ -21,16 +20,19 @@
 
 namespace detect 
 {
+	 // CompileTime constants    
+	constexpr size_t CARD_BUFFER_SIZE = 10;
+    constexpr double MAX_DISTANCE_TO_BUFFER = 200;
 
 	class CardDetector
 	{
 
 		private:
 			enum Filter { LARGEST_AREA, SMALLEST_AREA, LE_AREA, GE_AREA };
-
-			cv::Mat live_frame_;
+		  
+			Image live_frame_;
 			std::vector<Card> cards_;
-			std::vector<CardBuffer<globals::CARD_BUFFER_SIZE>> card_buffers_;
+			std::vector<CardBuffer<CARD_BUFFER_SIZE>> card_buffers_;
 			std::shared_ptr<data::DataDetectGui> data_gui_;
 			std::shared_ptr<data::DataPokerDetect> data_poker_;
 			int frame_nr_;			
@@ -55,7 +57,7 @@ namespace detect
 
 			void detectCards();
 			const std::vector<Card> getCards() { return this->cards_; }
-			void updateFrame(const cv::Mat& input_frame);
+			void updateFrame(const Image& input_frame);
 			CardDetector(std::shared_ptr<data::DataDetectGui>& data_gui, std::shared_ptr<data::DataPokerDetect>& data_poker);
 			~CardDetector();
 

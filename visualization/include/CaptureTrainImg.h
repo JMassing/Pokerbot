@@ -1,11 +1,11 @@
 #pragma once
 
 #include <string>
-#include <opencv2/core.hpp>
 
 #include "Mapping.h"
 #include "View.h"
 #include "BaseGUI.h"
+#include "Image.h"
 
 namespace visualization
 {
@@ -20,7 +20,7 @@ namespace visualization
             View visualize_;
             bool show_question_;
             int card_value_;
-            cv::Mat train_image_;
+            detect::Image train_image_;
             std::string card_;
 
             void drawTrainImagesQuestionWindow();
@@ -40,7 +40,7 @@ namespace visualization
             void drawTrainImagesCaptureWindow();
             void drawTrainImagesGuiWindow();
             void printInstructions(cv::Mat& dst, const cv::Scalar& color);
-            void setTrainImage(cv::Mat train_image){this->train_image_ = train_image;};
+            void setTrainImage(cv::Mat train_image){this->train_image_.image = train_image;};
 
             CaptureTrainImg(): gui_(), train_images_folder_(), card_mapping_(), visualize_(), capture_button_pressed_(false),
              capture_(false), show_question_(false), card_value_(2), nr_of_cards_(0), train_image_(),

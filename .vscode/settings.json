@@ -70,6 +70,7 @@
         "atomic": "cpp",
         "locale": "cpp",
         "xlocbuf": "cpp",
-        "xlocmes": "cpp"
+        "xlocmes": "cpp",
+        "strstream": "cpp"
     }
 }

@@ -5,52 +5,36 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 
-class TrainImage
-{
-	private:
-		cv::Mat image_;
-		std::string label_;
+#include "Image.h"
+namespace detect {
 
-		void readImage(const std::string & filename);
-		void readLabel(const std::string & filename);		
+	class TrainImage
+	{
+		private:
+			Image image_;
+			std::string label_;
 
-	public:
+			void readImage(const std::string & filename);
+			void readLabel(const std::string & filename);		
 
-		cv::Mat getImage() { return this->image_; }
-		std::string getLabel() { return this->label_; }
+		public:
 
-		TrainImage();
-		explicit TrainImage(const std::string & filename);
-		~TrainImage();		
-		
-		// Delete copy constructor, we only need each TrainImage once. Also cv::Mat only does shallow copying and processing the copy then changes
-		// the original. A .clone() function could be considered, but we only need TrainImage once.
-		TrainImage(const TrainImage &other) = delete;
-		TrainImage& operator=(const TrainImage& other) = delete;
+			cv::Mat getImage() { return this->image_.image; }
+			std::string getLabel() { return this->label_; }
 
-		// Custom move constructors
-		TrainImage(TrainImage &&other) noexcept : image_{}, label_{} 
-		{		
-			*this = std::move(other);
-		};
+			TrainImage();
+			explicit TrainImage(const std::string & filename);
+			~TrainImage();		
+			
+			// Delete copy constructor, we only need each TrainImage once. Also cv::Mat only does shallow copying and processing the copy then changes
+			// the original. A .clone() function could be considered, but we only need TrainImage once.
+			TrainImage(const TrainImage &other) = default;
+			TrainImage& operator=(const TrainImage& other) = default;
 
-		TrainImage& operator =(TrainImage &&other) noexcept
-		{
-			if (this != &other)
-			{
-				//Free the existing image 
-				this->image_.release();
-				
-				this->image_ = other.image_; // assignment operator for cv::Mat returns a pointer to the object, and not a deep copy
-				this->label_.swap(other.label_);
+			// Custom move constructors
+			TrainImage(TrainImage &&other) noexcept = default;
+			TrainImage& operator =(TrainImage &&other) noexcept = default;
+	};
 
-				// releasing the old images here will decrement the ref counter, but not delete the underlying data. Other.image will point to NULL
-				other.image_.release();
-				other.label_.clear();
-							
-			}
-			return *this;
-		};
-
-};
+} //end namespace detect
 

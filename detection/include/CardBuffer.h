@@ -4,11 +4,10 @@
 #include <array>
 #include <algorithm>
 
-#include <opencv2/core.hpp>
-
 #include "Card.h"
 #include "BaseCard.h"
 #include "RingBuffer.h"
+#include "Image.h"
 
 namespace detect
 {	
@@ -24,9 +23,9 @@ namespace detect
 
 		cv::Point center_point_;
 		std::vector<cv::Point> contour_;
-		cv::Mat card_image_;
-		cv::Mat rank_image_;
-		cv::Mat suit_image_;
+		Image card_image_;
+		Image rank_image_;
+		Image suit_image_;
 
 		bool filled_once_;
 		int last_update_;
@@ -59,7 +58,7 @@ namespace detect
 		};
 	
 
-		// Use Default copy and move constructors
+		// Make sure we do a deep copy the images when we use copy constructors. Otherwise we might be surprised at some point, when doing changes to the image data.
 		CardBuffer(const CardBuffer& other) = default;	
 		CardBuffer& operator=(const CardBuffer& other) = default;
 		CardBuffer(CardBuffer&& other) noexcept = default;

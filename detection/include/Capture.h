@@ -8,6 +8,8 @@
 #include <opencv2/videoio.hpp>
 
 #include "CameraControls.h"
+#include "Parameters.h"
+#include "Image.h"
 
 namespace detect {
 
@@ -20,7 +22,7 @@ namespace detect {
 			std::shared_ptr<CameraControls> camera_control_;
 
 		public:
-			cv::Mat frame_;
+			Image frame_;
 
 			bool init();
 			bool grabLive();
@@ -28,8 +30,8 @@ namespace detect {
 			void setCameraControls();
 			void printCameraState();
 			
-			explicit Capture(std::shared_ptr<CameraControls>& camera_control);
-			Capture(const std::string& video, std::shared_ptr<CameraControls>& camera_control);
+			Capture(std::shared_ptr<CameraControls>& camera_control, parameters::Config& default);
+			Capture(const std::string& video, std::shared_ptr<CameraControls>& camera_control, parameters::Config& default);
 			~Capture();
 
 			// Using default copy and move constructors. 

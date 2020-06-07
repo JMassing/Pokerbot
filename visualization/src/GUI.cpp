@@ -36,7 +36,7 @@ namespace visualization {
     {
         for(const auto& card: cards)
         {
-            this->drawImage(card.card_image, card.card_image.cols/4, card.card_image.rows/4); 
+            this->drawImage(card.card_image.image, card.card_image.image.cols/4, card.card_image.image.rows/4); 
             ImGui::SameLine();
         }
     }
@@ -45,7 +45,7 @@ namespace visualization {
     {
         for(const auto& card: cards)
         {
-            this->drawImage(card.rank_image, card.rank_image.cols/3, card.rank_image.rows/3);
+            this->drawImage(card.rank_image.image, card.rank_image.image.cols/3, card.rank_image.image.rows/3);
             ImGui::SameLine();
         }
     }
@@ -54,7 +54,7 @@ namespace visualization {
     {
         for(const auto& card: cards)
         {
-            this->drawImage(card.suit_image, card.suit_image.cols/3, card.suit_image.rows/3);
+            this->drawImage(card.suit_image.image, card.suit_image.image.cols/3, card.suit_image.image.rows/3);
             ImGui::SameLine();
         }
     }
@@ -185,11 +185,11 @@ namespace visualization {
                 {
                     if(this->capture_train_img_.type_ == "rank")
                     {
-                        this->capture_train_img_.setTrainImage(cards[0].rank_image);
+                        this->capture_train_img_.setTrainImage(cards[0].rank_image.image);
                     }
                     else
                     {
-                        this->capture_train_img_.setTrainImage(cards[0].suit_image);
+                        this->capture_train_img_.setTrainImage(cards[0].suit_image.image);
                     }
                 } 
             }

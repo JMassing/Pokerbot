@@ -22,13 +22,16 @@ file(GLOB SOURCES_DETECTION "detection/src/*.cpp")
 file(GLOB SOURCES_VISULIZATION "visualization/src/*.cpp")
 file(GLOB SOURCES_POKER "poker/src/*.cpp")
 file(GLOB SOURCES_SIGNALS "dataClasses/src/*.cpp")
+file(GLOB SOURCES_PARAMETERS "globals/src/*.cpp")
+
 
 
 add_library( PokerbotLib 
 ${SOURCES_VISULIZATION}
 ${SOURCES_DETECTION}
 ${SOURCES_POKER} 
-${SOURCES_SIGNALS})
+${SOURCES_SIGNALS}
+${SOURCES_PARAMETERS})
 
 ## find gtest
 find_package(GTest REQUIRED)

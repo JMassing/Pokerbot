@@ -22,10 +22,10 @@ namespace detect
 	{
 	}
 
-	void CardDetector::updateFrame(const cv::Mat& input_frame)
+	void CardDetector::updateFrame(const Image& input_frame)
 	{
 		// Clone (deep copy) live frame from camera view. We are changing the data of this cv::Mat in the Processing steps and do not want to change the original frame
-		this->live_frame_ = input_frame.clone();
+		this->live_frame_ = input_frame;
 		++this->frame_nr_;
 	}
 	
@@ -37,7 +37,7 @@ namespace detect
 		// Step	1.1 : Find Contours of interest in frame	
 		std::vector<std::vector<cv::Point> > card_contours;	
 			
-		ImProc::findContours(this->live_frame_, card_contours, this->data_gui_->live_threshold);
+		ImProc::findContours(this->live_frame_.image, card_contours, this->data_gui_->live_threshold);
 
 		// Step 1.2 : Filter Contours by area to get rid of contours that are too small or large to be a card, 
 		// -> min_ and max_card size were determined empirically, and depend on camera positioning
@@ -58,11 +58,11 @@ namespace detect
 		std::vector< cv::Point2f > sorted_corners;
 		for (const auto& contour : card_contours)
 		{
-			card_image.create(cv::Size(this->card_width_, static_cast<int>(this->card_width_*this->aspect_ratio_)), this->live_frame_.type());
+			card_image.create(cv::Size(this->card_width_, static_cast<int>(this->card_width_*this->aspect_ratio_)), this->live_frame_.image.type());
 			
 			//Sort corners according to what is expected by image transformation method. Start lower right corner -> going clockwise
 			sorted_corners=ImProc::sortCorners(card_corners.at(count), card_centers.at(count));
-			bool transform_result = ImProc::perspectiveTransformation(this->live_frame_, card_image, sorted_corners);
+			bool transform_result = ImProc::perspectiveTransformation(this->live_frame_.image, card_image, sorted_corners);
 
 			if (!transform_result)
 			{
@@ -74,7 +74,7 @@ namespace detect
 			Card card_tmp;
 			card_tmp.contour = contour;
 			card_tmp.center_point = card_centers.at(count);
-			card_tmp.card_image=card_image;
+			card_tmp.card_image.image=card_image;
 
 			this->identifyCard(card_tmp, card_image);
 			this->bufferCard(card_tmp);			
@@ -179,8 +179,8 @@ namespace detect
 				
 				cv::resize(suit, suit, suit_binary.size(), 0, 0, cv::INTER_LINEAR); 			// resize to right size befor binarizing
 				ImProc::binarizeImage(suit, suit_binary, this->data_gui_->binary_threshold + threshold, cv::THRESH_BINARY_INV);
-				card.rank_image = rank_binary;
-				card.suit_image = suit_binary;
+				card.rank_image.image = rank_binary;
+				card.suit_image.image = suit_binary;
  
 				// Compare to train images
 				// This could potentially be parallelized 
@@ -242,7 +242,7 @@ namespace detect
 	{
 		if(this->card_buffers_.size() == 0)
 		{
-			this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card, this->frame_nr_));
+			this->card_buffers_.emplace_back(CardBuffer<CARD_BUFFER_SIZE>(card, this->frame_nr_));
 		}
 		else
 		{
@@ -257,13 +257,13 @@ namespace detect
 			auto p = std::min_element(squared_distances.begin(), squared_distances.end());
 			auto pos = std::distance(squared_distances.begin(), p);
 
-			if( *p < globals::MAX_DISTANCE_TO_BUFFER*globals::MAX_DISTANCE_TO_BUFFER)
+			if( *p < MAX_DISTANCE_TO_BUFFER*MAX_DISTANCE_TO_BUFFER)
 			{
 				this->card_buffers_.at(pos).put(card, this->frame_nr_);
 			}
 			else
 			{
-				this->card_buffers_.emplace_back(CardBuffer<globals::CARD_BUFFER_SIZE>(card, this->frame_nr_));
+				this->card_buffers_.emplace_back(CardBuffer<CARD_BUFFER_SIZE>(card, this->frame_nr_));
 			}			
 		}
 	}

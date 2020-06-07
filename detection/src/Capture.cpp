@@ -2,11 +2,12 @@
 
 namespace detect {
 
-	Capture::Capture(std::shared_ptr<CameraControls>& camera_control) :frame_{}, cap_{}, device_ID_(1), api_ID_(cv::CAP_ANY), camera_control_(camera_control)
+	Capture::Capture(std::shared_ptr<CameraControls>& camera_control, parameters::Config& default) :frame_{}, cap_{}, api_ID_(cv::CAP_ANY), camera_control_(camera_control)
 	{
+		this->device_ID_ = default.getConfig()["camera.device_id"].as<int>();
 	}
 
-	Capture::Capture(const std::string& video, std::shared_ptr<CameraControls>& camera_control) : frame_{}, cap_(video), device_ID_(1), api_ID_(cv::CAP_ANY), camera_control_(camera_control)
+	Capture::Capture(const std::string& video, std::shared_ptr<CameraControls>& camera_control, parameters::Config& default) : frame_{}, cap_(video), device_ID_(1), api_ID_(cv::CAP_ANY), camera_control_(camera_control)
 	{
 	}
 
@@ -39,8 +40,8 @@ namespace detect {
 	//@brief: Grab live image from camera
 	bool Capture::grabLive()
 	{
-		this->cap_.read(this->frame_);
-		if (this->frame_.empty()) {
+		this->cap_.read(this->frame_.image);
+		if (this->frame_.image.empty()) {
 			return false;
 		}
 
@@ -49,8 +50,8 @@ namespace detect {
 	//@brief: Grab image from Video
 	bool Capture::grabVideo()
 	{ 
-		cap_ >> this->frame_;
-		if (this->frame_.empty()) {
+		cap_ >> this->frame_.image;
+		if (this->frame_.image.empty()) {
 			return false;
 		}
 		return true;
