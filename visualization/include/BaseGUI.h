@@ -27,9 +27,9 @@ namespace visualization {
 		public:
 
             template<class T>
-            void addButton(const char* name, T& callback);
+            bool addButton(const char* name, T& callback);
             template<class T>
-            void addWindow(const char* name, bool& show_window, T& content);
+            void addWindow(const char* name, bool& show_window, T& content, int flag = 0);
             bool init();
             void setEventHandler();
             void drawGuiFrame();
@@ -53,20 +53,23 @@ namespace visualization {
 
     //template functions
     template<class T>
-    void BaseGUI::addButton(const char* name, T& callback)
+    bool BaseGUI::addButton(const char* name, T& callback)
     {
+        bool activated = false;
         if(ImGui::Button(name))
         {
             callback();
-        }                           
+            activated = true;
+        }                    
+        return activated;       
     };
 
     template<class T>
-    void BaseGUI::addWindow(const char* name, bool& show_window, T& content)
+    void BaseGUI::addWindow(const char* name, bool& show_window, T& content, int flag)
     {
         if(show_window)
         {
-            ImGui::Begin(name, &show_window );
+            ImGui::Begin(name, &show_window, flag);
             content();
             ImGui::End();
         }

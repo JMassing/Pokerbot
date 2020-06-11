@@ -100,9 +100,9 @@ namespace detect { namespace ImProc	{
 	}
 
 	//@brief: Transforms perspectively distorted card image into 2D upright view of card
-	bool perspectiveTransformation(const cv::Mat src, cv::Mat& dst, const std::vector< cv::Point2f >& points)
+	bool perspectiveTransformation(const cv::Mat src, cv::Mat& dst, const std::vector< cv::Point2f >& points, const int& offset)
 	{
-		int offset = 5;
+
 		// Points to transform to corners of cards.image
 		std::vector<cv::Point2f> ImageCorners = { cv::Point2f(dst.size().width - offset, +offset),cv::Point2f(+offset , +offset),							
 			cv::Point2f(+offset , dst.size().height - offset), cv::Point2f(dst.size().width - offset, dst.size().height - offset) };

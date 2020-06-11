@@ -15,7 +15,6 @@
 #include "DataPokerGui.h"
 #include "DataPokerDetect.h"
 #include "CameraControls.h"
-#include "Parameters.h"
 
 using namespace cv;
 using namespace std;
@@ -23,20 +22,20 @@ using namespace detect;
 using namespace poker;
 using namespace templates;
 using namespace visualization;
-using namespace data;
+using namespace shared;
 
 int main(int argc, char* argv[])
 {
-	parameters::Config default_config;
-
+	
 	//	Setup shared data structs
-	shared_ptr<DataDetectGui> shared_data_detect_gui = std::make_shared<DataDetectGui>();
-	shared_ptr<DataPokerGui> shared_data_poker_gui = std::make_shared<DataPokerGui>();
+	shared_ptr<DefaultConfig> default_config = std::make_shared<DefaultConfig>();
+	shared_ptr<DataDetectGui> shared_data_detect_gui = std::make_shared<DataDetectGui>(default_config);
+	shared_ptr<DataPokerGui> shared_data_poker_gui = std::make_shared<DataPokerGui>(default_config);
 	shared_ptr<DataPokerDetect> shared_data_poker_detect = std::make_shared<DataPokerDetect>();
-	shared_ptr<CameraControls> camera_control = std::make_shared<CameraControls>();
+	shared_ptr<CameraControls> camera_control = std::make_shared<CameraControls>(default_config);
 	
 	//// Initialize variables for live capture and image processing
-	Capture live(camera_control, default_config);
+	Capture live(camera_control);
 	
 	if (!live.init()) {
 		cerr << "ERROR! Unable to open camera\n";
@@ -45,12 +44,9 @@ int main(int argc, char* argv[])
 
 	// initialize Simulation, CardDetector and Gui classes
 	Simulation sim(shared_data_poker_gui, shared_data_poker_detect);
-	CardDetector detect{shared_data_detect_gui, shared_data_poker_detect};
-	GUI gui{shared_data_detect_gui, shared_data_poker_gui, camera_control};
+	CardDetector detect{shared_data_detect_gui, shared_data_poker_detect, default_config};
+	GUI gui{shared_data_detect_gui, shared_data_poker_gui, camera_control, default_config};
 	gui.init();
-	 
-	CameraControls save_camera_state{};
-	save_camera_state = *camera_control;
 
 	while( !gui.shouldClose() )
 	{
@@ -58,10 +54,9 @@ int main(int argc, char* argv[])
 		{
 			
 			//set new control parameters for camera if they were changed by the user via gui
-			if(save_camera_state != *camera_control)
+			if(gui.camControlsChanged())
 			{
 				live.setCameraControls();
-				save_camera_state = *camera_control;
 			}
 
 			// Grab live frame and check if it worked

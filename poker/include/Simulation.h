@@ -22,8 +22,8 @@ namespace poker{
         protected: //this is protected for unit testing purposes
 
             std::vector<Hand> player_hands_;
-            std::shared_ptr<data::DataPokerGui> data_gui_;
-            std::shared_ptr<data::DataPokerDetect> data_detect_;
+            std::shared_ptr<shared::DataPokerGui> data_gui_;
+            std::shared_ptr<shared::DataPokerDetect> data_detect_;
             Hand robot_hand_;
             bool log_sim_;
 
@@ -36,7 +36,7 @@ namespace poker{
 
             void run();
             
-            Simulation(std::shared_ptr<data::DataPokerGui>& data_gui, std::shared_ptr<data::DataPokerDetect>& data_detect, const bool& log_sim=false): data_gui_(data_gui), 
+            Simulation(std::shared_ptr<shared::DataPokerGui>& data_gui, std::shared_ptr<shared::DataPokerDetect>& data_detect, const bool& log_sim=false): data_gui_(data_gui), 
                 data_detect_(data_detect), robot_hand_(), log_sim_{log_sim} 
             {
                 this->player_hands_.resize(this->data_gui_->nr_of_human_players, Hand());

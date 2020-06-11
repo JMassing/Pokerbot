@@ -2,14 +2,16 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 #include <boost/program_options.hpp>
 
 namespace po = boost::program_options;
 
-namespace parameters{
+namespace shared
+{
 
-    class Config
+    class ConfigFileHandler
     {
         private:
 
@@ -24,15 +26,16 @@ namespace parameters{
         public:
 
             po::variables_map getConfig() {return this->variables_map_;};
+            void writeFile(std::stringstream& file_content);
 
-            Config();
-            ~Config() {};
+            ConfigFileHandler();
+            ~ConfigFileHandler() {};
 
 			// Using default copy and move constructors. 
-			Config(const Config& other) = default;
-			Config& operator=(const Config& other) = default;
-			Config(Config&& other) noexcept = default;
-			Config& operator=(Config&& other) noexcept = default;
+			ConfigFileHandler(const ConfigFileHandler& other) = default;
+			ConfigFileHandler& operator=(const ConfigFileHandler& other) = default;
+			ConfigFileHandler(ConfigFileHandler&& other) noexcept = default;
+			ConfigFileHandler& operator=(ConfigFileHandler&& other) noexcept = default;
 
     };
 

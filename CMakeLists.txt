@@ -9,8 +9,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/poker/include
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/classes
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/functions  
-    ${CMAKE_CURRENT_SOURCE_DIR}/globals/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/dataClasses/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/shared/include
     ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperClasses
     ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions)
 
@@ -21,7 +20,7 @@ conan_basic_setup()
 file(GLOB SOURCES_DETECTION "detection/src/*.cpp")
 file(GLOB SOURCES_VISULIZATION "visualization/src/*.cpp")
 file(GLOB SOURCES_POKER "poker/src/*.cpp")
-file(GLOB SOURCES_SIGNALS "dataClasses/src/*.cpp")
+file(GLOB SOURCES_SHARED "shared/src/*.cpp")
 file(GLOB SOURCES_PARAMETERS "globals/src/*.cpp")
 
 
@@ -30,7 +29,7 @@ add_library( PokerbotLib
 ${SOURCES_VISULIZATION}
 ${SOURCES_DETECTION}
 ${SOURCES_POKER} 
-${SOURCES_SIGNALS}
+${SOURCES_SHARED}
 ${SOURCES_PARAMETERS})
 
 ## find gtest

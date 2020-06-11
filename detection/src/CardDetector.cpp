@@ -7,9 +7,21 @@ namespace detect
 {
 
 
-	CardDetector::CardDetector(std::shared_ptr<data::DataDetectGui>& data_gui, std::shared_ptr<data::DataPokerDetect>& data_poker) :
+	CardDetector::CardDetector(std::shared_ptr<shared::DataDetectGui>& data_gui, std::shared_ptr<shared::DataPokerDetect>& data_poker, std::shared_ptr<shared::DefaultConfig>& default_config) :
 		cards_{}, card_buffers_{}, frame_nr_(0), live_frame_{}, data_gui_(data_gui), data_poker_(data_poker)
 	{
+		// get default parameters
+		this->card_width_ = default_config->card_width;
+		this->card_aspect_ratio_ = default_config->card_aspect_ratio;							 // Aspect Ratio of real playing cards
+		this->min_card_size_ = default_config->min_card_size;									 // Min size card image in pixel²
+		this->max_card_size_ = default_config->max_card_size;								 // Max size card image in pixel²
+		this->min_comparison_confidence_ =  default_config->min_comparison_confidence;						 // Maximum l2 error allowed for compareImages. If error is higher, card is marked as unknown			
+		this->perspective_transform_offset_ = default_config->perspective_transform_offset;
+		this->zoom_width_ratio_ = default_config->zoom_width_ratio;
+		this->zoom_height_ratio_ = default_config->zoom_height_ratio;
+		this->max_rank_contour_ratio_ = default_config->max_rank_contour_ratio;
+		this->rank_suit_zoom_offset_ = default_config->rank_suit_zoom_offset;
+			
 		// reserve space for train images, these should be 13 ranks and 4 suits
 		this->train_ranks_.reserve(13);
 		this->train_ranks_.reserve(4);
@@ -58,11 +70,11 @@ namespace detect
 		std::vector< cv::Point2f > sorted_corners;
 		for (const auto& contour : card_contours)
 		{
-			card_image.create(cv::Size(this->card_width_, static_cast<int>(this->card_width_*this->aspect_ratio_)), this->live_frame_.image.type());
+			card_image.create(cv::Size(this->card_width_, static_cast<int>(this->card_width_*this->card_aspect_ratio_)), this->live_frame_.image.type());
 			
 			//Sort corners according to what is expected by image transformation method. Start lower right corner -> going clockwise
 			sorted_corners=ImProc::sortCorners(card_corners.at(count), card_centers.at(count));
-			bool transform_result = ImProc::perspectiveTransformation(this->live_frame_.image, card_image, sorted_corners);
+			bool transform_result = ImProc::perspectiveTransformation(this->live_frame_.image, card_image, sorted_corners, this->perspective_transform_offset_);
 
 			if (!transform_result)
 			{
@@ -130,17 +142,17 @@ namespace detect
 	void CardDetector::identifyCard(Card& card, const cv::Mat& card_image) 
 	{
 		// Zoom into the upper left corner
-		int zoom_width = this->card_width_ / 4;
-		int zoom_height = static_cast<int>(static_cast<double>(this->card_width_)*this->aspect_ratio_ / 2.5);
-		cv::Rect zoom(5, 5, zoom_width, zoom_height);
+		int zoom_width = static_cast<int>(this->card_width_ * this->zoom_width_ratio_);
+		int zoom_height = static_cast<int>(static_cast<double>(this->card_width_)*this->card_aspect_ratio_ * this->zoom_height_ratio_);
+		cv::Rect zoom(this->rank_suit_zoom_offset_, this->rank_suit_zoom_offset_, zoom_width, zoom_height);
 		cv::Mat card_zoom = card_image(zoom).clone();
 
 		// find contours in the zoomed in image giving rank and suit contours
 		std::vector<std::vector<cv::Point> > contours;
 		ImProc::findContours(card_zoom, contours, this->data_gui_->identification_threshold, cv::THRESH_BINARY);
 	
-		// filter suit and rank image contours by area. Sizes were found empirically, suit and rank should be < half of the image
-		double max_size = zoom_width * zoom_height * 0.6;
+		// filter suit and rank image contours by area. 
+		double max_size = zoom_width * zoom_height * this->max_rank_contour_ratio_;
 		double min_size = zoom_width;
 		ImProc::contourFilter(contours, LE_AREA, max_size);
 		ImProc::contourFilter(contours, GE_AREA, min_size);
@@ -192,11 +204,6 @@ namespace detect
 					{
 						score_rank = tmp_score;
 						std::string rank_name = this->train_ranks_[rank_count].getLabel();	
-						if (rank_name == "Ten_2")
-						{
-							rank_name = "Ten";
-						}
-
 						if (score_rank < this->min_comparison_confidence_)
 						{
 							card.rank = mapping.image_mappings.left.at(rank_name);

@@ -11,11 +11,11 @@
 #include "Card.h"
 #include "Mapping.h"
 #include "CardBuffer.h"
-#include "Parameters.h"
 #include "TemplateFunctions.h"
 #include "DataDetectGui.h"
 #include "DataPokerDetect.h"
 #include "ImProc.h"
+#include "DefaultConfig.h"
 
 
 namespace detect 
@@ -33,19 +33,24 @@ namespace detect
 			Image live_frame_;
 			std::vector<Card> cards_;
 			std::vector<CardBuffer<CARD_BUFFER_SIZE>> card_buffers_;
-			std::shared_ptr<data::DataDetectGui> data_gui_;
-			std::shared_ptr<data::DataPokerDetect> data_poker_;
+			std::shared_ptr<shared::DataDetectGui> data_gui_;
+			std::shared_ptr<shared::DataPokerDetect> data_poker_;
 			int frame_nr_;			
 			std::vector<TrainImage> train_suits_;
 			std::vector<TrainImage> train_ranks_;
 
-			const int card_width_ = 301;										 // Nr. of cols in extracted card image		
+			int card_width_;										 // Nr. of cols in extracted card image		
 			const std::array<int, 11> sliding_threshold_
-				{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };						 // arrays of values for sliding threshold for binaryzing image
-			const double aspect_ratio_ = 1.4;									 // Aspect Ratio of playing cards
-			const int min_card_size_ = 8000;									 // Min size card image in pixel²
-			const int max_card_size_ = 500000;									 // Max size card image in pixel²
-			const double min_comparison_confidence_ = 5;						 // Maximum l2 error allowed for compareImages. If error is higher, card is marked as unknown					 
+				{-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 };				 // arrays of values for sliding threshold for binaryzing image
+			double card_aspect_ratio_;							 // Aspect Ratio of real playing cards
+			int min_card_size_;									 // Min size card image in pixel²
+			int max_card_size_;								 // Max size card image in pixel²
+			double min_comparison_confidence_;						 // Maximum l2 error allowed for compareImages. If error is higher, card is marked as unknown			
+			int perspective_transform_offset_;
+			double zoom_width_ratio_;
+			double zoom_height_ratio_;
+			double max_rank_contour_ratio_;
+			int rank_suit_zoom_offset_;		 
 
 			void loadTrainImages(const std::string &path, std::vector<TrainImage>& train_images);			
 			void identifyCard(Card& card, const cv::Mat& card_image);
@@ -58,7 +63,7 @@ namespace detect
 			void detectCards();
 			const std::vector<Card> getCards() { return this->cards_; }
 			void updateFrame(const Image& input_frame);
-			CardDetector(std::shared_ptr<data::DataDetectGui>& data_gui, std::shared_ptr<data::DataPokerDetect>& data_poker);
+			CardDetector(std::shared_ptr<shared::DataDetectGui>& data_gui, std::shared_ptr<shared::DataPokerDetect>& data_poker, std::shared_ptr<shared::DefaultConfig>& default_config);
 			~CardDetector();
 
 			// Using default copy and move constructors. 

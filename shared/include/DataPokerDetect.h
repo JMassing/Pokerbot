@@ -6,7 +6,7 @@
 
 #include "BaseCard.h"
 
-namespace data
+namespace shared
 {
     struct DataPokerDetect
     {
