@@ -2,44 +2,20 @@
 
 #include "GUI.h"
 
-namespace visualization {
+namespace gui {
 
-    void GUI::setLayoutToDefault()
+    void GUI::setToDefault()
     {
         this->show_frame_ = this->default_config_->show_frame;
-        this->show_cards_ = this->default_config_->show_cards;
-        this->show_im_proc_settings_window_ = this->default_config_->show_im_proc_settings_window;
         this->show_main_window_ = this->default_config_->show_main_window;
-        this->show_card_images_ = this->default_config_->show_card_img;
-        this->show_rank_images_ = this->default_config_->show_rank_img;
-        this->show_suit_images_ = this->default_config_->show_suit_img;
-        this->show_camera_control_ = this->default_config_->show_camera_control;
-        this->live_image_width_ = this->default_config_->live_image_width;
-        this->live_image_height_ = this->default_config_->live_image_height;
         this->show_layout_window_ = this->default_config_->show_layout_window;
-        this->card_image_height_percent_ = this->default_config_->card_image_height_percent;
-        this->card_rank_suit_height_percent_ = this->default_config_->card_rank_suit_height_percent;
-        this->card_outline_color_ = cv::Scalar {this->default_config_->card_outline_b, this->default_config_->card_outline_g, this->default_config_->card_outline_r}; 
     }
     
-    void GUI::saveLayoutAsDefault()
+    void GUI::saveAsDefault()
     {
         this->default_config_->show_frame = this->show_frame_;
-        this->default_config_->show_cards = this->show_cards_;
-        this->default_config_->show_im_proc_settings_window = this->show_im_proc_settings_window_;
         this->default_config_->show_main_window = this->show_main_window_;
-        this->default_config_->show_card_img = this->show_card_images_;
-        this->default_config_->show_rank_img = this->show_rank_images_;
-        this->default_config_->show_suit_img = this->show_suit_images_;
-        this->default_config_->show_camera_control = this->show_camera_control_;
-        this->default_config_->live_image_width = this->live_image_width_;
-        this->default_config_->live_image_height = this->live_image_height_;
-        this->default_config_->card_outline_b = this->card_outline_color_[0];
-        this->default_config_->card_outline_g = this->card_outline_color_[1];
-        this->default_config_->card_outline_r = this->card_outline_color_[2];
         this->default_config_->show_layout_window = this->show_layout_window_;
-        this->default_config_->card_image_height_percent = this->card_image_height_percent_;
-        this->default_config_->card_rank_suit_height_percent= this->card_rank_suit_height_percent_;
         this->default_config_->saveConfig();
     }
 
@@ -73,17 +49,17 @@ namespace visualization {
 
     void GUI::drawCardImages(const std::vector<detect::Card>& cards)
     {
-        int height = this->card_image_height_ * this->card_image_height_percent_/100;
+        int height = this->card_image_height_ * this->layout_.getConfig().card_image_height_percent/100;
         for(const auto& card: cards)
         {
             this->drawImage(card.card_image.image, height/this->default_config_->card_aspect_ratio, height); 
-            ImGui::SameLine();
+            ImGui::SameLine();  
         }
     }
 
     void GUI::drawRankImages(const std::vector<detect::Card>& cards)
     {
-        int height = this->card_rank_suit_height_ * this->card_rank_suit_height_percent_/100;
+        int height = this->card_rank_suit_height_ * this->layout_.getConfig().card_rank_suit_height_percent/100;
         for(const auto& card: cards)
         {
             this->drawImage(card.rank_image.image, height, height);
@@ -93,7 +69,7 @@ namespace visualization {
 
     void GUI::drawSuitImages(const std::vector<detect::Card>& cards)
     {
-        int height = this->card_rank_suit_height_ * this->card_rank_suit_height_percent_/100;
+        int height = this->card_rank_suit_height_ * this->layout_.getConfig().card_rank_suit_height_percent/100;
         for(const auto& card: cards)
         {
             this->drawImage(card.suit_image.image, height, height);
@@ -109,7 +85,7 @@ namespace visualization {
 
         if(show_cards_ && cards.size() > 0)
         {
-            this->visualize_.drawCards(cards, shown_image, this->card_outline_color_);
+            this->visualize_.drawCards(cards, shown_image, this->layout_.getConfig().card_outline_color);
         }
 
         if(this->capture_train_img_.capture_)
@@ -124,9 +100,7 @@ namespace visualization {
             this->visualize_.drawRectangle(shown_image, this->data_detect_->public_area, cv::Scalar{0, 255, 255});
         }
 
-        //detect::ImProc::binarizeImage(shown_image, shown_image, this->data_detect_->live_threshold, cv::THRESH_BINARY);
-
-        this->drawImage(shown_image, this->live_image_width_, this->live_image_height_);
+        this->drawImage(shown_image, this->layout_.getConfig().live_image_width,this->layout_.getConfig().live_image_height);
     }
 
     void GUI::drawMainWindow()
@@ -161,54 +135,6 @@ namespace visualization {
         ImGui::NewLine();
         ImGui::Checkbox("Show Layout Settings", &this->show_layout_window_);
         this->addButton("Quit Program", [this](){this->closeWindow();});
-    }
-
-    void GUI::drawLayoutWindow()
-    {
-        // Give a Constant label width, the rest goes to widget size, e.g. width of slider bar
-        ImGui::PushItemWidth(ImGui::GetFontSize() * -14);  
-
-        ImGui::Checkbox("Show Card Outline", &this->show_cards_);ImGui::SameLine(); this->helpMarker("If checked, outline of cards and cards rank/suit are displayed in the live image.");  
-        ImVec4 tmp_card_outline_color = ImVec4((float)this->card_outline_color_[2]/255.0f, (float)card_outline_color_[1]/255.0f, (float)card_outline_color_[0]/255.0f, 1.00f);
-        ImGui::ColorEdit3("card outline color", (float*)&tmp_card_outline_color);
-        this->card_outline_color_ = {tmp_card_outline_color.z*255.0f, tmp_card_outline_color.y*255.0f, tmp_card_outline_color.x*255.0f};
-        ImGui::Checkbox("Show Camera Controls", &this->show_camera_control_);
-        ImGui::Checkbox("Show Image Processing Settings", &this->show_im_proc_settings_window_);
-        ImGui::Checkbox("Show Card Images", &this->show_card_images_); ImGui::SameLine(); this->helpMarker("If checked, card images extracted from live frame are displayed.");
-        ImGui::Checkbox("Show Rank Images", &this->show_rank_images_); ImGui::SameLine(); this->helpMarker("If checked, binarized rank images extracted from card images are displayed.");
-        ImGui::Checkbox("Show Suit Images", &this->show_suit_images_); ImGui::SameLine(); this->helpMarker("If checked, binarized suit images extracted from card images are displayed.");
-        if (ImGui::CollapsingHeader("Live Image Size"))
-        {
-            this->addButton("800x600", [this](){this->live_image_width_=800; this->live_image_height_=600;}); ImGui::SameLine();
-            this->addButton("1024x768", [this](){this->live_image_width_=1024; this->live_image_height_=768;}); ImGui::SameLine();
-            this->addButton("1280x720", [this](){this->live_image_width_=1280; this->live_image_height_=720;}); 
-            this->addButton("1280x768", [this](){this->live_image_width_=1280; this->live_image_height_=768;}); ImGui::SameLine();
-            this->addButton("1280x800", [this](){this->live_image_width_=1280; this->live_image_height_=800;}); ImGui::SameLine();
-            this->addButton("1280x1024", [this](){this->live_image_width_=1280; this->live_image_height_=1024;});
-            this->addButton("1360x768", [this](){this->live_image_width_=1360; this->live_image_height_=768;}); ImGui::SameLine();
-            this->addButton("1366x768", [this](){this->live_image_width_=1366; this->live_image_height_=768;}); ImGui::SameLine();
-            this->addButton("1400x1050", [this](){this->live_image_width_=1400; this->live_image_height_=1050;});
-            this->addButton("1440x900", [this](){this->live_image_width_=1440; this->live_image_height_=900;}); ImGui::SameLine();
-            this->addButton("1600x900", [this](){this->live_image_width_=1600; this->live_image_height_=900;}); ImGui::SameLine();
-            this->addButton("1920x1080", [this](){this->live_image_width_=1920; this->live_image_height_=1080;});
-        }
-        ImGui::SliderInt("Card Image Size", &this->card_image_height_percent_, 25, 175); ImGui::SameLine(); this->helpMarker("Size of displayed card images in %. CTRL+click to input value.");
-        this->enforceBoundaries(25, 175, this->card_image_height_percent_);
-        ImGui::SliderInt("Rank/Suit Image Size", &this->card_rank_suit_height_percent_, 25, 175);ImGui::SameLine(); this->helpMarker("Size of displayed rank and suit images in %. CTRL+click to input value.");
-        this->enforceBoundaries(25, 175, this->card_rank_suit_height_percent_);
-
-        this->addButton("Reset Layout", [this](){this->setLayoutToDefault();}); 
-        ImGui::SameLine();        
-        this->addButton("Save Layout", [this](){this->show_ask_for_save_layout_ = true;}); 
-        bool save = false;
-        if(this->show_ask_for_save_layout_ == true)
-        {
-            this->addWindow("##saveSettingsLayout",this->show_ask_for_save_layout_,[this, &save](){this->askForSave(save, this->show_ask_for_save_layout_, "layout");});
-        }
-        if(save == true)
-        {
-          this->saveLayoutAsDefault();
-        }
     }
 
     void GUI::drawImageProcSettingsWindow()
@@ -317,8 +243,14 @@ namespace visualization {
         this->addWindow("Main Window", this->show_main_window_, [this](){this->drawMainWindow();});
         this->addWindow("Image Processing Settings", this->show_im_proc_settings_window_, [this](){this->drawImageProcSettingsWindow();});
         this->addWindow("Camera Controls", this->show_camera_control_, [this](){this->drawCameraControl();});
-        this->addWindow("GUI Layout", this->show_layout_window_, [this](){this->drawLayoutWindow();});
 
+        this->layout_.draw(this->show_layout_window_);
+        this->show_cards_ = layout_.getConfig().show_cards;
+        this->show_im_proc_settings_window_ = this->layout_.getConfig().show_im_proc_settings_window;
+        this->show_camera_control_ = this->layout_.getConfig().show_camera_control;
+        this->show_card_images_ = this->layout_.getConfig().show_card_images;
+        this->show_rank_images_ = this->layout_.getConfig().show_rank_images;
+        this->show_suit_images_ = this->layout_.getConfig().show_suit_images;
 
         if(this->show_card_images_)
         {
@@ -363,4 +295,4 @@ namespace visualization {
 		this->listenWindowClose();
     }
 
-} // end namespace visualization
+} // end namespace gui

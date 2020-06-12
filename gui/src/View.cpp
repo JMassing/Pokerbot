@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-namespace visualization {
+namespace gui {
 
 	//@brief: visualize cards in grabbed image. Draws contours and card names
 	void View::drawCards(const std::vector<detect::Card>& cards, cv::Mat& dst, const cv::Scalar& color)

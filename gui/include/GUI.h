@@ -16,10 +16,11 @@
 #include "CameraControls.h"
 #include "ImProc.h"
 #include "DefaultConfig.h"
+#include "LayoutWin.h"
 
 #include "BaseGUI.h"
 
-namespace visualization {
+namespace gui {
 
 	class GUI: public BaseGUI
 	{
@@ -33,6 +34,7 @@ namespace visualization {
             std::shared_ptr<shared::DefaultConfig> default_config_;
 
             CaptureTrainImg capture_train_img_;
+            LayoutWin layout_;
             bool show_frame_;
             bool show_cards_;
             bool show_im_proc_settings_window_;
@@ -58,7 +60,6 @@ namespace visualization {
             void enforceBoundaries(const T& min, const T& max, T& value);
             void drawLiveView(const cv::Mat& frame, const std::vector<detect::Card>& cards);
             void drawMainWindow();
-            void drawLayoutWindow();
             void askForSave(bool& save, bool& show, std::string type);
             void drawCardImages(const std::vector<detect::Card>& cards);
             void drawRankImages(const std::vector<detect::Card>& cards);
@@ -66,8 +67,8 @@ namespace visualization {
             void drawImage(const cv::Mat& frame, const int& image_width, const int& image_height);
             void drawImageProcSettingsWindow();
             void drawCameraControl();
-            void saveLayoutAsDefault();
-            void setLayoutToDefault();
+            void saveAsDefault();
+            void setToDefault();
 
 		public:
 
@@ -76,9 +77,9 @@ namespace visualization {
       					
 	        GUI(std::shared_ptr<shared::DataDetectGui>& data_detect, std::shared_ptr<shared::DataPokerGui>& data_poker, std::shared_ptr<shared::CameraControls>& camera_control, std::shared_ptr<shared::DefaultConfig> default_config):  
                     BaseGUI(), visualize_(), cam_control_changed_(false), capture_train_img_(), mapping_(),  data_detect_(data_detect), data_poker_(data_poker), camera_control_(camera_control), 
-                    default_config_(default_config), show_ask_for_save_im_proc_(false), show_ask_for_save_layout_(false), show_ask_for_save_camera_(false)
+                    default_config_(default_config), show_ask_for_save_im_proc_(false), show_ask_for_save_layout_(false), show_ask_for_save_camera_(false), layout_{"Gui Layout", this->default_config_}
                     {
-                        this->setLayoutToDefault(); 
+                        this->setToDefault(); 
                     };
 	        ~GUI(){};
 
@@ -107,5 +108,5 @@ namespace visualization {
             
       }
 
-} // namespace visualization
+} // namespace gui
 

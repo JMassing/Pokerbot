@@ -1,6 +1,6 @@
 #include "CaptureTrainImg.h"
 
-namespace visualization
+namespace gui
 {
     void CaptureTrainImg::drawTrainImagesQuestionWindow()
     {

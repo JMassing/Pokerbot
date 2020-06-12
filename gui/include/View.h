@@ -12,7 +12,7 @@
 #include "Card.h"
 #include "Mapping.h"
 
-namespace visualization {
+namespace gui {
 
 	class View
 	{
@@ -42,5 +42,5 @@ namespace visualization {
 			View& operator=(View&& other) noexcept = default;
 	};
 
-} // namespace visualization
+} // namespace gui
 

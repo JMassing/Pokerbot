@@ -5,7 +5,8 @@ project(Pokerbot VERSION 0.1.0)
 # Bring all headers into the project
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/detection/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/visualization/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/gui/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/gui/include/widgets
     ${CMAKE_CURRENT_SOURCE_DIR}/poker/include
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/classes
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/functions  
@@ -18,7 +19,8 @@ conan_basic_setup()
 
 # add executables
 file(GLOB SOURCES_DETECTION "detection/src/*.cpp")
-file(GLOB SOURCES_VISULIZATION "visualization/src/*.cpp")
+file(GLOB SOURCES_GUI "gui/src/*.cpp")
+file(GLOB SOURCES_WIDGETS "gui/src/widgets/*.cpp")
 file(GLOB SOURCES_POKER "poker/src/*.cpp")
 file(GLOB SOURCES_SHARED "shared/src/*.cpp")
 file(GLOB SOURCES_PARAMETERS "globals/src/*.cpp")
@@ -26,7 +28,8 @@ file(GLOB SOURCES_PARAMETERS "globals/src/*.cpp")
 
 
 add_library( PokerbotLib 
-${SOURCES_VISULIZATION}
+${SOURCES_GUI}
+${SOURCES_WIDGETS}
 ${SOURCES_DETECTION}
 ${SOURCES_POKER} 
 ${SOURCES_SHARED}

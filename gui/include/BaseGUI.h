@@ -6,7 +6,7 @@
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
-namespace visualization {
+namespace gui {
 
 	class BaseGUI
 	{
@@ -74,5 +74,5 @@ namespace visualization {
             ImGui::End();
         }
     };
-} // namespace visualization
+} // namespace gui
 

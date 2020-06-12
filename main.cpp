@@ -21,7 +21,7 @@ using namespace std;
 using namespace detect;
 using namespace poker;
 using namespace templates;
-using namespace visualization;
+using namespace gui;
 using namespace shared;
 
 int main(int argc, char* argv[])

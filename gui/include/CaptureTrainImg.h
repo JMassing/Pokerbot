@@ -7,7 +7,7 @@
 #include "BaseGUI.h"
 #include "Image.h"
 
-namespace visualization
+namespace gui
 {
 
     class CaptureTrainImg

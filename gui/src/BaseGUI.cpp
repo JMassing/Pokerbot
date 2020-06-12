@@ -1,7 +1,7 @@
 
 #include "BaseGUI.h"
 
-namespace visualization {
+namespace gui {
 
     bool BaseGUI::init()
     {
@@ -98,4 +98,4 @@ namespace visualization {
             ImGui::EndTooltip();
         }
     }
-} // end namespace visualization
+} // end namespace gui
