@@ -216,16 +216,20 @@ namespace visualization {
         // Give a Constant label width, the rest goes to widget size, e.g. width of slider bar
         ImGui::PushItemWidth(ImGui::GetFontSize() * -15);  
 
-        ImGui::SliderInt("Card Threshold", &this->data_detect_->live_threshold, this->default_config_->min_live_th, this->default_config_->max_live_th); ImGui::SameLine(); this->helpMarker("Threshold for detecting cards in live image. CTRL+click to input value.");  
+        ImGui::SliderInt("Card Threshold", &this->data_detect_->live_threshold, this->default_config_->min_live_th, this->default_config_->max_live_th); 
+        ImGui::SameLine(); this->helpMarker("Threshold for detecting cards in live image. CTRL+click to input value.");  
         this->enforceBoundaries(this->default_config_->min_live_th, this->default_config_->max_live_th, this->data_detect_->live_threshold);
 
-        ImGui::SliderInt("Rank/Suit Threshold", &this->data_detect_->identification_threshold, this->default_config_->min_bin_th, this->default_config_->max_bin_th); ImGui::SameLine(); this->helpMarker("Threshold for detecting rank and suit image in upper left corner of card. CTRL+click to input value.");  
+        ImGui::SliderInt("Rank/Suit Threshold", &this->data_detect_->identification_threshold, this->default_config_->min_bin_th, this->default_config_->max_bin_th); 
+        ImGui::SameLine(); this->helpMarker("Threshold for detecting rank and suit image in upper left corner of card. CTRL+click to input value.");  
         this->enforceBoundaries( this->default_config_->min_bin_th, this->default_config_->max_bin_th, this->data_detect_->identification_threshold);
 
-        ImGui::SliderInt("Binarization Threshold", &this->data_detect_->binary_threshold, this->default_config_->min_ident_th, this->default_config_->max_ident_th); ImGui::SameLine(); this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  
+        ImGui::SliderInt("Binarization Threshold", &this->data_detect_->binary_threshold, this->default_config_->min_ident_th, this->default_config_->max_ident_th); 
+        ImGui::SameLine(); this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  
         this->enforceBoundaries( this->default_config_->min_ident_th, this->default_config_->max_ident_th, this->data_detect_->binary_threshold);
 
-        ImGui::SliderInt("# of simulation runs", &this->data_poker_->nr_of_simulation_runs, this->default_config_->min_sim_runs, this->default_config_->max_sim_runs); ImGui::SameLine(); this->helpMarker("Nr of times the simulation is run. CTRL+click to input value.");  
+        ImGui::SliderInt("# of simulation runs", &this->data_poker_->nr_of_simulation_runs, this->default_config_->min_sim_runs, this->default_config_->max_sim_runs);
+        ImGui::SameLine(); this->helpMarker("Nr of times the simulation is run. CTRL+click to input value.");  
         this->enforceBoundaries( this->default_config_->min_sim_runs, this->default_config_->max_sim_runs, this->data_poker_->nr_of_simulation_runs);
 
         this->addButton("Reset", [this](){this->data_detect_->setToDefault(); this->data_poker_->setToDefault();}); 
@@ -262,13 +266,16 @@ namespace visualization {
         changed |= ImGui::Checkbox("Use Auto Focus", &this->camera_control_->auto_focus); 
         changed |= ImGui::Checkbox("Use Auto Exposure", &this->camera_control_->auto_exposure);
         changed |= ImGui::Checkbox("Use Auto White Balance", &this->camera_control_->auto_wb); 
-        changed |= ImGui::SliderInt("Exposure", &this->camera_control_->exposure_time, this->default_config_->min_exp_time, this->default_config_->max_exp_time); ImGui::SameLine(); this->helpMarker("CTRL+click to input value. Value should be negative."); 
+        changed |= ImGui::SliderInt("Exposure", &this->camera_control_->exposure_time, this->default_config_->min_exp_time, this->default_config_->max_exp_time);
+        ImGui::SameLine(); this->helpMarker("CTRL+click to input value. Value should be negative."); 
         this->enforceBoundaries( this->default_config_->min_exp_time, this->default_config_->max_exp_time, this->camera_control_->exposure_time);
 
-        changed |= ImGui::SliderInt("Focus", &this->camera_control_->focus, this->default_config_->min_focus, this->default_config_->max_focus); ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
+        changed |= ImGui::SliderInt("Focus", &this->camera_control_->focus, this->default_config_->min_focus, this->default_config_->max_focus); 
+        ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
         this->enforceBoundaries( this->default_config_->min_focus, this->default_config_->max_focus, this->camera_control_->focus);
 
-        changed |= ImGui::SliderInt("Brightness", &this->camera_control_->brightness, this->default_config_->min_brightness, this->default_config_->max_brightness); ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
+        changed |= ImGui::SliderInt("Brightness", &this->camera_control_->brightness, this->default_config_->min_brightness, this->default_config_->max_brightness); 
+        ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
         this->enforceBoundaries( this->default_config_->min_brightness, this->default_config_->max_brightness, this->camera_control_->brightness);
 
         changed |= this->addButton("Reset", [this](){this->camera_control_->setToDefault();});
