@@ -5,7 +5,7 @@
 #include "Window.h"
 #include "DefaultConfig.h"
 #include "AskForSaveWin.h"
-#include "ImProcConfig.h"
+#include "ImProcWinConfig.h"
 
 namespace gui {
 
@@ -16,7 +16,7 @@ namespace gui {
 		AskForSaveWin save_win_;
 		bool show_ask_for_save_;
 		std::shared_ptr<shared::DefaultConfig> default_config_;
-		ImProcConfig config_;
+		ImProcWinConfig config_;
 
 		virtual bool content() override;
 		void setConfigToDefault();
@@ -24,7 +24,7 @@ namespace gui {
 		
 		public:
 
-			ImProcConfig getUserInput(){ return this->config_;};
+			ImProcWinConfig getUserInput(){ return this->config_;};
 			
 			ImProcWin(const std::string& name, std::shared_ptr<shared::DefaultConfig>& default_config, const int& flag = 0):
 				Window(name, flag), default_config_(default_config), show_ask_for_save_(false), 

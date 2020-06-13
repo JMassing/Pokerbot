@@ -146,52 +146,6 @@ namespace gui {
         this->addButton("No", [&show](){show = false;});
     }
 
-    void GUI::drawCameraControl()
-    {
-        // Give a Constant label width, the rest goes to widget size, e.g. width of slider bar
-        ImGui::PushItemWidth(ImGui::GetFontSize() * -8);  
-
-        bool changed = false;
-        // draw Gui Controls and check if any control was changed. If so, set this->cam_control_changes to true, else to false
-        changed |= ImGui::Checkbox("Use Auto Focus", &this->camera_control_->auto_focus); 
-        changed |= ImGui::Checkbox("Use Auto Exposure", &this->camera_control_->auto_exposure);
-        changed |= ImGui::Checkbox("Use Auto White Balance", &this->camera_control_->auto_wb); 
-        changed |= ImGui::SliderInt("Exposure", &this->camera_control_->exposure_time, this->default_config_->min_exp_time, this->default_config_->max_exp_time);
-        ImGui::SameLine(); this->helpMarker("CTRL+click to input value. Value should be negative."); 
-        this->enforceBoundaries( this->default_config_->min_exp_time, this->default_config_->max_exp_time, this->camera_control_->exposure_time);
-
-        changed |= ImGui::SliderInt("Focus", &this->camera_control_->focus, this->default_config_->min_focus, this->default_config_->max_focus); 
-        ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
-        this->enforceBoundaries( this->default_config_->min_focus, this->default_config_->max_focus, this->camera_control_->focus);
-
-        changed |= ImGui::SliderInt("Brightness", &this->camera_control_->brightness, this->default_config_->min_brightness, this->default_config_->max_brightness); 
-        ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
-        this->enforceBoundaries( this->default_config_->min_brightness, this->default_config_->max_brightness, this->camera_control_->brightness);
-
-        changed |= this->addButton("Reset", [this](){this->camera_control_->setToDefault();});
-        ImGui::SameLine();
-
-        bool save = false;
-        this->addButton("Save Camera Setting", [this](){this->show_ask_for_save_camera_= true;}); 
-        if(this->show_ask_for_save_camera_ == true)
-        {
-            this->addWindow("##saveSettingsCamera",this->show_ask_for_save_camera_,[this, &save](){this->askForSave(save, this->show_ask_for_save_camera_, "camera");});
-        }
-        if(save == true)
-        {
-          this->camera_control_->saveAsDefault();
-        }
-
-        if (changed)
-        {
-            this->cam_control_changed_ = true;
-        }
-        else
-        {
-            this->cam_control_changed_ = false;
-        }
-    }
-
     void GUI::drawGui(const cv::Mat& frame)
     {   
         
@@ -212,7 +166,14 @@ namespace gui {
         this->data_detect_->live_threshold = img_proc_settings_.getUserInput().live_threshold;
         this->data_poker_->nr_of_simulation_runs = img_proc_settings_.getUserInput().nr_sim_runs;
 
-        this->addWindow("Camera Controls", this->show_camera_control_, [this](){this->drawCameraControl();});
+        this->cam_control_changed_ = this->camera_settings_.draw(this->show_camera_control_);
+        this->camera_control_->auto_exposure = this->camera_settings_.getUserInput().auto_exposure;
+        this->camera_control_->auto_focus = this->camera_settings_.getUserInput().auto_focus;
+        this->camera_control_->auto_wb = this->camera_settings_.getUserInput().auto_wb;
+        this->camera_control_->exposure_time = this->camera_settings_.getUserInput().exposure_time;
+        this->camera_control_->brightness = this->camera_settings_.getUserInput().brightness;
+        this->camera_control_->focus = this->camera_settings_.getUserInput().focus;
+        this->camera_control_->zoom = this->camera_settings_.getUserInput().zoom;
 
         this->layout_.draw(this->show_layout_window_);
         this->show_cards_ = layout_.getUserInput().show_cards;
