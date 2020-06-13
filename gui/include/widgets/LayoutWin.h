@@ -27,7 +27,8 @@ namespace gui {
 			LayoutWinConfig getUserInput(){ return this->config_;};
 			
 			LayoutWin(const std::string& name, std::shared_ptr<shared::DefaultConfig>& default_config, const int& flag = 0):
-				Window(name, flag), default_config_(default_config), save_win_("##save_layout", "layout", this->show_ask_for_save_)
+				Window(name, flag), default_config_(default_config), show_ask_for_save_(false), 
+				save_win_("##save_layout", "layout", this->show_ask_for_save_)
 				{
 					this->setConfigToDefault();
 				};

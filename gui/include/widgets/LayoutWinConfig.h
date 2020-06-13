@@ -2,8 +2,6 @@
 
 #include <opencv2/core.hpp>
 
-#include "DefaultConfig.h"
-
 namespace gui {
 
     struct LayoutWinConfig

@@ -137,42 +137,6 @@ namespace gui {
         this->addButton("Quit Program", [this](){this->closeWindow();});
     }
 
-    void GUI::drawImageProcSettingsWindow()
-    {
-        // Give a Constant label width, the rest goes to widget size, e.g. width of slider bar
-        ImGui::PushItemWidth(ImGui::GetFontSize() * -15);  
-
-        ImGui::SliderInt("Card Threshold", &this->data_detect_->live_threshold, this->default_config_->min_live_th, this->default_config_->max_live_th); 
-        ImGui::SameLine(); this->helpMarker("Threshold for detecting cards in live image. CTRL+click to input value.");  
-        this->enforceBoundaries(this->default_config_->min_live_th, this->default_config_->max_live_th, this->data_detect_->live_threshold);
-
-        ImGui::SliderInt("Rank/Suit Threshold", &this->data_detect_->identification_threshold, this->default_config_->min_bin_th, this->default_config_->max_bin_th); 
-        ImGui::SameLine(); this->helpMarker("Threshold for detecting rank and suit image in upper left corner of card. CTRL+click to input value.");  
-        this->enforceBoundaries( this->default_config_->min_bin_th, this->default_config_->max_bin_th, this->data_detect_->identification_threshold);
-
-        ImGui::SliderInt("Binarization Threshold", &this->data_detect_->binary_threshold, this->default_config_->min_ident_th, this->default_config_->max_ident_th); 
-        ImGui::SameLine(); this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  
-        this->enforceBoundaries( this->default_config_->min_ident_th, this->default_config_->max_ident_th, this->data_detect_->binary_threshold);
-
-        ImGui::SliderInt("# of simulation runs", &this->data_poker_->nr_of_simulation_runs, this->default_config_->min_sim_runs, this->default_config_->max_sim_runs);
-        ImGui::SameLine(); this->helpMarker("Nr of times the simulation is run. CTRL+click to input value.");  
-        this->enforceBoundaries( this->default_config_->min_sim_runs, this->default_config_->max_sim_runs, this->data_poker_->nr_of_simulation_runs);
-
-        this->addButton("Reset", [this](){this->data_detect_->setToDefault(); this->data_poker_->setToDefault();}); 
-        ImGui::SameLine();
-        bool save = false;
-        this->addButton("Save Settings", [this](){this->show_ask_for_save_im_proc_ = true;}); 
-        if(this->show_ask_for_save_im_proc_ == true)
-        {
-            this->addWindow("##saveSettingsImProc",this->show_ask_for_save_im_proc_,[this, &save](){this->askForSave(save, this->show_ask_for_save_im_proc_, "image processing");});
-        }
-        if(save == true)
-        {
-          this->data_detect_->saveAsDefault(); this->data_poker_->saveAsDefault();
-        }
-        this->addButton("Capture Training Images", [this](){this->capture_train_img_.captureRequested();});
-    }
-
     void GUI::askForSave(bool& save, bool& show, std::string type)
     {
         std::string text = "Save current " + type + " settings as default?\n" 
@@ -241,7 +205,13 @@ namespace gui {
         // Add Elements to GUI
         this->addWindow("Live Image", this->show_frame_, [this, &frame, &cards](){this->drawLiveView(frame, cards);}, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
         this->addWindow("Main Window", this->show_main_window_, [this](){this->drawMainWindow();});
-        this->addWindow("Image Processing Settings", this->show_im_proc_settings_window_, [this](){this->drawImageProcSettingsWindow();});
+
+        this->img_proc_settings_.draw(this->show_im_proc_settings_window_);
+        this->data_detect_->identification_threshold = img_proc_settings_.getUserInput().identification_threshold;
+        this->data_detect_->binary_threshold = img_proc_settings_.getUserInput().binary_threshold;
+        this->data_detect_->live_threshold = img_proc_settings_.getUserInput().live_threshold;
+        this->data_poker_->nr_of_simulation_runs = img_proc_settings_.getUserInput().nr_sim_runs;
+
         this->addWindow("Camera Controls", this->show_camera_control_, [this](){this->drawCameraControl();});
 
         this->layout_.draw(this->show_layout_window_);

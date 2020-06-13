@@ -17,6 +17,7 @@
 #include "ImProc.h"
 #include "DefaultConfig.h"
 #include "LayoutWin.h"
+#include "ImProcWin.h"
 
 #include "BaseGUI.h"
 
@@ -35,6 +36,7 @@ namespace gui {
 
             CaptureTrainImg capture_train_img_;
             LayoutWin layout_;
+            ImProcWin img_proc_settings_;
             bool show_frame_;
             bool show_cards_;
             bool show_im_proc_settings_window_;
@@ -77,7 +79,8 @@ namespace gui {
       					
 	        GUI(std::shared_ptr<shared::DataDetectGui>& data_detect, std::shared_ptr<shared::DataPokerGui>& data_poker, std::shared_ptr<shared::CameraControls>& camera_control, std::shared_ptr<shared::DefaultConfig> default_config):  
                     BaseGUI(), visualize_(), cam_control_changed_(false), capture_train_img_(), mapping_(),  data_detect_(data_detect), data_poker_(data_poker), camera_control_(camera_control), 
-                    default_config_(default_config), show_ask_for_save_im_proc_(false), show_ask_for_save_layout_(false), show_ask_for_save_camera_(false), layout_{"Gui Layout", this->default_config_}
+                    default_config_(default_config), show_ask_for_save_im_proc_(false), show_ask_for_save_layout_(false), show_ask_for_save_camera_(false), layout_{"Gui Layout", this->default_config_},
+                    img_proc_settings_("Image Processing Settings", this->default_config_)
                     {
                         this->setToDefault(); 
                     };
