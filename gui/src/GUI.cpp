@@ -49,7 +49,7 @@ namespace gui {
 
     void GUI::drawCardImages(const std::vector<detect::Card>& cards)
     {
-        int height = this->card_image_height_ * this->layout_.getConfig().card_image_height_percent/100;
+        int height = this->card_image_height_ * this->layout_.getUserInput().card_image_height_percent/100;
         for(const auto& card: cards)
         {
             this->drawImage(card.card_image.image, height/this->default_config_->card_aspect_ratio, height); 
@@ -59,7 +59,7 @@ namespace gui {
 
     void GUI::drawRankImages(const std::vector<detect::Card>& cards)
     {
-        int height = this->card_rank_suit_height_ * this->layout_.getConfig().card_rank_suit_height_percent/100;
+        int height = this->card_rank_suit_height_ * this->layout_.getUserInput().card_rank_suit_height_percent/100;
         for(const auto& card: cards)
         {
             this->drawImage(card.rank_image.image, height, height);
@@ -69,7 +69,7 @@ namespace gui {
 
     void GUI::drawSuitImages(const std::vector<detect::Card>& cards)
     {
-        int height = this->card_rank_suit_height_ * this->layout_.getConfig().card_rank_suit_height_percent/100;
+        int height = this->card_rank_suit_height_ * this->layout_.getUserInput().card_rank_suit_height_percent/100;
         for(const auto& card: cards)
         {
             this->drawImage(card.suit_image.image, height, height);
@@ -85,7 +85,7 @@ namespace gui {
 
         if(show_cards_ && cards.size() > 0)
         {
-            this->visualize_.drawCards(cards, shown_image, this->layout_.getConfig().card_outline_color);
+            this->visualize_.drawCards(cards, shown_image, this->layout_.getUserInput().card_outline_color);
         }
 
         if(this->capture_train_img_.capture_)
@@ -100,7 +100,7 @@ namespace gui {
             this->visualize_.drawRectangle(shown_image, this->data_detect_->public_area, cv::Scalar{0, 255, 255});
         }
 
-        this->drawImage(shown_image, this->layout_.getConfig().live_image_width,this->layout_.getConfig().live_image_height);
+        this->drawImage(shown_image, this->layout_.getUserInput().live_image_width,this->layout_.getUserInput().live_image_height);
     }
 
     void GUI::drawMainWindow()
@@ -245,12 +245,12 @@ namespace gui {
         this->addWindow("Camera Controls", this->show_camera_control_, [this](){this->drawCameraControl();});
 
         this->layout_.draw(this->show_layout_window_);
-        this->show_cards_ = layout_.getConfig().show_cards;
-        this->show_im_proc_settings_window_ = this->layout_.getConfig().show_im_proc_settings_window;
-        this->show_camera_control_ = this->layout_.getConfig().show_camera_control;
-        this->show_card_images_ = this->layout_.getConfig().show_card_images;
-        this->show_rank_images_ = this->layout_.getConfig().show_rank_images;
-        this->show_suit_images_ = this->layout_.getConfig().show_suit_images;
+        this->show_cards_ = layout_.getUserInput().show_cards;
+        this->show_im_proc_settings_window_ = this->layout_.getUserInput().show_im_proc_settings_window;
+        this->show_camera_control_ = this->layout_.getUserInput().show_camera_control;
+        this->show_card_images_ = this->layout_.getUserInput().show_card_images;
+        this->show_rank_images_ = this->layout_.getUserInput().show_rank_images;
+        this->show_suit_images_ = this->layout_.getUserInput().show_suit_images;
 
         if(this->show_card_images_)
         {

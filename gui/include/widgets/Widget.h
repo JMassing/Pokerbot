@@ -9,7 +9,7 @@ namespace gui {
     
 		public:
 			
-			virtual void draw(bool& ) = 0;
+			virtual bool draw(bool& ) = 0;
 
 			Widget() {};
 			virtual ~Widget() {};

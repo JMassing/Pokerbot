@@ -13,7 +13,7 @@ namespace gui {
 
 		std::string name_;
 		int flag_;
-		virtual void content() = 0;
+		virtual bool content() = 0;
 				//// Temporary!!!!!!! Delete later
 		template<class T>
         bool addButton(const char* name, T& callback);
@@ -24,14 +24,16 @@ namespace gui {
 		
 		public:
 			
-			virtual void draw(bool& show) override
+			virtual bool draw(bool& show) override
 			{
+				bool ret_val = false;
 				if(show)
 				{
 					ImGui::Begin(this->name_.c_str(), &show, this->flag_);
-					this->content();
+					ret_val = this->content();
 					ImGui::End();
 				}
+				return ret_val;
 			};
 
 			Window(const std::string& name, const int& flag = 0): name_(name), flag_(flag) {};
