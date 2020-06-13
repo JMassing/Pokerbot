@@ -22,7 +22,7 @@ namespace gui {
 
         LayoutWinConfig():
             show_cards{false}, show_camera_control{false}, show_im_proc_settings_window{false}, show_card_images{false}, show_rank_images{false}, show_suit_images{false},
-            live_image_height{0}, live_image_width{0}, card_image_height_percent{0}, card_rank_suit_height_percent{0}, card_outline_color{0,0,0}
+            live_image_height{1280}, live_image_width{720}, card_image_height_percent{100}, card_rank_suit_height_percent{100}, card_outline_color{0,0,0}
         {
 
         };

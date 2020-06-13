@@ -21,10 +21,6 @@ namespace gui
         ImGui::SameLine(); this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  
         this->enforceBoundaries( this->config_.min_ident_th, this->config_.max_ident_th, this->config_.binary_threshold);
 
-        changed |= ImGui::SliderInt("# of simulation runs", &this->config_.nr_sim_runs, this->config_.min_sim_runs, this->config_.max_sim_runs);
-        ImGui::SameLine(); this->helpMarker("Nr of times the simulation is run. CTRL+click to input value.");  
-        this->enforceBoundaries( this->config_.min_sim_runs, this->config_.max_sim_runs, this->config_.nr_sim_runs);
-
         this->addButton("Reset", [this](){this->setConfigToDefault();}); 
         ImGui::SameLine();
         this->addButton("Save Settings", [this](){this->show_ask_for_save_ = true;}); 
@@ -47,7 +43,6 @@ namespace gui
         config_.live_threshold = this->default_config_->live_threshold;
         config_.binary_threshold = this->default_config_->binary_threshold;
         config_.identification_threshold = this->default_config_->identification_threshold;
-        config_.nr_sim_runs = this->default_config_->nr_sim_runs;
     }
 
 	void ImProcWin::saveConfigAsDefault()
@@ -55,7 +50,6 @@ namespace gui
         this->default_config_->live_threshold = config_.live_threshold;
         this->default_config_->binary_threshold = config_.binary_threshold;
         this->default_config_->identification_threshold = config_.identification_threshold;
-        this->default_config_->nr_sim_runs = config_.nr_sim_runs;
         this->default_config_->saveConfig();
     };
 
