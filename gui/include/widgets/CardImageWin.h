@@ -14,7 +14,7 @@ namespace gui {
 		private:
 
 			ImageDrawer drawer_;
-			int aspect_ratio_;
+			double aspect_ratio_;
 			int image_height_;
 			std::vector<detect::Card> cards_;
 			int image_height_percent_;
@@ -23,7 +23,7 @@ namespace gui {
 
 		public:
 
-			void update(const int& aspect_ratio, const int& image_height, const std::vector<detect::Card>& cards, const int& card_image_height_percent);
+			void update(const double& aspect_ratio, const int& image_height, const std::vector<detect::Card>& cards, const int& card_image_height_percent);
 
 		
 			CardImageWin(const std::string& name, const int& flag = 0): 

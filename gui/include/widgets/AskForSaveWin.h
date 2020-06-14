@@ -2,6 +2,7 @@
 
 #include "Window.h"
 #include "memory"
+#include "Button.h"
 
 namespace gui {
 
@@ -12,13 +13,14 @@ namespace gui {
 		bool save_;
 		bool& show_;
 		std::string type_;
+		Button button_;
 
 		virtual bool content() override;
 		
 		public:
 	
 			AskForSaveWin(const std::string& name, const std::string& type, bool& show, const int& flag = 0):
-			Window(name, flag),	save_(false), type_(type), show_(show)
+			Window(name, flag),	save_(false), type_(type), show_(show), button_()
 			{};
 			virtual ~AskForSaveWin() {};
 

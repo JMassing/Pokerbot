@@ -6,6 +6,8 @@
 #include "LayoutWinConfig.h"
 #include "DefaultConfig.h"
 #include "AskForSaveWin.h"
+#include "Button.h"
+#include "Slider.h"
 
 namespace gui {
 
@@ -17,6 +19,8 @@ namespace gui {
 		AskForSaveWin save_win_;
 		bool show_ask_for_save_;
 		std::shared_ptr<shared::DefaultConfig> default_config_;
+		Slider slider_;
+		Button button_;
 
 		virtual bool content() override;
 		void setConfigToDefault();
@@ -28,7 +32,7 @@ namespace gui {
 			
 			LayoutWin(const std::string& name, std::shared_ptr<shared::DefaultConfig>& default_config, const int& flag = 0):
 				Window(name, flag), default_config_(default_config), show_ask_for_save_(false), 
-				save_win_("##save_layout", "layout", this->show_ask_for_save_)
+				save_win_("##save_layout", "layout", this->show_ask_for_save_), slider_{}, button_{}
 				{
 					this->setConfigToDefault();
 				};

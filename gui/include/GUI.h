@@ -5,12 +5,8 @@
 #include <memory>
 
 #include <opencv2/core.hpp>
-#include <functional>
 
-#include "View.h"
 #include "Card.h"
-#include "CaptureTrainImg.h"
-#include "Mapping.h"
 #include "DataDetectGui.h"
 #include "DataPokerGui.h"
 #include "CameraControls.h"
@@ -34,14 +30,11 @@ namespace gui {
 	{
 		private:
 
-            View visualize_;
-            detect::Mapping mapping_;
             std::shared_ptr<shared::DataDetectGui> data_detect_;
             std::shared_ptr<shared::DataPokerGui> data_poker_;
        	std::shared_ptr<shared::CameraControls> camera_control_;
             std::shared_ptr<shared::DefaultConfig> default_config_;
 
-            CaptureTrainImg capture_train_img_;
             LayoutWin layout_;
             ImProcWin img_proc_settings_;
             CameraWin camera_settings_;
@@ -71,8 +64,7 @@ namespace gui {
             int card_rank_suit_height_percent_;
             cv::Scalar card_outline_color_;  
 
-            template<class T>
-            void enforceBoundaries(const T& min, const T& max, T& value);
+           
             void saveAsDefault();
             void setToDefault();
 
@@ -81,8 +73,9 @@ namespace gui {
             bool camControlsChanged() { return this->cam_control_changed_; };
             void drawGui(const cv::Mat& live_frame);
       					
-	        GUI(std::shared_ptr<shared::DataDetectGui>& data_detect, std::shared_ptr<shared::DataPokerGui>& data_poker, std::shared_ptr<shared::CameraControls>& camera_control, std::shared_ptr<shared::DefaultConfig> default_config):  
-                    BaseGUI(), visualize_(), cam_control_changed_(false), capture_train_img_(), mapping_(),  data_detect_(data_detect), data_poker_(data_poker), camera_control_(camera_control), show_game_window_(true),
+	        GUI(std::shared_ptr<shared::DataDetectGui>& data_detect, std::shared_ptr<shared::DataPokerGui>& data_poker, std::shared_ptr<shared::CameraControls>& camera_control, 
+                  std::shared_ptr<shared::DefaultConfig> default_config):  
+                    BaseGUI(), cam_control_changed_(false), data_detect_(data_detect), data_poker_(data_poker), camera_control_(camera_control), show_game_window_(true),
                     default_config_(default_config),
                     layout_{"Gui Layout", this->default_config_}, 
                     img_proc_settings_("Image Processing Settings", this->default_config_),  
@@ -104,24 +97,6 @@ namespace gui {
 		    GUI(GUI&& other) noexcept = default;
 		    GUI& operator=(GUI&& other) noexcept = default;
 	};
-
-      template<class T>
-      void GUI::enforceBoundaries(const T& min, const T& max, T& value)
-      {
-            if(value < min)
-            {
-                  value = min;
-            }
-            else if(value > max)
-            {
-                  value = max;
-            }
-            else
-            {
-                  //do nothing
-            }
-            
-      }
 
 } // namespace gui
 

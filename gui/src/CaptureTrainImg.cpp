@@ -4,15 +4,15 @@ namespace gui
 {
     void CaptureTrainImg::drawTrainImagesQuestionWindow()
     {
-            ImGui::Text("Start Capture of new training images?");
+           /* ImGui::Text("Start Capture of new training images?");
             gui_.addButton("Yes", [this](){this->capture_ = true; this->show_question_ = false; this->capture_button_pressed_ = false;});
             ImGui::SameLine();
-            gui_.addButton("Cancel", [this](){this->capture_ = false; this->show_question_ = false; this->capture_button_pressed_ = false;});
+            gui_.addButton("Cancel", [this](){this->capture_ = false; this->show_question_ = false; this->capture_button_pressed_ = false;});*/
     }
 
     void CaptureTrainImg::drawTrainImagesCaptureWindow()
     {
-        if(this->nr_of_cards_ == 1)
+       /*if(this->nr_of_cards_ == 1)
         {
             gui_.addButton("Save", [this](){this->saveImage(); ++this->card_value_;});
         }
@@ -22,21 +22,21 @@ namespace gui
         }
 
         ImGui::SameLine();
-        gui_.addButton("Stop", [this](){this->capture_ = false;});
+        gui_.addButton("Stop", [this](){this->capture_ = false;});*/
 
     }
 
     void CaptureTrainImg::saveImage()
     {   
-        std::string name = this->train_images_folder_+ "\\" + this->card_ + ".jpg";
-        cv::imwrite( name, this->train_image_.image );
+        /*std::string name = this->train_images_folder_+ "\\" + this->card_ + ".jpg";
+        cv::imwrite( name, this->train_image_.image );*/
 
     }
 
 
     void CaptureTrainImg::drawTrainImagesGuiWindow()
     {
-        if(!this->capture_ && this->show_question_)
+        /*if(!this->capture_ && this->show_question_)
         {
             gui_.addWindow("##show_question", this->show_question_ , [this](){this->drawTrainImagesQuestionWindow();});
         }
@@ -52,12 +52,12 @@ namespace gui
         {
             this->card_value_ = 2;
             this->capture_ = false;
-        }
+        }*/
     }
 
     void CaptureTrainImg::printInstructions(cv::Mat& dst, const cv::Scalar& color)
     {
-        this->card_ = this->card_mapping_.image_mappings.right.at(this->card_value_);
+       /* this->card_ = this->card_mapping_.image_mappings.right.at(this->card_value_);
         this->type_ = "";
         if(this->card_value_ < 15)
         {
@@ -78,6 +78,6 @@ namespace gui
         {
             std::string warning = "Please only place one card within the camera view";
             this->visualize_.printText(dst, warning, cv::Point(330,400), cv::Scalar{0,0,255});
-        }
+        }*/
     }
 }//end namespace detect

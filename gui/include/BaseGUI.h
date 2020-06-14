@@ -23,19 +23,15 @@ namespace gui {
             void setupContext();
             void tearDown();
             void helpMarker(const char* desc);
+            void setEventHandler();
+            void render();
+            void listenWindowClose();  
 
 		public:
 
-            template<class T>
-            bool addButton(const char* name, T& callback);
-            template<class T>
-            void addWindow(const char* name, bool& show_window, T& content, int flag = 0);
-            bool init();
-            void setEventHandler();
-            void drawGuiFrame();
-            void render();
-            bool shouldClose() { return this->should_close_; };
-            void listenWindowClose();   
+            bool init();            
+            void drawGuiFrame();            
+            bool shouldClose() { return this->should_close_; };             
             void closeWindow() { this->should_close_ = true; }; 
   					
 			BaseGUI(): window_(nullptr), should_close_(false) {};
@@ -51,28 +47,5 @@ namespace gui {
 			BaseGUI& operator=(BaseGUI&& other) noexcept = default;
 	};
 
-    //template functions
-    template<class T>
-    bool BaseGUI::addButton(const char* name, T& callback)
-    {
-        bool activated = false;
-        if(ImGui::Button(name))
-        {
-            callback();
-            activated = true;
-        }                    
-        return activated;       
-    };
-
-    template<class T>
-    void BaseGUI::addWindow(const char* name, bool& show_window, T& content, int flag)
-    {
-        if(show_window)
-        {
-            ImGui::Begin(name, &show_window, flag);
-            content();
-            ImGui::End();
-        }
-    };
 } // namespace gui
 

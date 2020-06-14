@@ -20,30 +20,30 @@ namespace gui
         changed |= ImGui::Checkbox("Show Card Images", &this->config_.show_card_images); ImGui::SameLine(); this->helpMarker("If checked, card images extracted from live frame are displayed.");
         changed |= ImGui::Checkbox("Show Rank Images", &this->config_.show_rank_images); ImGui::SameLine(); this->helpMarker("If checked, binarized rank images extracted from card images are displayed.");
         changed |= ImGui::Checkbox("Show Suit Images", &this->config_.show_suit_images); ImGui::SameLine(); this->helpMarker("If checked, binarized suit images extracted from card images are displayed.");
+
         if (ImGui::CollapsingHeader("Live Image Size"))
         {
-            this->addButton("800x600", [this](){this->config_.live_image_width = 800; this->config_.live_image_height = 600;}); ImGui::SameLine();
-            this->addButton("1024x768", [this](){this->config_.live_image_width = 1024; this->config_.live_image_height = 768;}); ImGui::SameLine();
-            this->addButton("1280x720", [this](){this->config_.live_image_width = 1280; this->config_.live_image_height = 720;}); 
-            this->addButton("1280x768", [this](){this->config_.live_image_width = 1280; this->config_.live_image_height = 768;}); ImGui::SameLine();
-            this->addButton("1280x800", [this](){this->config_.live_image_width = 1280; this->config_.live_image_height = 800;}); ImGui::SameLine();
-            this->addButton("1280x1024", [this](){this->config_.live_image_width = 1280; this->config_.live_image_height = 1024;});
-            this->addButton("1360x768", [this](){this->config_.live_image_width = 1360; this->config_.live_image_height = 768;}); ImGui::SameLine();
-            this->addButton("1366x768", [this](){this->config_.live_image_width = 1366; this->config_.live_image_height = 768;}); ImGui::SameLine();
-            this->addButton("1400x1050", [this](){this->config_.live_image_width = 1400; this->config_.live_image_height = 1050;});
-            this->addButton("1440x900", [this](){this->config_.live_image_width = 1440; this->config_.live_image_height = 900;}); ImGui::SameLine();
-            this->addButton("1600x900", [this](){this->config_.live_image_width = 1600; this->config_.live_image_height = 900;}); ImGui::SameLine();
-            this->addButton("1920x1080", [this](){this->config_.live_image_width = 1920; this->config_.live_image_height = 1080;});
+            changed |= this->button_.draw("800x600", true,  [this](){this->config_.live_image_width = 800; this->config_.live_image_height = 600;}); ImGui::SameLine();
+            changed |= this->button_.draw("1024x768", true,  [this](){this->config_.live_image_width = 1024; this->config_.live_image_height = 768;}); ImGui::SameLine();
+            changed |= this->button_.draw("1280x720", true,  [this](){this->config_.live_image_width = 1280; this->config_.live_image_height = 720;}); 
+            changed |= this->button_.draw("1280x768", true,  [this](){this->config_.live_image_width = 1280; this->config_.live_image_height = 768;}); ImGui::SameLine();
+            changed |= this->button_.draw("1280x800", true,  [this](){this->config_.live_image_width = 1280; this->config_.live_image_height = 800;}); ImGui::SameLine();
+            changed |= this->button_.draw("1280x1024", true,  [this](){this->config_.live_image_width = 1280; this->config_.live_image_height = 1024;}); 
+            changed |= this->button_.draw("1360x768", true,  [this](){this->config_.live_image_width = 1360; this->config_.live_image_height = 768;}); ImGui::SameLine();
+            changed |= this->button_.draw("1366x768", true,  [this](){this->config_.live_image_width = 1366; this->config_.live_image_height = 768;}); ImGui::SameLine();
+            changed |= this->button_.draw("1400x1050", true,  [this](){this->config_.live_image_width = 1400; this->config_.live_image_height = 1050;}); 
+            changed |= this->button_.draw("1440x900", true,  [this](){this->config_.live_image_width = 1440; this->config_.live_image_height = 900;}); ImGui::SameLine();
+            changed |= this->button_.draw("1600x900", true,  [this](){this->config_.live_image_width = 1600; this->config_.live_image_height = 900;}); ImGui::SameLine();
+            changed |= this->button_.draw("1920x1080", true,  [this](){this->config_.live_image_width = 1920; this->config_.live_image_height = 1080;}); 
         }
-        changed |= ImGui::SliderInt("Card Image Size", &this->config_.card_image_height_percent, 25, 175); ImGui::SameLine(); this->helpMarker("Size of displayed card images in %. CTRL+click to input value.");
-        this->enforceBoundaries(25, 175, this->config_.card_image_height_percent);
-        changed |= ImGui::SliderInt("Rank/Suit Image Size", &this->config_.card_rank_suit_height_percent, 25, 175);ImGui::SameLine(); this->helpMarker("Size of displayed rank and suit images in %. CTRL+click to input value.");
-        this->enforceBoundaries(25, 175, this->config_.card_rank_suit_height_percent);
 
-        this->addButton("Reset Layout", [this](){this->setConfigToDefault();}); 
+        changed |= this->slider_.draw("Card Image Size", 25, 175, this->config_.card_image_height_percent, true); ImGui::SameLine(); this->helpMarker("Size of displayed card images in %. CTRL+click to input value.");
+        changed |= this->slider_.draw("Rank/Suit Image Size", 25, 175, this->config_.card_rank_suit_height_percent, true); ImGui::SameLine(); this->helpMarker("Size of displayed rank and suit images in %. CTRL+click to input value.");
+
+        changed |= this->button_.draw("Reset Layout", true,  [this](){this->setConfigToDefault();});
         ImGui::SameLine();        
-        this->addButton("Save Layout", [this](){this->show_ask_for_save_ = true;}); 
-        
+        this->button_.draw("Save Layout", true,  [this](){this->show_ask_for_save_ = true;});
+                
         if(this->show_ask_for_save_ == true)
         {
             if(this->save_win_.draw(this->show_ask_for_save_))

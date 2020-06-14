@@ -10,6 +10,9 @@
 #include "PokerGameWinConfig.h"
 #include "Mapping.h"
 #include "Card.h"
+#include "Button.h"
+#include "Slider.h"
+#include "Input.h"
 
 namespace gui {
 
@@ -28,13 +31,16 @@ namespace gui {
 		virtual bool content() override;
 		void setConfigToDefault();
 		void saveConfigAsDefault();
+		Slider slider_;
+		Button button_;
+		Input input_;
 		
 		public:
 
 			PokerGameWinConfig getUserInput(){ return this->config_;};
 			
 			PokerGameWin(const std::string& name, std::shared_ptr<shared::DefaultConfig>& default_config, std::pair<double,double>& probability, std::vector<detect::Card>& robot_cards, std::vector<detect::Card>& public_cards, const int& flag = 0):
-				Window(name, flag), default_config_(default_config), show_ask_for_save_(false), mapping_{}, robot_cards_(robot_cards), public_cards_(public_cards),
+				Window(name, flag), default_config_(default_config), show_ask_for_save_(false), mapping_{}, robot_cards_(robot_cards), public_cards_(public_cards), slider_{}, button_{}, input_{},
 				save_win_("##save_poker", "game settings", this->show_ask_for_save_), probability_(probability)
 				{
 					this->setConfigToDefault();

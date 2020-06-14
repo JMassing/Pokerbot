@@ -9,25 +9,18 @@ namespace gui
         ImGui::PushItemWidth(ImGui::GetFontSize() * -8);  
 
         bool changed = false;
-        // draw Gui Controls and check if any control was changed. If so, set this->cam_control_changes to true, else to false
+
         changed |= ImGui::Checkbox("Use Auto Focus", &this->config_.auto_focus); 
         changed |= ImGui::Checkbox("Use Auto Exposure", &this->config_.auto_exposure);
         changed |= ImGui::Checkbox("Use Auto White Balance", &this->config_.auto_wb); 
-        changed |= ImGui::SliderInt("Exposure", &this->config_.exposure_time, this->config_.min_exp_time, this->config_.max_exp_time);
-        ImGui::SameLine(); this->helpMarker("CTRL+click to input value. Value should be negative."); 
-        this->enforceBoundaries( this->config_.min_exp_time, this->config_.max_exp_time, this->config_.exposure_time);
+        changed |= this->slider_.draw("Exposure", this->config_.min_exp_time, this->config_.max_exp_time, this->config_.exposure_time, true); ImGui::SameLine(); this->helpMarker("CTRL+click to input value. Value should be negative."); 
+        changed |= this->slider_.draw("Focus", this->config_.min_focus, this->config_.max_focus, this->config_.focus, true); ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
+        changed |= this->slider_.draw("Brightness", this->config_.min_brightness, this->config_.max_brightness, this->config_.brightness, true); ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
 
-        changed |= ImGui::SliderInt("Focus", &this->config_.focus, this->config_.min_focus, this->config_.max_focus); 
-        ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
-        this->enforceBoundaries( this->config_.min_focus, this->config_.max_focus, this->config_.focus);
-
-        changed |= ImGui::SliderInt("Brightness", &this->config_.brightness, this->config_.min_brightness, this->config_.max_brightness); 
-        ImGui::SameLine(); this->helpMarker("CTRL+click to input value.");
-        this->enforceBoundaries( this->config_.min_brightness, this->config_.max_brightness, this->config_.brightness);
-
-        changed |= this->addButton("Reset", [this](){this->setConfigToDefault();});
+        changed |= this->button_.draw("Reset", true, [this](){this->setConfigToDefault();});
         ImGui::SameLine(); 
-        this->addButton("Save Settings", [this](){this->show_ask_for_save_ = true;}); 
+        changed |= this->button_.draw("Save Settings", true, [this](){this->show_ask_for_save_ = true;});
+        
         if(this->show_ask_for_save_ == true)
         {
             if(this->save_win_.draw(this->show_ask_for_save_))

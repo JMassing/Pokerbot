@@ -7,9 +7,8 @@ namespace gui
     {
         bool changed = false;
 
-        changed |= ImGui::InputInt("# of Opponents", &this->config_.nr_of_players); ImGui::SameLine(); this->helpMarker("Nr of opponents playing against the bot.");  
-        // make sure nr of player >= 0, otherwise program will crash
-        this->enforceBoundaries(this->config_.min_players, this->config_.max_players, this->config_.nr_of_players);
+        changed |= this->input_.draw("# of Opponents", this->config_.min_players, this->config_.max_players, this->config_.nr_of_players, true); ImGui::SameLine(); this->helpMarker("Nr of opponents playing against the bot.");  
+
         ImGui::Text("Probability of winning = %.2f", static_cast<float>(this->probability_.first));
         ImGui::Text("Probability of winning tie = %.2f", static_cast<float>(this->probability_.second));
         ImGui::Text("Robot Cards:");
@@ -31,13 +30,12 @@ namespace gui
         }
         ImGui::NewLine();
 
-        changed |= ImGui::SliderInt("# of simulation runs", &this->config_.nr_sim_runs, this->config_.min_sim_runs, this->config_.max_sim_runs);
+        changed |= this->slider_.draw("# of simulation runs", this->config_.min_sim_runs, this->config_.max_sim_runs, this->config_.nr_sim_runs, true);
         ImGui::SameLine(); this->helpMarker("Nr of times the simulation is run. CTRL+click to input value.");  
-        this->enforceBoundaries( this->config_.min_sim_runs, this->config_.max_sim_runs, this->config_.nr_sim_runs);
-
-        this->addButton("Reset", [this](){this->setConfigToDefault();}); 
+   
+        this->button_.draw("Reset", true, [this](){this->setConfigToDefault();}); 
         ImGui::SameLine();
-        this->addButton("Save Settings", [this](){this->show_ask_for_save_ = true;}); 
+        this->button_.draw("Save Settings", true, [this](){this->show_ask_for_save_ = true;}); 
       
         if(this->show_ask_for_save_ == true)
         {

@@ -83,7 +83,7 @@ namespace gui {
             this->suit_images_.draw(this->show_suit_images_);
         }
         
-        if(capture_train_img_.capture_button_pressed_ || capture_train_img_.capture_)
+        /*if(capture_train_img_.capture_button_pressed_ || capture_train_img_.capture_)
         {
             capture_train_img_.drawTrainImagesGuiWindow();
             if(capture_train_img_.capture_)
@@ -104,7 +104,7 @@ namespace gui {
                     }
                 } 
             }
-        }
+        }*/
 
         //Render and Check if Close is called on GUI
         this->render();
