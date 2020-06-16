@@ -4,7 +4,7 @@
 
 namespace gui {
 
-    struct LayoutWinConfig
+    struct LayoutConfig
     {
         bool show_cards;
         bool show_camera_control;
@@ -14,24 +14,20 @@ namespace gui {
         bool show_suit_images;
         int live_image_height; 
         int live_image_width;
-        const int card_image_height = 150;
-        const int card_rank_suit_height = 50;
         int card_image_height_percent;
         int card_rank_suit_height_percent;
         cv::Scalar card_outline_color; 
 
-        LayoutWinConfig():
+        LayoutConfig():
             show_cards{false}, show_camera_control{false}, show_im_proc_settings_window{false}, show_card_images{false}, show_rank_images{false}, show_suit_images{false},
-            live_image_height{1280}, live_image_width{720}, card_image_height_percent{100}, card_rank_suit_height_percent{100}, card_outline_color{0,0,0}
-        {
-
-        };
-        ~LayoutWinConfig(){};
+            live_image_height{720}, live_image_width{1280}, card_image_height_percent{100}, card_rank_suit_height_percent{100}, card_outline_color{0,0,0}
+        { };
+        ~LayoutConfig(){};
 
         // Using default copy and move constructors. 
-        LayoutWinConfig(const LayoutWinConfig& other) = default;	
-        LayoutWinConfig& operator=(const LayoutWinConfig& other) = default;
-        LayoutWinConfig(LayoutWinConfig&& other) noexcept = default;
-        LayoutWinConfig& operator=(LayoutWinConfig&& other) noexcept = default;
+        LayoutConfig(const LayoutConfig& other) = default;	
+        LayoutConfig& operator=(const LayoutConfig& other) = default;
+        LayoutConfig(LayoutConfig&& other) noexcept = default;
+        LayoutConfig& operator=(LayoutConfig&& other) noexcept = default;
     };
 }//end namespace gui

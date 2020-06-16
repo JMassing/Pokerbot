@@ -5,9 +5,9 @@
 #include "Window.h"
 #include "DefaultConfig.h"
 #include "AskForSaveWin.h"
-#include "ImProcWinConfig.h"
 #include "Button.h"
 #include "Slider.h"
+#include "DataDetectGui.h"
 
 namespace gui {
 
@@ -18,20 +18,25 @@ namespace gui {
 		AskForSaveWin save_win_;
 		bool show_ask_for_save_;
 		std::shared_ptr<shared::DefaultConfig> default_config_;
-		ImProcWinConfig config_;
+		std::shared_ptr<shared::DataDetectGui> data_detect_;
 		Button button_;
 		Slider slider_;
+		const int max_live_th_ = 255;
+        const int min_live_th_ = 0;
+        const int max_bin_th_ = 255;
+        const int min_bin_th_ = 0;
+        const int max_ident_th_ = 255;
+        const int min_ident_th_ = 0;
+
 
 		virtual bool content() override;
 		void setConfigToDefault();
 		void saveConfigAsDefault();
 		
 		public:
-
-			ImProcWinConfig getUserInput(){ return this->config_;};
-			
-			ImProcWin(const std::string& name, std::shared_ptr<shared::DefaultConfig>& default_config, const int& flag = 0):
-				Window(name, flag), default_config_(default_config), show_ask_for_save_(false), button_{}, slider_{},
+	
+			ImProcWin(const std::string& name, std::shared_ptr<shared::DefaultConfig>& default_config, std::shared_ptr<shared::DataDetectGui>& data_detect, const int& flag = 0):
+				Window(name, flag), default_config_(default_config), show_ask_for_save_(false), button_{}, slider_{}, data_detect_(data_detect),
 				save_win_("##save_improc", "image processing settings", this->show_ask_for_save_)
 				{
 					this->setConfigToDefault();

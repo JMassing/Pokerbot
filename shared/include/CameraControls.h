@@ -13,7 +13,7 @@ namespace shared
 	{ 		    
 		public:
 
-			int device_ID;
+ 			int device_ID;
             bool auto_exposure;
             bool auto_focus;
 			bool auto_wb;

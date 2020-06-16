@@ -29,8 +29,8 @@ int main(int argc, char* argv[])
 	
 	//	Setup shared data structs
 	shared_ptr<DefaultConfig> default_config = std::make_shared<DefaultConfig>();
-	shared_ptr<DataDetectGui> shared_data_detect_gui = std::make_shared<DataDetectGui>(default_config);
-	shared_ptr<DataPokerGui> shared_data_poker_gui = std::make_shared<DataPokerGui>(default_config);
+	shared_ptr<DataDetectGui> shared_data_detect_gui = std::make_shared<DataDetectGui>();
+	shared_ptr<DataPokerGui> shared_data_poker_gui = std::make_shared<DataPokerGui>();
 	shared_ptr<DataPokerDetect> shared_data_poker_detect = std::make_shared<DataPokerDetect>();
 	shared_ptr<CameraControls> camera_control = std::make_shared<CameraControls>(default_config);
 	

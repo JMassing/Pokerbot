@@ -12,7 +12,7 @@ namespace gui {
 	class CardImageWin : public Window
 	{
 		private:
-
+    
 			ImageDrawer drawer_;
 			double aspect_ratio_;
 			int image_height_;

@@ -6,7 +6,6 @@
 #include <opencv2/core.hpp>
 
 #include "Card.h"
-#include "DefaultConfig.h"
 
 namespace shared
 {
@@ -20,26 +19,9 @@ namespace shared
         int identification_threshold;  // threshold for finding the rank and suit in the card image 
         cv::Rect robot_area;           // area where to place the robot cards in the image
         cv::Rect public_area;          // area where to place the public cards in the image
-        std::shared_ptr<DefaultConfig> default_config;
 
-        void setToDefault()
-		{
-			this->live_threshold = default_config->live_threshold;
-            this->binary_threshold = default_config->binary_threshold;
-            this->identification_threshold = default_config->identification_threshold;
-		}
-
-        void saveAsDefault()
-		{
-            default_config->live_threshold = this->live_threshold;
-            default_config->binary_threshold = this->binary_threshold;
-            default_config->identification_threshold = this->identification_threshold;
-            this->default_config->saveConfig();
-		}
-
-        DataDetectGui(std::shared_ptr<DefaultConfig> default_config): default_config(default_config), robot_cards(), public_cards()
+         DataDetectGui(): robot_cards(), public_cards(), live_threshold(120), binary_threshold(120), identification_threshold(120)
         {
-            this->setToDefault();
             robot_area.x = 160;
             robot_area.y = 260;
             robot_area.width = 320;
