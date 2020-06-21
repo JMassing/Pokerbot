@@ -9,28 +9,32 @@
 
 #include "CameraControls.h"
 #include "Image.h"
+#include "IObserver.h"
+#include "ControlsWin.h"
 
 namespace detect {
 
-	class Capture
+	class Capture: public interfaces::IObserver
 	{ 
 		private:
 			cv::VideoCapture cap_;
 			int device_ID_;
 			int api_ID_;
-			std::shared_ptr<shared::CameraControls> camera_control_;
+			shared::CameraControls& camera_settings_;
+			const gui::ControlsWin& controls_;
 
 		public:
 			Image frame_;
 
+			void update() override;
 			bool init();
 			bool grabLive();
 			bool grabVideo();
 			void setCameraControls();
 			void printCameraState();
 			
-			Capture(std::shared_ptr<shared::CameraControls>& camera_control);
-			Capture(const std::string& video, std::shared_ptr<shared::CameraControls>& camera_control);
+			Capture(const gui::ControlsWin& controls, shared::CameraControls& camera_settings, const int& device_ID = 0, const int& api_ID = cv::CAP_ANY);
+			Capture(const std::string& video, const gui::ControlsWin& controls, shared::CameraControls& camera_settings, const int& device_ID = 0, const int& api_ID = cv::CAP_ANY);
 			~Capture();
 
 			// Using default copy and move constructors. 

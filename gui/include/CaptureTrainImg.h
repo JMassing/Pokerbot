@@ -4,7 +4,7 @@
 
 #include "Mapping.h"
 #include "View.h"
-#include "BaseGUI.h"
+#include "GuiContext.h"
 #include "Image.h"
 
 namespace gui
@@ -14,7 +14,7 @@ namespace gui
     {
         private:
 
-            BaseGUI gui_;
+            GuiContext gui_;
             std::string train_images_folder_;
             detect::Mapping card_mapping_;
             View visualize_;

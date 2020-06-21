@@ -2,12 +2,13 @@
 
 namespace detect {
 
-	Capture::Capture(std::shared_ptr<shared::CameraControls>& camera_control) :frame_{}, cap_{}, api_ID_(cv::CAP_ANY), camera_control_(camera_control)
+	Capture::Capture(const gui::ControlsWin& controls, shared::CameraControls& camera_settings, const int& device_ID, const int& api_ID) :
+		device_ID_(device_ID), frame_{}, cap_{}, api_ID_(api_ID), camera_settings_{camera_settings}, controls_(controls)
 	{
-		this->device_ID_ = camera_control->device_ID;
 	}
 
-	Capture::Capture(const std::string& video, std::shared_ptr<shared::CameraControls>& camera_control): frame_{}, cap_(video), device_ID_(1), api_ID_(cv::CAP_ANY), camera_control_(camera_control)
+	Capture::Capture(const std::string& video, const gui::ControlsWin& controls, shared::CameraControls& camera_settings, const int& device_ID, const int& api_ID): 
+		frame_{}, cap_(video), device_ID_(device_ID), api_ID_(api_ID), camera_settings_{camera_settings}, controls_(controls)
 	{
 	}
 
@@ -53,19 +54,19 @@ namespace detect {
 	//@brief: Sets Controls of camera (e.g. exposure, brightness, ...). Input from camera_control_ shared object with GUI
 	void Capture::setCameraControls()
 	{
-		this->cap_.set(cv::CAP_PROP_AUTOFOCUS, this->camera_control_->auto_focus);
-		this->cap_.set(cv::CAP_PROP_AUTO_EXPOSURE, this->camera_control_->auto_exposure);
-		this->cap_.set(cv::CAP_PROP_AUTO_WB, this->camera_control_->auto_exposure);
-		if(!this->camera_control_->auto_exposure)
+		this->cap_.set(cv::CAP_PROP_AUTOFOCUS, this->camera_settings_.auto_focus);
+		this->cap_.set(cv::CAP_PROP_AUTO_EXPOSURE, this->camera_settings_.auto_exposure);
+		this->cap_.set(cv::CAP_PROP_AUTO_WB, this->camera_settings_.auto_exposure);
+		if(!this->camera_settings_.auto_exposure)
 		{
-			this->cap_.set(cv::CAP_PROP_EXPOSURE, this->camera_control_->exposure_time);
+			this->cap_.set(cv::CAP_PROP_EXPOSURE, this->camera_settings_.exposure_time);
 		}
-		if(!this->camera_control_->auto_focus)
+		if(!this->camera_settings_.auto_focus)
 		{
-			this->cap_.set(cv::CAP_PROP_FOCUS, this->camera_control_->focus);
+			this->cap_.set(cv::CAP_PROP_FOCUS, this->camera_settings_.focus);
 		}
-		this->cap_.set(cv::CAP_PROP_BRIGHTNESS, this->camera_control_->brightness);
-		this->cap_.set(cv::CAP_PROP_ZOOM, this->camera_control_->zoom);
+		this->cap_.set(cv::CAP_PROP_BRIGHTNESS, this->camera_settings_.brightness);
+		this->cap_.set(cv::CAP_PROP_ZOOM, this->camera_settings_.zoom);
 	}
 
 	void Capture::printCameraState()
@@ -80,5 +81,11 @@ namespace detect {
 		<< "Brightness: " << this->cap_.get(cv::CAP_PROP_BRIGHTNESS) << "\n"
 		<< "Zoom: " << this->cap_.get(cv::CAP_PROP_ZOOM) << std::endl;
 
+	}
+
+	void Capture::update()
+	{
+		this->camera_settings_ = controls_.camera_settings_;
+		this->setCameraControls();		
 	}
 }

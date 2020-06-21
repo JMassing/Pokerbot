@@ -8,7 +8,7 @@
 
 namespace gui {
 
-	class BaseGUI
+	class GuiContext
 	{
 		protected:
            
@@ -22,29 +22,28 @@ namespace gui {
             bool setupGlfwWindow();
             void setupContext();
             void tearDown();
-            void helpMarker(const char* desc);
-            void setEventHandler();
-            void render();
-            void listenWindowClose();  
+            void setEventHandler();             
+            void listenWindowClose(); 
 
 		public:
 
-            bool init();            
+            bool init();
             void drawGuiFrame();            
+            void render();
             bool shouldClose() { return this->should_close_; };             
             void closeWindow() { this->should_close_ = true; }; 
   					
-			BaseGUI(): window_(nullptr), should_close_(false) {};
-			~BaseGUI() 
+			GuiContext(): window_(nullptr), should_close_(false) {};
+			~GuiContext() 
             {
                 this->tearDown();
             };
 
 			// Using default copy and move constructors. 
-			BaseGUI(const BaseGUI& other) = default;	
-			BaseGUI& operator=(const BaseGUI& other) = default;
-			BaseGUI(BaseGUI&& other) noexcept = default;
-			BaseGUI& operator=(BaseGUI&& other) noexcept = default;
+			GuiContext(const GuiContext& other) = default;	
+			GuiContext& operator=(const GuiContext& other) = default;
+			GuiContext(GuiContext&& other) noexcept = default;
+			GuiContext& operator=(GuiContext&& other) noexcept = default;
 	};
 
 } // namespace gui

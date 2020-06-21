@@ -6,33 +6,32 @@
 #include "ImageDrawer.h"
 #include "Card.h"
 #include "View.h"
-#include "Window.h"
+#include "IWindow.h"
+#include "Image.h"
+#include "IObserver.h"
+#include "ControlsWin.h"
 
 namespace gui {
 
-	class LiveImageWin : public Window
+	class LiveImageWin : public IWindow, public interfaces::IObserver
 	{
 		private:
 
 			ImageDrawer drawer_;
-			View visualize_;
-			bool& show_cards_;
-			cv::Mat live_frame_;
+			detect::Image& live_frame_;
+			ControlsWin& controls_;
+
 			int image_width_;
 			int image_height_;
-			std::vector<detect::Card> cards_;
-			cv::Scalar card_outline_color_;
-
-			virtual bool content() override;
+			bool show_;
 
 		public:
 
-			void update(const cv::Mat& live_frame, const int& image_width, const int& image_height, const std::vector<detect::Card>& cards, const cv::Scalar& card_outline_color);
+			void update() override;
+			bool draw() override;
 
-		
-			LiveImageWin(const std::string& name, bool& show_cards, const int& flag = 0): 
-				Window(name, flag), show_cards_(show_cards),  visualize_{},
-				live_frame_{}, image_width_(0), image_height_(0), cards_{}, card_outline_color_{} {};
+			LiveImageWin(const std::string& name, ControlsWin& controls, detect::Image& live_frame, const int& flag = 0): 
+				IWindow(name, flag), show_(true), live_frame_(live_frame), image_width_(1028), image_height_(780), controls_(controls) {};
 			virtual ~LiveImageWin() {};
 
 			// Using default copy and move constructors. 

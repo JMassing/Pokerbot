@@ -1,8 +1,8 @@
-#include "Window.h"        
+#include "IWindow.h"        
 
 namespace gui
 {
-	void Window::helpMarker(const char* desc)
+	void IWindow::helpMarker(const char* desc)
     {
         ImGui::TextDisabled("(?)");
         if (ImGui::IsItemHovered())

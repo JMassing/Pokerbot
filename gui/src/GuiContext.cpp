@@ -1,19 +1,20 @@
 
-#include "BaseGUI.h"
+#include "GuiContext.h"
 
 namespace gui {
 
-    bool BaseGUI::init()
+    bool GuiContext::init()
     {
         if(!this->setupGlfwWindow())
         {
             return false;
         }
         this->setupContext();
+
         return true;
     }
 
-    bool BaseGUI::setupGlfwWindow()
+    bool GuiContext::setupGlfwWindow()
     {
         // Setup window
         if( !glfwInit() )
@@ -30,7 +31,7 @@ namespace gui {
         return true;
     }
 
-    void BaseGUI::setupContext()
+    void GuiContext::setupContext()
     {
         // Setup Dear ImGui context	
         IMGUI_CHECKVERSION();
@@ -45,13 +46,13 @@ namespace gui {
 
     }
 
-    void BaseGUI::setEventHandler()
+    void GuiContext::setEventHandler()
     {
         // Poll and handle events (inputs, window resize, etc.)
         glfwPollEvents();
     }
 
-    void BaseGUI::drawGuiFrame()
+    void GuiContext::drawGuiFrame()
     {
 		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT );
@@ -59,16 +60,18 @@ namespace gui {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+        this->setEventHandler();
+        this->listenWindowClose();
     }
 
-    void BaseGUI::render()
+    void GuiContext::render()
     {        
         ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData( ImGui::GetDrawData() );
 		glfwSwapBuffers( this->window_ );
     }
 
-    void BaseGUI::listenWindowClose()
+    void GuiContext::listenWindowClose()
     {
         if(glfwWindowShouldClose(this->window_))
         {
@@ -76,7 +79,7 @@ namespace gui {
         }
     }
 
-    void BaseGUI::tearDown()
+    void GuiContext::tearDown()
     {
         ImGui_ImplGlfw_Shutdown();
 	    ImGui_ImplOpenGL3_Shutdown();
@@ -84,18 +87,4 @@ namespace gui {
 	    ImGui::DestroyContext();	
     }
 
-    // Helper to display a little (?) mark which shows a tooltip when hovered.
-    // In your own code you may want to display an actual icon if you are using a merged icon fonts (see misc/fonts/README.txt)
-    void BaseGUI::helpMarker(const char* desc)
-    {
-        ImGui::TextDisabled("(?)");
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::BeginTooltip();
-            ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-            ImGui::TextUnformatted(desc);
-            ImGui::PopTextWrapPos();
-            ImGui::EndTooltip();
-        }
-    }
 } // end namespace gui

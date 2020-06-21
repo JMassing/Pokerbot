@@ -1,10 +1,11 @@
 #pragma once
 
 #include <memory>
-#include <DefaultConfig.h>
 
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
+
+#include "DefaultConfig.h"
 
 namespace shared
  {
@@ -13,7 +14,6 @@ namespace shared
 	{ 		    
 		public:
 
- 			int device_ID;
             bool auto_exposure;
             bool auto_focus;
 			bool auto_wb;
@@ -23,41 +23,21 @@ namespace shared
             int zoom;
 			int image_width;
 			int image_height;
-			std::shared_ptr<DefaultConfig> default_config;
 
-			void setToDefault()
+			void setToDefault(const DefaultConfig& default_settings)
 			{
-				this->device_ID = default_config->device_ID;
-				this->auto_exposure = default_config->auto_exposure;
-				this->auto_focus = default_config->auto_focus;
-				this->auto_wb = default_config->auto_wb;
-				this->exposure_time = default_config->exposure_time;
-				this->brightness = default_config->brightness;
-				this->focus = default_config->focus;
-				this->zoom = default_config->zoom;
-				this->image_width = default_config->image_width;
-				this->image_height = default_config->image_height;
-			}
-
-			void saveAsDefault()
-			{
-				default_config->device_ID = this->device_ID;
-				default_config->auto_exposure = this->auto_exposure;
-				default_config->auto_focus = this->auto_focus;
-				default_config->auto_wb = this->auto_wb;
-				default_config->exposure_time = this->exposure_time;
-				default_config->brightness = this->brightness; 
-				default_config->focus = this->focus;
-				default_config->zoom = this->zoom;
-				default_config->image_width = this->image_width;
-				default_config->image_height = this->image_height;
-				this->default_config->saveConfig();
-			}
-
-			CameraControls(std::shared_ptr<DefaultConfig>& default_config): default_config(default_config)
-			{
-				this->setToDefault();
+				 this->auto_exposure = default_settings.auto_exposure;
+				 this->auto_focus = default_settings.auto_focus;
+				 this->auto_wb = default_settings.auto_wb;
+				 this->exposure_time = default_settings.exposure_time;
+				 this->brightness = default_settings.brightness;
+				 this->focus = default_settings.focus;
+				 this->zoom = default_settings.zoom;
+				 this->image_width = default_settings.image_width;
+				this->image_height = default_settings.image_height;
 			};
+
+			CameraControls(): auto_exposure(true), auto_focus(true), auto_wb(true), exposure_time(-5), brightness(128), focus(40), zoom(40), image_width(1280), image_height(1024) {};
 			~CameraControls(){};
 
 			// Using default copy and move constructors. 

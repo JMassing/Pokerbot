@@ -7,7 +7,7 @@ namespace detect
 {
 
 
-	CardDetector::CardDetector(std::shared_ptr<shared::DataDetectGui>& data_gui, std::shared_ptr<shared::DataPokerDetect>& data_poker, std::shared_ptr<shared::DefaultConfig>& default_config) :
+	CardDetector::CardDetector(std::shared_ptr<shared::ImProcSettings>& data_gui, std::shared_ptr<shared::DataPokerDetect>& data_poker, std::shared_ptr<shared::DefaultConfig>& default_config) :
 		cards_{}, card_buffers_{}, frame_nr_(0), live_frame_{}, data_gui_(data_gui), data_poker_(data_poker)
 	{
 		// get default parameters

@@ -12,7 +12,7 @@ namespace gui {
 		public:
 			
 			template<class T>
-			bool draw(const std::string name, const bool active, T& callback)
+			bool draw(const std::string name, const bool& active, T& callback)
 			{
 				bool button_pressed = false;
 				if(active)
@@ -34,7 +34,7 @@ namespace gui {
 			};
 
 			Button() {};
-			virtual ~Button() {};
+			~Button() {};
 
 			// Using default copy and move constructors. 
 			Button(const Button& other) = default;	

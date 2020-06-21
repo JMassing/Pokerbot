@@ -1,19 +1,19 @@
 #pragma once
 
-#include "SliderType.h"
+#include "IConstrainedInput.h"
 
 #include <string>
 #include <imgui.h>
 
 namespace gui {
 
-	class Slider: public SliderType
+	class Slider: public IConstrainedInput
 	{
 		protected:
 				
 		public:
 			
-			bool draw(const std::string name, const int min, const int max, int& value, bool enforce_boundaries) override
+			bool draw(const std::string& name, const int& min, const int& max, int& value, const bool& enforce_boundaries) override
 			{
 				bool changed = ImGui::SliderInt(name.c_str(), &value, min, max); 
 				
@@ -24,7 +24,7 @@ namespace gui {
 
 				return changed;
 			};
-			bool draw(const std::string name, const float min, const float max, float& value, bool enforce_boundaries) override
+			bool draw(const std::string& name, const float& min, const float& max, float& value, const bool& enforce_boundaries) override
 			{
 				bool changed = ImGui::SliderFloat(name.c_str(), &value, min, max); 
 				

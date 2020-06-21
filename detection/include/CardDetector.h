@@ -12,7 +12,7 @@
 #include "Mapping.h"
 #include "CardBuffer.h"
 #include "TemplateFunctions.h"
-#include "DataDetectGui.h"
+#include "ImProcSettings.h"
 #include "DataPokerDetect.h"
 #include "ImProc.h"
 #include "DefaultConfig.h"
@@ -33,7 +33,7 @@ namespace detect
 			Image live_frame_;
 			std::vector<Card> cards_;
 			std::vector<CardBuffer<CARD_BUFFER_SIZE>> card_buffers_;
-			std::shared_ptr<shared::DataDetectGui> data_gui_;
+			std::shared_ptr<shared::ImProcSettings> data_gui_;
 			std::shared_ptr<shared::DataPokerDetect> data_poker_;
 			int frame_nr_;			
 			std::vector<TrainImage> train_suits_;
@@ -63,7 +63,7 @@ namespace detect
 			void detectCards();
 			const std::vector<Card> getCards() { return this->cards_; }
 			void updateFrame(const Image& input_frame);
-			CardDetector(std::shared_ptr<shared::DataDetectGui>& data_gui, std::shared_ptr<shared::DataPokerDetect>& data_poker, std::shared_ptr<shared::DefaultConfig>& default_config);
+			CardDetector(std::shared_ptr<shared::ImProcSettings>& data_gui, std::shared_ptr<shared::DataPokerDetect>& data_poker, std::shared_ptr<shared::DefaultConfig>& default_config);
 			~CardDetector();
 
 			// Using default copy and move constructors. 
