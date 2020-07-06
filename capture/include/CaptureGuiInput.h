@@ -1,5 +1,8 @@
 #pragma once
 
+// CaptureGuiInput captures the user input for the camera settings from GUI
+// and calls camera controller to update camera settings if user input occured
+
 #include <memory>
 
 #include "IObserver.h"
@@ -39,5 +42,5 @@ namespace capture {
 			CaptureGuiInput& operator=(CaptureGuiInput&& other) noexcept = default;			
 	};
 
-}
+} //end namespace capture
 

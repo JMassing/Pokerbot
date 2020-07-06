@@ -1,14 +1,9 @@
 #pragma once
 
-#include <memory>
-
-#include <opencv2/core.hpp>
-#include <opencv2/videoio.hpp>
-
 #include "DefaultConfig.h"
 
 namespace capture
- {
+{
 
 	struct CameraSettings
 	{ 		    
@@ -55,8 +50,8 @@ namespace capture
 			CameraSettings(const CameraSettings& other) = default;	
 			CameraSettings& operator=(const CameraSettings& other) = default;
 			CameraSettings(CameraSettings&& other) noexcept = default;
-			CameraSettings& operator=(CameraSettings&& other) noexcept = default;
-			
+			CameraSettings& operator=(CameraSettings&& other) noexcept = default;			
 	};
-}//end namespace data
+	
+} //end namespace capture
 

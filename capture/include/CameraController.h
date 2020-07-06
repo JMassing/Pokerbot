@@ -1,10 +1,11 @@
 #pragma once
 
+// This class controls the video I/O. It controls the camera settings (e.g. exposure time)
+// and captures live frames from the camera or frames from a video
+
 #include <string>
 #include <memory>
-#include <iostream>
 
-#include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 
 #include "CameraSettings.h"
@@ -30,6 +31,7 @@ namespace capture {
 			void setCameraControls(const CameraSettings& camera_settings);
 			void printCameraState();
 			
+			// Constructor used to caputre live frame from camera
 			CameraController(
 				const int& device_ID = 0, 
 				const int& api_ID = cv::CAP_ANY
@@ -40,6 +42,7 @@ namespace capture {
 				api_ID_(api_ID) 
 			{};
 
+			// Constructor used to capture from video file
 			CameraController(
 				const std::string& video,
 				const int& device_ID = 0, 
@@ -61,5 +64,5 @@ namespace capture {
 			
 	};
 
-}
+} //end namespace capture
 

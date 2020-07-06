@@ -1,5 +1,7 @@
 #pragma once
 
+// CaptureOutput exposes captured live frame to modules that use it.
+
 #include <memory>
 
 #include "ISubject.h"
@@ -28,5 +30,5 @@ namespace capture {
 			CaptureOutput& operator=(CaptureOutput&& other) noexcept = default;			
 	};
 
-}
+} //end namespace capture
 

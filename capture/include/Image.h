@@ -2,10 +2,10 @@
 
 #include <opencv2/core.hpp>
 
-// Wrapper class for cv::Mat. This makes sure we have a deep copy when using an copy constructor or 
-// assignment operator. Image is used in different classes where image processing is done on the 
+// Wrapper class for cv::Mat. This makes sure we have a deep copy when using a copy constructor or 
+// an assignment operator. Image is used in different classes where image processing is done on the 
 // underlying images in some cases. We do not want to be surprised by changes in the original data, 
-// after it was copied and we do changes to the new object.
+// after it was copied and we change to the new image object.
 
 namespace capture{
 
@@ -57,4 +57,4 @@ namespace capture{
         };		
     };
 
-} //end namespace detect
+} //end namespace capture
