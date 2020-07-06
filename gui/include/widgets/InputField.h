@@ -7,49 +7,48 @@
 
 namespace gui {
 
-	class Slider
-	{
-				
+	class InputField
+	{				
 		public:
 			
 			bool draw(
 				const std::string& name, 
-				const int& min, 
+				const int& min,
 				const int& max, 
 				int& value, 
 				const bool& enforce_boundaries
-				) 
+				)
 			{
-				bool changed = ImGui::SliderInt(name.c_str(), &value, min, max); 
-				
+				bool changed = ImGui::InputInt(name.c_str(), &value);
+								
 				enforce_boundaries ? templates::enforceBoundaries(min, max, value) : "";
 
 				return changed;
 			};
-
+			
 			bool draw(
 				const std::string& name, 
 				const float& min, 
-				const float& max, 
+				const float& max,
 				float& value, 
 				const bool& enforce_boundaries
 				)
 			{
-				bool changed = ImGui::SliderFloat(name.c_str(), &value, min, max); 
+				bool changed = ImGui::InputFloat(name.c_str(), &value);
 				
 				enforce_boundaries ? templates::enforceBoundaries(min, max, value) : "";
 
 				return changed;
 			};
 
-			Slider() {};
-			virtual ~Slider() {};
+			InputField() {};
+			virtual ~InputField() {};
 
 			// Using default copy and move constructors. 
-			Slider(const Slider& other) = default;	
-			Slider& operator=(const Slider& other) = default;
-			Slider(Slider&& other) noexcept = default;
-			Slider& operator=(Slider&& other) noexcept = default;
+			InputField(const InputField& other) = default;	
+			InputField& operator=(const InputField& other) = default;
+			InputField(InputField&& other) noexcept = default;
+			InputField& operator=(InputField&& other) noexcept = default;
 	};
 } // namespace gui
 

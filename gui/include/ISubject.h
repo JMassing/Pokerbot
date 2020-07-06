@@ -18,7 +18,7 @@ namespace interfaces
 
 			void attach(std::shared_ptr<IObserver> observer);
 			void detach(std::shared_ptr<IObserver> observer);
-			void notify();
+			void notify() const;
 
 			virtual ~ISubject() = default;
 

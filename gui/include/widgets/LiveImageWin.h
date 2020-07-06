@@ -9,29 +9,36 @@
 #include "IWindow.h"
 #include "Image.h"
 #include "IObserver.h"
-#include "ControlsWin.h"
+#include "SettingsWin.h"
 
 namespace gui {
 
-	class LiveImageWin : public IWindow, public interfaces::IObserver
+	class LiveImageWin : public IWindow
 	{
 		private:
 
 			ImageDrawer drawer_;
-			detect::Image& live_frame_;
-			ControlsWin& controls_;
+			capture::Image& live_frame_;
+			SettingsWin& controls_;
 
-			int image_width_;
-			int image_height_;
 			bool show_;
 
 		public:
 
-			void update() override;
 			bool draw() override;
 
-			LiveImageWin(const std::string& name, ControlsWin& controls, detect::Image& live_frame, const int& flag = 0): 
-				IWindow(name, flag), show_(true), live_frame_(live_frame), image_width_(1028), image_height_(780), controls_(controls) {};
+			LiveImageWin(
+				const std::string& name, 
+				SettingsWin& controls, 
+				capture::Image& live_frame, 
+				const int& flag = 0
+				): 
+				IWindow(name, flag), 
+				show_(true), 
+				live_frame_(live_frame), 
+				controls_(controls) 
+				{};
+				
 			virtual ~LiveImageWin() {};
 
 			// Using default copy and move constructors. 

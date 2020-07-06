@@ -5,15 +5,14 @@
 #include "IWindow.h"
 #include "LayoutConfig.h"
 #include "DefaultConfig.h"
-#include "ISubject.h"
 #include "Button.h"
 #include "Slider.h"
-#include "Input.h"
-#include "CameraControls.h"
+#include "InputField.h"
+#include "CameraSettings.h"
 
 namespace gui {
 
-	class ControlsWin: public IWindow, public interfaces::ISubject
+	class SettingsWin: public IWindow
 	{
 		private:
 		
@@ -21,7 +20,7 @@ namespace gui {
 			shared::DefaultConfig& default_config_;
 			Slider slider_;
 			Button button_;
-			Input input_;	
+			InputField input_;	
 
 			// Slider Constraints
 			// Layout
@@ -64,7 +63,7 @@ namespace gui {
         	cv::Scalar card_outline_color_; 
 
 			//Camera Controls
-		 	shared::CameraControls& camera_settings_;
+		 	capture::CameraSettings camera_settings_;
 
 			//Image Processing
 			int live_threshold_;            // threshold for finding cards in live image 
@@ -77,19 +76,37 @@ namespace gui {
 		
 			bool draw() override;
 
-			ControlsWin(const std::string& name, shared::DefaultConfig& default_config, shared::CameraControls& camera_settings, const int& flag = 0):
-				IWindow(name, flag), default_config_(default_config), show_ask_for_save_(false),
-				slider_{}, button_{}, live_view_height_(780), live_view_width_(1024),
-				card_image_height_percent_(0), card_rank_suit_height_percent_(0), card_outline_color_{255, 0, 0}, camera_settings_(camera_settings), 
-				live_threshold_(100), binary_threshold_(100), identification_threshold_(100), nr_of_simulation_runs_(10000), nr_of_human_players_(1) 
-				{};
-			virtual ~ControlsWin() {};
+			SettingsWin(
+				const std::string& name, 
+				shared::DefaultConfig& default_config, 
+				const capture::CameraSettings& camera_settings, 
+				const int& flag = 0
+				):
+				IWindow(name, flag), 
+				default_config_(default_config), 
+				show_ask_for_save_(false),
+				slider_{}, 
+				button_{}, 
+				live_view_height_(780), 
+				live_view_width_(1024),
+				card_image_height_percent_(0), 
+				card_rank_suit_height_percent_(0), 
+				card_outline_color_{255, 0, 0}, 
+				camera_settings_(camera_settings), 
+				live_threshold_(100),
+				binary_threshold_(100), 
+				identification_threshold_(100), 
+				nr_of_simulation_runs_(10000), 
+				nr_of_human_players_(1) 
+			{};
+
+			virtual ~SettingsWin() {};
 
 			// Using default copy and move constructors. 
-			ControlsWin(const ControlsWin& other) = default;	
-			ControlsWin& operator=(const ControlsWin& other) = default;
-			ControlsWin(ControlsWin&& other) noexcept = default;
-			ControlsWin& operator=(ControlsWin&& other) noexcept = default;
+			SettingsWin(const SettingsWin& other) = default;	
+			SettingsWin& operator=(const SettingsWin& other) = default;
+			SettingsWin(SettingsWin&& other) noexcept = default;
+			SettingsWin& operator=(SettingsWin&& other) noexcept = default;
 	};
 
 } // namespace gui

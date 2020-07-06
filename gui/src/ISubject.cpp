@@ -12,7 +12,7 @@ namespace interfaces
         this->observers_.remove(observer);
     }
 
-    void ISubject::notify()
+    void ISubject::notify() const 
     {
         for(auto iter = this->observers_.begin(); iter != this->observers_.end(); ++iter)
         {

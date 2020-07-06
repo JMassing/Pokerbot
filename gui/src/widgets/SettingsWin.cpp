@@ -1,9 +1,9 @@
-#include "ControlsWin.h"        
+#include "SettingsWin.h"        
 
 namespace gui
 {
 
-    bool ControlsWin::draw()
+    bool SettingsWin::draw()
     {
         bool changed = false;
 
@@ -77,18 +77,13 @@ namespace gui
         }
         ImGui::End();
 
-        if(changed)
-        {
-            this->notify();
-        }
-
         return changed;
     }
 
-    void ControlsWin::setConfigToDefault()
+    void SettingsWin::setConfigToDefault()
     {}
 
-	void ControlsWin::saveConfigAsDefault()
+	void SettingsWin::saveConfigAsDefault()
     {};
 
 
