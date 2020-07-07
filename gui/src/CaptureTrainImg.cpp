@@ -1,4 +1,4 @@
-#include "CaptureTrainImg.h"
+#include "CaptureTrainImg.hpp"
 
 namespace gui
 {

@@ -1,10 +1,11 @@
 #pragma once
 
-// Base subject design pattern after https://www.c-plusplus.net/forum/topic/155350/einf%C3%BChrung-in-design-patterns
+// Base subject design pattern after 
+// https://www.c-plusplus.net/forum/topic/155350/einf%C3%BChrung-in-design-patterns
 
 #include <list>
 #include <memory>
-#include "IObserver.h"
+#include "IObserver.hpp"
 
 namespace interfaces
 {

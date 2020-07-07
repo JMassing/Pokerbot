@@ -1,5 +1,4 @@
-
-#include "GuiContext.h"
+#include "GuiContext.hpp"
 
 namespace gui {
 
@@ -23,7 +22,15 @@ namespace gui {
         }
 
         // Create window with graphics context
-        this->window_ = glfwCreateWindow( this->window_width_, this->window_height_, this->program_name_, nullptr, nullptr );
+        this->window_ = 
+            glfwCreateWindow( 
+                this->window_width_, 
+                this->window_height_, 
+                this->program_name_, 
+                nullptr, 
+                nullptr 
+                );
+
         glfwMakeContextCurrent( this->window_ );
         glfwSwapInterval( 1 );
         gl3wInit();

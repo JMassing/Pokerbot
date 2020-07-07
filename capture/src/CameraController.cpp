@@ -1,9 +1,9 @@
-#include "CameraController.h"
+#include "CameraController.hpp"
 
 namespace capture {
 
 	// @brief: open selected camera using selected API
-	bool CameraController::init(const CameraSettings& camera_settings)
+	bool CameraController::initCamera(const CameraSettings& camera_settings)
 	{
 		// set camera controls to default values during initialization
 		this->setCameraControls(camera_settings);
@@ -27,6 +27,7 @@ namespace capture {
 
 		return true;
 	}
+	
 	//@brief: Grab image from Video
 	bool CameraController::grabVideo()
 	{ 

@@ -2,13 +2,13 @@
 
 #include <memory>
 
-#include "IWindow.h"
-#include "LayoutConfig.h"
+#include "IWindow.hpp"
+#include "LayoutConfig.hpp"
 #include "DefaultConfig.h"
-#include "Button.h"
-#include "Slider.h"
-#include "InputField.h"
-#include "CameraSettings.h"
+#include "Button.hpp"
+#include "Slider.hpp"
+#include "InputField.hpp"
+#include "CameraSettings.hpp"
 
 namespace gui {
 
@@ -56,11 +56,7 @@ namespace gui {
 		public:			
 			// User Inputs
 			// Layout
-			int live_view_height_; 
-        	int live_view_width_;
-        	int card_image_height_percent_;
-        	int card_rank_suit_height_percent_;
-        	cv::Scalar card_outline_color_; 
+			LayoutConfig layout_settings_;
 
 			//Camera Controls
 		 	capture::CameraSettings camera_settings_;
@@ -80,6 +76,7 @@ namespace gui {
 				const std::string& name, 
 				shared::DefaultConfig& default_config, 
 				const capture::CameraSettings& camera_settings, 
+				const LayoutConfig& layout_settings,
 				const int& flag = 0
 				):
 				IWindow(name, flag), 
@@ -87,11 +84,7 @@ namespace gui {
 				show_ask_for_save_(false),
 				slider_{}, 
 				button_{}, 
-				live_view_height_(780), 
-				live_view_width_(1024),
-				card_image_height_percent_(0), 
-				card_rank_suit_height_percent_(0), 
-				card_outline_color_{255, 0, 0}, 
+				layout_settings_{layout_settings},
 				camera_settings_(camera_settings), 
 				live_threshold_(100),
 				binary_threshold_(100), 

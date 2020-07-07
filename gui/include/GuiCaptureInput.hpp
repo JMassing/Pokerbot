@@ -3,9 +3,9 @@
 #include <memory>
 #include <iostream>
 
-#include "IObserver.h"
-#include "CaptureOutput.h"
-#include "Image.h"
+#include "IObserver.hpp"
+#include "CaptureOutput.hpp"
+#include "Image.hpp"
 
 namespace gui {
 

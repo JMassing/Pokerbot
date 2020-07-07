@@ -3,13 +3,10 @@
 #include <opencv2/core.hpp>
 #include <vector>
 
-#include "ImageDrawer.h"
-#include "Card.h"
-#include "View.h"
-#include "IWindow.h"
-#include "Image.h"
-#include "IObserver.h"
-#include "SettingsWin.h"
+#include "ImageDrawer.hpp"
+#include "IWindow.hpp"
+#include "Image.hpp"
+#include "LayoutConfig.hpp"
 
 namespace gui {
 
@@ -19,7 +16,7 @@ namespace gui {
 
 			ImageDrawer drawer_;
 			capture::Image& live_frame_;
-			SettingsWin& controls_;
+			LayoutConfig& controls_;
 
 			bool show_;
 
@@ -29,7 +26,7 @@ namespace gui {
 
 			LiveImageWin(
 				const std::string& name, 
-				SettingsWin& controls, 
+				LayoutConfig& controls, 
 				capture::Image& live_frame, 
 				const int& flag = 0
 				): 
@@ -37,7 +34,7 @@ namespace gui {
 				show_(true), 
 				live_frame_(live_frame), 
 				controls_(controls) 
-				{};
+			{};
 				
 			virtual ~LiveImageWin() {};
 

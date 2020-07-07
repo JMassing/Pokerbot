@@ -42,7 +42,7 @@ namespace capture
 				zoom(40), 
 				image_width(1280), 
 				image_height(1024)
-				{};
+			{};
 
 			~CameraSettings(){};
 

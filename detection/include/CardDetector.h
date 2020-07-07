@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <memory>
 
-#include "Image.h"
+#include "Image.hpp"
 #include "TrainImage.h"
 #include "Card.h"
 #include "Mapping.h"

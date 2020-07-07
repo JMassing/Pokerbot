@@ -1,4 +1,4 @@
-#include "IWindow.h"        
+#include "IWindow.hpp"        
 
 namespace gui
 {

@@ -1,21 +1,21 @@
 #include <iostream>
 #include <memory>
 
-#include "CameraController.h"
+#include "CameraController.hpp"
 //#include "CardDetector.h"
-#include "GuiContext.h"
+#include "GuiContext.hpp"
 //#include "Simulation.h"
 //#include "ImProcSettings.h"
 //#include "DataPokerGui.h"
 //#include "DataPokerDetect.h"
-#include "CameraSettings.h"
-#include "IObserver.h"
-#include "SettingsWin.h"
-#include "LiveImageWin.h"
-#include "GUICaptureOutput.h"
-#include "CaptureGuiInput.h"
-#include "CaptureOutput.h"
-#include "GuiCaptureInput.h"
+#include "CameraSettings.hpp"
+#include "SettingsWin.hpp"
+#include "LiveImageWin.hpp"
+#include "GuiCaptureOutput.hpp"
+#include "CaptureGuiInput.hpp"
+#include "CaptureOutput.hpp"
+#include "GuiCaptureInput.hpp"
+#include "LayoutConfig.hpp"
 
 
 using namespace cv;
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 
 	shared_ptr<CameraController> cam_controller = make_shared<CameraController>();
 
-	if (!cam_controller->init(camera_settings)) {
+	if (!cam_controller->initCamera(camera_settings)) {
 		cerr << "ERROR! Unable to open camera\n";
 		return -2;
 	}	
@@ -55,31 +55,43 @@ int main(int argc, char* argv[])
 	// Set up capture output interface
 	CaptureOutput cam_output(cam_controller->frame_);
 
-	// set up gui context and widgets
+	// set up gui context
 
 	GuiContext gui{};
 	gui.init();
 
+	LayoutConfig layout_settings{};
+	layout_settings.setToDefault(default_settings);
+
 	SettingsWin settings_window(
 		"Settings", 
 		default_settings, 
-		camera_settings
+		camera_settings,
+		layout_settings
 		);
 
 	// Set up Interface between camera and gui to get user input
-	GUICaptureOutput gui_capture_output(camera_settings);
+
+	GuiCaptureOutput gui_capture_output(camera_settings);
+
 	shared_ptr<CaptureGuiInput> capture_gui_input =
-		 make_shared<CaptureGuiInput>(gui_capture_output, cam_controller);
+		 make_shared<CaptureGuiInput>(gui_capture_output);
+	capture_gui_input->addCameraDevice(cam_controller);
+
 	gui_capture_output.attach(capture_gui_input);
 
 	// Set up Interface between gui and camera to get live frame to gui
+
 	shared_ptr<GuiCaptureInput> gui_capture_input = 
 		make_shared<GuiCaptureInput>(cam_output);
+
 	cam_output.attach(gui_capture_input);
 
+	// Set Up Gui Widgets
+	
 	LiveImageWin live_view(
 		"Live View", 
-		settings_window, 
+		settings_window.layout_settings_, 
 		gui_capture_input->frame_, 
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	

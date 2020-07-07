@@ -8,14 +8,12 @@
 
 #include <opencv2/videoio.hpp>
 
-#include "CameraSettings.h"
-#include "Image.h"
-#include "IObserver.h"
-#include "GUICaptureOutput.h"
+#include "ICameraDevice.hpp"
+#include "Image.hpp"
 
 namespace capture {
 
-	class CameraController
+	class CameraController: public ICameraDevice
 	{ 
 		private:
 			cv::VideoCapture cap_;
@@ -25,10 +23,10 @@ namespace capture {
 		public:
 			Image frame_;
 
-			bool init(const CameraSettings& camera_settings);
-			bool grabLive();
+			bool initCamera(const CameraSettings& camera_settings) override;
+			bool grabLive() override;
 			bool grabVideo();
-			void setCameraControls(const CameraSettings& camera_settings);
+			void setCameraControls(const CameraSettings& camera_settings) override;
 			void printCameraState();
 			
 			// Constructor used to caputre live frame from camera

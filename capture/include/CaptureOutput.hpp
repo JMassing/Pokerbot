@@ -4,8 +4,8 @@
 
 #include <memory>
 
-#include "ISubject.h"
-#include "Image.h"
+#include "ISubject.hpp"
+#include "Image.hpp"
 
 namespace capture {
 

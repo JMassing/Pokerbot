@@ -2,13 +2,12 @@
 
 #include <memory>
 
-#include "ISubject.h"
-#include "CameraSettings.h"
-#include "SettingsWin.h"
+#include "ISubject.hpp"
+#include "CameraSettings.hpp"
 
 namespace gui {
 
-	class GUICaptureOutput: public interfaces::ISubject
+	class GuiCaptureOutput: public interfaces::ISubject
 	{
 		private:
 
@@ -34,19 +33,19 @@ namespace gui {
 				};
 			}
 
-        	explicit GUICaptureOutput(
+        	explicit GuiCaptureOutput(
 				capture::CameraSettings camera_settings
 				): 
 				camera_settings_(camera_settings) 
 			{};
 
-			virtual ~GUICaptureOutput() {};
+			virtual ~GuiCaptureOutput() {};
 
 			// Using default copy and move constructors. 
-			GUICaptureOutput(const GUICaptureOutput& other) = default;	
-			GUICaptureOutput& operator=(const GUICaptureOutput& other) = default;
-			GUICaptureOutput(GUICaptureOutput&& other) noexcept = default;
-			GUICaptureOutput& operator=(GUICaptureOutput&& other) noexcept = default;
+			GuiCaptureOutput(const GuiCaptureOutput& other) = default;	
+			GuiCaptureOutput& operator=(const GuiCaptureOutput& other) = default;
+			GuiCaptureOutput(GuiCaptureOutput&& other) noexcept = default;
+			GuiCaptureOutput& operator=(GuiCaptureOutput&& other) noexcept = default;
 	};
 
 } // namespace gui

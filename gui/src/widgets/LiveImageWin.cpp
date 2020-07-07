@@ -1,4 +1,4 @@
-#include "LiveImageWin.h"        
+#include "LiveImageWin.hpp"        
 
 namespace gui
 {
@@ -11,8 +11,8 @@ namespace gui
 
             this->drawer_.draw(
                 this->live_frame_.image, 
-                this->controls_.live_view_width_, 
-                this->controls_.live_view_height_
+                this->controls_.live_view_width, 
+                this->controls_.live_view_height
                 );
                 
             ImGui::End();

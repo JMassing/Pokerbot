@@ -5,7 +5,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 
-#include "Image.h"
+#include "Image.hpp"
 namespace detect {
 
 	class TrainImage

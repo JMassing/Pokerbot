@@ -5,9 +5,9 @@
 
 #include <memory>
 
-#include "IObserver.h"
-#include "GUICaptureOutput.h"
-#include "CameraController.h"
+#include "IObserver.hpp"
+#include "GuiCaptureOutput.hpp"
+#include "ICameraDevice.hpp"
 
 namespace capture {
 
@@ -15,8 +15,8 @@ namespace capture {
 	{ 
 		private:
 			
-            std::shared_ptr<CameraController> camera_controller_;
-			const gui::GUICaptureOutput& controls_;
+            std::shared_ptr<ICameraDevice> camera_controller_;
+			const gui::GuiCaptureOutput& controls_;
 
 		public:
 			
@@ -24,13 +24,17 @@ namespace capture {
             {
                 this->camera_controller_->setCameraControls(controls_.getSettings());
             };
+
+			void addCameraDevice(std::shared_ptr<ICameraDevice> camera_controller)
+			{
+				this->camera_controller_ = camera_controller;
+			};
 			
 			CaptureGuiInput(
-				const gui::GUICaptureOutput& controls, 
-                std::shared_ptr<CameraController>& camera_controller
+				const gui::GuiCaptureOutput& controls 
 				):
 				controls_(controls),
-                camera_controller_(camera_controller)
+                camera_controller_{}
 			{};
 
 			~CaptureGuiInput() {};

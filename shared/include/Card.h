@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "BaseCard.h"
-#include "Image.h"
+#include "Image.hpp"
 
 namespace detect
 {

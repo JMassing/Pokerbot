@@ -7,7 +7,7 @@
 #include "Card.h"
 #include "BaseCard.h"
 #include "RingBuffer.h"
-#include "Image.h"
+#include "Image.hpp"
 
 namespace detect
 {	
