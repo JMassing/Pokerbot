@@ -34,9 +34,8 @@ namespace detect
 	{
 	}
 
-	void CardDetector::updateFrame(const Image& input_frame)
+	void CardDetector::updateFrame(const capture::Image& input_frame)
 	{
-		// Clone (deep copy) live frame from camera view. We are changing the data of this cv::Mat in the Processing steps and do not want to change the original frame
 		this->live_frame_ = input_frame;
 		++this->frame_nr_;
 	}

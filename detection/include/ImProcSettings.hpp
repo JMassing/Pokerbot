@@ -1,14 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-
-#include <opencv2/core.hpp>
-
-#include "Card.h"
 #include "DefaultConfig.h"
 
-namespace shared
+namespace detect
 {
     struct ImProcSettings
     {
@@ -24,8 +18,12 @@ namespace shared
             this->identification_threshold = default_settings.identification_threshold;
         }
 
-        ImProcSettings(): live_threshold(120), binary_threshold(120), identification_threshold(120)
+        ImProcSettings(): 
+            live_threshold(120), 
+            binary_threshold(120), 
+            identification_threshold(120)
         {};
+        
 		~ImProcSettings(){};
 
 		// Using default copy and move constructors. 

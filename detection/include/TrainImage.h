@@ -11,7 +11,7 @@ namespace detect {
 	class TrainImage
 	{
 		private:
-			Image image_;
+			capture::Image image_;
 			std::string label_;
 
 			void readImage(const std::string & filename);

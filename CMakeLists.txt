@@ -10,8 +10,8 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/classes
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/functions  
     ${CMAKE_CURRENT_SOURCE_DIR}/shared/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/detection/include
     )
-    #${CMAKE_CURRENT_SOURCE_DIR}/detection/include
     #${CMAKE_CURRENT_SOURCE_DIR}/poker/include
     #${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperClasses
     #${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions)
@@ -20,7 +20,7 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 # add executables
-#file(GLOB SOURCES_DETECTION "detection/src/*.cpp")
+file(GLOB SOURCES_DETECTION "detection/src/*.cpp")
 file(GLOB SOURCES_CAPTURE "capture/src/*.cpp")
 file(GLOB SOURCES_GUI "gui/src/*.cpp")
 file(GLOB SOURCES_WIDGETS "gui/src/widgets/*.cpp")
@@ -33,8 +33,9 @@ ${SOURCES_GUI}
 ${SOURCES_WIDGETS}
 ${SOURCES_CAPTURE}
 ${SOURCES_SHARED}
+${SOURCES_DETECTION}
 )
-#${SOURCES_DETECTION}
+
 #${SOURCES_POKER} 
 
 ## find gtest

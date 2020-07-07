@@ -5,7 +5,7 @@
 //#include "CardDetector.h"
 #include "GuiContext.hpp"
 //#include "Simulation.h"
-//#include "ImProcSettings.h"
+#include "ImProcSettings.hpp"
 //#include "DataPokerGui.h"
 //#include "DataPokerDetect.h"
 #include "CameraSettings.hpp"
@@ -16,6 +16,10 @@
 #include "CaptureOutput.hpp"
 #include "GuiCaptureInput.hpp"
 #include "LayoutConfig.hpp"
+#include "DetectCaptureInput.hpp"
+#include "DetectGuiInput.hpp"
+#include "GuiDetectionOutput.hpp"
+#include "ContourFinder.hpp"
 
 
 using namespace cv;
@@ -30,18 +34,11 @@ using namespace capture;
 
 int main(int argc, char* argv[])
 {
-	/*shared_ptr<DataPokerGui> shared_data_poker_gui = std::make_shared<DataPokerGui>();
-	shared_ptr<DataPokerDetect> shared_data_poker_detect = std::make_shared<DataPokerDetect>();
-	shared_ptr<LayoutConfig> layout_config = std::make_shared<LayoutConfig>();*/
 	
-	
-	// Create Simulation, CardDetector and Gui classes
-	//Simulation sim(shared_data_poker_gui, shared_data_poker_detect);
-	//CardDetector detect{shared_data_detect_gui, shared_data_poker_detect, default_config};
-
 	DefaultConfig default_settings{};
 
 	// Set up Camera	
+
     CameraSettings camera_settings{};
 	camera_settings.setToDefault(default_settings);
 
@@ -55,8 +52,24 @@ int main(int argc, char* argv[])
 	// Set up capture output interface
 	CaptureOutput cam_output(cam_controller->frame_);
 
-	// set up gui context
+	// Set Up Detecion interfaces
+	ImProcSettings proc_settings{};
+	proc_settings.setToDefault(default_settings);
 
+	GuiDetectionOutput gui_detection_output{proc_settings};
+
+	shared_ptr<DetectCaptureInput> detect_capture_input = 
+		make_shared<DetectCaptureInput>(cam_output);
+	cam_output.attach(detect_capture_input);
+
+	shared_ptr<DetectGuiInput> detect_gui_input =
+		make_shared<DetectGuiInput>(gui_detection_output, proc_settings);
+	gui_detection_output.attach(detect_gui_input);
+
+	// Set Up Detection Methods
+	ContourFinder card_contours{};
+
+	// Set up gui context
 	GuiContext gui{};
 	gui.init();
 

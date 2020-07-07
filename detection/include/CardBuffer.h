@@ -23,9 +23,9 @@ namespace detect
 
 		cv::Point center_point_;
 		std::vector<cv::Point> contour_;
-		Image card_image_;
-		Image rank_image_;
-		Image suit_image_;
+		capture::Image card_image_;
+		capture::Image rank_image_;
+		capture::Image suit_image_;
 
 		bool filled_once_;
 		int last_update_;

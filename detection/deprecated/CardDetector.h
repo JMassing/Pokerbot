@@ -12,7 +12,7 @@
 #include "Mapping.h"
 #include "CardBuffer.h"
 #include "TemplateFunctions.h"
-#include "ImProcSettings.h"
+#include "ImProcSettings.hpp"
 #include "DataPokerDetect.h"
 #include "ImProc.h"
 #include "DefaultConfig.h"
@@ -30,10 +30,10 @@ namespace detect
 		private:
 			enum Filter { LARGEST_AREA, SMALLEST_AREA, LE_AREA, GE_AREA };
 		  
-			Image live_frame_;
+			capture::Image live_frame_;
 			std::vector<Card> cards_;
 			std::vector<CardBuffer<CARD_BUFFER_SIZE>> card_buffers_;
-			std::shared_ptr<shared::ImProcSettings> data_gui_;
+			std::shared_ptr<ImProcSettings> data_gui_;
 			std::shared_ptr<shared::DataPokerDetect> data_poker_;
 			int frame_nr_;			
 			std::vector<TrainImage> train_suits_;
