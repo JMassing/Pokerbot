@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mapping.h"
+#include "Mapping.hpp"
 
 namespace detect
 {

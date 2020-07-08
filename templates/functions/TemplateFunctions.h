@@ -10,7 +10,10 @@ namespace templates{
     {
         for(auto p = lhs_first; p != lhs_last; ++p)
         {
-            *p == rhs ? return true : "";
+            if(*p == rhs)
+            {
+                return true;
+            }
         } 
 
         return false;
@@ -24,7 +27,10 @@ namespace templates{
     {
         for(auto p = lhs_first; p != lhs_last; ++p)
         {
-            func(*p, rhs) ? return true : "";
+            if(func(*p, rhs))
+            {
+                return true;
+            }
         } 
         
         return false;

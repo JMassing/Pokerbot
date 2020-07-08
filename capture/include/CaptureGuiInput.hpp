@@ -25,7 +25,7 @@ namespace capture {
                 this->camera_controller_->setCameraControls(controls_.getSettings());
             };
 
-			void addCameraDevice(std::shared_ptr<ICameraDevice> camera_controller)
+			void connectCameraDevice(std::shared_ptr<ICameraDevice> camera_controller)
 			{
 				this->camera_controller_ = camera_controller;
 			};

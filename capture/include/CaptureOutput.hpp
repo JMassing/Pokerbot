@@ -2,8 +2,6 @@
 
 // CaptureOutput exposes captured live frame to modules that use it.
 
-#include <memory>
-
 #include "ISubject.hpp"
 #include "Image.hpp"
 

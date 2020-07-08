@@ -24,7 +24,7 @@ namespace detect
 			
 		// reserve space for train images, these should be 13 ranks and 4 suits
 		this->train_ranks_.reserve(13);
-		this->train_ranks_.reserve(4);
+		this->train_suits_.reserve(4);
 
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks\\*.jpg", this->train_ranks_);
 		loadTrainImages("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits\\*.jpg", this->train_suits_);
@@ -51,7 +51,7 @@ namespace detect
 		ImProc::findContours(this->live_frame_.image, card_contours, this->data_gui_->live_threshold);
 
 		// Step 1.2 : Filter Contours by area to get rid of contours that are too small or large to be a card, 
-		// -> min_ and max_card size were determined empirically, and depend on camera positioning
+		// -> min- and max-card size were determined empirically, and depend on camera positioning
 		ImProc::contourFilter(card_contours, ImProc::GE_AREA, this->min_card_size_);
 		ImProc::contourFilter(card_contours, ImProc::LE_AREA, this->max_card_size_);
 

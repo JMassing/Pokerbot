@@ -1,21 +1,8 @@
-#include "TrainImage.h"
+#include "TrainImage.hpp"
 
 #include <iostream>
 
 namespace detect{
-	TrainImage::TrainImage()
-	{
-	}
-
-	TrainImage::TrainImage(const std::string & filename)
-	{
-		this->readImage(filename);
-		this->readLabel(filename);
-	}
-
-	TrainImage::~TrainImage()
-	{
-	}
 
 	void TrainImage::readImage(const std::string & filename)
 	{

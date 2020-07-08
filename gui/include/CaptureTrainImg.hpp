@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Mapping.h"
+#include "Mapping.hpp"
 #include "View.h"
 #include "GuiContext.hpp"
 #include "Image.hpp"

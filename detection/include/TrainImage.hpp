@@ -19,19 +19,20 @@ namespace detect {
 
 		public:
 
-			cv::Mat getImage() { return this->image_.image; }
-			std::string getLabel() { return this->label_; }
+			cv::Mat getImage() const { return this->image_.image; } 
+			std::string getLabel() const { return this->label_; }
 
-			TrainImage();
-			explicit TrainImage(const std::string & filename);
-			~TrainImage();		
+			TrainImage(){};
+			explicit TrainImage(const std::string & filename)
+			{
+				this->readImage(filename);
+				this->readLabel(filename);
+			};
+			~TrainImage(){};		
 			
-			// Delete copy constructor, we only need each TrainImage once. Also cv::Mat only does shallow copying and processing the copy then changes
-			// the original. A .clone() function could be considered, but we only need TrainImage once.
+				// Using default copy and move constructors. 
 			TrainImage(const TrainImage &other) = default;
 			TrainImage& operator=(const TrainImage& other) = default;
-
-			// Custom move constructors
 			TrainImage(TrainImage &&other) noexcept = default;
 			TrainImage& operator =(TrainImage &&other) noexcept = default;
 	};

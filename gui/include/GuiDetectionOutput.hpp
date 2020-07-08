@@ -28,7 +28,7 @@ namespace gui {
 			{
 				if(input_flag)
 				{  
-					this->proc_settings_ = proc_settings_; 
+					this->proc_settings_ = proc_settings; 
 					this->notify(); 
 				};
 			}

@@ -216,7 +216,7 @@ namespace gui
                 "Card Threshold", 
                 this->min_live_th_, 
                 this->max_live_th_, 
-                this->live_threshold_, 
+                this->proc_settings_.live_threshold, 
                 true
             ); ImGui::SameLine(); 
             this->helpMarker("Threshold for detecting cards in live image. CTRL+click to input value.");  
@@ -225,7 +225,7 @@ namespace gui
                 "Rank/Suit Threshold",  
                 this->min_bin_th_, 
                 this->max_bin_th_, 
-                this->identification_threshold_, 
+                this->proc_settings_.identification_threshold, 
                 true
             ); ImGui::SameLine(); 
             this->helpMarker("Threshold for detecting rank and suit image in upper left corner of card. CTRL+click to input value.");  
@@ -234,7 +234,7 @@ namespace gui
                 "Binarization Threshold", 
                 this->min_ident_th_, 
                 this->max_ident_th_, 
-                this->binary_threshold_, 
+                this->proc_settings_.binary_threshold, 
                 true
             ); ImGui::SameLine(); 
             this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  

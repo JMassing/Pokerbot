@@ -6,38 +6,43 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
-#include "Image.hpp"
-
 namespace detect 
 {
     
 	class ContourFinder
 	{
 
-		private:
+		public:
 
-            void binarizeImage(
+            const enum Filter { LARGEST_AREA, SMALLEST_AREA, LE_AREA, GE_AREA };
+
+            
+            static void binarizeImage(
                 const cv::Mat & src, 
                 cv::Mat & dst, 
                 const int& threshold, 
                 const int& thresh_method
                 );
 
-		public:
-
-            enum Filter { LARGEST_AREA, SMALLEST_AREA, LE_AREA, GE_AREA };
-
-            std::vector<std::vector<cv::Point> > findContours(
+            static std::vector<std::vector<cv::Point> > findContours(
                 const cv::Mat& src, 
                 const int& threshold, 
                 const int& thresh_method = cv::THRESH_BINARY
                 );
             
-            void filterContours(
+            static void filterContours(
                 std::vector<std::vector<cv::Point> >& contour, 
                 const int& method, 
                 const double& value = 0
-                );                     
+                );       
+
+            static std::vector< cv::Point2f > calculateCenterPoints(
+                const std::vector<std::vector<cv::Point> >& contours
+                );			
+
+            static std::vector < std::vector< cv::Point2f >> calculateCornerPoints(
+                const std::vector<std::vector<cv::Point> >& contours
+                );	              
 
 			ContourFinder(){};
 

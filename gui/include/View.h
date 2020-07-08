@@ -10,7 +10,7 @@
 #include <opencv2/videoio.hpp>
 
 #include "Card.h"
-#include "Mapping.h"
+#include "Mapping.hpp"
 
 namespace gui {
 

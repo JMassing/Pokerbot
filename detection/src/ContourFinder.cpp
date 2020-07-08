@@ -3,11 +3,11 @@
 namespace detect{
 
     // @brief: filters contours after given method. Value ist given according to method
-	// @brief: Methods are 
-	// @brief: LARGEST_AREA = 0, only keept largest contour
-	// @brief: SMALLEST_AREA = 1, only keep smalles contour 
-	// @brief: LE_AREA = 2, contour area is smaller/equal then given value
-	// @brief: GE_AREA = 3, contour area is larger/equal then given value 
+	// Methods are: 
+	// LARGEST_AREA = 0, only keept largest contour
+	// SMALLEST_AREA = 1, only keep smalles contour 
+	// LE_AREA = 2, contour area is smaller/equal then given value
+	// GE_AREA = 3, contour area is larger/equal then given value 
 	void ContourFinder::filterContours(
         std::vector<std::vector<cv::Point> >& contours, 
         const int& method, 
@@ -62,7 +62,7 @@ namespace detect{
 	}
 
     //@brief: binarize given image 
-	void binarizeImage(
+	void ContourFinder::binarizeImage(
         const cv::Mat & src, 
         cv::Mat & dst, 
         const int& threshold, 
@@ -74,8 +74,8 @@ namespace detect{
 	}
 
    	//@brief: Finds Contours in given image using cv::findContours method. Given Image is binarized
-    //@brief: using given binarization threshold and given thresholding method (default is cv::THRESH_BINARY)
-    std::vector<std::vector<cv::Point> > findContours(
+    //using given binarization threshold and given thresholding method (default is cv::THRESH_BINARY)
+    std::vector<std::vector<cv::Point> > ContourFinder::findContours(
         const cv::Mat& src, 
         const int& threshold,
         const int& thresh_method
@@ -84,7 +84,9 @@ namespace detect{
         std::vector<std::vector<cv::Point> > contours;
 		cv::Mat edges;
 		std::vector<cv::Vec4i> hierarchy;
+		
 		binarizeImage(src, edges, threshold, thresh_method);
+
 		cv::findContours(
             edges, 
             contours, 
@@ -96,5 +98,52 @@ namespace detect{
 
         return contours;
 	}
+
+	//@brief: calculates corner points of given contours using cv::approxPolyDP
+	std::vector < std::vector< cv::Point2f >> ContourFinder::calculateCornerPoints(
+		const std::vector<std::vector<cv::Point> >& contours
+		)
+	{
+		double d = 0.01;
+
+		std::vector < std::vector< cv::Point2f >> corners{};
+
+		for (auto const &contour : contours)
+		{
+			std::vector<cv::Point2f> corner_points;
+			do
+			{
+				d = d + 1;
+				cv::approxPolyDP(contour, corner_points, d, true);
+
+			} while (corner_points.size() > 4);
+			
+			if (corner_points.size() > 0)
+			{
+				corners.emplace_back(corner_points);
+			}
+		}
+
+		return corners;
+	}
+
+	//@brief: Returns Center Points of contours using the contour moments, calculated with cv::moments
+	std::vector< cv::Point2f > ContourFinder::calculateCenterPoints(
+		const std::vector<std::vector<cv::Point> >& contours
+		)
+	{
+		std::vector< cv::Point2f > centers{};
+
+		cv::Moments M;
+
+		for (auto const &contour : contours)
+		{
+			M = cv::moments(contour);
+			centers.emplace_back(cv::Point2f((M.m10 / M.m00), (M.m01 / M.m00)));
+		}
+		
+		return centers;
+	}
+
 
 }// end namespace detect

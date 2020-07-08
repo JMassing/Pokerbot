@@ -7,6 +7,8 @@
 #include "IWindow.hpp"
 #include "Image.hpp"
 #include "LayoutConfig.hpp"
+#include "Card.h"
+#include "View.h"
 
 namespace gui {
 
@@ -14,9 +16,11 @@ namespace gui {
 	{
 		private:
 
+			View visualize_;
 			ImageDrawer drawer_;
 			capture::Image& live_frame_;
 			LayoutConfig& controls_;
+			std::vector<detect::Card>& cards_;
 
 			bool show_;
 
@@ -28,12 +32,15 @@ namespace gui {
 				const std::string& name, 
 				LayoutConfig& controls, 
 				capture::Image& live_frame, 
+				std::vector<detect::Card>& cards,
 				const int& flag = 0
 				): 
 				IWindow(name, flag), 
 				show_(true), 
 				live_frame_(live_frame), 
-				controls_(controls) 
+				controls_(controls), 
+				cards_{cards},
+				visualize_{}
 			{};
 				
 			virtual ~LiveImageWin() {};

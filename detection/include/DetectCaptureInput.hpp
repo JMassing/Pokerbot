@@ -6,25 +6,32 @@
 
 #include "CaptureOutput.hpp"
 #include "IObserver.hpp"
-#include "Image.hpp"
+#include "ICardDetector.hpp"
 
 namespace detect {
 
 	class DetectCaptureInput: public interfaces::IObserver
 	{ 
-		public:
-
-			capture::Image frame_;
+		private:
+			
 			capture::CaptureOutput& cap_out_;
+			std::shared_ptr<ICardDetector> detector_;
+
+		public:
 			
 			void update() override
-            {
-                this->frame_ = this->cap_out_.getLiveFrame();
+            {                
+				this->detector_->updateFrame(this->cap_out_.getLiveFrame());
             };
+
+			void connectCardDetector(std::shared_ptr<ICardDetector> detector)
+			{
+				this->detector_ = detector;
+			}
 			
 			DetectCaptureInput(capture::CaptureOutput& cap_out):
 				cap_out_(cap_out),
-				frame_{}
+				detector_{}
 			{};
 
 			~DetectCaptureInput() {};

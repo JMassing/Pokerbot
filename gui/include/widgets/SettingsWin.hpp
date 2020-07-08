@@ -9,6 +9,7 @@
 #include "Slider.hpp"
 #include "InputField.hpp"
 #include "CameraSettings.hpp"
+#include "ImProcSettings.hpp"
 
 namespace gui {
 
@@ -62,9 +63,7 @@ namespace gui {
 		 	capture::CameraSettings camera_settings_;
 
 			//Image Processing
-			int live_threshold_;            // threshold for finding cards in live image 
-        	int binary_threshold_;          // threshold for binaryzing suit and rank image;
-        	int identification_threshold_;  // threshold for finding the rank and suit in the card image 
+			detect::ImProcSettings proc_settings_;
 
 			//Poker Simulation
 			int nr_of_simulation_runs_;
@@ -77,6 +76,7 @@ namespace gui {
 				shared::DefaultConfig& default_config, 
 				const capture::CameraSettings& camera_settings, 
 				const LayoutConfig& layout_settings,
+				const detect::ImProcSettings& proc_settings,
 				const int& flag = 0
 				):
 				IWindow(name, flag), 
@@ -86,9 +86,7 @@ namespace gui {
 				button_{}, 
 				layout_settings_{layout_settings},
 				camera_settings_(camera_settings), 
-				live_threshold_(100),
-				binary_threshold_(100), 
-				identification_threshold_(100), 
+				proc_settings_(proc_settings),
 				nr_of_simulation_runs_(10000), 
 				nr_of_human_players_(1) 
 			{};
