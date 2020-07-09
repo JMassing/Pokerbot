@@ -1,4 +1,4 @@
-#include "Deck.h"
+#include "Deck.hpp"
 
 #include <random>       // std::default_random_engine
 
@@ -10,10 +10,10 @@ namespace poker
         {
             for(int i=2; i<=14; ++i)
             {   
-                // check if card is known 
                 if(robot_hand.containsCard(detect::BaseCard(i,j)))
                 {
-                    // do not add card to the deck, which is already dealt to the robot
+                    // do not add card to the deck, which is already dealt to the robot, i.e 
+                    // it's either one of the two hand cards or dealt in flop/turn/river
                 }
                 else
                 {

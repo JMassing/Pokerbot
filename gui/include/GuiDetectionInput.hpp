@@ -8,7 +8,7 @@
 
 #include "IObserver.hpp"
 #include "DetectGuiOutput.hpp"
-#include "Card.h"
+#include "Card.hpp"
 
 namespace gui {
 

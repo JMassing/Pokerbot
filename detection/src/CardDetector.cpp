@@ -67,8 +67,8 @@ namespace detect{
             );
 
         // Find corner points and center points of contours
-		std::vector < std::vector< cv::Point2f >> card_corners 
-            = ContourFinder::calculateCornerPoints(card_contours);
+		std::vector < std::vector< cv::Point2f >> card_corners = 
+			ContourFinder::calculateCornerPoints(card_contours);
 
 		std::vector< cv::Point2f > card_centers =
 		    ContourFinder::calculateCenterPoints(card_contours);
@@ -160,7 +160,7 @@ namespace detect{
         public_area.height = 150;
 
         CardAssigner assigner(robot_area, public_area);
-        assigner.assignCards(this->cards_,this->robot_cards_, this->public_cards_);
+        assigner.assignCards(this->cards_, this->data_.robot_cards, this->data_.public_cards);
     }
 
 } // end namespace detect

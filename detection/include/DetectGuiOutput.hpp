@@ -5,7 +5,7 @@
 #include "ISubject.hpp"
 #include "ICardDetector.hpp"
 
-#include "Card.h"
+#include "Card.hpp"
 
 namespace detect {
 

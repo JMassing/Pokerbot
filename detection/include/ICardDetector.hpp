@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Image.hpp"
-#include "Card.h"
+#include "Card.hpp"
 
 namespace detect {
 

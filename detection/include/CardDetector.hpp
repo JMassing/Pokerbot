@@ -14,6 +14,7 @@
 #include "PerspectiveCorrector.hpp"
 #include "CardAssigner.hpp"
 #include "ImProcSettings.hpp"
+#include "DataDetect.hpp"
 
 namespace detect 
 {
@@ -31,8 +32,6 @@ namespace detect
 			std::vector<Card> cards_;
 			std::vector<CardBuffer<CARD_BUFFER_SIZE>> card_buffers_;
 			int frame_nr_;
-            std::vector<detect::Card> public_cards_;
-            std::vector<detect::Card> robot_cards_;
             ImProcSettings& settings_;
             PerspectiveCorrector perspective_corrector_;
 
@@ -51,6 +50,8 @@ namespace detect
 
 		public:
 
+			DataDetect data_;
+
 			void detectCards() override;
 			const std::vector<Card> getCards() override { return this->cards_; }
 			void updateFrame(const capture::Image& input_frame) override;
@@ -60,8 +61,7 @@ namespace detect
                 cards_{},
                 card_buffers_{},
                 frame_nr_(0),
-                robot_cards_{},
-                public_cards_{},
+				data_{},
                 settings_(settings)
             {};
 			~CardDetector(){};

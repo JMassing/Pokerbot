@@ -9,4 +9,4 @@ add_gtest(TestPoker TestPoker.cpp)
 add_gtest(TestDetect TestDetect.cpp)
 
 target_link_libraries(TestPoker PRIVATE PokerbotLib)
-target_link_libraries(TestDetect PRIVATE PokerbotLib)
+target_link_libraries(TestDetect PRIVATE PokerbotLib ${CONAN_LIBS_OPENCV} ${CONAN_LIBS_ZLIB})

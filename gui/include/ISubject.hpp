@@ -21,7 +21,7 @@ namespace interfaces
 			void detach(std::shared_ptr<IObserver> observer);
 			void notify() const;
 
-			virtual ~ISubject() = default;
+			virtual ~ISubject() {};
 
 		protected:
 

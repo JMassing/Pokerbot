@@ -11,42 +11,42 @@
 
 namespace gui {
 
-	class LiveImageWin : public IWindow
+	class RankImageWin : public IWindow
 	{
 		private:
 
 			ImageDrawer drawer_;
-			capture::Image& live_frame_;
-			LayoutConfig& controls_;
+            LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
+           	bool show_;
 
-			bool show_;
+            // initial sizes of displayed card images
+            const double aspect_ratio_ = 1;
+			const int image_height_ = 50;
 
 		public:
 
 			bool draw() override;
 
-			LiveImageWin(
+			RankImageWin(
 				const std::string& name, 
 				LayoutConfig& controls, 
-				capture::Image& live_frame, 
 				std::vector<detect::Card>& cards,
 				const int& flag = 0
 				): 
 				IWindow(name, flag), 
 				show_(true), 
-				live_frame_(live_frame), 
 				controls_(controls), 
 				cards_{cards}
 			{};
 				
-			virtual ~LiveImageWin() {};
+			virtual ~RankImageWin() {};
 
 			// Using default copy and move constructors. 
-			LiveImageWin(const LiveImageWin& other) = default;	
-			LiveImageWin& operator=(const LiveImageWin& other) = default;
-			LiveImageWin(LiveImageWin&& other) noexcept = default;
-			LiveImageWin& operator=(LiveImageWin&& other) noexcept = default;
+			RankImageWin(const RankImageWin& other) = default;	
+			RankImageWin& operator=(const RankImageWin& other) = default;
+			RankImageWin(RankImageWin&& other) noexcept = default;
+			RankImageWin& operator=(RankImageWin&& other) noexcept = default;
 	};
 
 } // namespace gui

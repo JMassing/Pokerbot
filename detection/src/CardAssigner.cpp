@@ -6,13 +6,16 @@ namespace detect{
     // the card is placed
 	void CardAssigner::assignCards(
         const std::vector<Card>& cards,
-        std::vector<detect::Card>& public_cards,
-        std::vector<detect::Card>& robot_cards
+        std::vector<detect::BaseCard>& public_cards,
+        std::vector<detect::BaseCard>& robot_cards
         )
 	{
 		public_cards.clear();
 		robot_cards.clear();
 
+		// Cards are transformed into BaseCards by object slicing in this step.
+		// Robot cards and public cards are used only in poker module, which 
+		// only needs Cards rank and suit
 		for(const auto& card: cards)
 		{	
 				if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->robot_area_)

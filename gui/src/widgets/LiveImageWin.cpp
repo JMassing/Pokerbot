@@ -14,7 +14,7 @@ namespace gui
 
             if(this->controls_.show_cards && this->cards_.size() > 0)
             {
-                this->visualize_.drawCards(
+                this->drawer_.drawCards(
                     this->cards_, 
                     shown_image.image, 
                     this->controls_.card_outline_color

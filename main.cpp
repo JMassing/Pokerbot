@@ -2,15 +2,17 @@
 #include <memory>
 
 #include "CameraController.hpp"
-//#include "CardDetector.h"
 #include "GuiContext.hpp"
-//#include "Simulation.h"
+#include "Simulation.hpp"
 #include "ImProcSettings.hpp"
-//#include "DataPokerGui.h"
-//#include "DataPokerDetect.h"
+#include "DataPoker.hpp"
+#include "DataDetect.hpp"
 #include "CameraSettings.hpp"
 #include "SettingsWin.hpp"
 #include "LiveImageWin.hpp"
+#include "CardImageWin.hpp"
+#include "RankImageWin.hpp"
+#include "SuitImageWin.hpp"
 #include "GuiCaptureOutput.hpp"
 #include "CaptureGuiInput.hpp"
 #include "CaptureOutput.hpp"
@@ -22,12 +24,17 @@
 #include "CardDetector.hpp"
 #include "DetectGuiOutput.hpp"
 #include "GuiDetectionInput.hpp"
+#include "PokerDetectInput.hpp"
+#include "DetectPokerOutput.hpp"
+#include "SimSettings.hpp"
+#include "PokerOutput.hpp"
+#include "GuiPokerInput.hpp"
+#include "PokerWind.hpp"
 
 using namespace cv;
 using namespace std;
 using namespace detect;
-//using namespace poker;
-//using namespace templates;
+using namespace poker;
 using namespace gui;
 using namespace shared;
 using namespace capture;
@@ -76,20 +83,30 @@ int main(int argc, char* argv[])
 	DetectGuiOutput detect_gui_output{};
 	detect_gui_output.connectCardDetector(card_detector);
 
+
+	// SetUp Connection between detection and poker module
+	DetectPokerOutput detect_poker_output(card_detector->data_);
+
+	shared_ptr<PokerDetectInput> poker_detect_input = 
+		make_shared<PokerDetectInput> (detect_poker_output);
+	detect_poker_output.attach(poker_detect_input);
+
+	//Setup simulation
+	SimSettings mock_settings{};
+	Simulation sim(mock_settings, poker_detect_input->data_);
+
+	// Set Up Interface poker/gui
+	PokerOutput poker_output{sim.data_};
+	shared_ptr<GuiPokerInput>gui_poker_input = 
+		make_shared<GuiPokerInput>(poker_output);
+	poker_output.attach(gui_poker_input);
+
 	// Set up gui context
 	GuiContext gui{};
 	gui.init();
 
 	LayoutConfig layout_settings{};
 	layout_settings.setToDefault(default_settings);
-
-	SettingsWin settings_window(
-		"Settings", 
-		default_settings, 
-		camera_settings,
-		layout_settings,
-		proc_settings
-		);
 
 	// Set up Interface between camera and gui to get user input
 
@@ -114,6 +131,14 @@ int main(int argc, char* argv[])
 	cam_output.attach(gui_capture_input);
 
 	// Set Up Gui Widgets
+
+	SettingsWin settings_window(
+		"Settings", 
+		default_settings, 
+		camera_settings,
+		layout_settings,
+		proc_settings
+		);
 	
 	LiveImageWin live_view(
 		"Live View", 
@@ -122,6 +147,32 @@ int main(int argc, char* argv[])
 		gui_detect_input->cards_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
+
+	CardImageWin card_view(
+		"Card Images", 
+		settings_window.layout_settings_, 
+		gui_detect_input->cards_,
+		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
+		);	
+	
+	RankImageWin rank_view(
+		"Rank Images", 
+		settings_window.layout_settings_, 
+		gui_detect_input->cards_,
+		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
+		);	
+	
+	SuitImageWin suit_view(
+		"Suit Images", 
+		settings_window.layout_settings_, 
+		gui_detect_input->cards_,
+		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
+		);	
+
+	PokerWin poker_win(
+		"Simulation Results", 
+		gui_poker_input->data_
+		);
 
 	while( !gui.shouldClose() )
 	{
@@ -141,8 +192,12 @@ int main(int argc, char* argv[])
 			// Detect Cards in Frame and notify other modules
 			card_detector->detectCards();
 			detect_gui_output.notify();
+			detect_poker_output.notify();
 			
-			//sim.run();
+			// run simulation
+			sim.run();
+			poker_output.notify();
+			cout << sim.data_.probability.first << endl;
 					
 			// Draw Gui
 
@@ -162,6 +217,11 @@ int main(int argc, char* argv[])
 				settings_window.proc_settings_
 				);			
 
+			card_view.draw();
+			rank_view.draw();
+			suit_view.draw();
+			poker_win.draw();
+
 			gui.render();
 	
 			if (gui.shouldClose())
@@ -170,6 +230,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
+
 // the camera will be deinitialized automatically in VideoCapture destructor
 // the GUI will be deinitialized automatically in GUI destructor
 }

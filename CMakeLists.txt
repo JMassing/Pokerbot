@@ -11,8 +11,10 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/functions  
     ${CMAKE_CURRENT_SOURCE_DIR}/shared/include
     ${CMAKE_CURRENT_SOURCE_DIR}/detection/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/poker/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions
     )
-    #${CMAKE_CURRENT_SOURCE_DIR}/poker/include
+    
     #${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperClasses
     #${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions)
 
@@ -24,7 +26,7 @@ file(GLOB SOURCES_DETECTION "detection/src/*.cpp")
 file(GLOB SOURCES_CAPTURE "capture/src/*.cpp")
 file(GLOB SOURCES_GUI "gui/src/*.cpp")
 file(GLOB SOURCES_WIDGETS "gui/src/widgets/*.cpp")
-#file(GLOB SOURCES_POKER "poker/src/*.cpp")
+file(GLOB SOURCES_POKER "poker/src/*.cpp")
 file(GLOB SOURCES_SHARED "shared/src/*.cpp")
 
 
@@ -34,9 +36,10 @@ ${SOURCES_WIDGETS}
 ${SOURCES_CAPTURE}
 ${SOURCES_SHARED}
 ${SOURCES_DETECTION}
+${SOURCES_POKER} 
 )
 
-#${SOURCES_POKER} 
+
 
 ## find gtest
 find_package(GTest REQUIRED)
@@ -45,7 +48,7 @@ find_package(GTest REQUIRED)
 find_package( OpenGL REQUIRED )
 
 ## tests
-#add_subdirectory(unit_tests)
+add_subdirectory(unit_tests)
 
 ## add imgui
 

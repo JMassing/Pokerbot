@@ -6,6 +6,7 @@
 #include <opencv2/imgcodecs.hpp>
 
 #include "Image.hpp"
+
 namespace detect {
 
 	class TrainImage

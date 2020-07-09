@@ -11,7 +11,7 @@
 
 namespace poker{
 
-    class GetRanking{
+    class RankDeterminator{
         
         private:
 
@@ -37,14 +37,14 @@ namespace poker{
                 this->high_cards_.fill(0);
             }
             
-            GetRanking():ranking_{-1}, high_cards_{-1} {};
-            ~GetRanking() {};
+            RankDeterminator():ranking_{-1}, high_cards_{-1} {};
+            ~RankDeterminator() {};
 
             // Using default copy and move constructors. 
-            GetRanking(const GetRanking& other) = default;	
-            GetRanking& operator=(const GetRanking& other) = default;
-            GetRanking(GetRanking&& other) noexcept = default;
-            GetRanking& operator=(GetRanking&& other) noexcept = default;
+            RankDeterminator(const RankDeterminator& other) = default;	
+            RankDeterminator& operator=(const RankDeterminator& other) = default;
+            RankDeterminator(RankDeterminator&& other) noexcept = default;
+            RankDeterminator& operator=(RankDeterminator&& other) noexcept = default;
 
     };
 

@@ -4,7 +4,8 @@
 
 #include <opencv2/core.hpp>
 
-#include "Card.h"
+#include "Card.hpp"
+#include "BaseCard.h"
 #include "TemplateFunctions.h"
 
 namespace detect 
@@ -24,8 +25,8 @@ namespace detect
 
             void assignCards(
                 const std::vector<Card>& cards,
-                std::vector<detect::Card>& public_cards,
-                std::vector<detect::Card>& robot_cards
+                std::vector<detect::BaseCard>& public_cards,
+                std::vector<detect::BaseCard>& robot_cards
                 );
 
 			CardAssigner(

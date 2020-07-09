@@ -4,7 +4,7 @@
 #include <array>
 #include <algorithm>
 
-#include "Simulation.h"
+#include "Simulation.hpp"
 
 // Class to test methods of Game class. Make private members public to access them from TestPoker.cpp. This is only included in TestPoker.cpp 
 namespace UnitTest{

@@ -1,5 +1,4 @@
 #pragma once
-#include "Card.h"
 
 namespace templates{
 

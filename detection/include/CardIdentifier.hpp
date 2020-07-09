@@ -8,7 +8,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
-#include "Card.h"
+#include "Card.hpp"
 #include "Mapping.hpp"
 #include "TrainImage.hpp"
 #include "ContourFinder.hpp"
@@ -37,8 +37,8 @@ namespace detect
             // be the contour of the rank/suit
             const double max_rank_area_ratio_ = 0.6;
 
-            // Max comparison score to be considered a valid comparison
-            const double max_score_ = 5;
+            // Max comparison score to be considered a valid comparison. Empirical parameter
+            const double max_score_ = 1.5;
 
    			void loadTrainImages(
                    const std::string &path, 

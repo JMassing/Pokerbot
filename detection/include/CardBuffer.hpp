@@ -4,7 +4,7 @@
 #include <array>
 #include <algorithm>
 
-#include "Card.h"
+#include "Card.hpp"
 #include "BaseCard.h"
 #include "RingBuffer.hpp"
 #include "Image.hpp"
@@ -34,7 +34,8 @@ namespace detect
 
 		bool getCard(Card& card_out);
 		
-		// Override put function for card buffer to also update center point and contour with the center point and contour of the latest card
+		// Override put function for card buffer to also update center point and 
+		// contour with the center point and contour of the latest card
 		void put(const Card& card_in, const int& frame_nr);
 		cv::Point getCenter() const
 		{
@@ -50,8 +51,16 @@ namespace detect
 			return this->last_update_;
 		}
 
-		explicit CardBuffer(int frame_nr) : RingBuffer(), center_point_(), filled_once_(false), contour_(), last_update_(frame_nr),
-											card_image_(), rank_image_(), suit_image_() {};
+		explicit CardBuffer(int frame_nr) :
+			RingBuffer(), 
+			center_point_(), 
+			filled_once_(false), 
+			contour_(), 
+			last_update_(frame_nr),
+			card_image_(), 
+			rank_image_(), 
+			suit_image_() 
+			{};
 		CardBuffer(const Card& card, int frame_nr) : RingBuffer(), filled_once_(false) 
 		{
 			this->put(card, frame_nr);

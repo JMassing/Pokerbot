@@ -5,8 +5,7 @@
 #include <vector>
 
 #include "BaseCard.h"
-#include "Hand.h"
-#include "Mapping.h"
+#include "Hand.hpp"
 
 namespace poker{
 
