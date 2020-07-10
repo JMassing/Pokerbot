@@ -1,4 +1,4 @@
-#include "PokerWind.hpp"
+#include "PokerWin.hpp"
 
 namespace gui{
 

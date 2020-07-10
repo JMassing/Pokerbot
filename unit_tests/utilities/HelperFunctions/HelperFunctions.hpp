@@ -8,7 +8,7 @@
 #include <boost/filesystem.hpp>
 
 #include "Hand.hpp"
-#include "BaseCard.h"
+#include "BaseCard.hpp"
 #include "Mapping.hpp"
 
 namespace UnitTest

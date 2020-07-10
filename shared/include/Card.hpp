@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "BaseCard.h"
+#include "BaseCard.hpp"
 #include "Image.hpp"
 
 namespace detect

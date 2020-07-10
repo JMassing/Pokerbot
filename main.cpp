@@ -4,32 +4,11 @@
 #include "CameraController.hpp"
 #include "GuiContext.hpp"
 #include "Simulation.hpp"
-#include "ImProcSettings.hpp"
-#include "DataPoker.hpp"
-#include "DataDetect.hpp"
-#include "CameraSettings.hpp"
-#include "SettingsWin.hpp"
-#include "LiveImageWin.hpp"
-#include "CardImageWin.hpp"
-#include "RankImageWin.hpp"
-#include "SuitImageWin.hpp"
-#include "GuiCaptureOutput.hpp"
-#include "CaptureGuiInput.hpp"
-#include "CaptureOutput.hpp"
-#include "GuiCaptureInput.hpp"
-#include "LayoutConfig.hpp"
-#include "DetectCaptureInput.hpp"
-#include "DetectGuiInput.hpp"
-#include "GuiDetectionOutput.hpp"
 #include "CardDetector.hpp"
-#include "DetectGuiOutput.hpp"
-#include "GuiDetectionInput.hpp"
-#include "PokerDetectInput.hpp"
-#include "DetectPokerOutput.hpp"
 #include "SimSettings.hpp"
-#include "PokerOutput.hpp"
-#include "GuiPokerInput.hpp"
-#include "PokerWind.hpp"
+#include "Interfaces.hpp"
+#include "DataStructures.hpp"
+#include "GuiWindows.hpp"
 
 using namespace cv;
 using namespace std;
@@ -42,17 +21,36 @@ using namespace capture;
 
 int main(int argc, char* argv[])
 {
+
+	// Initialization phase
 	
-	DefaultConfig default_settings{};
+	// Set Up Intitalization for Data Structures and set them to default values	
+	unique_ptr<DefaultConfig> default_settings = 
+		make_unique<DefaultConfig>();
 
-	// Set up Camera	
+	unique_ptr<CameraSettings> camera_settings =
+		make_unique<CameraSettings>();
+	camera_settings->setToDefault(*default_settings);
 
-    CameraSettings camera_settings{};
-	camera_settings.setToDefault(default_settings);
+	unique_ptr<ImProcSettings> proc_settings =
+		make_unique<ImProcSettings>();
+	proc_settings->setToDefault(*default_settings);
 
-	shared_ptr<CameraController> cam_controller = make_shared<CameraController>(1);
+	unique_ptr<SimSettings> sim_settings =
+		make_unique<SimSettings>();
+	sim_settings->setToDefault(*default_settings);
 
-	if (!cam_controller->initCamera(camera_settings)) {
+	unique_ptr<LayoutConfig> layout_settings =
+		make_unique<LayoutConfig>();
+	layout_settings->setToDefault(*default_settings);
+
+
+	// Set up Modules and Interfaces
+	// Camera Control and Interfaces
+	shared_ptr<CameraController> cam_controller = 
+		make_shared<CameraController>(default_settings->device_ID);
+
+	if (!cam_controller->initCamera(*camera_settings)) {
 		cerr << "ERROR! Unable to open camera\n";
 		return -2;
 	}	
@@ -60,84 +58,80 @@ int main(int argc, char* argv[])
 	// Set up capture output interface
 	CaptureOutput cam_output(cam_controller->frame_);
 
-	// Set Up Detecion interfaces
-	ImProcSettings proc_settings{};
-	proc_settings.setToDefault(default_settings);
+	// Live image input to GUI for live view
+	shared_ptr<GuiCaptureInput> gui_capture_input = 
+		make_shared<GuiCaptureInput>(cam_output);
+	cam_output.attach(gui_capture_input);
+		
+	// User Input from GUI to Cam Controller
+	GuiCaptureOutput gui_capture_output(*camera_settings);
+	shared_ptr<CaptureGuiInput> capture_gui_input =
+		 make_shared<CaptureGuiInput>(gui_capture_output);
+	capture_gui_input->connectCameraDevice(cam_controller);
+	gui_capture_output.attach(capture_gui_input);
 
-	GuiDetectionOutput gui_detection_output{proc_settings};
-
-	shared_ptr<DetectCaptureInput> detect_capture_input = 
-		make_shared<DetectCaptureInput>(cam_output);
-	cam_output.attach(detect_capture_input);
-
+	
+	// Detection Module and Interfaces
+	// User Input from GUI to detection module
+	GuiDetectionOutput gui_detection_output{*proc_settings};
 	shared_ptr<DetectGuiInput> detect_gui_input =
-		make_shared<DetectGuiInput>(gui_detection_output, proc_settings);
+		make_shared<DetectGuiInput>(gui_detection_output, *proc_settings);
 	gui_detection_output.attach(detect_gui_input);
 
 	// Set Up detection process and connect to capture input
 	shared_ptr<CardDetector> card_detector = 
 		make_shared<CardDetector> (detect_gui_input->im_proc_settings_);
-	detect_capture_input->connectCardDetector(card_detector);
-
-	// Set Up detection output to gui
+	
+	// Detection output to GUI giving card images
 	DetectGuiOutput detect_gui_output{};
 	detect_gui_output.connectCardDetector(card_detector);
+	shared_ptr<GuiDetectionInput> gui_detect_input =
+		make_shared<GuiDetectionInput> (detect_gui_output);
+	detect_gui_output.attach(gui_detect_input);
+	
+	// Input from capture modlue giving live frame
+	shared_ptr<DetectCaptureInput> detect_capture_input = 
+		make_shared<DetectCaptureInput>(cam_output);
+	cam_output.attach(detect_capture_input);
+	detect_capture_input->connectCardDetector(card_detector);
 
-
-	// SetUp Connection between detection and poker module
+	// Output to Poker Module
 	DetectPokerOutput detect_poker_output(card_detector->data_);
 
+
+	// Poker Module
+	// User Input from GUI to poker process
+	GuiPokerOutput gui_poker_output(*sim_settings);
+	shared_ptr<PokerGuiInput> poker_gui_input =
+		make_shared<PokerGuiInput> (gui_poker_output, *sim_settings);
+	gui_poker_output.attach(poker_gui_input);
+
+	// Input from Detection Module
 	shared_ptr<PokerDetectInput> poker_detect_input = 
 		make_shared<PokerDetectInput> (detect_poker_output);
 	detect_poker_output.attach(poker_detect_input);
 
-	//Setup simulation
-	SimSettings mock_settings{};
-	Simulation sim(mock_settings, poker_detect_input->data_);
+	// MonteCarlo Simulation
+	Simulation sim(poker_gui_input->sim_settings_, poker_detect_input->data_);
 
-	// Set Up Interface poker/gui
+	// Output to GUI
 	PokerOutput poker_output{sim.data_};
 	shared_ptr<GuiPokerInput>gui_poker_input = 
 		make_shared<GuiPokerInput>(poker_output);
 	poker_output.attach(gui_poker_input);
 
-	// Set up gui context
+
+	// Set Up Gui and Widgets
 	GuiContext gui{};
 	gui.init();
 
-	LayoutConfig layout_settings{};
-	layout_settings.setToDefault(default_settings);
-
-	// Set up Interface between camera and gui to get user input
-
-	GuiCaptureOutput gui_capture_output(camera_settings);
-
-	shared_ptr<CaptureGuiInput> capture_gui_input =
-		 make_shared<CaptureGuiInput>(gui_capture_output);
-	capture_gui_input->connectCameraDevice(cam_controller);
-
-	gui_capture_output.attach(capture_gui_input);
-
-	// Set up Interface between gui and detection module to get card images
-	shared_ptr<GuiDetectionInput> gui_detect_input =
-		make_shared<GuiDetectionInput> (detect_gui_output);
-	detect_gui_output.attach(gui_detect_input);
-
-	// Set up Interface between gui and camera to get live frame to gui
-
-	shared_ptr<GuiCaptureInput> gui_capture_input = 
-		make_shared<GuiCaptureInput>(cam_output);
-
-	cam_output.attach(gui_capture_input);
-
-	// Set Up Gui Widgets
-
 	SettingsWin settings_window(
 		"Settings", 
-		default_settings, 
-		camera_settings,
-		layout_settings,
-		proc_settings
+		*default_settings, 
+		*camera_settings,
+		*layout_settings,
+		*proc_settings,
+		*sim_settings
 		);
 	
 	LiveImageWin live_view(
@@ -171,9 +165,18 @@ int main(int argc, char* argv[])
 
 	PokerWin poker_win(
 		"Simulation Results", 
-		gui_poker_input->data_
+		gui_poker_input->data_,
+		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);
 
+	// Free Initialization Data Structures
+	default_settings.release();
+	camera_settings.release();
+	proc_settings.release();
+	sim_settings.release();
+	layout_settings.release();
+
+	// Real time Phase
 	while( !gui.shouldClose() )
 	{
 		for (;;)
@@ -193,14 +196,12 @@ int main(int argc, char* argv[])
 			card_detector->detectCards();
 			detect_gui_output.notify();
 			detect_poker_output.notify();
-			
+
 			// run simulation
 			sim.run();
 			poker_output.notify();
-			cout << sim.data_.probability.first << endl;
-					
+								
 			// Draw Gui
-
 			gui.drawGuiFrame();
 
 			live_view.draw();
@@ -215,6 +216,11 @@ int main(int argc, char* argv[])
 			gui_detection_output.checkForUserInput(
 				input,
 				settings_window.proc_settings_
+				);	
+
+			gui_poker_output.checkForUserInput(
+				input,
+				settings_window.sim_settings_
 				);			
 
 			card_view.draw();

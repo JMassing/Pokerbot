@@ -80,7 +80,9 @@ namespace poker
     {
         for(auto& card : this->hand_)
         {
-            card=detect::BaseCard();
+            card = detect::BaseCard(detect::UNKNOWN, detect::UNKNOWN);
         }
+
+        this->high_cards_.fill(detect::UNKNOWN);
     }
 }//end namespace poker

@@ -2,7 +2,7 @@
 
 #include <opencv2/core.hpp>
 
-#include "DefaultConfig.h"
+#include "DefaultConfig.hpp"
 
 namespace gui {
 

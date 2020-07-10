@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include "Card.hpp"
-#include "BaseCard.h"
+#include "BaseCard.hpp"
 #include "RingBuffer.hpp"
 #include "Image.hpp"
 

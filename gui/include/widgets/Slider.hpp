@@ -3,7 +3,7 @@
 #include <string>
 #include <imgui.h>
 
-#include "TemplateFunctions.h"
+#include "TemplateFunctions.hpp"
 
 namespace gui {
 

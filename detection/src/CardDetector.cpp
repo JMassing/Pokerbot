@@ -160,7 +160,7 @@ namespace detect{
         public_area.height = 150;
 
         CardAssigner assigner(robot_area, public_area);
-        assigner.assignCards(this->cards_, this->data_.robot_cards, this->data_.public_cards);
+        assigner.assignCards(this->cards_, this->data_.public_cards, this->data_.robot_cards);
     }
 
 } // end namespace detect

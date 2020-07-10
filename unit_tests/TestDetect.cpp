@@ -7,7 +7,7 @@
 #include <utility>
 
 #include "CardBuffer.hpp"
-#include "BaseCard.h"
+#include "BaseCard.hpp"
 #include "Card.hpp"
 #include "Mapping.hpp"
 #include "HelperFunctions.hpp"

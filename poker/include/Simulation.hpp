@@ -1,20 +1,14 @@
 #pragma once
 
 #include <vector>
-#include <array>
-#include <algorithm>
-#include <utility>
-#include <memory>
 
 #include "Hand.hpp"
 #include "Deck.hpp"
-#include "BaseCard.h"
-#include "Mapping.hpp"
-#include "HandBuilder.hpp"
-#include "WinnerDeterminator.hpp"
 #include "SimSettings.hpp"
 #include "DataPoker.hpp"
 #include "DataDetect.hpp"
+#include "HandBuilder.hpp"
+#include "MonteCarlo.hpp"
 
 namespace poker{
     
@@ -27,8 +21,6 @@ namespace poker{
             bool log_sim_;
             SimSettings& settings_;
             detect::DataDetect& detected_cards_;
-
-            void logRun(const int& winner);
 
         public:
 

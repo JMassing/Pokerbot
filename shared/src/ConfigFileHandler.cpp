@@ -1,4 +1,4 @@
-#include "ConfigFileHandler.h"
+#include "ConfigFileHandler.hpp"
 
 namespace shared
 {

@@ -4,12 +4,13 @@
 
 #include "IWindow.hpp"
 #include "LayoutConfig.hpp"
-#include "DefaultConfig.h"
+#include "DefaultConfig.hpp"
 #include "Button.hpp"
 #include "Slider.hpp"
 #include "InputField.hpp"
 #include "CameraSettings.hpp"
 #include "ImProcSettings.hpp"
+#include "SimSettings.hpp"
 
 namespace gui {
 
@@ -66,8 +67,7 @@ namespace gui {
 			detect::ImProcSettings proc_settings_;
 
 			//Poker Simulation
-			int nr_of_simulation_runs_;
-			int nr_of_human_players_;
+			poker::SimSettings sim_settings_;
 		
 			bool draw() override;
 
@@ -77,6 +77,7 @@ namespace gui {
 				const capture::CameraSettings& camera_settings, 
 				const LayoutConfig& layout_settings,
 				const detect::ImProcSettings& proc_settings,
+				const poker::SimSettings& sim_settings,
 				const int& flag = 0
 				):
 				IWindow(name, flag), 
@@ -87,8 +88,7 @@ namespace gui {
 				layout_settings_{layout_settings},
 				camera_settings_(camera_settings), 
 				proc_settings_(proc_settings),
-				nr_of_simulation_runs_(10000), 
-				nr_of_human_players_(1) 
+				sim_settings_(sim_settings)
 			{};
 
 			virtual ~SettingsWin() {};

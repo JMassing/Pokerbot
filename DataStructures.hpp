@@ -1,0 +1,6 @@
+#include "LayoutConfig.hpp"
+#include "ImProcSettings.hpp"
+#include "DataPoker.hpp"
+#include "DataDetect.hpp"
+#include "CameraSettings.hpp"
+#include "DefaultConfig.hpp"

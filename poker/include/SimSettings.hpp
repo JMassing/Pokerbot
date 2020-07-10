@@ -2,12 +2,19 @@
 
 // Data Structure holding input data from gui
 
+#include "DefaultConfig.hpp"
+
 namespace poker
 {
     struct SimSettings
     {
         int nr_of_human_players;
         int nr_of_simulation_runs;     
+
+         void setToDefault(shared::DefaultConfig& default_settings)
+        {
+            this->nr_of_simulation_runs = default_settings.nr_sim_runs;           
+        }
 
         SimSettings(): 
             nr_of_human_players(1), 

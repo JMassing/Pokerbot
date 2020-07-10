@@ -8,7 +8,7 @@
 
 #include "Hand.hpp"
 #include "Deck.hpp"
-#include "BaseCard.h"
+#include "BaseCard.hpp"
 #include "Mapping.hpp"
 #include "RankDeterminator.hpp"
 #include "Simulation.hpp"
@@ -214,6 +214,7 @@ namespace UnitTest
 	{
 		// Set Up DataStructures
 		poker::SimSettings settings{};
+		settings.nr_of_simulation_runs = 100000;
 		detect::DataDetect detected_cards{};
 
 		std::ifstream file;

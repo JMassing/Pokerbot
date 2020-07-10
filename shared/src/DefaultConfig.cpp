@@ -1,4 +1,4 @@
-#include "DefaultConfig.h"
+#include "DefaultConfig.hpp"
 
 namespace shared
 {

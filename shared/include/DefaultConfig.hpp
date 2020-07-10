@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "ConfigFileHandler.h"
+#include "ConfigFileHandler.hpp"
 
 namespace shared
 {

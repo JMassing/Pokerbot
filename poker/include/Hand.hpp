@@ -4,8 +4,8 @@
 #include <sstream>
 #include <algorithm>
 
-#include "BaseCard.h"
-#include "TemplateFunctions.h"
+#include "BaseCard.hpp"
+#include "TemplateFunctions.hpp"
 #include "Mapping.hpp"
 
 namespace poker{
@@ -27,7 +27,7 @@ namespace poker{
 
             Hand(): ranking_{}, high_cards_{0}
             {
-                hand_.fill(detect::BaseCard());
+                hand_.fill(detect::BaseCard(detect::UNKNOWN, detect::UNKNOWN));
             }
             ~Hand() {};
 

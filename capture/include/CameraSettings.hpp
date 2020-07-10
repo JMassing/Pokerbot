@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DefaultConfig.h"
+#include "DefaultConfig.hpp"
 
 namespace capture
 {

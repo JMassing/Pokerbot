@@ -5,8 +5,8 @@
 #include <opencv2/core.hpp>
 
 #include "Card.hpp"
-#include "BaseCard.h"
-#include "TemplateFunctions.h"
+#include "BaseCard.hpp"
+#include "TemplateFunctions.hpp"
 
 namespace detect 
 {

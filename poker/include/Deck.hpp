@@ -4,7 +4,7 @@
 #include <random>
 #include <vector>
 
-#include "BaseCard.h"
+#include "BaseCard.hpp"
 #include "Hand.hpp"
 
 namespace poker{

@@ -247,7 +247,7 @@ namespace gui
                 "# of Opponents", 
                 this->min_players_, 
                 this->max_players_, 
-                this->nr_of_human_players_, 
+                this->sim_settings_.nr_of_human_players, 
                 true
             ); ImGui::SameLine(); 
             this->helpMarker("Nr of opponents playing against the bot.");  
@@ -256,7 +256,7 @@ namespace gui
                 "# of simulation runs", 
                 this->min_sim_runs_, 
                 this->max_sim_runs_, 
-                this->nr_of_simulation_runs_, 
+                this->sim_settings_.nr_of_simulation_runs, 
                 true
             );
 
