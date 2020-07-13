@@ -81,8 +81,9 @@ namespace detect{
         const int& thresh_method
         )
 	{
-        std::vector<std::vector<cv::Point> > contours;
+       
 		cv::Mat edges;
+		std::vector<std::vector<cv::Point> > contours;
 		std::vector<cv::Vec4i> hierarchy;
 		
 		binarizeImage(src, edges, threshold, thresh_method);

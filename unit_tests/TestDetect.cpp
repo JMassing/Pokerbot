@@ -1,3 +1,4 @@
+#include <boost/filesystem.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
@@ -12,6 +13,8 @@
 #include "Mapping.hpp"
 #include "HelperFunctions.hpp"
 
+namespace fs = boost::filesystem;
+
 namespace UnitTest
 {
 
@@ -20,8 +23,9 @@ namespace UnitTest
 		detect::CardBuffer<10> buffer(0);
 
 		std::ifstream file;
+		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "DetectCardlists" / "buffer.txt";
 		// Read player hands from file
-		file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\DetectCardlists\\buffer.txt");	
+		file.open(filename.string());	
 		std::string line;
 		detect::Card detected_card;
 		if(file.is_open())

@@ -70,6 +70,15 @@ namespace gui
 		cv::putText(dst, text, pos, cv::FONT_HERSHEY_PLAIN, 0.75, color, 1.5);
 	}
 
+    void ImageDrawer::drawPoint(
+        cv::Mat& frame, 
+		const cv::Point& center, 
+		const cv::Scalar& color
+        )
+    {
+        cv::circle(frame, center, 1, color);
+    }
+
     //@brief: Load given image as texture using opengl and display it in GUI window using ImGui::Image()
     void ImageDrawer::draw(const cv::Mat& frame, const int& image_width, const int& image_height)
     {

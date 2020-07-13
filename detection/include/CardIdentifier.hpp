@@ -13,6 +13,9 @@
 #include "TrainImage.hpp"
 #include "ContourFinder.hpp"
 
+// Compares card images to train images and returns the rank and suit of the detected
+// Card image
+
 namespace detect 
 {
     class CardIdentifier

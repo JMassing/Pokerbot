@@ -13,7 +13,8 @@ namespace poker
 
          void setToDefault(shared::DefaultConfig& default_settings)
         {
-            this->nr_of_simulation_runs = default_settings.nr_sim_runs;           
+            this->nr_of_simulation_runs = default_settings.nr_sim_runs;      
+            this->nr_of_human_players = default_settings.nr_opponents;     
         }
 
         SimSettings(): 

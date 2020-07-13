@@ -3,10 +3,13 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <string>
 
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
 
 namespace po = boost::program_options;
+namespace fs = boost::filesystem;
 
 namespace shared
 {
@@ -28,7 +31,7 @@ namespace shared
             po::variables_map getConfig() {return this->variables_map_;};
             void writeFile(std::stringstream& file_content);
 
-            ConfigFileHandler();
+            explicit ConfigFileHandler();
             ~ConfigFileHandler() {};
 
 			// Using default copy and move constructors. 

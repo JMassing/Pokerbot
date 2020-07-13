@@ -21,6 +21,8 @@ namespace gui
                     );
             }
 
+  
+
             cv::Rect robot_area{};
             cv::Rect public_area{};
 

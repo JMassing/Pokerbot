@@ -1,4 +1,5 @@
 #include "PerspectiveCorrector.hpp"
+#include <iostream>
 
 namespace detect{
 
@@ -9,53 +10,39 @@ namespace detect{
         const cv::Point2f& center
         )
     {
-        std::vector< cv::Point2f > sorted_points;
+        std::vector< cv::Point2f > sorted_points{};
 
-		int count = 0;
-		do
+		// The bottom left point has the smalles sum of its coordinates,
+		// whereas the top right has the largest. The top left has
+		// the smallest difference, the bottom right has the largest. 
+		std::vector<int> sum{};
+		std::vector<int> diff{};
+		for(const auto& point: points)
 		{
-			for (auto point : points)
-			{
-				switch (sorted_points.size())
-				{
-					case 0:
-					{
-						if (point.x > center.x && point.y < center.y) {
-							sorted_points.emplace_back(point);
-						}
-						break;
-					}
-					case 1:
-					{
-						if (point.x < center.x && point.y < center.y) {
-							sorted_points.emplace_back(point);
-						}
-						break;
-					}
-					case 2:
-					{
-						if (point.x < center.x && point.y > center.y) {
-							sorted_points.emplace_back(point);
-						}
-						break;
-					}
-					case 3:
-					{
-						if (point.x > center.x && point.y > center.y) {
-							sorted_points.emplace_back(point);
-						}
-						break;
-					}
-				}
-			}
-			++count;
-		} while (count < 4);
-
-		if (sorted_points.size() < 4)
-		{
-			sorted_points = points;
-			return sorted_points;
+			sum.emplace_back(point.x + point.y);
+			diff.emplace_back(point.x - point.y);
 		}
+
+		// Add points 
+		// bottom right
+		sorted_points.emplace_back(
+			points.at(std::distance(diff.begin(),std::max_element(diff.begin(), diff.end())))
+			);
+		
+		// bottom left
+		sorted_points.emplace_back(
+			points.at(std::distance(sum.begin(),std::min_element(sum.begin(), sum.end())))
+			);
+
+		// top left	
+		sorted_points.emplace_back(
+			points.at(std::distance(diff.begin(),std::min_element(diff.begin(), diff.end())))
+			);
+		
+		// top right
+		sorted_points.emplace_back(
+			points.at(std::distance(sum.begin(),std::max_element(sum.begin(), sum.end())))
+			);		
 
 		return sorted_points;
     }
@@ -69,17 +56,20 @@ namespace detect{
         const int& offset
         )
     {
+
         // Points to transform to corners of cards.image
 		std::vector<cv::Point2f> ImageCorners = 
             {   
                 cv::Point2f(dst.size().width - offset, +offset),
                 cv::Point2f(+offset , +offset),		
 			    cv::Point2f(+offset , dst.size().height - offset), 
-                cv::Point2f(dst.size().width - offset, dst.size().height - offset) 
+                cv::Point2f(dst.size().width - offset, dst.size().height - offset)                		
             };
-        
-        std::vector< cv::Point2f > sorted_points = this->sortCorners(points, center);
 
+		// Sort Corners
+	
+		std::vector< cv::Point2f > sorted_points = this->sortCorners(points, center);
+		
 		if (ImageCorners.size() == sorted_points.size())
 		{
 			cv::Mat M = cv::getPerspectiveTransform(sorted_points, ImageCorners);

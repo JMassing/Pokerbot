@@ -5,6 +5,7 @@
 #include <array>
 #include <algorithm>
 #include <memory>
+#include <boost/filesystem.hpp>
 
 #include "ICardDetector.hpp"
 
@@ -16,11 +17,17 @@
 #include "ImProcSettings.hpp"
 #include "DataDetect.hpp"
 
+namespace fs = boost::filesystem;
+
 namespace detect 
 {
 	 // CompileTime constants    
 	constexpr size_t CARD_BUFFER_SIZE = 10;
-    constexpr double MAX_DISTANCE_TO_BUFFER = 200;
+	// Distance used to determin which card buffer a newly detected card belongs to. In the
+	// bufferCard method, the distance between the card center and all existing buffers is calculated
+	// When distance is < max distance, card is added to the buffer with the smalles distance
+	// when all distances > max_distance, a new buffer is created.
+    constexpr double MAX_DISTANCE_TO_BUFFER = 30;
 
 	class CardDetector: public ICardDetector
 	{

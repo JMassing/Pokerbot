@@ -8,6 +8,8 @@ namespace detect{
         ++this->frame_nr_;
     }    
 
+	// @brief: Add Card to a CardBuffer. For more information on the why we use
+	// CardBuffers, see CardBuffer.hpp
     void CardDetector::bufferCard(const Card& card)
 	{
 		if(this->card_buffers_.size() == 0)
@@ -78,9 +80,12 @@ namespace detect{
 		int count = 0;
 		cv::Mat card_image;
 
+		fs::path rank_folder = fs::current_path() / "Card_Imgs" / "ranks";
+		fs::path suit_folder = fs::current_path() / "Card_Imgs" / "suits";
+
         CardIdentifier card_identifier(
-            "C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\ranks",
-            "C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\Card_Imgs\\suits",
+            rank_folder.string(),
+            suit_folder.string(),
             this->settings_.identification_threshold,
             this->settings_.binary_threshold
             );

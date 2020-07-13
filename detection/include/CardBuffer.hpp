@@ -9,11 +9,15 @@
 #include "RingBuffer.hpp"
 #include "Image.hpp"
 
+// The card buffer is used to account for outliers in the detection.
+// We always compare a sample of the N-1 last detections with the current detection of the card. 
+// If the current detection has changed, this is first considered an outlier. 
+// However, it might be the case, that the card was initially detected as unknown or something 
+// wrong for a different reason. After some time the new and right detections 
+// take over the buffer and we return the right card.
+
 namespace detect
 {	
-	// The card buffer is used to account for outliers in the detection. We always compare a sample of the N-1 last detections with the current detection of the card. 
-	// If the current detection has changed, this is first considered an outlier. However, it might be the case, that the card was initially detected as unknown or something 
-	// wrong for a different reason. After some time the new and right detections take over the buffer and we return the right card.
 
 	template<std::size_t N>
 	class CardBuffer: public templates::RingBuffer<BaseCard, N>
@@ -66,8 +70,6 @@ namespace detect
 			this->put(card, frame_nr);
 		};
 	
-
-		// Make sure we do a deep copy the images when we use copy constructors. Otherwise we might be surprised at some point, when doing changes to the image data.
 		CardBuffer(const CardBuffer& other) = default;	
 		CardBuffer& operator=(const CardBuffer& other) = default;
 		CardBuffer(CardBuffer&& other) noexcept = default;

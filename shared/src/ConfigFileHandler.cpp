@@ -3,8 +3,13 @@
 namespace shared
 {
 
-    ConfigFileHandler::ConfigFileHandler(): config_file_("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot_build\\bin\\config.ini"), opts_("Default Config"), variables_map_()
+    ConfigFileHandler::ConfigFileHandler(): 
+    config_file_(), 
+    opts_("Default Config"), 
+    variables_map_()
     {
+        fs::path filename = fs::current_path() / "config.ini";
+        this->config_file_ = filename.string();
         this->setOptions();
         this->parseFile();
     }
@@ -36,6 +41,7 @@ namespace shared
             ("detection.perspective_transform_offset", po::value<int>())
             ("detection.rank_suit_zoom_offset", po::value<int>())
             ("poker.nr_sim_runs", po::value<int>())
+            ("poker.nr_opponents", po::value<int>())
             ("gui.max_exp_time", po::value<int>())
             ("gui.min_exp_time", po::value<int>())
             ("gui.max_focus", po::value<int>())

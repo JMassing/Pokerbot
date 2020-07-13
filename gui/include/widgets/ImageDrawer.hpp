@@ -58,6 +58,12 @@ namespace gui {
 					const cv::Rect& rect, 
 					const cv::Scalar& color
 					);
+			
+			void drawPoint(
+					cv::Mat& frame, 
+					const cv::Point& center, 
+					const cv::Scalar& color
+					);
 
 			ImageDrawer() {};
 			~ImageDrawer() {};

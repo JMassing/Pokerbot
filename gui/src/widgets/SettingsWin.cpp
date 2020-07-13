@@ -268,6 +268,17 @@ namespace gui
                 "Save Settings", true, [this](){this->show_ask_for_save_ = true;}
             ); 
 
+            // Check if settings should be saved as new default
+            bool save = false;
+            if(this->show_ask_for_save_ == true)
+            {
+                save = AskForSaveWin("Save as default", show_ask_for_save_).draw();
+            }
+            if(save == true)
+            {
+               this->saveConfigAsDefault();
+            }
+
         }
 
         ImGui::End();
@@ -276,10 +287,37 @@ namespace gui
     }
 
     void SettingsWin::setConfigToDefault()
-    {}
+    {
+        this->camera_settings_.setToDefault(this->default_config_);
+        this->proc_settings_.setToDefault(this->default_config_);
+        this->sim_settings_.setToDefault(this->default_config_);
+        this->layout_settings_.setToDefault(this->default_config_);
+    }
 
 	void SettingsWin::saveConfigAsDefault()
-    {};
+    {
+        // camera settings
+        this->default_config_.auto_exposure = this->camera_settings_.auto_exposure;
+        this->default_config_.auto_focus = this->camera_settings_.auto_focus;
+        this->default_config_.auto_wb = this->camera_settings_.auto_wb;
+        this->default_config_.exposure_time = this->camera_settings_.exposure_time;
+        this->default_config_.brightness = this->camera_settings_.brightness;
+        this->default_config_.focus = this->camera_settings_.focus;
+        this->default_config_.zoom = this->camera_settings_.zoom;
+        this->default_config_.image_height = this->camera_settings_.image_height;
+        this->default_config_.image_width = this->camera_settings_.image_width; 
+
+        // image processing settings
+        this->default_config_.live_threshold = this->proc_settings_.live_threshold;
+        this->default_config_.binary_threshold = this->proc_settings_.binary_threshold;
+        this->default_config_.identification_threshold = this->proc_settings_.identification_threshold;
+
+        // poker simulation settings
+        this->default_config_.nr_sim_runs = this->sim_settings_.nr_of_simulation_runs;
+        this->default_config_.nr_opponents = this->sim_settings_.nr_of_human_players;
+        
+        this->default_config_.saveConfig();
+    };
 
 
 } //end namespace gui

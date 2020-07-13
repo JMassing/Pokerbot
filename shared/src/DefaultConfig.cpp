@@ -35,6 +35,7 @@ namespace shared
 
         // read poker simulation parameters
         this->nr_sim_runs = handler.getConfig()["poker.nr_sim_runs"].as<int>();
+        this->nr_opponents = handler.getConfig()["poker.nr_opponents"].as<int>();
 
         // read gui parameters
         this->max_exp_time = handler.getConfig()["gui.max_exp_time"].as<int>();
@@ -115,6 +116,7 @@ namespace shared
 
         << "\n[poker]\n"
         << "nr_sim_runs = " << this->nr_sim_runs << "\n"
+        << "nr_opponents = " << this->nr_opponents << "\n"
 
         << "\n[gui]\n"
         << "#camera\n"

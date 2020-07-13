@@ -23,9 +23,9 @@ namespace shared
             int image_height;
             
             // detection parameters
-            int live_threshold;            // threshold for finding cards in live image 
-            int binary_threshold;          // threshold for binaryzing suit and rank image;
-            int identification_threshold;  // threshold for finding the rank and suit in the card image
+            int live_threshold;            
+            int binary_threshold;          
+            int identification_threshold;  
             double card_aspect_ratio;
             int card_width;
             int min_card_size;
@@ -39,6 +39,7 @@ namespace shared
 
             // poker simulation parameters
             int nr_sim_runs;
+            int nr_opponents;
 
             // gui display parameters
             int max_exp_time;

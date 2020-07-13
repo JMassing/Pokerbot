@@ -11,6 +11,7 @@
 #include "CameraSettings.hpp"
 #include "ImProcSettings.hpp"
 #include "SimSettings.hpp"
+#include "AskForSaveWin.hpp"
 
 namespace gui {
 

@@ -1,3 +1,4 @@
+#include <boost/filesystem.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
@@ -18,10 +19,11 @@
 #include "SimSettings.hpp"
 #include "DataDetect.hpp"
 
+namespace fs = boost::filesystem;
 
 namespace UnitTest
 {
-	TEST(TestPoker,TestHand)
+	GTEST_TEST(TestPoker,TestHand)
 	{
 			poker::Hand hand;
 			// Test initialization of hand
@@ -80,7 +82,7 @@ namespace UnitTest
 
 	}
 
-	TEST(TestPoker, TestDeck)
+	GTEST_TEST(TestPoker, TestDeck)
 	{	
 		poker::Hand robot_hand;
 
@@ -113,7 +115,7 @@ namespace UnitTest
 		EXPECT_EQ(deck.pullCard(), deck.deck_.at(2));
 	}
 
-		TEST(TestPoker, TestHandBuilder)
+	GTEST_TEST(TestPoker, TestHandBuilder)
 	{
 		std::string robot_hand_string = "QH 0C 8S 5D 3D ?? ?? \n";
 		std::string player_hand_string = "QH 0C 8S ?? ?? ?? ?? \n";
@@ -147,10 +149,11 @@ namespace UnitTest
 		EXPECT_EQ(robot_hand.print().str(), robot_hand_string);
 	}
 
-	TEST(TestPoker,TestGetRanking)
+	GTEST_TEST(TestPoker,TestGetRanking)
 	{
+		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "Rankings.txt";
 		std::ifstream file;
-		file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\Rankings.txt");	
+		file.open(filename.string());	
 		std::string line;
 		if(file.is_open())
 		{
@@ -172,12 +175,14 @@ namespace UnitTest
 
 	}
 
-	TEST(TestPoker,TestGetWinner)
+	GTEST_TEST(TestPoker,TestGetWinner)
 	{
+
+		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "CompetingHands.txt";
 		std::ifstream file;
 
 		// Read player hands from file
-		file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\CompetingHands.txt");	
+		file.open(filename.string());	
 		std::string line;
 		int nr_of_players{0};
 
@@ -210,18 +215,19 @@ namespace UnitTest
 	}
 
 	// Calculated probability of winning with starting hand given in txt file and compares to expected value
-	TEST(TestPoker,TestSimulationRun)
+	GTEST_TEST(TestPoker,TestSimulationRun)
 	{
 		// Set Up DataStructures
 		poker::SimSettings settings{};
 		settings.nr_of_simulation_runs = 100000;
 		detect::DataDetect detected_cards{};
 
+		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "StartingHands.txt";
 		std::ifstream file;
 
 		double expected_probability{};
 		// Read player hands from file
-		file.open("C:\\Users\\julim\\Desktop\\Projects\\Pokerbot\\unit_tests\\utilities\\PokerHands\\StartingHands.txt");	
+		file.open(filename.string());	
 		std::string line;
 		
 		if(file.is_open())
