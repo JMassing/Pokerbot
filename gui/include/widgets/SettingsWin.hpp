@@ -74,6 +74,7 @@ namespace gui {
 
 			SettingsWin(
 				const std::string& name, 
+				bool& show,
 				shared::DefaultConfig& default_config, 
 				const capture::CameraSettings& camera_settings, 
 				const LayoutConfig& layout_settings,
@@ -81,7 +82,7 @@ namespace gui {
 				const poker::SimSettings& sim_settings,
 				const int& flag = 0
 				):
-				IWindow(name, flag), 
+				IWindow(name, show, flag), 
 				default_config_(default_config), 
 				show_ask_for_save_(false),
 				slider_{}, 

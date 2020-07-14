@@ -12,8 +12,6 @@ namespace gui {
 		
 		detect::Mapping mapping_;
 		poker::DataPoker& data_;
-
-  		bool show_;
 		
 		public:
 
@@ -21,11 +19,11 @@ namespace gui {
 
 			PokerWin(
                 const std::string& name,
+				bool& show,
                 poker::DataPoker& data,
                 const int& flag = 0
                 ):
-				IWindow(name, flag), 
-                show_(true),
+				IWindow(name, show, flag), 
                 data_(data),
                 mapping_{}
 			{};

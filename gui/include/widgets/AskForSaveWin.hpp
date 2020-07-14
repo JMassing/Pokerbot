@@ -13,14 +13,13 @@ namespace gui {
 		
 		bool save_;
 		Button button_;
-        bool& show_;
 		
 		public:
 
 			bool draw() override;
 	
 			AskForSaveWin(const std::string& name, bool& show, const int& flag = 0):
-			IWindow(name, flag), save_(false),  button_(), show_(show)
+			IWindow(name, show, flag), save_(false),  button_()
 			{};
 			virtual ~AskForSaveWin() {};
 

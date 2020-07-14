@@ -125,8 +125,11 @@ int main(int argc, char* argv[])
 	GuiContext gui{};
 	gui.init();
 
+	MainMenuBar main_menu{};
+
 	SettingsWin settings_window(
 		"Settings", 
+		main_menu.show_settings_win_,
 		*default_settings, 
 		*camera_settings,
 		*layout_settings,
@@ -136,6 +139,7 @@ int main(int argc, char* argv[])
 	
 	LiveImageWin live_view(
 		"Live View", 
+		main_menu.show_live_image_,
 		settings_window.layout_settings_, 
 		gui_capture_input->frame_, 
 		gui_detect_input->cards_,
@@ -144,6 +148,7 @@ int main(int argc, char* argv[])
 
 	CardImageWin card_view(
 		"Card Images", 
+		main_menu.show_card_image_,
 		settings_window.layout_settings_, 
 		gui_detect_input->cards_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
@@ -151,6 +156,7 @@ int main(int argc, char* argv[])
 	
 	RankImageWin rank_view(
 		"Rank Images", 
+		main_menu.show_rank_image_,
 		settings_window.layout_settings_, 
 		gui_detect_input->cards_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
@@ -158,6 +164,7 @@ int main(int argc, char* argv[])
 	
 	SuitImageWin suit_view(
 		"Suit Images", 
+		main_menu.show_suit_image_,
 		settings_window.layout_settings_, 
 		gui_detect_input->cards_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
@@ -165,6 +172,7 @@ int main(int argc, char* argv[])
 
 	PokerWin poker_win(
 		"Simulation Results", 
+		main_menu.show_poker_win_,
 		gui_poker_input->data_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);
@@ -203,6 +211,8 @@ int main(int argc, char* argv[])
 								
 			// Draw Gui
 			gui.drawGuiFrame();
+
+			main_menu.draw();
 
 			live_view.draw();
 

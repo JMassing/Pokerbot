@@ -20,21 +20,19 @@ namespace gui {
 			LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
 
-			bool show_;
-
 		public:
 
 			bool draw() override;
 
 			LiveImageWin(
 				const std::string& name, 
+				bool& show,
 				LayoutConfig& controls, 
 				capture::Image& live_frame, 
 				std::vector<detect::Card>& cards,
 				const int& flag = 0
 				): 
-				IWindow(name, flag), 
-				show_(true), 
+				IWindow(name, show, flag), 
 				live_frame_(live_frame), 
 				controls_(controls), 
 				cards_{cards}

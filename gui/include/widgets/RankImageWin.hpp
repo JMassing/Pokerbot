@@ -18,7 +18,6 @@ namespace gui {
 			ImageDrawer drawer_;
             LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
-           	bool show_;
 
             // initial sizes of displayed card images
             const double aspect_ratio_ = 1;
@@ -29,13 +28,13 @@ namespace gui {
 			bool draw() override;
 
 			RankImageWin(
-				const std::string& name, 
+				const std::string& name,
+				bool& show,
 				LayoutConfig& controls, 
 				std::vector<detect::Card>& cards,
 				const int& flag = 0
 				): 
-				IWindow(name, flag), 
-				show_(true), 
+				IWindow(name, show, flag), 
 				controls_(controls), 
 				cards_{cards}
 			{};

@@ -11,17 +11,18 @@ namespace gui {
 
 		std::string name_;
 		int flag_;
-		bool show_;
+		bool& show_;
 		void helpMarker(const char* desc);
 
 		// Protected constructor to signal this is abstract
 		IWindow(
 			const std::string& name, 
+			bool& show,
 			const int& flag = 0
 			): 
 			name_(name), 
 			flag_(flag), 
-			show_(true) 
+			show_(show) 
 		{};
 
 		public:
