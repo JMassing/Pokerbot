@@ -149,7 +149,7 @@ namespace UnitTest
 		EXPECT_EQ(robot_hand.print().str(), robot_hand_string);
 	}
 
-	GTEST_TEST(TestPoker,TestGetRanking)
+	GTEST_TEST(TestPoker, TestGetRanking)
 	{
 		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "Rankings.txt";
 		std::ifstream file;
@@ -175,7 +175,7 @@ namespace UnitTest
 
 	}
 
-	GTEST_TEST(TestPoker,TestGetWinner)
+	GTEST_TEST(TestPoker, TestGetWinner)
 	{
 
 		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "CompetingHands.txt";
@@ -215,7 +215,7 @@ namespace UnitTest
 	}
 
 	// Calculated probability of winning with starting hand given in txt file and compares to expected value
-	GTEST_TEST(TestPoker,TestSimulationRun)
+	GTEST_TEST(TestPoker, TestSimulationRun)
 	{
 		// Set Up DataStructures
 		poker::SimSettings settings{};

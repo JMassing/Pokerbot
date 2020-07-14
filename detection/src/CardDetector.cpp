@@ -34,7 +34,7 @@ namespace detect{
 			auto p = std::min_element(squared_distances.begin(), squared_distances.end());
 			auto pos = std::distance(squared_distances.begin(), p);
 
-			if( *p < MAX_DISTANCE_TO_BUFFER*MAX_DISTANCE_TO_BUFFER)
+			if( *p < MAX_DISTANCE_TO_BUFFER * MAX_DISTANCE_TO_BUFFER)
 			{
 				this->card_buffers_.at(pos).put(card, this->frame_nr_);
 			}

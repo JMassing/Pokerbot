@@ -114,7 +114,7 @@ namespace detect{
 			std::vector<cv::Point2f> corner_points;
 			do
 			{
-				d = d + 1;
+				d = d + 0.1;
 				cv::approxPolyDP(contour, corner_points, d, true);
 
 			} while (corner_points.size() > 4);
