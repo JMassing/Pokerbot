@@ -3,7 +3,7 @@
 namespace gui
 {
 
-    bool CardImageWin::draw()
+    void CardImageWin::draw()
     {        
         if(this->show_)
         {
@@ -28,8 +28,6 @@ namespace gui
 
             ImGui::End();
         }
-
-        return true;
         
     }
 

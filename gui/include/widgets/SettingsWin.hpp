@@ -23,7 +23,7 @@ namespace gui {
 			shared::DefaultConfig& default_config_;
 			Slider slider_;
 			Button button_;
-			InputField input_;	
+			InputField input_field_;	
 
 			// Slider Constraints
 			// Layout
@@ -69,8 +69,11 @@ namespace gui {
 
 			//Poker Simulation
 			poker::SimSettings sim_settings_;
+
+			//Was there a user input?
+			bool input_;
 		
-			bool draw() override;
+			void draw() override;
 
 			SettingsWin(
 				const std::string& name, 
@@ -87,10 +90,12 @@ namespace gui {
 				show_ask_for_save_(false),
 				slider_{}, 
 				button_{}, 
+				input_field_{},
 				layout_settings_{layout_settings},
 				camera_settings_(camera_settings), 
 				proc_settings_(proc_settings),
-				sim_settings_(sim_settings)
+				sim_settings_(sim_settings),
+				input_(false)
 			{};
 
 			virtual ~SettingsWin() {};

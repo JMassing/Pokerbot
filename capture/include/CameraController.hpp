@@ -9,6 +9,7 @@
 #include <opencv2/videoio.hpp>
 
 #include "ICameraDevice.hpp"
+#include "ICaptureGui.hpp"
 #include "Image.hpp"
 
 namespace capture {
@@ -19,6 +20,7 @@ namespace capture {
 			cv::VideoCapture cap_;
 			int device_ID_;
 			int api_ID_;
+			std::shared_ptr<ICaptureGui> gui_io_;
 
 		public:
 			Image frame_;
@@ -28,6 +30,10 @@ namespace capture {
 			bool grabVideo();
 			void setCameraControls(const CameraSettings& camera_settings) override;
 			void printCameraState();
+			void attachGuiInterface(std::shared_ptr<ICaptureGui> interface)
+			{
+				this->gui_io_ = interface;
+			}
 			
 			// Constructor used to caputre live frame from camera
 			CameraController(
@@ -37,7 +43,8 @@ namespace capture {
 				device_ID_(device_ID), 
 				frame_{}, 
 				cap_{}, 
-				api_ID_(api_ID) 
+				api_ID_(api_ID),
+				gui_io_(nullptr)
 			{};
 
 			// Constructor used to capture from video file

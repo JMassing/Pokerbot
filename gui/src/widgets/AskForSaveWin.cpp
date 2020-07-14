@@ -3,7 +3,7 @@
 namespace gui
 {
 
-    bool AskForSaveWin::draw()
+    void AskForSaveWin::draw()
     {
         if(this->show_)
         {
@@ -20,8 +20,6 @@ namespace gui
             
             ImGui::End();
         }
-
-        return this->save_;
     }
 
 } //end namespace gui

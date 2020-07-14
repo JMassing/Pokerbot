@@ -2,14 +2,12 @@
 
 // DetectOutput exposes detected cards to GUI.
 
-#include "ISubject.hpp"
+#include "IPokerDetect.hpp"
 #include "DataDetect.hpp"
-
-#include "Card.hpp"
 
 namespace detect {
 
-	class DetectPokerOutput: public interfaces::ISubject
+	class DetectPokerOutput: public poker::IPokerDetect
 	{ 
 		private:
 
@@ -17,7 +15,7 @@ namespace detect {
 
 		public:
 			
-            DataDetect getData(){ return this->data_; };
+            DataDetect getData() const override { return this->data_; };
 
 			explicit DetectPokerOutput(DataDetect& data): data_(data) {};
 

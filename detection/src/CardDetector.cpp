@@ -51,6 +51,21 @@ namespace detect{
 	{
         this->cards_.clear();
 
+		// get settings from GUI if a GUI is connected
+		if(this->gui_io_ != nullptr)
+		{
+			if(this->gui_io_->checkUserInput())
+			{
+				this->settings_ = this->gui_io_->getSettings();
+			}
+		}
+
+		// get live frame from camera if connected
+		if(this->capture_in_ != nullptr)
+		{
+			this->updateFrame(capture_in_->getImage());
+		}
+
 		// Find Contours of interest in frame	
 		std::vector<std::vector<cv::Point> > card_contours =	
             ContourFinder::findContours(this->live_frame_.image, this->settings_.live_threshold);
@@ -166,6 +181,12 @@ namespace detect{
 
         CardAssigner assigner(robot_area, public_area);
         assigner.assignCards(this->cards_, this->data_.public_cards, this->data_.robot_cards);
+
+		// send cards to GUI if a GUI is connected
+		if(this->gui_io_ != nullptr)
+		{
+			this->gui_io_->setCards(this->cards_);
+		}
     }
 
 } // end namespace detect

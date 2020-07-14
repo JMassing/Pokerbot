@@ -10,7 +10,21 @@ namespace poker{
     // for the robot to have the highest ranking hand but tie with another player 
     void Simulation::run()
     {
-    
+        // get settings from GUI if a GUI is connected
+		if(this->gui_io_ != nullptr)
+		{
+			if(this->gui_io_->checkUserInput())
+			{
+				this->settings_ = this->gui_io_->getSettings();
+			}
+		}
+
+        // get detected cards from detection module if connected
+		if(this->detect_in_ != nullptr)
+		{
+			this->updateCards(detect_in_->getData());
+		}
+
         // update player hands size according to nr. of human players received from gui
         this->data_.player_hands.resize(this->settings_.nr_of_human_players, Hand());
 
@@ -38,7 +52,11 @@ namespace poker{
             this->log_sim_
         );         
 
-
+        		// send cards to GUI if a GUI is connected
+		if(this->gui_io_ != nullptr)
+		{
+			this->gui_io_->setData(this->data_);
+		}
     }
 
 }// end namespace poker

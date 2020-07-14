@@ -24,7 +24,8 @@ namespace gui {
                 show_live_image_(true),
                 show_rank_image_(true),
                 show_suit_image_(true),
-                show_poker_win_(true)
+                show_poker_win_(true),
+                show_card_image_(true)
             {};
 			virtual ~MainMenuBar() {};
 

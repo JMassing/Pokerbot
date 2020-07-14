@@ -25,7 +25,7 @@ namespace gui {
 
 		public:
 
-			bool draw() override;
+			void draw() override;
 
 			CardImageWin(
 				const std::string& name, 

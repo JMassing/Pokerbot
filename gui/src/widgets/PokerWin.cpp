@@ -2,7 +2,7 @@
 
 namespace gui{
 
-    bool PokerWin::draw()
+    void PokerWin::draw()
     {
          if(this->show_)
         {
@@ -48,6 +48,5 @@ namespace gui{
             ImGui::End();
         }
 
-        return true;
     }
 }

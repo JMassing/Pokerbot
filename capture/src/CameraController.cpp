@@ -20,9 +20,24 @@ namespace capture {
 	//@brief: Grab live image from camera
 	bool CameraController::grabLive()
 	{
+		// Set Camera settings if they were changed if gui is connected
+		if(this->gui_io_ != nullptr)
+		{
+			if(this->gui_io_->checkUserInput())
+			{
+				this->setCameraControls(this->gui_io_->getSettings());
+			}
+		}
+
 		this->cap_.read(this->frame_.image);
 		if (this->frame_.image.empty()) {
 			return false;
+		}
+
+		// Send live image to gui for display if gui is connected
+		if(this->gui_io_ != nullptr)
+		{
+			this->gui_io_->setImage(this->frame_);
 		}
 
 		return true;

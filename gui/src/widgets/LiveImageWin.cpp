@@ -3,7 +3,7 @@
 namespace gui
 {
 
-    bool LiveImageWin::draw()
+    void LiveImageWin::draw()
     {      
         if(this->show_)
         {
@@ -57,7 +57,6 @@ namespace gui
             ImGui::End();
         }
 
-        return true;
     }
     
 } //end namespace gui

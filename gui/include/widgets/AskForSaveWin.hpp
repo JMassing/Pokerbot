@@ -11,12 +11,12 @@ namespace gui {
 	{
 		private:
 		
-		bool save_;
 		Button button_;
 		
 		public:
+			bool save_;
 
-			bool draw() override;
+			void draw() override;
 	
 			AskForSaveWin(const std::string& name, bool& show, const int& flag = 0):
 			IWindow(name, show, flag), save_(false),  button_()

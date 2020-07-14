@@ -125,6 +125,16 @@ namespace poker{
        
         int nr_of_wins{0};
         int nr_of_ties_with_highest_hand{0};
+           
+           
+        std::cout << "Hello1" << std::endl;
+
+   		// get detected cards from detection module if connected
+		if(this->detect_in_ != nullptr)
+		{
+            std::cout << "Hello" << std::endl;
+			this->updateCards(detect_in_->getData());
+		}
 
         // update player hands size according to nr. of human players received from gui
         this->player_hands_.resize(this->data_gui_->nr_of_human_players, Hand());

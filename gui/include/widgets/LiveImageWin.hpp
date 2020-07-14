@@ -22,7 +22,7 @@ namespace gui {
 
 		public:
 
-			bool draw() override;
+			void draw() override;
 
 			LiveImageWin(
 				const std::string& name, 

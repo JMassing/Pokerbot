@@ -7,11 +7,14 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/gui/include
     ${CMAKE_CURRENT_SOURCE_DIR}/gui/include/widgets
     ${CMAKE_CURRENT_SOURCE_DIR}/capture/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/capture/include/interfaces
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/classes
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/functions  
     ${CMAKE_CURRENT_SOURCE_DIR}/shared/include
     ${CMAKE_CURRENT_SOURCE_DIR}/detection/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/detection/include/interfaces
     ${CMAKE_CURRENT_SOURCE_DIR}/poker/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/poker/include/interfaces
     ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions
     )
     

@@ -10,9 +10,9 @@ namespace capture {
 	{ 
 		public:
 			
-			virtual bool initCamera() = 0;
+			virtual bool initCamera(const CameraSettings& camera_settings) = 0;
 			virtual bool grabLive() = 0;
-			virtual void setCameraControls() = 0;
+			virtual void setCameraControls(const CameraSettings& camera_settings) = 0;
 
 			virtual ~ICameraDevice() {};
 			

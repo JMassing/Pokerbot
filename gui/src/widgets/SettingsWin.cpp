@@ -3,9 +3,9 @@
 namespace gui
 {
 
-    bool SettingsWin::draw()
+    void SettingsWin::draw()
     {
-        bool changed = false;
+        this->input_ = false;
 
         if(this->show_)
         {
@@ -24,7 +24,7 @@ namespace gui
                     static_cast<float>(this->layout_settings_.card_outline_color[0])/255.0f, 1.00f
                 );
 
-            changed |= ImGui::ColorEdit3("card outline color", (float*)&tmp_card_outline_color);
+            this->input_ |= ImGui::ColorEdit3("card outline color", (float*)&tmp_card_outline_color);
 
             this->layout_settings_.card_outline_color = 
                 {
@@ -35,7 +35,7 @@ namespace gui
         
             if (ImGui::CollapsingHeader("Live View Size"))
             {
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "800x600", 
                     true,  
                     [this]()
@@ -45,7 +45,7 @@ namespace gui
                     }
                 ); ImGui::SameLine();    
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1024x768", 
                     true,  
                     [this]()
@@ -55,7 +55,7 @@ namespace gui
                     }
                 ); ImGui::SameLine();
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1280x720", 
                     true,  
                     [this]()
@@ -65,7 +65,7 @@ namespace gui
                     }
                 );
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1280x768", 
                     true,  
                     [this]()
@@ -75,7 +75,7 @@ namespace gui
                     }
                 ); ImGui::SameLine();
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1280x800", 
                     true,  
                     [this]()
@@ -85,7 +85,7 @@ namespace gui
                     }
                 ); ImGui::SameLine();
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1280x1024", 
                     true,  
                     [this]()
@@ -95,7 +95,7 @@ namespace gui
                     }
                 );
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1360x768", 
                     true,  
                     [this]()
@@ -105,7 +105,7 @@ namespace gui
                     }
                 ); ImGui::SameLine();
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1366x768", 
                     true,  
                     [this]()
@@ -115,7 +115,7 @@ namespace gui
                     }
                 ); ImGui::SameLine();
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1400x1050", 
                     true,  
                     [this]()
@@ -125,7 +125,7 @@ namespace gui
                     }
                 ); 
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1440x900", 
                     true,  
                     [this]()
@@ -135,7 +135,7 @@ namespace gui
                     }
                 ); ImGui::SameLine();
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1600x900", 
                     true, 
                     [this]()
@@ -145,7 +145,7 @@ namespace gui
                     }
                 ); ImGui::SameLine();
 
-                changed |= this->button_.draw(
+                this->input_ |= this->button_.draw(
                     "1920x1080", 
                     true, 
                     [this]()
@@ -156,7 +156,7 @@ namespace gui
                 ); 
             }
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "Card Image Size",
                 this->min_card_image_height_percent_, 
                 this->max_card_image_height_percent_, 
@@ -165,7 +165,7 @@ namespace gui
             ); ImGui::SameLine(); 
             this->helpMarker("Size of displayed card images in %. CTRL+click to input value.");
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "Rank/Suit Image Size", 
                 this->min_rank_suit_image_height_percent_, 
                 this->max_rank_suit_image_height_percent_, 
@@ -177,11 +177,11 @@ namespace gui
             // Camera Controls
             ImGui::NewLine();
             ImGui::Text("Camera Settings:");
-            changed |= ImGui::Checkbox("Use Auto Focus", &this->camera_settings_.auto_focus); 
-            changed |= ImGui::Checkbox("Use Auto Exposure", &this->camera_settings_.auto_exposure);
-            changed |= ImGui::Checkbox("Use Auto White Balance", &this->camera_settings_.auto_wb); 
+            this->input_ |= ImGui::Checkbox("Use Auto Focus", &this->camera_settings_.auto_focus); 
+            this->input_ |= ImGui::Checkbox("Use Auto Exposure", &this->camera_settings_.auto_exposure);
+            this->input_ |= ImGui::Checkbox("Use Auto White Balance", &this->camera_settings_.auto_wb); 
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "Exposure", 
                 this->min_exp_time_, 
                 this->max_exp_time_, 
@@ -190,7 +190,7 @@ namespace gui
             ); ImGui::SameLine(); 
             this->helpMarker("CTRL+click to input value. Value should be negative."); 
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "Focus", 
                 this->min_focus_, 
                 this->max_focus_, 
@@ -199,7 +199,7 @@ namespace gui
             ); ImGui::SameLine(); 
             this->helpMarker("CTRL+click to input value.");
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "Brightness", 
                 this->min_brightness_, 
                 this->max_brightness_, 
@@ -212,7 +212,7 @@ namespace gui
             ImGui::NewLine();
             ImGui::Text("Image Processing Settings:");
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "Card Threshold", 
                 this->min_live_th_, 
                 this->max_live_th_, 
@@ -221,7 +221,7 @@ namespace gui
             ); ImGui::SameLine(); 
             this->helpMarker("Threshold for detecting cards in live image. CTRL+click to input value.");  
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "Rank/Suit Threshold",  
                 this->min_bin_th_, 
                 this->max_bin_th_, 
@@ -230,7 +230,7 @@ namespace gui
             ); ImGui::SameLine(); 
             this->helpMarker("Threshold for detecting rank and suit image in upper left corner of card. CTRL+click to input value.");  
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "Binarization Threshold", 
                 this->min_ident_th_, 
                 this->max_ident_th_, 
@@ -243,7 +243,7 @@ namespace gui
             // Poker Simulation
             ImGui::NewLine();
             ImGui::Text("Poker Simulation Settings:");
-            changed |= this->input_.draw(
+            this->input_ |= this->input_field_.draw(
                 "# of Opponents", 
                 this->min_players_, 
                 this->max_players_, 
@@ -252,7 +252,7 @@ namespace gui
             ); ImGui::SameLine(); 
             this->helpMarker("Nr of opponents playing against the bot.");  
 
-            changed |= this->slider_.draw(
+            this->input_ |= this->slider_.draw(
                 "# of simulation runs", 
                 this->min_sim_runs_, 
                 this->max_sim_runs_, 
@@ -260,21 +260,21 @@ namespace gui
                 true
             );
 
-            changed |= this->button_.draw(
+            this->input_ |= this->button_.draw(
                 "Reset", true, [this](){this->setConfigToDefault();}
             ); ImGui::SameLine();
             
             this->button_.draw(
                 "Save Settings", true, [this](){this->show_ask_for_save_ = true;}
             ); 
-
+            
+            AskForSaveWin save_win("Save as default", show_ask_for_save_); 
             // Check if settings should be saved as new default
-            bool save = false;
             if(this->show_ask_for_save_ == true)
             {
-                save = AskForSaveWin("Save as default", show_ask_for_save_).draw();
+                save_win.draw();
             }
-            if(save == true)
+            if(save_win.save_ == true)
             {
                this->saveConfigAsDefault();
             }
@@ -282,8 +282,6 @@ namespace gui
         }
 
         ImGui::End();
-
-        return changed;
     }
 
     void SettingsWin::setConfigToDefault()

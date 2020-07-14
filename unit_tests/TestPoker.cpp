@@ -220,7 +220,6 @@ namespace UnitTest
 		// Set Up DataStructures
 		poker::SimSettings settings{};
 		settings.nr_of_simulation_runs = 100000;
-		detect::DataDetect detected_cards{};
 
 		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "StartingHands.txt";
 		std::ifstream file;
@@ -229,15 +228,18 @@ namespace UnitTest
 		// Read player hands from file
 		file.open(filename.string());	
 		std::string line;
-		
+
 		if(file.is_open())
 		{
 			while(std::getline(file, line))
-			{
-				poker::Simulation sim(settings, detected_cards, false);
+			{	
+				
+				detect::DataDetect detected_cards{};
 				std::vector<std::string> cont = split(line, ';');
 				settings.nr_of_human_players = std::stoi(cont.at(0));
 				expected_probability = std::stod(cont.at(1));
+
+				poker::Simulation sim(settings, false);
 
 				// add cards to robot starting hand
 				std::vector<std::string> cards = split(cont.at(2)); 
@@ -249,11 +251,13 @@ namespace UnitTest
 					detected_cards.robot_cards.emplace_back(convertToCard(cards.at(i)));
 				}
 
+				sim.updateCards(detected_cards);
 				sim.run();
 				std::pair<double,double> prob = sim.data_.probability;
 				std::cout << prob.first << ", " << prob.second << std::endl;
 				EXPECT_TRUE((prob.first >= expected_probability-1) && (prob.first <= expected_probability+1));
 				detected_cards.robot_cards.clear();
+				detected_cards.public_cards.clear();
 			}
 			file.close();
 		}

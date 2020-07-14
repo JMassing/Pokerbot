@@ -15,7 +15,7 @@ namespace gui {
 		
 		public:
 
-			bool draw() override;
+			void draw() override;
 
 			PokerWin(
                 const std::string& name,
