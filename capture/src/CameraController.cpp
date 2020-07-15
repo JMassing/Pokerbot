@@ -56,7 +56,7 @@ namespace capture {
 	}
 
 	//@brief: Sets Controls of camera (e.g. exposure, brightness, ...). Input from 
-	//camera_control_ shared object with GUI
+	//		  camera_control_ shared object with GUI
 	void CameraController::setCameraControls(const CameraSettings& camera_settings)
 	{
 		this->cap_.set(cv::CAP_PROP_AUTOFOCUS, camera_settings.auto_focus);

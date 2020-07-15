@@ -4,7 +4,7 @@
 namespace detect{
 
     //@brief: sorts corner points given by calculateCornerPoints method to order expected by 
-    //@brief: perspectiveTransformation. Start lower right corner -> going clockwise
+    //		  perspectiveTransformation. Start lower right corner -> going clockwise
     std::vector< cv::Point2f > PerspectiveCorrector::sortCorners(
         const std::vector< cv::Point2f >& points, 
         const cv::Point2f& center

@@ -6,8 +6,8 @@
 namespace poker{
   
     //@brief: Runs the simulation. Return value is a pair of probabilities. pair.first gives 
-    // the probability to outright win with the robot hand. pair.second gives the probability 
-    // for the robot to have the highest ranking hand but tie with another player 
+    //        the probability to outright win with the robot hand. pair.second gives the probability 
+    //        for the robot to have the highest ranking hand but tie with another player 
     void Simulation::run()
     {
          // get settings from GUI if a GUI is connected

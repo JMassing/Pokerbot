@@ -25,7 +25,8 @@ namespace detect{
                     this->train_suits_
                     );
         };
-
+	
+	//@brief: compares two images and returns L2 error
     double CardIdentifier::compareImages(const cv::Mat &src, const cv::Mat &dst)
     {
         if (src.size() == dst.size() && src.type() == dst.type())
@@ -93,9 +94,9 @@ namespace detect{
     }
 
     //@brief: Identifies what card is shown in card image
-	//@brief: Card image is binarized and upper right corner is zoomed in
-	//@brief: Upper right corner is then compared from train images using L2 Norm
-	//@brief: Lowest difference wins.
+	//	      Card image is binarized and upper right corner is zoomed in
+	//		  Upper right corner is then compared from train images using L2 Norm
+	//    	  Lowest difference wins.
 	void CardIdentifier::identifyCard(Card& card, const cv::Mat& card_image) 
 	{
 		// Zoom into the upper left corner

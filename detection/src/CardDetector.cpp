@@ -9,7 +9,7 @@ namespace detect{
     }    
 
 	// @brief: Add Card to a CardBuffer. For more information on the why we use
-	// CardBuffers, see CardBuffer.hpp
+	// 		   CardBuffers, see CardBuffer.hpp
     void CardDetector::bufferCard(const Card& card)
 	{
 		if(this->card_buffers_.size() == 0)

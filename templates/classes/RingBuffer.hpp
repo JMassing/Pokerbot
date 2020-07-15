@@ -6,12 +6,13 @@ namespace templates{
 
     template<class T, std::size_t N>
     class RingBuffer
-    {
-    
+    {    
     
     protected:
 
-        std::array<T, N+1> data_;   // Buffer size is net-size+1, we leave the last slot empty to differ between a full and an empty buffer
+        // Buffer size is net-size+1, we leave the last slot empty to differ
+        // between a full and an empty buffer
+        std::array<T, N+1> data_;  
         std::size_t iput_;
         std::size_t iget_;
         static std::size_t wrap(std::size_t idx) // wrap around 

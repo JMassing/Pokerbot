@@ -40,7 +40,8 @@ namespace poker
         {
             for(int i=0; i<this->hand_.size(); i++)
             {
-                if(this->hand_.at(i) == BaseCard())    //replace first unknown card in hand with card
+                //replace first unknown card in hand with card
+                if(this->hand_.at(i) == BaseCard())    
                 {
                     this->hand_.at(i) = card;
                     return;
