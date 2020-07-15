@@ -6,12 +6,12 @@
 
 namespace gui {
 
-	class GuiCaptureIO: public capture::ICaptureGui
+	class GuiCaptureInterface: public capture::ICaptureGui
 	{
 		public:	
 			//Camera Controls
 			capture::CameraSettings& camera_settings_;
-			capture::Image live_image_;
+			Image live_image_;
 			bool& user_input_;		
 
             capture::CameraSettings getSettings() const override
@@ -24,12 +24,12 @@ namespace gui {
 				return this->user_input_;
 			}
 
-			void setImage(const capture::Image& image)
+			void setImage(const Image& image)
 			{
 				this->live_image_ = image;
 			}
 
-        	explicit GuiCaptureIO(
+        	explicit GuiCaptureInterface(
 				capture::CameraSettings& camera_settings,
 				bool& input
 				): 
@@ -38,13 +38,13 @@ namespace gui {
 				live_image_{}
 			{};
 
-			virtual ~GuiCaptureIO() {};
+			virtual ~GuiCaptureInterface() {};
 
 			// Using default copy and move constructors. 
-			GuiCaptureIO(const GuiCaptureIO& other) = default;	
-			GuiCaptureIO& operator=(const GuiCaptureIO& other) = default;
-			GuiCaptureIO(GuiCaptureIO&& other) noexcept = default;
-			GuiCaptureIO& operator=(GuiCaptureIO&& other) noexcept = default;
+			GuiCaptureInterface(const GuiCaptureInterface& other) = default;	
+			GuiCaptureInterface& operator=(const GuiCaptureInterface& other) = default;
+			GuiCaptureInterface(GuiCaptureInterface&& other) noexcept = default;
+			GuiCaptureInterface& operator=(GuiCaptureInterface&& other) noexcept = default;
 	};
 
 } // namespace gui

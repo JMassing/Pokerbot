@@ -9,6 +9,7 @@
 #include "Mapping.hpp"
 #include "TemplateFunctions.hpp"
 
+// Determines Rank of given Hand
 namespace poker{
 
     class RankDeterminator{
@@ -17,7 +18,7 @@ namespace poker{
 
             int ranking_;
 
-            // 5 highest card rankings in hand. Starting with highest card and decreasing.
+            // 5 highest cards in hand (only card rank). Starting with highest card and decreasing.
             // If you have a pair, the first two cards will be the cards of the pair and then the 
             // next highest card. If you have a straight, all five cards will be the highest card 
             // of the straight, since it is the only one that counts. Etc. ...

@@ -7,12 +7,13 @@
 
 #include "Image.hpp"
 
+// Data Structure for training images
 namespace detect {
 
 	class TrainImage
 	{
 		private:
-			capture::Image image_;
+			Image image_;
 			std::string label_;
 
 			void readImage(const std::string & filename);

@@ -24,9 +24,9 @@ namespace poker{
 
         // Determine Winner
 
-        int winner=0;
-        int count=0;
-        bool tie=false;
+        int winner = 0;
+        int count = 0; 
+        bool tie = false;
 
         Hand winner_hand = robot_hand;
 
@@ -37,9 +37,9 @@ namespace poker{
             if(hand.ranking_ > winner_hand.ranking_)
             {
                 // new winner
-                winner_hand=hand;
-                winner=count;
-                tie=false;
+                winner_hand = hand;
+                winner = count;
+                tie = false;
             }
             else if(hand.ranking_ == winner_hand.ranking_)
             {
@@ -49,9 +49,9 @@ namespace poker{
                     if(hand.high_cards_.at(i) > winner_hand.high_cards_.at(i))
                     {
                         //new winner
-                        winner_hand=hand;
-                        winner=count;
-                        tie=false;
+                        winner_hand = hand;
+                        winner = count;
+                        tie = false;
                         break;
                     }
                     else if(hand.high_cards_.at(i) < winner_hand.high_cards_.at(i) && tie == false)
@@ -62,7 +62,7 @@ namespace poker{
                              hand.high_cards_.at(i) == winner_hand.high_cards_.at(i) )
                     {
                         //we have a tie
-                        tie=true;
+                        tie = true;
                     }
                     else
                     {
@@ -77,13 +77,13 @@ namespace poker{
             }
         }
 
-        if(tie==true && winner==0)
+        if(tie == true && winner == 0)
         {
-            winner=-1;
+            winner = -1;
         }
-        else if(tie==true && winner!=0)
+        else if(tie == true && winner != 0)
         {
-            winner=-2;
+            winner = -2;
         }
         else
         {

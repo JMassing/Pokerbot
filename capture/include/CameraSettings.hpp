@@ -19,7 +19,7 @@ namespace capture
 			int image_width;
 			int image_height;
 
-			void setToDefault(const shared::DefaultConfig& default_settings)
+			void setToDefault(const DefaultConfig& default_settings)
 			{
 				this->auto_exposure = default_settings.auto_exposure;
 				this->auto_focus = default_settings.auto_focus;

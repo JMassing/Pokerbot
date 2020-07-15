@@ -10,7 +10,7 @@ namespace gui
             ImGui::Begin(this->name_.c_str(), &this->show_, this->flag_);
 
             
-            capture::Image shown_image = this->live_frame_;
+            Image shown_image = this->live_frame_;
 
             if(this->controls_.show_cards && this->cards_.size() > 0)
             {

@@ -4,8 +4,8 @@ namespace poker{
 
     // Update Hands with known cards
     void HandBuilder::buildHands(
-                const std::vector<detect::BaseCard>& public_cards, 
-                const std::vector<detect::BaseCard>& robot_cards,
+                const std::vector<BaseCard>& public_cards, 
+                const std::vector<BaseCard>& robot_cards,
                 std::vector<Hand>& player_hands,
                 Hand& robot_hand
                 )

@@ -13,6 +13,7 @@
 #include "BaseCard.hpp"
 #include "SimSettings.hpp"
 
+// Monte Carlo simulation of poker game
 namespace poker{
     
     class MonteCarlo{
@@ -24,8 +25,8 @@ namespace poker{
             static std::pair<double,double> run(
                 SimSettings& settings,
                 Deck deck,
-                const std::vector<detect::BaseCard>& public_cards,
-                const std::vector<detect::BaseCard>& robot_cards,
+                const std::vector<BaseCard>& public_cards,
+                const std::vector<BaseCard>& robot_cards,
                 const bool& log_sim
                 );
             

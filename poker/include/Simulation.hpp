@@ -7,25 +7,26 @@
 #include "Deck.hpp"
 #include "SimSettings.hpp"
 #include "DataPoker.hpp"
-#include "DataDetect.hpp"
 #include "HandBuilder.hpp"
 #include "MonteCarlo.hpp"
 #include "IPokerGui.hpp"
 #include "IPokerDetect.hpp"
 
+// Coordinates the entities needed to run a monte carlo simulation with the given cards
 namespace poker{
     
     class Simulation{
         
-        protected: //this is protected for unit testing purposes
+        private: 
 
             std::vector<Hand> player_hands_;
             Hand robot_hand_;
             bool log_sim_;
             SimSettings settings_;
-            detect::DataDetect detected_cards_;
-            std::shared_ptr<IPokerGui> gui_io_;
-            std::shared_ptr<IPokerDetect> detect_in_; 
+            std::vector<BaseCard> robot_cards_;
+            std::vector<BaseCard> public_cards_;
+            std::shared_ptr<IPokerGui> gui_interface_;
+            std::shared_ptr<IPokerDetect> detect_interface_; 
 
         public:
 
@@ -33,19 +34,20 @@ namespace poker{
 
             void run();
 
-            void updateCards(detect::DataDetect detected_cards)
+            void updateCards(std::vector<BaseCard> robot_cards,  std::vector<BaseCard> public_cards)
             {
-                this->detected_cards_ = detected_cards;
+                this->robot_cards_ = robot_cards;
+                this->public_cards_ = public_cards;
             }
 
             void attachGuiInterface(std::shared_ptr<IPokerGui> interface)
 			{
-				this->gui_io_ = interface;
+				this->gui_interface_ = interface;
 			}
 
             void attachDetectInterface(std::shared_ptr<IPokerDetect> interface)
 			{
-				this->detect_in_ = interface;
+				this->detect_interface_ = interface;
 			}
             
             Simulation(
@@ -54,10 +56,11 @@ namespace poker{
                 ): 
                 log_sim_{log_sim}, 
                 settings_(settings),
-                detected_cards_{},
                 data_(),
-                gui_io_(nullptr),
-                detect_in_(nullptr)
+                robot_cards_{},
+                public_cards_{},
+                gui_interface_(nullptr),
+                detect_interface_(nullptr)
             {};
             ~Simulation() {};   
                 

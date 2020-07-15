@@ -17,7 +17,6 @@
 #include "WinnerDeterminator.hpp"
 #include "HandBuilder.hpp"
 #include "SimSettings.hpp"
-#include "DataDetect.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -28,13 +27,13 @@ namespace UnitTest
 			poker::Hand hand;
 			// Test initialization of hand
 			std::string test_string{"?? ?? ?? ?? ?? ?? ?? \n"};
-			std::array<detect::BaseCard,7> test_hand;
-			test_hand.fill(detect::BaseCard());
+			std::array<BaseCard,7> test_hand;
+			test_hand.fill(BaseCard());
 			ASSERT_EQ(hand.print().str(), test_string);
 			ASSERT_EQ(hand.hand_, test_hand);
 
 			// Add a card
-			detect::BaseCard card1(3,15);
+			BaseCard card1(3,15);
 			hand.addToHand(card1);
 			test_hand[0]=card1;
 			test_string="3D ?? ?? ?? ?? ?? ?? \n";
@@ -42,7 +41,7 @@ namespace UnitTest
 			EXPECT_EQ(hand.hand_, test_hand);
 
 			// Add another card
-			detect::BaseCard card2(5,15);
+			BaseCard card2(5,15);
 			hand.addToHand(card2);
 			test_hand[1]=card2;
 			test_string="3D 5D ?? ?? ?? ?? ?? \n";
@@ -50,7 +49,7 @@ namespace UnitTest
 			EXPECT_EQ(hand.hand_, test_hand);
 
 			// Add another card
-			detect::BaseCard card3(12,17);
+			BaseCard card3(12,17);
 			hand.addToHand(card3);
 			test_hand[2]=card3;
 			test_string="3D 5D QH ?? ?? ?? ?? \n";
@@ -58,15 +57,15 @@ namespace UnitTest
 			EXPECT_EQ(hand.hand_, test_hand);
 
 			// Try to add a card thats already in the hand
-			detect::BaseCard card4(12,17);
+			BaseCard card4(12,17);
 			hand.addToHand(card4);
 			test_string="3D 5D QH ?? ?? ?? ?? \n";
 			EXPECT_EQ(hand.print().str(), test_string);
 			EXPECT_EQ(hand.hand_, test_hand);
 
 			// Add two more cards
-			detect::BaseCard card5(8,18);
-			detect::BaseCard card6(10,16);
+			BaseCard card5(8,18);
+			BaseCard card6(10,16);
 			hand.addToHand(card5);
 			hand.addToHand(card6);
 			test_hand[3]=card5;
@@ -87,13 +86,13 @@ namespace UnitTest
 		poker::Hand robot_hand;
 
 		// add cards to hand
-		robot_hand.addToHand(detect::BaseCard(3,18));
-		robot_hand.addToHand(detect::BaseCard(11,16));
+		robot_hand.addToHand(BaseCard(3,18));
+		robot_hand.addToHand(BaseCard(11,16));
 
 		poker::Deck deck(robot_hand);
 
 		// Does Deck initialization work
-		for(const detect::BaseCard& card: deck.deck_)
+		for(const BaseCard& card: deck.deck_)
 		{
 			EXPECT_NE(card, robot_hand.hand_.at(0));
 			EXPECT_NE(card, robot_hand.hand_.at(1));
@@ -124,15 +123,15 @@ namespace UnitTest
 		std::vector<poker::Hand> player_hands{};
 		player_hands.resize(1);
 
-		std::vector<detect::BaseCard> robot_cards{
-			detect::BaseCard(detect::FIVE, detect::DIAMONDS),
-			detect::BaseCard(detect::THREE, detect::DIAMONDS)
+		std::vector<BaseCard> robot_cards{
+			BaseCard(FIVE, DIAMONDS),
+			BaseCard(THREE, DIAMONDS)
 			};	
 
-		std::vector<detect::BaseCard> public_cards{
-			detect::BaseCard(detect::QUEEN, detect::HEARTS),
-			detect::BaseCard(detect::TEN, detect::CLUBS),
-			detect::BaseCard(detect::EIGHT, detect::SPADES),
+		std::vector<BaseCard> public_cards{
+			BaseCard(QUEEN, HEARTS),
+			BaseCard(TEN, CLUBS),
+			BaseCard(EIGHT, SPADES),
 		};
 
 		poker::HandBuilder::buildHands(
@@ -234,7 +233,8 @@ namespace UnitTest
 			while(std::getline(file, line))
 			{	
 				
-				detect::DataDetect detected_cards{};
+				std::vector<BaseCard> robot_cards{};
+				std::vector<BaseCard> public_cards{};
 				std::vector<std::string> cont = split(line, ';');
 				settings.nr_of_human_players = std::stoi(cont.at(0));
 				expected_probability = std::stod(cont.at(1));
@@ -243,21 +243,19 @@ namespace UnitTest
 
 				// add cards to robot starting hand
 				std::vector<std::string> cards = split(cont.at(2)); 
-				detect::Mapping mapping;
+				Mapping mapping;
 
 				// Convert string to cards and add cards to hand
 				for(int i = 0; i < cards.size(); ++i)
 				{
-					detected_cards.robot_cards.emplace_back(convertToCard(cards.at(i)));
+					robot_cards.emplace_back(convertToCard(cards.at(i)));
 				}
 
-				sim.updateCards(detected_cards);
+				sim.updateCards(robot_cards, public_cards);
 				sim.run();
 				std::pair<double,double> prob = sim.data_.probability;
 				std::cout << prob.first << ", " << prob.second << std::endl;
 				EXPECT_TRUE((prob.first >= expected_probability-1) && (prob.first <= expected_probability+1));
-				detected_cards.robot_cards.clear();
-				detected_cards.public_cards.clear();
 			}
 			file.close();
 		}

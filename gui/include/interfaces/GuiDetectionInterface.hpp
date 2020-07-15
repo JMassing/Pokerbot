@@ -7,7 +7,7 @@
 
 namespace gui {
 
-	class GuiDetectionIO: public detect::IDetectGui
+	class GuiDetectionInterface: public detect::IDetectGui
 	{
 		public:
 
@@ -31,7 +31,7 @@ namespace gui {
 				this->cards_ = cards;
 			}
 			
-        	GuiDetectionIO(
+        	GuiDetectionInterface(
 				detect::ImProcSettings& settings,
 				bool& input
 				): 
@@ -40,13 +40,13 @@ namespace gui {
 				cards_{} 
 			{};
 
-			virtual ~GuiDetectionIO() {};
+			virtual ~GuiDetectionInterface() {};
 
 			// Using default copy and move constructors. 
-			GuiDetectionIO(const GuiDetectionIO& other) = default;	
-			GuiDetectionIO& operator=(const GuiDetectionIO& other) = default;
-			GuiDetectionIO(GuiDetectionIO&& other) noexcept = default;
-			GuiDetectionIO& operator=(GuiDetectionIO&& other) noexcept = default;
+			GuiDetectionInterface(const GuiDetectionInterface& other) = default;	
+			GuiDetectionInterface& operator=(const GuiDetectionInterface& other) = default;
+			GuiDetectionInterface(GuiDetectionInterface&& other) noexcept = default;
+			GuiDetectionInterface& operator=(GuiDetectionInterface&& other) noexcept = default;
 	};
 
 } // namespace gui

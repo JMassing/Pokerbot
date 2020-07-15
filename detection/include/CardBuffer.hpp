@@ -14,7 +14,7 @@
 // If the current detection has changed, this is first considered an outlier. 
 // However, it might be the case, that the card was initially detected as unknown or something 
 // wrong for a different reason. After some time the new and right detections 
-// take over the buffer and we return the right card.
+// take over the buffer and we return the right card. 
 
 namespace detect
 {	
@@ -27,9 +27,9 @@ namespace detect
 
 		cv::Point center_point_;
 		std::vector<cv::Point> contour_;
-		capture::Image card_image_;
-		capture::Image rank_image_;
-		capture::Image suit_image_;
+		Image card_image_;
+		Image rank_image_;
+		Image suit_image_;
 
 		bool filled_once_;
 		int last_update_;

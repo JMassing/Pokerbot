@@ -6,13 +6,15 @@ namespace capture {
 	bool CameraController::initCamera(const CameraSettings& camera_settings)
 	{
 		// set camera controls to default values during initialization
-		this->setCameraControls(camera_settings);
 		this->cap_.open(this->device_ID_ + this->api_ID_);
 
 		// check if we succeeded
 		if (!this->cap_.isOpened()) {
 			return false;
 		}
+
+		// set initial camera settings
+		this->setCameraControls(camera_settings);
 
 		return true;
 	}
@@ -21,11 +23,11 @@ namespace capture {
 	bool CameraController::grabLive()
 	{
 		// Set Camera settings if they were changed if gui is connected
-		if(this->gui_io_ != nullptr)
+		if(this->gui_interface_ != nullptr)
 		{
-			if(this->gui_io_->checkUserInput())
+			if(this->gui_interface_->checkUserInput())
 			{
-				this->setCameraControls(this->gui_io_->getSettings());
+				this->setCameraControls(this->gui_interface_->getSettings());
 			}
 		}
 
@@ -35,9 +37,9 @@ namespace capture {
 		}
 
 		// Send live image to gui for display if gui is connected
-		if(this->gui_io_ != nullptr)
+		if(this->gui_interface_ != nullptr)
 		{
-			this->gui_io_->setImage(this->frame_);
+			this->gui_interface_->setImage(this->frame_);
 		}
 
 		return true;

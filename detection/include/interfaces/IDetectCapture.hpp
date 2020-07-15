@@ -8,7 +8,7 @@ namespace detect
 	{
 		public:
             
-			virtual capture::Image getImage() const = 0;
+			virtual Image getImage() const = 0;
 
 			virtual ~IDetectCapture() {};
 	};

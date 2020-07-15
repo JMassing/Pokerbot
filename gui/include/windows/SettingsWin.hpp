@@ -20,7 +20,7 @@ namespace gui {
 		private:
 		
 			bool show_ask_for_save_;
-			shared::DefaultConfig& default_config_;
+			DefaultConfig& default_config_;
 			Slider slider_;
 			Button button_;
 			InputField input_field_;	
@@ -78,7 +78,7 @@ namespace gui {
 			SettingsWin(
 				const std::string& name, 
 				bool& show,
-				shared::DefaultConfig& default_config, 
+				DefaultConfig& default_config, 
 				const capture::CameraSettings& camera_settings, 
 				const LayoutConfig& layout_settings,
 				const detect::ImProcSettings& proc_settings,

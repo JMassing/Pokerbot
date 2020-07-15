@@ -6,8 +6,8 @@ namespace detect{
     // the card is placed
 	void CardAssigner::assignCards(
         const std::vector<Card>& cards,
-        std::vector<detect::BaseCard>& public_cards,
-        std::vector<detect::BaseCard>& robot_cards
+        std::vector<BaseCard>& public_cards,
+        std::vector<BaseCard>& robot_cards
         )
 	{
 		public_cards.clear();
@@ -18,26 +18,26 @@ namespace detect{
 		// only needs Cards rank and suit
 		for(const auto& card: cards)
 		{	
-				if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->robot_area_)
-					&& !templates::contains(robot_cards.begin(), robot_cards.end(), card))
+			if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->robot_area_)
+				&& !templates::contains(robot_cards.begin(), robot_cards.end(), card))
+			{
+				if(robot_cards.size()<2)
 				{
-					if(robot_cards.size()<2)
-					{
-						robot_cards.emplace_back(card);
-					}
+					robot_cards.emplace_back(card);
 				}
-				else if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->public_area_) &&
-						!templates::contains(public_cards.begin(), public_cards.end(), card))
+			}
+			else if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->public_area_)
+					&& !templates::contains(public_cards.begin(), public_cards.end(), card))
+			{
+				if(public_cards.size() < 5)
 				{
-					if(public_cards.size() < 5)
-					{
-						public_cards.emplace_back(card);
-					}
+					public_cards.emplace_back(card);
 				}
-				else
-				{
-					//do nothing
-				}	
+			}
+			else
+			{
+				//do nothing
+			}	
 		}		
 	}
 

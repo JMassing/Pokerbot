@@ -6,7 +6,7 @@
 namespace poker
 {
     //@brief: Checks if Hand already contains card
-    bool Hand::containsCard(const detect::BaseCard& card)
+    bool Hand::containsCard(const BaseCard& card)
     {
         return templates::contains(this->hand_.begin(), this->hand_.end(), card);
     }
@@ -34,13 +34,13 @@ namespace poker
     }
 
     //@brief: Adds card to hand
-    void Hand::addToHand(const detect::BaseCard& card)
+    void Hand::addToHand(const BaseCard& card)
     {
         if(!this->containsCard(card))
         {
             for(int i=0; i<this->hand_.size(); i++)
             {
-                if(this->hand_.at(i) == detect::BaseCard())    //replace first unknown card in hand with card
+                if(this->hand_.at(i) == BaseCard())    //replace first unknown card in hand with card
                 {
                     this->hand_.at(i) = card;
                     return;
@@ -52,7 +52,7 @@ namespace poker
     //@brief: returns a sstream with the current hand
     std::stringstream Hand::print()
     {
-        detect::Mapping mapping;
+        Mapping mapping;
         std::stringstream out;
         for(const auto& card: this->hand_)
         { 
@@ -80,9 +80,9 @@ namespace poker
     {
         for(auto& card : this->hand_)
         {
-            card = detect::BaseCard(detect::UNKNOWN, detect::UNKNOWN);
+            card = BaseCard(UNKNOWN, UNKNOWN);
         }
 
-        this->high_cards_.fill(detect::UNKNOWN);
+        this->high_cards_.fill(UNKNOWN);
     }
 }//end namespace poker

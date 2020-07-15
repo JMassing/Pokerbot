@@ -2,7 +2,7 @@
 
 namespace detect{
 
-    void CardDetector::updateFrame(const capture::Image& input_frame)
+    void CardDetector::updateFrame(const Image& input_frame)
     {
         this->live_frame_ = input_frame;
         ++this->frame_nr_;
@@ -52,18 +52,18 @@ namespace detect{
         this->cards_.clear();
 
 		// get settings from GUI if a GUI is connected
-		if(this->gui_io_ != nullptr)
+		if(this->gui_interface_ != nullptr)
 		{
-			if(this->gui_io_->checkUserInput())
+			if(this->gui_interface_->checkUserInput())
 			{
-				this->settings_ = this->gui_io_->getSettings();
+				this->settings_ = this->gui_interface_->getSettings();
 			}
 		}
 
 		// get live frame from camera if connected
-		if(this->capture_in_ != nullptr)
+		if(this->capture_interface_ != nullptr)
 		{
-			this->updateFrame(capture_in_->getImage());
+			this->updateFrame(capture_interface_->getImage());
 		}
 
 		// Find Contours of interest in frame	
@@ -183,9 +183,9 @@ namespace detect{
         assigner.assignCards(this->cards_, this->data_.public_cards, this->data_.robot_cards);
 
 		// send cards to GUI if a GUI is connected
-		if(this->gui_io_ != nullptr)
+		if(this->gui_interface_ != nullptr)
 		{
-			this->gui_io_->setCards(this->cards_);
+			this->gui_interface_->setCards(this->cards_);
 		}
     }
 

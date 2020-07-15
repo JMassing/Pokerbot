@@ -6,6 +6,8 @@ project(Pokerbot VERSION 0.1.0)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/gui/include
     ${CMAKE_CURRENT_SOURCE_DIR}/gui/include/widgets
+    ${CMAKE_CURRENT_SOURCE_DIR}/gui/include/windows
+    ${CMAKE_CURRENT_SOURCE_DIR}/gui/include/interfaces
     ${CMAKE_CURRENT_SOURCE_DIR}/capture/include
     ${CMAKE_CURRENT_SOURCE_DIR}/capture/include/interfaces
     ${CMAKE_CURRENT_SOURCE_DIR}/templates/classes
@@ -17,9 +19,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/poker/include/interfaces
     ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions
     )
-    
-    #${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperClasses
-    #${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
@@ -29,6 +28,7 @@ file(GLOB SOURCES_DETECTION "detection/src/*.cpp")
 file(GLOB SOURCES_CAPTURE "capture/src/*.cpp")
 file(GLOB SOURCES_GUI "gui/src/*.cpp")
 file(GLOB SOURCES_WIDGETS "gui/src/widgets/*.cpp")
+file(GLOB SOURCES_WINDOWS "gui/src/windows/*.cpp")
 file(GLOB SOURCES_POKER "poker/src/*.cpp")
 file(GLOB SOURCES_SHARED "shared/src/*.cpp")
 
@@ -36,6 +36,7 @@ file(GLOB SOURCES_SHARED "shared/src/*.cpp")
 add_library( PokerbotLib 
 ${SOURCES_GUI}
 ${SOURCES_WIDGETS}
+${SOURCES_WINDOWS}
 ${SOURCES_CAPTURE}
 ${SOURCES_SHARED}
 ${SOURCES_DETECTION}

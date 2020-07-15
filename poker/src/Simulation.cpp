@@ -10,19 +10,22 @@ namespace poker{
     // for the robot to have the highest ranking hand but tie with another player 
     void Simulation::run()
     {
-        // get settings from GUI if a GUI is connected
-		if(this->gui_io_ != nullptr)
+         // get settings from GUI if a GUI is connected
+		if(this->gui_interface_ != nullptr)
 		{
-			if(this->gui_io_->checkUserInput())
+			if(this->gui_interface_->checkUserInput())
 			{
-				this->settings_ = this->gui_io_->getSettings();
+				this->settings_ = this->gui_interface_->getSettings();
 			}
 		}
 
         // get detected cards from detection module if connected
-		if(this->detect_in_ != nullptr)
+		if(this->detect_interface_ != nullptr)
 		{
-			this->updateCards(detect_in_->getData());
+			this->updateCards(
+                    detect_interface_->getData().robot_cards, 
+                    detect_interface_->getData().public_cards
+                );
 		}
 
         // update player hands size according to nr. of human players received from gui
@@ -37,8 +40,8 @@ namespace poker{
 
         // reset hands with known cards
         HandBuilder::buildHands(
-            this->detected_cards_.public_cards, 
-            this->detected_cards_.robot_cards,
+            this->public_cards_, 
+            this->robot_cards_,
             this->data_.player_hands,
             this->data_.robot_hand
         );    
@@ -47,16 +50,19 @@ namespace poker{
         this->data_.probability = MonteCarlo::run(
             this->settings_,
             Deck(this->data_.robot_hand),
-            this->detected_cards_.public_cards,
-            this->detected_cards_.robot_cards,
+            this->public_cards_,
+            this->robot_cards_,
             this->log_sim_
         );         
 
         		// send cards to GUI if a GUI is connected
-		if(this->gui_io_ != nullptr)
+		if(this->gui_interface_ != nullptr)
 		{
-			this->gui_io_->setData(this->data_);
+			this->gui_interface_->setData(this->data_);
 		}
+
+        this->robot_cards_.clear();
+        this->public_cards_.clear();
     }
 
 }// end namespace poker

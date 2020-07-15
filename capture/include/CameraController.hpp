@@ -1,6 +1,6 @@
 #pragma once
 
-// This class controls the video I/O. It controls the camera settings (e.g. exposure time)
+// Controls the video I/O. It controls the camera settings (e.g. exposure time)
 // and captures live frames from the camera or frames from a video
 
 #include <string>
@@ -20,7 +20,7 @@ namespace capture {
 			cv::VideoCapture cap_;
 			int device_ID_;
 			int api_ID_;
-			std::shared_ptr<ICaptureGui> gui_io_;
+			std::shared_ptr<ICaptureGui> gui_interface_;
 
 		public:
 			Image frame_;
@@ -32,7 +32,7 @@ namespace capture {
 			void printCameraState();
 			void attachGuiInterface(std::shared_ptr<ICaptureGui> interface)
 			{
-				this->gui_io_ = interface;
+				this->gui_interface_ = interface;
 			}
 			
 			// Constructor used to caputre live frame from camera
@@ -44,7 +44,7 @@ namespace capture {
 				frame_{}, 
 				cap_{}, 
 				api_ID_(api_ID),
-				gui_io_(nullptr)
+				gui_interface_(nullptr)
 			{};
 
 			// Constructor used to capture from video file

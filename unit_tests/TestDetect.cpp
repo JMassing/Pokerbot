@@ -33,16 +33,16 @@ namespace UnitTest
 			while(std::getline(file, line))
 			{
 				std::vector<std::string> cont = split(line, ';');
-				detect::BaseCard result = convertToCard(cont[1]);
+				BaseCard result = convertToCard(cont[1]);
 				std::vector<std::string> cards = split(cont[0], ' ');
 				for(const auto& string_card: cards)
 				{
-					detect::BaseCard base_card = convertToCard(string_card);
+					BaseCard base_card = convertToCard(string_card);
 					detect::Card card(base_card.rank, base_card.suit);
 					buffer.put(card, 0);					
 				}
 				buffer.getCard(detected_card);
-				detect::BaseCard detected_base_card = detected_card;
+				BaseCard detected_base_card = detected_card;
 				EXPECT_EQ(result, detected_base_card);
 			}
 

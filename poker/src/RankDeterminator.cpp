@@ -46,7 +46,7 @@ namespace poker {
         std::vector<std::pair<int,int>> multiples{};
 
         // Remember the last checked card rank to avoid checking the same rank multiple times
-        int tmp_rank{detect::UNKNOWN};
+        int tmp_rank{UNKNOWN};
 
         // For each card in the hand, check how many of the following cards are the same. 
         // It is a sorted hand, so if the next card is not the same 
@@ -55,7 +55,7 @@ namespace poker {
         for(auto p1 = hand.hand_.begin(); p1 != hand.hand_.end()-1; ++p1)
         {
             // Make sure we havent already checked this rank and that it is not unknown
-            if((*p1).rank != tmp_rank && (*p1).rank != detect::UNKNOWN)
+            if((*p1).rank != tmp_rank && (*p1).rank != UNKNOWN)
             {
                 for(auto p2 = p1+1; p2 != hand.hand_.end(); ++p2)
                 {
@@ -108,7 +108,7 @@ namespace poker {
                         // We have four of a kind. The highest card that matters is the four 
                         // of a kind. We can't have the same four of a kind twice
                         case 4 : 
-                            this-> ranking_ = detect::FOUR_OF_A_KIND; 
+                            this-> ranking_ = FOUR_OF_A_KIND; 
                             this->high_cards_.fill(-1);
                             this->high_cards_.at(0)=multiples.at(0).second;
                             this->high_cards_.at(1)=multiples.at(0).second;
@@ -119,7 +119,7 @@ namespace poker {
                         // We have three of a kind. Three of a kind is first high card, 
                         // then it goes down the line.
                         case 3 : 
-                            this-> ranking_ = detect::THREE_OF_A_KIND;
+                            this-> ranking_ = THREE_OF_A_KIND;
                             this->high_cards_.fill(-1);
                             this->high_cards_.at(0)=multiples.at(0).second;
                             this->high_cards_.at(1)=multiples.at(0).second;
@@ -129,7 +129,7 @@ namespace poker {
                         // We have a pair. Pair card is first high_card. 
                         // Then it goes down the line of high cards if we have the same pair
                         case 2 : 
-                            this-> ranking_ = detect::PAIR; 
+                            this-> ranking_ = PAIR; 
                             this->high_cards_.fill(-1);
                             this->high_cards_.at(0)=multiples.at(0).second;
                             this->high_cards_.at(1)=multiples.at(0).second;
@@ -146,7 +146,7 @@ namespace poker {
                         // of a kind.
                         case 4 : 
 
-                            this->ranking_ = detect::FOUR_OF_A_KIND; 
+                            this->ranking_ = FOUR_OF_A_KIND; 
                             this->high_cards_.fill(-1);
                             this->high_cards_.at(0)=multiples.at(0).second;
                             this->high_cards_.at(1)=multiples.at(0).second;
@@ -161,7 +161,7 @@ namespace poker {
                         //  one is higher and counts in the full house as the triplet
                         case 3 : 
 
-                            this->ranking_ = detect::FULL_HOUSE;
+                            this->ranking_ = FULL_HOUSE;
                             this->high_cards_.fill(-1);
 
                             // Check if we have 2 triplets and which one is the better one
@@ -190,7 +190,7 @@ namespace poker {
                         // in the hand     
                         case 2 : 
 
-                            this->ranking_ = detect::TWO_PAIR;
+                            this->ranking_ = TWO_PAIR;
                             this->high_cards_.fill(-1);
 
                             // Check which pair is higher
@@ -252,7 +252,7 @@ namespace poker {
                         // counts for the full house
                         case 3 : 
 
-                            this-> ranking_ = detect::FULL_HOUSE;
+                            this-> ranking_ = FULL_HOUSE;
                             this->high_cards_.fill(-1);
                             this->high_cards_.at(0)=multiples.at(0).second;
 
@@ -278,7 +278,7 @@ namespace poker {
                         // remaining card in the deck
                         case 2 : 
 
-                            this-> ranking_ = detect::TWO_PAIR;
+                            this-> ranking_ = TWO_PAIR;
                             this->high_cards_.fill(-1);
 
                             if(multiples.at(0).second>multiples.at(1).second &&
@@ -382,9 +382,9 @@ namespace poker {
     //@brief checks if we have a AceLowStraight
     bool RankDeterminator::isAceLowStreet(Hand& hand)
     {
-        if( !hand.containsRank(detect::ACE) || !hand.containsRank(detect::TWO) || 
-            !hand.containsRank(detect::THREE) || !hand.containsRank(detect::FOUR) || 
-            !hand.containsRank(detect::FIVE) )
+        if( !hand.containsRank(ACE) || !hand.containsRank(TWO) || 
+            !hand.containsRank(THREE) || !hand.containsRank(FOUR) || 
+            !hand.containsRank(FIVE) )
         {
             return false;
         }
@@ -415,13 +415,13 @@ namespace poker {
       
         for(int i=0; i<unique_hand.hand_.size()-4; ++i)
         {
-            if( unique_hand.hand_.at(i).rank!=detect::UNKNOWN &&
-                unique_hand.hand_.at(i).rank==unique_hand.hand_.at(i+1).rank+1 && 
-                unique_hand.hand_.at(i).rank==unique_hand.hand_.at(i+2).rank+2 &&
-                unique_hand.hand_.at(i).rank==unique_hand.hand_.at(i+3).rank+3 && 
-                unique_hand.hand_.at(i).rank==unique_hand.hand_.at(i+4).rank+4 ) 
+            if( unique_hand.hand_.at(i).rank != UNKNOWN &&
+                unique_hand.hand_.at(i).rank == unique_hand.hand_.at(i+1).rank+1 && 
+                unique_hand.hand_.at(i).rank == unique_hand.hand_.at(i+2).rank+2 &&
+                unique_hand.hand_.at(i).rank == unique_hand.hand_.at(i+3).rank+3 && 
+                unique_hand.hand_.at(i).rank == unique_hand.hand_.at(i+4).rank+4 ) 
             {
-                this->ranking_ = detect::STRAIGHT;
+                this->ranking_ = STRAIGHT;
                 this->high_cards_.fill(-1);
                 this->high_cards_.fill(unique_hand.hand_.at(i).rank);
 
@@ -438,7 +438,7 @@ namespace poker {
         //cNo straight detected so far. Still might be an acelow straight. Let's check it.
         if(isAceLowStreet(unique_hand))
         {
-            this->ranking_=detect::STRAIGHT;
+            this->ranking_ = STRAIGHT;
             this->high_cards_.fill(-1);
             // high card is 5
             this->high_cards_.fill(5);
@@ -458,34 +458,34 @@ namespace poker {
         for(const auto& card: hand.hand_)
         {
             switch(card.suit){
-                case detect::HEARTS : ++count_hearts; break;
-                case detect::DIAMONDS : ++count_diamonds; break;
-                case detect::CLUBS : ++count_clubs; break;
-                case detect::SPADES : ++count_spades; break;
+                case HEARTS : ++count_hearts; break;
+                case DIAMONDS : ++count_diamonds; break;
+                case CLUBS : ++count_clubs; break;
+                case SPADES : ++count_spades; break;
                 default : break;
             }
         }
         if(count_hearts>=5 || count_diamonds>=5 || count_clubs>=5 || count_spades>=5)
         {
-            this->ranking_=detect::FLUSH;
+            this->ranking_ = FLUSH;
             this->high_cards_.fill(-1);
             // now we have to find the high card of the flush. Check which flush first.
             int flush{};
             if(count_hearts>=5)
             {
-                flush=detect::HEARTS;
+                flush = HEARTS;
             }
             else if(count_diamonds>=5)
             {
-                flush=detect::DIAMONDS;
+                flush = DIAMONDS;
             }
             else if(count_clubs>=5)
             {
-                flush=detect::CLUBS;
+                flush = CLUBS;
             }
             else
             {
-                flush=detect::SPADES;
+                flush = SPADES;
             }
            
            // here we need all cards of the flush, since we want to return them to check them 
@@ -516,12 +516,12 @@ namespace poker {
     {
         //First we have to sort our hand
         hand.sort();
-        this->ranking_=detect::HIGH_CARD;
+        this->ranking_ = HIGH_CARD;
 
         // Check if hand has multiples
         this->isMultipleOfCards(hand);
 
-        if(this->ranking_ == detect::FOUR_OF_A_KIND || this->ranking_ == detect::FULL_HOUSE)
+        if(this->ranking_ == FOUR_OF_A_KIND || this->ranking_ == FULL_HOUSE)
         {   
             // We can't get any higher rank for this hand
             return;
@@ -529,14 +529,14 @@ namespace poker {
      
         Hand flush_cards = this->isFlush(hand);
         
-        if(this->ranking_ == detect::FLUSH)
+        if(this->ranking_ == FLUSH)
         {
             //Check if straight flush
             this->isStraight(flush_cards);
-            if(this->ranking_ == detect::STRAIGHT)
+            if(this->ranking_ == STRAIGHT)
             {
                 //Congrats, we actually have a straight flush
-                this->ranking_ = detect::STRAIGHT_FLUSH;
+                this->ranking_ = STRAIGHT_FLUSH;
                 return;
             }
             return;
@@ -545,7 +545,7 @@ namespace poker {
            // Check if isStraight
         this->isStraight(hand);
 
-        if(this->ranking_==detect::HIGH_CARD)
+        if(this->ranking_ == HIGH_CARD)
         {
             this->high_cards_.fill(-1);
             for(int i = 0; i < high_cards_.size(); ++i)

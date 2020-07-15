@@ -7,7 +7,6 @@
 // underlying images in some cases. We do not want to be surprised by changes in the original data, 
 // after it was copied and we change to the new image object.
 
-namespace capture{
 
     struct Image{
 
@@ -46,15 +45,16 @@ namespace capture{
             {
                 this->image.release();
                     
-                // assignment operator for cv::Mat returns a pointer to the object, and not a deep copy
+                // assignment operator for cv::Mat returns a pointer to the object, 
+                // and not a deep copy
                 this->image = other.image;
                     
-                // releasing the old images here will decrement the ref counter, but not delete the
-                // underlying data. Other.image will point to nullptr according to cv::Mat reference
+                // releasing the old images here will decrement the ref counter, but 
+                // not delete the underlying data. Other.image will point to nullptr 
+                // according to cv::Mat reference
                 other.image.release();
             }	
             return *this;
         };		
     };
 
-} //end namespace capture

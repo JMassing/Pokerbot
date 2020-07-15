@@ -5,6 +5,8 @@
 #include "BaseCard.hpp"
 #include "Hand.hpp"
 
+// Builds the robot and player hands out of given robot cards and
+// public card from detection module
 namespace poker{
 
     class HandBuilder{
@@ -12,8 +14,8 @@ namespace poker{
         public:
 
             static void buildHands(
-                const std::vector<detect::BaseCard>& public_cards, 
-                const std::vector<detect::BaseCard>& robot_cards,
+                const std::vector<BaseCard>& public_cards, 
+                const std::vector<BaseCard>& robot_cards,
                 std::vector<Hand>& player_hands,
                 Hand& robot_hand
                 );

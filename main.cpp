@@ -15,7 +15,6 @@ using namespace std;
 using namespace detect;
 using namespace poker;
 using namespace gui;
-using namespace shared;
 using namespace capture;
 
 
@@ -35,15 +34,14 @@ int main(int argc, char* argv[])
 	camera_settings->setToDefault(*default_settings);
 
 	// Camera Control and Interfaces
-	shared_ptr<CameraController> cam_controller = 
-		make_shared<CameraController>(default_settings->device_ID);
+	CameraController cam_controller(default_settings->device_ID);
 
-	// Set up capture output interface
-	shared_ptr<CaptureDetectOutput> cam_detect_in = 
-		make_shared<CaptureDetectOutput>(cam_controller->frame_);
+	// Set up capture detection interface
+	shared_ptr<CaptureDetectInterface> cam_detect_interface = 
+		make_shared<CaptureDetectInterface>(cam_controller.frame_);
 
 	// Initialize Camera
-	if (!cam_controller->initCamera(*camera_settings)) {
+	if (!cam_controller.initCamera(*camera_settings)) {
 		cerr << "ERROR! Unable to open camera\n";
 		return -2;
 	}	
@@ -55,15 +53,14 @@ int main(int argc, char* argv[])
 	proc_settings->setToDefault(*default_settings);
 
 	// Set Up detection process and connect to capture input
-	shared_ptr<CardDetector> card_detector = 
-		make_shared<CardDetector> (*proc_settings);
+	CardDetector card_detector(*proc_settings);
 	
 	// Input from capture modlue giving live frame
-	card_detector->attachCaptureInterface(cam_detect_in);
+	card_detector.attachCaptureInterface(cam_detect_interface);
 
-	// Output to Poker Module
-	shared_ptr<DetectPokerOutput> detect_poker_in = 
-		make_shared<DetectPokerOutput>(card_detector->data_);
+	// Interface to Poker Module
+	shared_ptr<DetectPokerInterface> detect_poker_interface = 
+		make_shared<DetectPokerInterface>(card_detector.data_);
 
 	
 	// ----- Poker Module ------------------------------------------------------
@@ -76,7 +73,7 @@ int main(int argc, char* argv[])
 	Simulation sim(*sim_settings);
 
 	// Interface to Detection module
-	sim.attachDetectInterface(detect_poker_in);
+	sim.attachDetectInterface(detect_poker_interface);
 
 	// ----- GUI Module --------------------------------------------------------
 	// Initial GUI layout
@@ -103,36 +100,36 @@ int main(int argc, char* argv[])
 	
 	// SetUp GUI Interfaces to modules
 	// Interface to detection module
-	shared_ptr<GuiDetectionIO> gui_detection_io =
-		std::make_shared<GuiDetectionIO> (
+	shared_ptr<GuiDetectionInterface> gui_detection_interface =
+		std::make_shared<GuiDetectionInterface> (
 			settings_window.proc_settings_,
 			settings_window.input_
 			);
-	card_detector->attachGuiInterface(gui_detection_io);	
+	card_detector.attachGuiInterface(gui_detection_interface);	
 
 	// Interface to Capture module
-	shared_ptr<GuiCaptureIO> gui_capture_io =
-		std::make_shared<GuiCaptureIO> (
+	shared_ptr<GuiCaptureInterface> gui_capture_interface =
+		std::make_shared<GuiCaptureInterface> (
 			settings_window.camera_settings_,
 			settings_window.input_
 			);
-	cam_controller->attachGuiInterface(gui_capture_io);	
+	cam_controller.attachGuiInterface(gui_capture_interface);	
 
 	// Interface to Poker module
-	shared_ptr<GuiPokerIO> gui_poker_io =
-		std::make_shared<GuiPokerIO> (
+	shared_ptr<GuiPokerInterface> gui_poker_interface =
+		std::make_shared<GuiPokerInterface> (
 			settings_window.sim_settings_,
 			settings_window.input_
 			);
-	sim.attachGuiInterface(gui_poker_io);		
+	sim.attachGuiInterface(gui_poker_interface);		
 	
 	// SetUp GUI Windows for presentation
 	LiveImageWin live_view(
 		"Live View", 
 		main_menu.show_live_image_,
 		settings_window.layout_settings_, 
-		gui_capture_io->live_image_, 
-		gui_detection_io->cards_,
+		gui_capture_interface->live_image_, 
+		gui_detection_interface->cards_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 
@@ -140,7 +137,7 @@ int main(int argc, char* argv[])
 		"Card Images", 
 		main_menu.show_card_image_,
 		settings_window.layout_settings_, 
-		gui_detection_io->cards_,
+		gui_detection_interface->cards_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 	
@@ -148,7 +145,7 @@ int main(int argc, char* argv[])
 		"Rank Images", 
 		main_menu.show_rank_image_,
 		settings_window.layout_settings_, 
-		gui_detection_io->cards_,
+		gui_detection_interface->cards_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 	
@@ -156,14 +153,14 @@ int main(int argc, char* argv[])
 		"Suit Images", 
 		main_menu.show_suit_image_,
 		settings_window.layout_settings_, 
-		gui_detection_io->cards_,
+		gui_detection_interface->cards_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 
 	PokerWin poker_win(
 		"Simulation Results", 
 		main_menu.show_poker_win_,
-		gui_poker_io->data_,
+		gui_poker_interface->data_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);
 
@@ -182,7 +179,7 @@ int main(int argc, char* argv[])
 		for (;;)
 		{
 			// Grab live frame and check if it worked
-			if (!cam_controller->grabLive())
+			if (!cam_controller.grabLive())
 			{ 
 				// set gui state to should_close_ = true and exit for loop
 				gui.closeWindow();
@@ -190,7 +187,7 @@ int main(int argc, char* argv[])
 			}			
 
 			// Detect Cards in Frame and notify other modules
-			card_detector->detectCards();
+			card_detector.detectCards();
 
 			// run simulation
 			sim.run();

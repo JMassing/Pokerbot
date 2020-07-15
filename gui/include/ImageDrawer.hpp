@@ -16,6 +16,7 @@
 #include "Card.hpp"
 #include "Mapping.hpp"
 
+// Loads cv::Mat image to OpenGL texture and draws it in ImGui
 namespace gui {
 
 	class ImageDrawer

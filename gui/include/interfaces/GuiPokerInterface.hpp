@@ -8,7 +8,7 @@
 
 namespace gui {
 
-	class GuiPokerIO: public poker::IPokerGui
+	class GuiPokerInterface: public poker::IPokerGui
 	{
 
 		public:			
@@ -33,7 +33,7 @@ namespace gui {
 				this->data_ = data;
 			}
 
-        	GuiPokerIO(
+        	GuiPokerInterface(
 				poker::SimSettings& settings,
 				bool& input
 				): 
@@ -42,13 +42,13 @@ namespace gui {
 				data_()
 			{};
 
-			virtual ~GuiPokerIO() {};
+			virtual ~GuiPokerInterface() {};
 
 			// Using default copy and move constructors. 
-			GuiPokerIO(const GuiPokerIO& other) = default;	
-			GuiPokerIO& operator=(const GuiPokerIO& other) = default;
-			GuiPokerIO(GuiPokerIO&& other) noexcept = default;
-			GuiPokerIO& operator=(GuiPokerIO&& other) noexcept = default;
+			GuiPokerInterface(const GuiPokerInterface& other) = default;	
+			GuiPokerInterface& operator=(const GuiPokerInterface& other) = default;
+			GuiPokerInterface(GuiPokerInterface&& other) noexcept = default;
+			GuiPokerInterface& operator=(GuiPokerInterface&& other) noexcept = default;
 	};
 
 } // namespace gui

@@ -2,11 +2,10 @@
 
 #include <boost/bimap/bimap.hpp>
 
-namespace detect
-{
 	const enum Cards { UNKNOWN = 0, ACE_LOW, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE, DIAMONDS, CLUBS, HEARTS, SPADES };
 	const enum Hands { HIGH_CARD, PAIR, TWO_PAIR, THREE_OF_A_KIND, STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH};
 
+	// Mappings between Cards and text symbols
 	class Mapping
 	{
 	    using bm_type = boost::bimaps::bimap<std::string, int>;
@@ -80,5 +79,3 @@ namespace detect
 
 		};
 
-
-} // namespace detect

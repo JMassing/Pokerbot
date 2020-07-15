@@ -8,6 +8,7 @@
 #include "BaseCard.hpp"
 #include "TemplateFunctions.hpp"
 
+// Assigns detected cards in image to robot cards or public cards
 namespace detect 
 {
     class CardAssigner
@@ -25,8 +26,8 @@ namespace detect
 
             void assignCards(
                 const std::vector<Card>& cards,
-                std::vector<detect::BaseCard>& public_cards,
-                std::vector<detect::BaseCard>& robot_cards
+                std::vector<BaseCard>& public_cards,
+                std::vector<BaseCard>& robot_cards
                 );
 
 			CardAssigner(

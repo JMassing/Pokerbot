@@ -16,7 +16,7 @@ namespace gui {
 		private:
 
 			ImageDrawer drawer_;
-			capture::Image& live_frame_;
+			Image& live_frame_;
 			LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
 
@@ -28,7 +28,7 @@ namespace gui {
 				const std::string& name, 
 				bool& show,
 				LayoutConfig& controls, 
-				capture::Image& live_frame, 
+				Image& live_frame, 
 				std::vector<detect::Card>& cards,
 				const int& flag = 0
 				): 

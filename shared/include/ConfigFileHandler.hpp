@@ -11,9 +11,6 @@
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
-namespace shared
-{
-
     class ConfigFileHandler
     {
         private:
@@ -42,4 +39,4 @@ namespace shared
 
     };
 
-}
+

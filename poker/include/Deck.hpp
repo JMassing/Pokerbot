@@ -19,12 +19,12 @@ namespace poker{
 
         // The Deck is a vector, since we do not include the known cards (=the hand of the robot)
         // The nr. of known card changes depending on where in the game we are (start of game, flop, ...)
-        std::vector<detect::BaseCard> deck_;
+        std::vector<BaseCard> deck_;
 
         void shuffle();
 
         //@brief: Returns card in deck at pos pos_tracker and increments pos_tracker.
-        detect::BaseCard pullCard()
+        BaseCard pullCard()
         {
             return deck_[this->pos_tracker_++];
         };

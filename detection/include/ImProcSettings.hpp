@@ -11,7 +11,7 @@ namespace detect
         int binary_threshold;          // threshold for binaryzing suit and rank image;
         int identification_threshold;  // threshold for finding the rank and suit in the card image 
 
-        void setToDefault(shared::DefaultConfig& default_settings)
+        void setToDefault(DefaultConfig& default_settings)
         {
             this->live_threshold = default_settings.live_threshold;
             this->binary_threshold = default_settings.binary_threshold;

@@ -30,14 +30,14 @@ namespace UnitTest
 	}
 
 	// Converts String to card. Examplary String: 3S
-	detect::BaseCard convertToCard(std::string string_card)
+	BaseCard convertToCard(std::string string_card)
 	{
-		detect::Mapping mapping;
+		Mapping mapping;
 				
 		// Convert string to cards and add cards to hand
 		std::string rank(1, string_card.at(0) );
 		std::string suit(1, string_card.at(1) );
-		detect::BaseCard card(
+		BaseCard card(
 			mapping.text_mappings.left.at(rank), 
 			mapping.text_mappings.left.at(suit) 
 			);

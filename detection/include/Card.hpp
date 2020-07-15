@@ -12,9 +12,9 @@ namespace detect
 	
 		cv::Point center_point;
 		std::vector<cv::Point> contour;
-		capture::Image card_image;
-		capture::Image rank_image;
-		capture::Image suit_image;
+		Image card_image;
+		Image rank_image;
+		Image suit_image;
 
 		Card() : BaseCard(), center_point(-1, -1), contour{} { };
 		Card(

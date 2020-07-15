@@ -5,8 +5,6 @@
 
 #include "ConfigFileHandler.hpp"
 
-namespace shared
-{
     struct DefaultConfig
     {
         public:
@@ -26,49 +24,13 @@ namespace shared
             int live_threshold;            
             int binary_threshold;          
             int identification_threshold;  
-            double card_aspect_ratio;
-            int card_width;
-            int min_card_size;
-            int max_card_size;
-            double min_comparison_confidence;
-            double zoom_width_ratio;
-            double zoom_height_ratio;
-            double max_rank_contour_ratio;
-            int perspective_transform_offset;
-            int rank_suit_zoom_offset;
-
+            
             // poker simulation parameters
             int nr_sim_runs;
             int nr_opponents;
 
-            // gui display parameters
-            int max_exp_time;
-            int min_exp_time;
-            int max_focus;
-            int min_focus;
-            int max_brightness;
-            int min_brightness;
-            int max_live_th;
-            int min_live_th;
-            int max_bin_th;
-            int min_bin_th;
-            int max_ident_th;
-            int min_ident_th;
-            int max_sim_runs;
-            int min_sim_runs;
-            int max_players;
-            int min_players;
-
             // gui layout parameters
-            bool show_frame;
             bool show_cards;
-            bool show_im_proc_settings_window;
-            bool show_main_window;
-            bool show_card_img;
-            bool show_rank_img;
-            bool show_suit_img;
-            bool show_camera_control;
-            bool show_layout_window;
             int live_image_width;
             int live_image_height;
             double card_outline_r;
@@ -96,4 +58,3 @@ namespace shared
 
             std::stringstream generateFileContents();
     };
-}// end namespace signals

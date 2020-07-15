@@ -10,7 +10,7 @@ namespace poker
         {
             for(int i=2; i<=14; ++i)
             {   
-                if(robot_hand.containsCard(detect::BaseCard(i,j)))
+                if(robot_hand.containsCard(BaseCard(i,j)))
                 {
                     // do not add card to the deck, which is already dealt to the robot, i.e 
                     // it's either one of the two hand cards or dealt in flop/turn/river
@@ -18,7 +18,7 @@ namespace poker
                 else
                 {
                     //add card to deck
-                    this->deck_.emplace_back(detect::BaseCard(i,j));
+                    this->deck_.emplace_back(BaseCard(i,j));
                 }                
             }
         }

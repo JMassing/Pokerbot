@@ -1,7 +1,5 @@
 #include "ConfigFileHandler.hpp"
 
-namespace shared
-{
 
     ConfigFileHandler::ConfigFileHandler(): 
     config_file_(), 
@@ -30,43 +28,9 @@ namespace shared
             ("detection.live_threshold", po::value<int>())
             ("detection.binary_threshold", po::value<int>())
             ("detection.identification_threshold", po::value<int>())
-            ("detection.card_aspect_ratio", po::value<double>())
-            ("detection.card_width", po::value<int>())
-            ("detection.min_card_size", po::value<int>())
-            ("detection.max_card_size", po::value<int>())
-            ("detection.min_comparison_confidence", po::value<double>())
-            ("detection.zoom_width_ratio", po::value<double>())
-            ("detection.zoom_height_ratio", po::value<double>())
-            ("detection.max_rank_contour_ratio", po::value<double>())
-            ("detection.perspective_transform_offset", po::value<int>())
-            ("detection.rank_suit_zoom_offset", po::value<int>())
             ("poker.nr_sim_runs", po::value<int>())
             ("poker.nr_opponents", po::value<int>())
-            ("gui.max_exp_time", po::value<int>())
-            ("gui.min_exp_time", po::value<int>())
-            ("gui.max_focus", po::value<int>())
-            ("gui.min_focus", po::value<int>())
-            ("gui.max_brightness", po::value<int>())
-            ("gui.min_brightness", po::value<int>())
-            ("gui.max_live_th", po::value<int>())
-            ("gui.min_live_th", po::value<int>())
-            ("gui.max_bin_th", po::value<int>())
-            ("gui.min_bin_th", po::value<int>())
-            ("gui.max_ident_th", po::value<int>())
-            ("gui.min_ident_th", po::value<int>())
-            ("gui.max_sim_runs", po::value<int>())
-            ("gui.min_sim_runs", po::value<int>())
-            ("gui.max_players", po::value<int>())
-            ("gui.min_players", po::value<int>())
-            ("layout.show_frame", po::value<bool>())
             ("layout.show_cards", po::value<bool>())
-            ("layout.show_im_proc_settings_window", po::value<bool>())
-            ("layout.show_main_window", po::value<bool>())
-            ("layout.show_card_img", po::value<bool>())
-            ("layout.show_rank_img", po::value<bool>())
-            ("layout.show_suit_img", po::value<bool>())
-            ("layout.show_camera_control", po::value<bool>())
-            ("layout.show_layout_window", po::value<bool>())
             ("layout.live_image_width", po::value<int>())
             ("layout.live_image_height", po::value<int>())
             ("layout.card_outline_r", po::value<double>())
@@ -107,4 +71,3 @@ namespace shared
         }
     }
 
-} //end namespace parameters

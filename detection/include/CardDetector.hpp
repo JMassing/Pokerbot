@@ -21,6 +21,7 @@
 
 namespace fs = boost::filesystem;
 
+// Detects cards in live image
 namespace detect 
 {
 	 // CompileTime constants    
@@ -37,13 +38,12 @@ namespace detect
 		private:
 			enum Filter { LARGEST_AREA, SMALLEST_AREA, LE_AREA, GE_AREA };
 		  
-			capture::Image live_frame_;
+			Image live_frame_;
 			std::vector<Card> cards_;
 			std::vector<CardBuffer<CARD_BUFFER_SIZE>> card_buffers_;
 			int frame_nr_;
             ImProcSettings settings_;
             PerspectiveCorrector perspective_corrector_;
-
 			const int perspective_transform_offset_ = 5;
 
             // Parameters used for filtering Card Contours
@@ -56,8 +56,8 @@ namespace detect
             const double card_aspect_ratio_ = 1.4;
 
 			// Interfaces
-			std::shared_ptr<IDetectGui> gui_io_;
-			std::shared_ptr<IDetectCapture> capture_in_;
+			std::shared_ptr<IDetectGui> gui_interface_;
+			std::shared_ptr<IDetectCapture> capture_interface_;
 
 			void bufferCard(const Card& card);
 
@@ -66,16 +66,16 @@ namespace detect
 			DataDetect data_;
 
 			void detectCards() override;
+			void updateFrame(const Image& input_frame) override;
 			const std::vector<Card> getCards() override { return this->cards_; }
-			void updateFrame(const capture::Image& input_frame) override;
 			void attachGuiInterface(std::shared_ptr<IDetectGui> interface)
 			{
-				this->gui_io_ = interface;
+				this->gui_interface_ = interface;
 			}
 
 			void attachCaptureInterface(std::shared_ptr<IDetectCapture> interface)
 			{
-				this->capture_in_ = interface;
+				this->capture_interface_ = interface;
 			}
 
 			CardDetector(ImProcSettings& initial_settings):
@@ -85,8 +85,8 @@ namespace detect
                 frame_nr_(0),
 				data_{},
                 settings_(initial_settings),
-				gui_io_(nullptr),
-				capture_in_(nullptr)
+				gui_interface_(nullptr),
+				capture_interface_(nullptr)
             {};
 			~CardDetector(){};
 

@@ -2,8 +2,6 @@
 
 #include "Mapping.hpp"
 
-namespace detect
-{
 	struct BaseCard
 	{
 		int rank;
@@ -32,5 +30,3 @@ namespace detect
 
 		
 	};
-
-}

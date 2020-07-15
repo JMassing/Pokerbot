@@ -16,7 +16,7 @@ namespace gui {
         cv::Scalar card_outline_color; 
 
         
-		void setToDefault(const shared::DefaultConfig& default_settings)
+		void setToDefault(const DefaultConfig& default_settings)
 		{
             this->show_cards = default_settings.show_cards;
             this->live_view_height = default_settings.live_image_height;

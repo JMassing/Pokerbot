@@ -5,6 +5,7 @@
 #include "Hand.hpp"
 #include "RankDeterminator.hpp"
 
+// Determines the winner between the given hands
 namespace poker{
 
     class WinnerDeterminator{

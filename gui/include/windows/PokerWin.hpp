@@ -10,7 +10,7 @@ namespace gui {
 	{
 		private:
 		
-		detect::Mapping mapping_;
+		Mapping mapping_;
 		poker::DataPoker& data_;
 		
 		public:

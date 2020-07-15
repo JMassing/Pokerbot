@@ -1,7 +1,5 @@
 #pragma once
 
-// Data Structure holden output data to GUI
-
 #include <utility>
 #include <vector>
 

@@ -34,8 +34,8 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
     std::pair<double,double> MonteCarlo::run(
                 SimSettings& settings,
                 Deck deck,
-                const std::vector<detect::BaseCard>& public_cards,
-                const std::vector<detect::BaseCard>& robot_cards,
+                const std::vector<BaseCard>& public_cards,
+                const std::vector<BaseCard>& robot_cards,
                 const bool& log_sim
                 )
     {
@@ -61,7 +61,7 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
             
             // holds detected public cards. If size < 5, cards will be drawn from Deck and added
             // until size == 5. These will be then added to the hands
-            std::vector<detect::BaseCard> public_cards_tmp{};
+            std::vector<BaseCard> public_cards_tmp{};
             public_cards_tmp = public_cards; 
 
             HandBuilder::buildHands(
@@ -77,7 +77,7 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
             // Add hand cards to robot hand, if it is unknown
             for(int i = 0; i < 2; ++i)
             {
-                if(robot_hand.hand_.at(i).rank==detect::UNKNOWN)
+                if(robot_hand.hand_.at(i).rank == UNKNOWN)
                 {
                     robot_hand.addToHand(deck.pullCard());
                 }

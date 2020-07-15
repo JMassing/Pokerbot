@@ -40,11 +40,11 @@ namespace gui
 		std::string rank;
 		std::string suit;
 		std::string text;
-		detect::Mapping mapping;
+		Mapping mapping;
 
 		for (int i = 0; i < cards.size(); ++i)
 		{	
-			if (cards[i].suit == detect::UNKNOWN || cards[i].rank == detect::UNKNOWN)
+			if (cards[i].suit == UNKNOWN || cards[i].rank == UNKNOWN)
 			{
 				text = "Unknown";
 			}

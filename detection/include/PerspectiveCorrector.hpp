@@ -10,6 +10,7 @@
 
 #include "TemplateFunctions.hpp"
 
+// Warps given image to correct for perspective errors and get a birdseye view of card image
 namespace detect 
 {
     class PerspectiveCorrector
