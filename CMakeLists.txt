@@ -28,6 +28,7 @@ file(GLOB SOURCES_DETECTION "detection/src/*.cpp")
 file(GLOB SOURCES_CAPTURE "capture/src/*.cpp")
 file(GLOB SOURCES_GUI "gui/src/*.cpp")
 file(GLOB SOURCES_WIDGETS "gui/src/widgets/*.cpp")
+file(GLOB SOURCES_INTERFACES "gui/src/interfaces/*.cpp")
 file(GLOB SOURCES_WINDOWS "gui/src/windows/*.cpp")
 file(GLOB SOURCES_POKER "poker/src/*.cpp")
 file(GLOB SOURCES_SHARED "shared/src/*.cpp")
@@ -37,6 +38,7 @@ add_library( PokerbotLib
 ${SOURCES_GUI}
 ${SOURCES_WIDGETS}
 ${SOURCES_WINDOWS}
+${SOURCES_INTERFACES}
 ${SOURCES_CAPTURE}
 ${SOURCES_SHARED}
 ${SOURCES_DETECTION}

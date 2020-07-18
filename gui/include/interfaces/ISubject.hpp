@@ -7,7 +7,7 @@
 #include <memory>
 #include "IObserver.hpp"
 
-namespace interfaces
+namespace gui
 {
 	class ISubject
 	{

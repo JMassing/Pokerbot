@@ -15,6 +15,12 @@ namespace gui {
         int card_rank_suit_height_percent;
         cv::Scalar card_outline_color; 
 
+        // Game Layout
+        bool play_game;
+        bool mask_robot_cards;
+        bool show_probability;
+        bool show_robot_hand;
+
         
 		void setToDefault(const DefaultConfig& default_settings)
 		{
@@ -37,7 +43,11 @@ namespace gui {
             live_view_width{1280},
             card_image_height_percent{100},
             card_rank_suit_height_percent{100},
-            card_outline_color{0,0,0}
+            card_outline_color{0,0,0},
+            play_game{false},
+            mask_robot_cards{false},
+            show_probability{true},
+            show_robot_hand{true}
         { };
         ~LayoutConfig(){};
 

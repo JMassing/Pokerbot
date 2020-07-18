@@ -34,9 +34,13 @@ namespace gui {
 			void drawContours(
 				const std::vector<std::vector<cv::Point> >& contours, 
 				cv::Mat& dst,
-				const cv::Scalar& color
+				const cv::Scalar& color,
+				const bool& fill_contours = false
 				);	
 
+		public:		
+
+			
 			void printText(
 				cv::Mat& dst, 
 				std::string& text, 
@@ -44,14 +48,13 @@ namespace gui {
 				const cv::Scalar& color
 				);
 
-		public:		
-
 			void draw(const cv::Mat& frame, const int& image_width, const int& image_height);
 
 			void drawCards(
 				const std::vector<detect::Card>& cards, 
 				cv::Mat& dst, 
-				const cv::Scalar& color
+				const cv::Scalar& color,
+				const bool& mask_cards = false
 				);
 
 			void drawRectangle(

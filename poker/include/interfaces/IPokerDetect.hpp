@@ -9,6 +9,7 @@ namespace poker
 		public:
 
 			virtual detect::DataDetect getData() const = 0;
+			virtual void setGamePhase(int game_phase) = 0;
 			virtual ~IPokerDetect() {};
 	};
 

@@ -17,6 +17,7 @@
 #include "WinnerDeterminator.hpp"
 #include "HandBuilder.hpp"
 #include "SimSettings.hpp"
+#include "DataPoker.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -222,6 +223,7 @@ namespace UnitTest
 
 		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "StartingHands.txt";
 		std::ifstream file;
+		poker::DataPoker data;
 
 		double expected_probability{};
 		// Read player hands from file
@@ -251,9 +253,8 @@ namespace UnitTest
 					robot_cards.emplace_back(convertToCard(cards.at(i)));
 				}
 
-				sim.updateCards(robot_cards, public_cards);
-				sim.run();
-				std::pair<double,double> prob = sim.data_.probability;
+				sim.run(robot_cards, public_cards, data);
+				std::pair<double,double> prob = data.probability;
 				std::cout << prob.first << ", " << prob.second << std::endl;
 				EXPECT_TRUE((prob.first >= expected_probability-1) && (prob.first <= expected_probability+1));
 			}

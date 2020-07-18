@@ -25,7 +25,7 @@ namespace fs = boost::filesystem;
 namespace detect 
 {
 	 // CompileTime constants    
-	constexpr size_t CARD_BUFFER_SIZE = 10;
+	constexpr size_t CARD_BUFFER_SIZE = 30;
 	// Distance used to determin which card buffer a newly detected card belongs to. In the
 	// bufferCard method, the distance between the card center and all existing buffers is calculated
 	// When distance is < max distance, card is added to the buffer with the smalles distance
@@ -64,6 +64,7 @@ namespace detect
 		public:
 
 			DataDetect data_;
+			int game_phase_;
 
 			void detectCards() override;
 			void updateFrame(const Image& input_frame) override;
@@ -86,7 +87,8 @@ namespace detect
 				data_{},
                 settings_(initial_settings),
 				gui_interface_(nullptr),
-				capture_interface_(nullptr)
+				capture_interface_(nullptr),
+				game_phase_{0}
             {};
 			~CardDetector(){};
 

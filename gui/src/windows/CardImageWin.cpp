@@ -5,7 +5,7 @@ namespace gui
 
     void CardImageWin::draw()
     {        
-        if(this->show_)
+        if(this->show_ && !this->controls_.mask_robot_cards)
         {
             ImGui::Begin(this->name_.c_str(), &this->show_, this->flag_);
 

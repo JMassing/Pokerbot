@@ -1,6 +1,6 @@
 #include "ISubject.hpp"
 
-namespace interfaces
+namespace gui
 {
     void ISubject::attach(std::shared_ptr<IObserver> observer)
     {

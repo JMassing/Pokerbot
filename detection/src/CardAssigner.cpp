@@ -6,50 +6,54 @@ namespace detect{
     // 		   the card is placed
 	void CardAssigner::assignCards(
         const std::vector<Card>& cards,
-        std::vector<BaseCard>& public_cards,
-        std::vector<BaseCard>& robot_cards
+    	std::vector<BaseCard>& public_cards,
+        std::vector<BaseCard>& robot_cards, 
+        int game_phase
         )
 	{
 		public_cards.clear();
-		robot_cards.clear();
 
 		// Cards are transformed into BaseCards by object slicing in this step.
 		// Robot cards and public cards are used only in poker module, which 
 		// only needs Cards rank and suit
-		for(const auto& card: cards)
-		{	
-			if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->robot_area_)
-				&& !templates::contains(robot_cards.begin(), robot_cards.end(), card))
-			{
-				if(robot_cards.size()<2)
-				{
-					robot_cards.emplace_back(card);
-				}
-			}
-			else if(card.rank != UNKNOWN && card.suit != UNKNOWN && isInArea(card, this->public_area_)
-					&& !templates::contains(public_cards.begin(), public_cards.end(), card))
-			{
-				if(public_cards.size() < 5)
-				{
-					public_cards.emplace_back(card);
-				}
-			}
-			else
-			{
-				//do nothing
-			}	
-		}		
-	}
 
-    bool CardAssigner::isInArea(const Card& card, const cv::Rect& area)
-	{
-
-		if(card.center_point.x > area.x && card.center_point.x < area.x + area.width 
-			&& card.center_point.y > area.y && card.center_point.y < area.y + area.height)
+		// if game is in first phase, dealing hand cards, detected cards are part of 
+		// robot hand
+		if(game_phase == 1)
 		{
-			return true;
+			for(const auto& card: cards)
+			{	
+				if( card.rank != UNKNOWN && card.suit != UNKNOWN && 
+					!templates::contains(robot_cards.begin(), robot_cards.end(), card) )
+				{
+					if(robot_cards.size()<2)
+					{
+						robot_cards.emplace_back(card);
+					}
+				}				
+				else
+				{
+					//do nothing
+				}	
+			}
+		}	
+		else
+		{
+			for(const auto& card: cards)
+			{	
+			
+				if( card.rank != UNKNOWN && card.suit != UNKNOWN &&
+					!templates::contains(public_cards.begin(), public_cards.end(), card) && 
+					!templates::contains(robot_cards.begin(), robot_cards.end(), card) )
+				{
+					if(public_cards.size() < 5)
+					{
+						public_cards.emplace_back(card);
+					}
+				}
+			}
 		}
-		return false;
+			
 	}
 
 }

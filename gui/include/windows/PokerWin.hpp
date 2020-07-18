@@ -3,6 +3,7 @@
 #include "IWindow.hpp"
 #include "Mapping.hpp"
 #include "DataPoker.hpp"
+#include "LayoutConfig.hpp"
 
 namespace gui {
 
@@ -12,6 +13,7 @@ namespace gui {
 		
 		Mapping mapping_;
 		poker::DataPoker& data_;
+		LayoutConfig& layout_settings_;
 		
 		public:
 
@@ -21,11 +23,13 @@ namespace gui {
                 const std::string& name,
 				bool& show,
                 poker::DataPoker& data,
+				LayoutConfig& layout_settings,
                 const int& flag = 0
                 ):
 				IWindow(name, show, flag), 
                 data_(data),
-                mapping_{}
+                mapping_{},
+				layout_settings_{layout_settings}
 			{};
 
 			virtual ~PokerWin() {};

@@ -16,13 +16,19 @@ namespace gui
 	void ImageDrawer::drawContours(
         const std::vector<std::vector<cv::Point> >& contours, 
         cv::Mat& dst, 
-        const cv::Scalar& color
+        const cv::Scalar& color,
+        const bool& fill_contours
         )
 	{
-		cv::Mat drawing = cv::Mat::zeros(dst.size(), CV_8UC3);
+		cv::Mat drawing = cv::Mat::zeros(dst.size(), dst.type());
+        
+        // Set thickness to filled and contour color to solid white if contours should be filled
+        int thickness = fill_contours ? -1 : 2;
+        cv::Scalar contour_color = fill_contours ?  cv::Scalar{255, 255, 255} : color;
+
 		for (int i = 0; i < contours.size(); ++i) 
 		{
-			cv::drawContours(drawing, contours, i, color, 2, 8, cv::noArray(), 0, cv::Point());
+			cv::drawContours(drawing, contours, i, contour_color, thickness);
 		}
 		drawing.copyTo(dst, drawing);
 	
@@ -127,7 +133,8 @@ namespace gui
 	void ImageDrawer::drawCards(
         const std::vector<detect::Card>& cards, 
         cv::Mat& dst, 
-        const cv::Scalar& color
+        const cv::Scalar& color,
+        const bool& mask_cards
         )
 	{
 		std::vector<std::vector<cv::Point> > contours;
@@ -143,8 +150,9 @@ namespace gui
 		//
 		if(contours.size() > 0)
 		{
-			this->drawContours(contours, dst, color);
-			this->writeCard(dst, cards, color);
+			this->drawContours(contours, dst, color, mask_cards);
+
+			mask_cards ? "" : this->writeCard(dst, cards, color);
 		}		
 	}
 

@@ -8,23 +8,27 @@ namespace gui{
         {
             ImGui::Begin(this->name_.c_str(), &this->show_, this->flag_);
 
-            ImGui::Text("Probability of winning = %.2f", 
-                        static_cast<float>(this->data_.probability.first));
-
-            ImGui::Text("Probability of winning tie = %.2f", 
-                        static_cast<float>(this->data_.probability.second));
-
-            ImGui::Text("Robot Hand:");
-            ImGui::SameLine();
-            for(const auto& card: this->data_.robot_hand.hand_)
-            {   
-                std::string text = this->mapping_.text_mappings.right.at(card.rank) + 
-                this->mapping_.text_mappings.right.at(card.suit);
-                ImGui::Text(text.c_str());
-                ImGui::SameLine();
+            if(this->layout_settings_.show_probability)
+            {
+                ImGui::Text("Probability of winning = %.2f", 
+                            static_cast<float>(this->data_.probability.first));
+            
+                ImGui::Text("Probability of winning tie = %.2f", 
+                            static_cast<float>(this->data_.probability.second));
             }
-
-            ImGui::NewLine();
+            if(this->layout_settings_.show_robot_hand)
+            {
+                ImGui::Text("Robot Hand:");
+                ImGui::SameLine();
+                for(const auto& card: this->data_.robot_hand.hand_)
+                {   
+                    std::string text = this->mapping_.text_mappings.right.at(card.rank) + 
+                    this->mapping_.text_mappings.right.at(card.suit);
+                    ImGui::Text(text.c_str());
+                    ImGui::SameLine();
+                }            
+                ImGui::NewLine();
+            }
 
             int player = 1;
             for(const auto& hand: this->data_.player_hands)

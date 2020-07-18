@@ -36,6 +36,7 @@ namespace detect
 
 	public:
 
+
 		bool getCard(Card& card_out);
 		
 		// Override put function for card buffer to also update center point and 
@@ -87,68 +88,55 @@ namespace detect
 		this->card_image_ = card_in.card_image;
 		this->rank_image_ = card_in.rank_image;
 		this->suit_image_ = card_in.suit_image;
+
+		this->full() ? (this->filled_once_ = true) : "";
 	};
 	
 	template<std::size_t N>
 	bool CardBuffer<N>::getCard(Card& card_out)
 	{
-		// Wait till the buffer was filled at least once, before returning a card. 
-		// This way we always have a sample of N detections, to compare 
-		if(full() && filled_once_ == false)
+
+		// Find the card that is occuring most often in the buffer
+		std::vector<std::pair<BaseCard, int> > card_counter;
+		for(const auto& card: this->data_)
 		{
-			this->filled_once_=true;
-		}
-		else
-		{
-			//do nothing
-		}
-		
-		if(this->filled_once_ == true)
-		{
-			// Find the card that is occuring most often in the buffer
-			std::vector<std::pair<BaseCard, int> > card_counter;
-			for(const auto& card: this->data_)
+			if(card_counter.size() == 0)
 			{
-				if(card_counter.size() == 0)
-				{
-					card_counter.emplace_back(std::make_pair(card, 1));
-				}
-				else
-				{
-					for( auto p = card_counter.begin(); p != card_counter.end(); ++p)
-					{
-						//if card is in card counter, increase counter
-						if(card == (*p).first)
-						{
-							++(*p).second;
-							break;
-						}
-						// if card is not found in card_counter add it to counter
-						if(p == card_counter.end()-1)
-						{
-							card_counter.emplace_back(std::make_pair(card, 1));
-							break;
-						}					
-					}
-				}
-				
+				card_counter.emplace_back(std::make_pair(card, 1));
 			}
-			// sort card_counter for highest amount of cards
-			std::sort(card_counter.begin(), card_counter.end(), 
-				[](const auto& lhs, const auto& rhs){ return lhs.second > rhs.second; }
-       		);
-			card_out.rank = card_counter.at(0).first.rank;
-			card_out.suit = card_counter.at(0).first.suit;
-			card_out.center_point = this->center_point_;
-			card_out.contour = this->contour_;
-			card_out.card_image = this->card_image_;
-			card_out.suit_image = this->suit_image_;
-			card_out.rank_image = this->rank_image_;
-			return true;
+			else
+			{
+				for( auto p = card_counter.begin(); p != card_counter.end(); ++p)
+				{
+					//if card is in card counter, increase counter
+					if(card == (*p).first)
+					{
+						++(*p).second;
+						break;
+					}
+					// if card is not found in card_counter add it to counter
+					if(p == card_counter.end()-1)
+					{
+						card_counter.emplace_back(std::make_pair(card, 1));
+						break;
+					}					
+				}
+			}
+				
 		}
-		else
-		{
-			return false;
-		}
+		// sort card_counter for highest amount of cards
+		std::sort(card_counter.begin(), card_counter.end(), 
+				  [](const auto& lhs, const auto& rhs){ return lhs.second > rhs.second; }
+       			);
+		card_out.rank = card_counter.at(0).first.rank;
+		card_out.suit = card_counter.at(0).first.suit;
+		card_out.center_point = this->center_point_;
+		card_out.contour = this->contour_;
+		card_out.card_image = this->card_image_;
+		card_out.suit_image = this->suit_image_;
+		card_out.rank_image = this->rank_image_;
+			
+		return true;
+	
 	};
 }

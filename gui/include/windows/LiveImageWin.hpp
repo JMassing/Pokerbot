@@ -19,6 +19,9 @@ namespace gui {
 			Image& live_frame_;
 			LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
+			int& game_state_;
+			
+			void print_instructions(cv::Mat& live_image);
 
 		public:
 
@@ -30,12 +33,14 @@ namespace gui {
 				LayoutConfig& controls, 
 				Image& live_frame, 
 				std::vector<detect::Card>& cards,
+				int& game_state,
 				const int& flag = 0
 				): 
 				IWindow(name, show, flag), 
 				live_frame_(live_frame), 
 				controls_(controls), 
-				cards_{cards}
+				cards_{cards},
+				game_state_{game_state}
 			{};
 				
 			virtual ~LiveImageWin() {};

@@ -14,6 +14,21 @@ namespace gui
             // Give a Constant label width, the rest goes to widget size, e.g. width of slider bar
             ImGui::PushItemWidth(ImGui::GetFontSize() * -15);  
 
+            // Game Settings
+            ImGui::Text("Game Settings:");
+            this->input_ |= ImGui::Checkbox("Mask Robot Cards", &this->layout_settings_.mask_robot_cards);
+            this->input_ |= ImGui::Checkbox("Show Probability", &this->layout_settings_.show_probability);
+            this->input_ |= ImGui::Checkbox("Show Robot Hand", &this->layout_settings_.show_robot_hand);
+            this->input_ |= this->button_.draw("Start Game", 
+                                               true, 
+                                               [this](){this->layout_settings_.play_game = true;}
+                                               );
+            ImGui::SameLine();
+            this->input_ |= this->button_.draw("Stop Game", 
+                                               true, 
+                                               [this](){this->layout_settings_.play_game = false;}
+                                               );
+            ImGui::NewLine();    
             // Layout
             ImGui::Text("Live View Settings:");
 

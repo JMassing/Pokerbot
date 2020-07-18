@@ -3,7 +3,7 @@
 
 #include "CameraController.hpp"
 #include "GuiContext.hpp"
-#include "Simulation.hpp"
+#include "Game.hpp"
 #include "CardDetector.hpp"
 #include "SimSettings.hpp"
 #include "Interfaces.hpp"
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 
 	// Interface to Poker Module
 	shared_ptr<DetectPokerInterface> detect_poker_interface = 
-		make_shared<DetectPokerInterface>(card_detector.data_);
+		make_shared<DetectPokerInterface>(card_detector.data_, card_detector.game_phase_);
 
 	
 	// ----- Poker Module ------------------------------------------------------
@@ -70,10 +70,10 @@ int main(int argc, char* argv[])
 	sim_settings->setToDefault(*default_settings);
 
 	// MonteCarlo Simulation
-	Simulation sim(*sim_settings);
+	Game game(*sim_settings);
 
 	// Interface to Detection module
-	sim.attachDetectInterface(detect_poker_interface);
+	game.attachDetectInterface(detect_poker_interface);
 
 	// ----- GUI Module --------------------------------------------------------
 	// Initial GUI layout
@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
 			settings_window.sim_settings_,
 			settings_window.input_
 			);
-	sim.attachGuiInterface(gui_poker_interface);		
+	game.attachGuiInterface(gui_poker_interface);		
 	
 	// SetUp GUI Windows for presentation
 	LiveImageWin live_view(
@@ -130,6 +130,7 @@ int main(int argc, char* argv[])
 		settings_window.layout_settings_, 
 		gui_capture_interface->live_image_, 
 		gui_detection_interface->cards_,
+		gui_poker_interface->data_.game_phase,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 
@@ -161,6 +162,7 @@ int main(int argc, char* argv[])
 		"Simulation Results", 
 		main_menu.show_poker_win_,
 		gui_poker_interface->data_,
+		settings_window.layout_settings_, 
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);
 
@@ -190,7 +192,7 @@ int main(int argc, char* argv[])
 			card_detector.detectCards();
 
 			// run simulation
-			sim.run();
+			game.play();
 								
 			// Draw Gui Frame
 			gui.drawGuiFrame();

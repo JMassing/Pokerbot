@@ -166,21 +166,12 @@ namespace detect{
 		}	
     
         // Assign Cards to Robot or Public Cards  
-        cv::Rect robot_area{};
-        cv::Rect public_area{};
-
-        robot_area.x = 160;
-        robot_area.y = 260;
-        robot_area.width = 320;
-        robot_area.height = 200;
-
-        public_area.x = 10;
-        public_area.y = 100;
-        public_area.width = 620;
-        public_area.height = 150;
-
-        CardAssigner assigner(robot_area, public_area);
-        assigner.assignCards(this->cards_, this->data_.public_cards, this->data_.robot_cards);
+        CardAssigner::assignCards(
+			this->cards_, 
+			this->data_.public_cards, 
+			this->data_.robot_cards, 
+			this->game_phase_
+			);
 
 		// send cards to GUI if a GUI is connected
 		if(this->gui_interface_ != nullptr)
