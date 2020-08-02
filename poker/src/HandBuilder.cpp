@@ -6,27 +6,37 @@ namespace poker{
     void HandBuilder::buildHands(
                 const std::vector<BaseCard>& public_cards, 
                 const std::vector<BaseCard>& robot_cards,
-                std::vector<Hand>& player_hands,
-                Hand& robot_hand
+                std::vector<Player>& players
                 )
     {
-        // Add known cards to robot_hand
-        for(const auto& card: robot_cards)
+        // Reset Hands to build from scratch
+        for(auto& player : players)
         {
-           robot_hand.addToHand(card);
+            player.hand.reset();
         }
-        for(const auto& card: public_cards)
-        {
-            robot_hand.addToHand(card);
-        }
-
+     
         // Add public_cards to player hands
-        for(int i = 0; i < player_hands.size(); ++i)
+        for(int i = 0; i < players.size(); ++i)
         {
+            // Add robot cards to robot_hand
+            if(i == 0)
+            {
+                for(const auto& card: robot_cards)
+                {
+                    players.at(i).hand.addToHand(card);
+                }
+            }
+            // Add public cards to player hands
             for(const auto& card: public_cards)
             {
-                player_hands.at(i).addToHand(card);
+                players.at(i).hand.addToHand(card);
             }
+        }
+
+        // sort all hands
+        for(auto& player: players)
+        {
+            player.hand.sort();
         }
     }
 } // end namespace poker

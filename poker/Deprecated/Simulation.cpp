@@ -20,9 +20,9 @@ namespace poker{
         // revert hands to build hands from scratch
         for(auto& hand: data.player_hands)
         {
-            hand.clear();
+            hand.reset();
         }
-        data.robot_hand.clear();
+        data.robot_hand.reset();
 
         // reset hands with known cards
         HandBuilder::buildHands(

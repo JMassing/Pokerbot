@@ -14,7 +14,7 @@ namespace poker{
         
         public:
 
-            std::array<BaseCard,7> hand_;
+            std::array<BaseCard,7> cards_;
             std::array<int,5> high_cards_;
             int ranking_;
 
@@ -23,11 +23,12 @@ namespace poker{
             bool containsRank(const int& rank);
             bool containsSuit(const int& suit);
             void sort();
+            void reset();
             void clear();
 
             Hand(): ranking_{}, high_cards_{0}
             {
-                hand_.fill(BaseCard(UNKNOWN, UNKNOWN));
+                cards_.fill(BaseCard(UNKNOWN, UNKNOWN));
             }
             ~Hand() {};
 

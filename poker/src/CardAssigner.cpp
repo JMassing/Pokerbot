@@ -1,11 +1,11 @@
 #include "CardAssigner.hpp"
 
-namespace detect{
+namespace poker{
 
     // @brief: assigns cards to robot cards or public cards, depending on where in the image
     // 		   the card is placed
 	void CardAssigner::assignCards(
-        const std::vector<Card>& cards,
+        const std::vector<BaseCard>& cards,
     	std::vector<BaseCard>& public_cards,
         std::vector<BaseCard>& robot_cards, 
         int game_phase
@@ -18,7 +18,7 @@ namespace detect{
 		// only needs Cards rank and suit
 
 		// if game is in first phase, dealing hand cards, detected cards are part of 
-		// robot hand
+		// robot hand.
 		if(game_phase == 1)
 		{
 			for(const auto& card: cards)

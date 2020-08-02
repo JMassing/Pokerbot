@@ -29,7 +29,7 @@ namespace poker
     {        
         std::random_device rd;
         std::mt19937 g(rd());
-        std::shuffle(this->deck_.begin(), this->deck_.end(),g);
+        std::shuffle(this->deck_.begin(), this->deck_.end(), g);
     }
 
 }//end namespace poker

@@ -10,7 +10,7 @@ namespace poker {
         void fillHighCards(std::array<int,5>& high_cards, Hand& hand, int i)
         {
             // add remaining high cards to high_cards_
-            for(const auto& card: hand.hand_)
+            for(const auto& card: hand.cards_)
             {
                 if(!templates::contains(high_cards.begin(), high_cards.end(), card.rank))
                 {
@@ -52,12 +52,12 @@ namespace poker {
         // It is a sorted hand, so if the next card is not the same 
         // there are no more occurences of this card in the deck. 
         // Also we can skip cards with ranks we already have.       
-        for(auto p1 = hand.hand_.begin(); p1 != hand.hand_.end()-1; ++p1)
+        for(auto p1 = hand.cards_.begin(); p1 != hand.cards_.end()-1; ++p1)
         {
             // Make sure we havent already checked this rank and that it is not unknown
             if((*p1).rank != tmp_rank && (*p1).rank != UNKNOWN)
             {
-                for(auto p2 = p1+1; p2 != hand.hand_.end(); ++p2)
+                for(auto p2 = p1+1; p2 != hand.cards_.end(); ++p2)
                 {
                     if((*p1).rank != (*p2).rank)
                     {
@@ -221,7 +221,7 @@ namespace poker {
                             }
 
                             // Fill the 5th high card, in case we have the same two pairs
-                            for(const auto& card: hand.hand_)
+                            for(const auto& card: hand.cards_)
                             {
                               if( !templates::contains(
                                     this-> high_cards_.begin(), 
@@ -350,7 +350,7 @@ namespace poker {
                                 
                             }
                             // add the 5th high card in case we have two same pairs
-                            for(const auto& card: hand.hand_)
+                            for(const auto& card: hand.cards_)
                             {
                               if( !templates::contains(
                                     this->high_cards_.begin(), 
@@ -401,7 +401,7 @@ namespace poker {
     
         Hand unique_hand;
 
-        for(const auto& card : hand.hand_)
+        for(const auto& card : hand.cards_)
         {
             if(!unique_hand.containsRank(card.rank))
             {
@@ -413,17 +413,17 @@ namespace poker {
             }            
         }
       
-        for(int i=0; i<unique_hand.hand_.size()-4; ++i)
+        for(int i=0; i<unique_hand.cards_.size()-4; ++i)
         {
-            if( unique_hand.hand_.at(i).rank != UNKNOWN &&
-                unique_hand.hand_.at(i).rank == unique_hand.hand_.at(i+1).rank+1 && 
-                unique_hand.hand_.at(i).rank == unique_hand.hand_.at(i+2).rank+2 &&
-                unique_hand.hand_.at(i).rank == unique_hand.hand_.at(i+3).rank+3 && 
-                unique_hand.hand_.at(i).rank == unique_hand.hand_.at(i+4).rank+4 ) 
+            if( unique_hand.cards_.at(i).rank != UNKNOWN &&
+                unique_hand.cards_.at(i).rank == unique_hand.cards_.at(i+1).rank+1 && 
+                unique_hand.cards_.at(i).rank == unique_hand.cards_.at(i+2).rank+2 &&
+                unique_hand.cards_.at(i).rank == unique_hand.cards_.at(i+3).rank+3 && 
+                unique_hand.cards_.at(i).rank == unique_hand.cards_.at(i+4).rank+4 ) 
             {
                 this->ranking_ = STRAIGHT;
                 this->high_cards_.fill(-1);
-                this->high_cards_.fill(unique_hand.hand_.at(i).rank);
+                this->high_cards_.fill(unique_hand.cards_.at(i).rank);
 
                 // exit the method            
                 return;
@@ -455,7 +455,7 @@ namespace poker {
         int count_clubs{0};
         int count_spades{0};
 
-        for(const auto& card: hand.hand_)
+        for(const auto& card: hand.cards_)
         {
             switch(card.suit){
                 case HEARTS : ++count_hearts; break;
@@ -492,7 +492,7 @@ namespace poker {
            // for a straight (straight flush) later. Also we can add the high_cards 
            // in the same step
             int i=0;
-            for(const auto& card: hand.hand_)
+            for(const auto& card: hand.cards_)
             {   
                 if(card.suit==flush){
                     flush_cards.addToHand(card);
@@ -550,7 +550,7 @@ namespace poker {
             this->high_cards_.fill(-1);
             for(int i = 0; i < high_cards_.size(); ++i)
             {
-                this->high_cards_.at(i)=hand.hand_.at(i).rank;
+                this->high_cards_.at(i)=hand.cards_.at(i).rank;
             }
         }
         else

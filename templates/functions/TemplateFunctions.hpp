@@ -50,4 +50,12 @@ namespace templates{
            value < min ? value = min : value = value;
            value > max ? value = max : value = value;      
     }
+
+    //@brief:: Rolls n-sided die using random number generator rng
+    template<class T>
+    int rollDie(int n, T rng)
+    {
+        std::uniform_int_distribution<> dist(1, n);    
+        return dist(rng);
+    }
 }

@@ -10,7 +10,7 @@
 #include "InputField.hpp"
 #include "CameraSettings.hpp"
 #include "ImProcSettings.hpp"
-#include "SimSettings.hpp"
+#include "GameSettings.hpp"
 #include "AskForSaveWin.hpp"
 
 namespace gui {
@@ -24,6 +24,7 @@ namespace gui {
 			Slider slider_;
 			Button button_;
 			InputField input_field_;	
+			bool play_game_;
 
 			// Slider Constraints
 			// Layout
@@ -68,7 +69,7 @@ namespace gui {
 			detect::ImProcSettings proc_settings_;
 
 			//Poker Simulation
-			poker::SimSettings sim_settings_;
+			poker::GameSettings game_settings_;
 
 			//Was there a user input?
 			bool input_;
@@ -82,7 +83,7 @@ namespace gui {
 				const capture::CameraSettings& camera_settings, 
 				const LayoutConfig& layout_settings,
 				const detect::ImProcSettings& proc_settings,
-				const poker::SimSettings& sim_settings,
+				const poker::GameSettings& sim_settings,
 				const int& flag = 0
 				):
 				IWindow(name, show, flag), 
@@ -94,8 +95,9 @@ namespace gui {
 				layout_settings_{layout_settings},
 				camera_settings_(camera_settings), 
 				proc_settings_(proc_settings),
-				sim_settings_(sim_settings),
-				input_(false)
+				game_settings_(sim_settings),
+				input_(false),
+				play_game_(false)
 			{};
 
 			virtual ~SettingsWin() {};

@@ -5,7 +5,7 @@
 #include "GuiContext.hpp"
 #include "Game.hpp"
 #include "CardDetector.hpp"
-#include "SimSettings.hpp"
+#include "GameSettings.hpp"
 #include "Interfaces.hpp"
 #include "DataStructures.hpp"
 #include "GuiWindows.hpp"
@@ -65,8 +65,8 @@ int main(int argc, char* argv[])
 	
 	// ----- Poker Module ------------------------------------------------------
 	// initial simulation settings
-	unique_ptr<SimSettings> sim_settings =
-		make_unique<SimSettings>();
+	unique_ptr<GameSettings> sim_settings =
+		make_unique<GameSettings>();
 	sim_settings->setToDefault(*default_settings);
 
 	// MonteCarlo Simulation
@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
 	// Interface to Poker module
 	shared_ptr<GuiPokerInterface> gui_poker_interface =
 		std::make_shared<GuiPokerInterface> (
-			settings_window.sim_settings_,
+			settings_window.game_settings_,
 			settings_window.input_
 			);
 	game.attachGuiInterface(gui_poker_interface);		
@@ -159,10 +159,10 @@ int main(int argc, char* argv[])
 		);	
 
 	PokerWin poker_win(
-		"Simulation Results", 
+		"Game Win", 
 		main_menu.show_poker_win_,
-		gui_poker_interface->data_,
 		settings_window.layout_settings_, 
+		gui_poker_interface,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);
 

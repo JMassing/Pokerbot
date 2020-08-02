@@ -4,10 +4,12 @@
 
 namespace poker
 {
-    struct SimSettings
+    struct GameSettings
     {
         int nr_of_human_players;
         int nr_of_simulation_runs;     
+        bool start_game;
+        bool stop_game;
 
          void setToDefault(DefaultConfig& default_settings)
         {
@@ -15,16 +17,18 @@ namespace poker
             this->nr_of_human_players = default_settings.nr_opponents;     
         }
 
-        SimSettings(): 
+        GameSettings(): 
             nr_of_human_players(1), 
-            nr_of_simulation_runs(10000)
+            nr_of_simulation_runs(10000),
+            start_game{false},
+            stop_game{false}
         {};
-		~SimSettings(){};
+		~GameSettings(){};
 
 		// Using default copy and move constructors. 
-		SimSettings(const SimSettings& other) = default;	
-		SimSettings& operator=(const SimSettings& other) = default;
-		SimSettings(SimSettings&& other) noexcept = default;
-		SimSettings& operator=(SimSettings&& other) noexcept = default;
+		GameSettings(const GameSettings& other) = default;	
+		GameSettings& operator=(const GameSettings& other) = default;
+		GameSettings(GameSettings&& other) noexcept = default;
+		GameSettings& operator=(GameSettings&& other) noexcept = default;
     };
 }// end namespace data

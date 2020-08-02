@@ -1,9 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include "IWindow.hpp"
 #include "Mapping.hpp"
-#include "DataPoker.hpp"
 #include "LayoutConfig.hpp"
+#include "GuiPokerInterface.hpp"
+#include "PlaceBetWin.hpp"
 
 namespace gui {
 
@@ -12,8 +15,10 @@ namespace gui {
 		private:
 		
 		Mapping mapping_;
-		poker::DataPoker& data_;
 		LayoutConfig& layout_settings_;
+		std::shared_ptr<GuiPokerInterface> poker_if_;
+		PlaceBetWin place_bet_win_;
+		bool show_place_bet_win_;
 		
 		public:
 
@@ -22,14 +27,16 @@ namespace gui {
 			PokerWin(
                 const std::string& name,
 				bool& show,
-                poker::DataPoker& data,
 				LayoutConfig& layout_settings,
+				std::shared_ptr<GuiPokerInterface>& poker_if,
                 const int& flag = 0
                 ):
 				IWindow(name, show, flag), 
-                data_(data),
                 mapping_{},
-				layout_settings_{layout_settings}
+				layout_settings_{layout_settings},
+				poker_if_(poker_if),	
+				show_place_bet_win_(false),
+				place_bet_win_("", this->show_place_bet_win_, poker_if, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize)			
 			{};
 
 			virtual ~PokerWin() {};

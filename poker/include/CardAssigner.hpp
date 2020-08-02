@@ -6,10 +6,9 @@
 
 #include "BaseCard.hpp"
 #include "TemplateFunctions.hpp"
-#include "Card.hpp"
 
 // Assigns detected cards in image to robot cards or public cards
-namespace detect 
+namespace poker 
 {
     class CardAssigner
 	{         
@@ -17,7 +16,7 @@ namespace detect
 		public:    
 
             static void assignCards(
-                const std::vector<Card>& cards,
+                const std::vector<BaseCard>& cards,
                 std::vector<BaseCard>& public_cards,
                 std::vector<BaseCard>& robot_cards, 
                 int game_phase

@@ -6,12 +6,12 @@
 #include <iostream>
 #include <fstream>
 
-#include "Hand.hpp"
 #include "Deck.hpp"
+#include "DataPoker.hpp"
 #include "HandBuilder.hpp"
 #include "WinnerDeterminator.hpp"
 #include "BaseCard.hpp"
-#include "SimSettings.hpp"
+#include "Player.hpp"
 
 // Monte Carlo simulation of poker game
 namespace poker{
@@ -23,11 +23,11 @@ namespace poker{
             static void logRun(const int& winner, std::vector<Hand> player_hands, Hand robot_hand);
 
             static std::pair<double,double> run(
-                SimSettings& settings,
+                const int& iterations,
                 Deck deck,
-                const std::vector<BaseCard>& public_cards,
-                const std::vector<BaseCard>& robot_cards,
-                const bool& log_sim
+                const std::vector<Player>& players,
+                const int& game_phase,
+                const bool& log_sim = false
                 );
             
             MonteCarlo(){};

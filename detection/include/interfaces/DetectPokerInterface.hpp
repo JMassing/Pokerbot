@@ -12,16 +12,13 @@ namespace detect {
 		private:
 
 		DataDetect& data_;
-		int& game_phase_;
 
 		public:
 			
             DataDetect getData() const override { return this->data_; };
-			void setGamePhase(int game_phase) override { this->game_phase_ = game_phase; };
 
 			explicit DetectPokerInterface(DataDetect& data, int& game_phase): 
-				data_(data),
-				game_phase_(game_phase)
+				data_(data)
 			{};
 
 			~DetectPokerInterface() {};

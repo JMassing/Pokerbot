@@ -12,10 +12,9 @@ namespace detect
     struct DataDetect
     {
 
-        std::vector<BaseCard> public_cards;
-        std::vector<BaseCard> robot_cards;
+        std::vector<BaseCard> cards;
 
-        DataDetect(): public_cards(), robot_cards() {};
+        DataDetect(): cards() {};
 		~DataDetect(){};
 
 		// Using default copy and move constructors. 

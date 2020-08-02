@@ -6,7 +6,9 @@ namespace gui
     void SettingsWin::draw()
     {
         this->input_ = false;
-
+        this->game_settings_.stop_game = false;
+        this->game_settings_.start_game = false;
+      
         if(this->show_)
         {
             ImGui::Begin(this->name_.c_str(), &this->show_, this->flag_);
@@ -19,15 +21,33 @@ namespace gui
             this->input_ |= ImGui::Checkbox("Mask Robot Cards", &this->layout_settings_.mask_robot_cards);
             this->input_ |= ImGui::Checkbox("Show Probability", &this->layout_settings_.show_probability);
             this->input_ |= ImGui::Checkbox("Show Robot Hand", &this->layout_settings_.show_robot_hand);
-            this->input_ |= this->button_.draw("Start Game", 
-                                               true, 
-                                               [this](){this->layout_settings_.play_game = true;}
-                                               );
-            ImGui::SameLine();
-            this->input_ |= this->button_.draw("Stop Game", 
-                                               true, 
-                                               [this](){this->layout_settings_.play_game = false;}
-                                               );
+            this->input_ |= this->input_field_.draw(
+                "# of Opponents", 
+                this->min_players_, 
+                this->max_players_, 
+                this->game_settings_.nr_of_human_players, 
+                true
+            ); ImGui::SameLine(); 
+            this->helpMarker("Nr of opponents playing against the bot.");  
+
+            this->input_ |= this->slider_.draw(
+                "# of simulation runs", 
+                this->min_sim_runs_, 
+                this->max_sim_runs_, 
+                this->game_settings_.nr_of_simulation_runs, 
+                true
+            );
+
+            this->input_ |= this->button_.draw(
+                "Start Game", !this->play_game_,
+                [this](){this->game_settings_.start_game = true;
+                this->play_game_ = true;}
+            ); ImGui::SameLine();
+            this->input_ |= this->button_.draw(
+                "Stop Game", this->play_game_, 
+                [this](){this->game_settings_.stop_game = true;
+                this->play_game_ = false;}
+            ); 
             ImGui::NewLine();    
             // Layout
             ImGui::Text("Live View Settings:");
@@ -253,30 +273,11 @@ namespace gui
                 true
             ); ImGui::SameLine(); 
             this->helpMarker("Threshold for binarizing detected rank and suit images. CTRL+click to input value.");  
-
-
-            // Poker Simulation
+              
             ImGui::NewLine();
-            ImGui::Text("Poker Simulation Settings:");
-            this->input_ |= this->input_field_.draw(
-                "# of Opponents", 
-                this->min_players_, 
-                this->max_players_, 
-                this->sim_settings_.nr_of_human_players, 
-                true
-            ); ImGui::SameLine(); 
-            this->helpMarker("Nr of opponents playing against the bot.");  
-
-            this->input_ |= this->slider_.draw(
-                "# of simulation runs", 
-                this->min_sim_runs_, 
-                this->max_sim_runs_, 
-                this->sim_settings_.nr_of_simulation_runs, 
-                true
-            );
-
+            // Reset buttons
             this->input_ |= this->button_.draw(
-                "Reset", true, [this](){this->setConfigToDefault();}
+                "Reset Settings", true, [this](){this->setConfigToDefault();}
             ); ImGui::SameLine();
             
             this->button_.draw(
@@ -293,7 +294,7 @@ namespace gui
             {
                this->saveConfigAsDefault();
             }
-
+          
         }
 
         ImGui::End();
@@ -303,7 +304,7 @@ namespace gui
     {
         this->camera_settings_.setToDefault(this->default_config_);
         this->proc_settings_.setToDefault(this->default_config_);
-        this->sim_settings_.setToDefault(this->default_config_);
+        this->game_settings_.setToDefault(this->default_config_);
         this->layout_settings_.setToDefault(this->default_config_);
     }
 
@@ -326,8 +327,8 @@ namespace gui
         this->default_config_.identification_threshold = this->proc_settings_.identification_threshold;
 
         // poker simulation settings
-        this->default_config_.nr_sim_runs = this->sim_settings_.nr_of_simulation_runs;
-        this->default_config_.nr_opponents = this->sim_settings_.nr_of_human_players;
+        this->default_config_.nr_sim_runs = this->game_settings_.nr_of_simulation_runs;
+        this->default_config_.nr_opponents = this->game_settings_.nr_of_human_players;
         
         this->default_config_.saveConfig();
     };

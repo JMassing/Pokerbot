@@ -3,12 +3,15 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include <random>
 
-#include "Simulation.hpp"
-#include "SimSettings.hpp"
+#include "MonteCarlo.hpp"
+#include "GameSettings.hpp"
 #include "DataPoker.hpp"
 #include "IPokerGui.hpp"
 #include "IPokerDetect.hpp"
+#include "BaseCard.hpp"
+#include "CardAssigner.hpp"
 
 // Coordinates the entities needed to run a monte carlo simulation with the given cards
 namespace poker{
@@ -17,9 +20,20 @@ namespace poker{
         
         private: 
 
-            Simulation sim_;
+            void start();
+            void stop();
+            void processBet(int bet_size);
+
+            GameSettings settings_;
             std::shared_ptr<IPokerGui> gui_interface_;
-            std::shared_ptr<IPokerDetect> detect_interface_; 
+            std::shared_ptr<IPokerDetect> detect_interface_;
+            std::vector<BaseCard> public_cards_;
+            std::vector<BaseCard> robot_cards_; 
+            int game_phase_;
+            
+            const int starting_money_ = 10000;
+            const int big_blind_ = 50;
+            const int small_blind_ = 25;
 
         public:
 
@@ -38,13 +52,16 @@ namespace poker{
             void play();
 
             Game(
-                SimSettings settings,  
+                GameSettings settings,  
                 const bool& log_sim = false
                 ): 
-                sim_(settings, log_sim),
                 data_(),
                 gui_interface_(nullptr),
-                detect_interface_(nullptr)
+                detect_interface_(nullptr),
+                game_phase_(NOT_STARTED),
+                robot_cards_{},
+                public_cards_{},
+                settings_{settings}
             {};
             ~Game() {};   
                 

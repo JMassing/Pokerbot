@@ -2,8 +2,6 @@
 
 #include <memory>
 
-#include "DataPoker.hpp"
-#include "SimSettings.hpp"
 #include "IPokerGui.hpp"
 
 namespace gui {
@@ -13,14 +11,16 @@ namespace gui {
 
 		public:			
 		
-			//Camera Controls
-			poker::SimSettings& sim_settings_;
+			//Poker Controls
+			poker::GameSettings& game_settings_;
 			bool& user_input_;
 			poker::DataPoker data_;
+			int bet_size_;
+			bool bet_placed_;
 
-            poker::SimSettings getSettings() const override
+            poker::GameSettings getSettings() const override
 			{
-				 return this->sim_settings_;
+				 return this->game_settings_;
 			} 
 			
 			bool checkUserInput() const override
@@ -33,13 +33,34 @@ namespace gui {
 				this->data_ = data;
 			}
 
+			poker::DataPoker getData() override
+			{
+				return this->data_;
+			}
+
+			int getBetSize() override
+			{
+				if(this->bet_placed_)
+				{
+					this->bet_placed_ = false;
+					return this->bet_size_;
+				}
+				else
+				{
+					return 0;
+				}
+
+			}
+
         	GuiPokerInterface(
-				poker::SimSettings& settings,
+				poker::GameSettings& settings,
 				bool& input
 				): 
-				sim_settings_(settings), 
+				game_settings_(settings), 
 				user_input_(input),
-				data_()
+				data_(),
+				bet_size_(0),
+				bet_placed_{false}
 			{};
 
 			virtual ~GuiPokerInterface() {};

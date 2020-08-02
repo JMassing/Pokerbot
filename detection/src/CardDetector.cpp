@@ -50,6 +50,7 @@ namespace detect{
     void CardDetector::detectCards()
 	{
         this->cards_.clear();
+		this->data_.cards.clear();
 
 		// get settings from GUI if a GUI is connected
 		if(this->gui_interface_ != nullptr)
@@ -164,15 +165,15 @@ namespace detect{
 			}
 			
 		}	
-    
-        // Assign Cards to Robot or Public Cards  
-        CardAssigner::assignCards(
-			this->cards_, 
-			this->data_.public_cards, 
-			this->data_.robot_cards, 
-			this->game_phase_
-			);
-
+	
+		// Add detected Cards to poker interface
+		for(auto& card: this->cards_)
+		{
+			if(!templates::contains(this->data_.cards.begin(), this->data_.cards.end(), card))
+     		{	
+				 this->data_.cards.emplace_back(card);
+			 }
+		}
 		// send cards to GUI if a GUI is connected
 		if(this->gui_interface_ != nullptr)
 		{

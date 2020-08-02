@@ -10,7 +10,7 @@ namespace gui {
             {
                 ImGui::MenuItem("Settings", NULL, &this->show_settings_win_);
                 ImGui::MenuItem("Live View", NULL, &this->show_live_image_);
-                ImGui::MenuItem("Simulation Results", NULL, &this->show_poker_win_);
+                ImGui::MenuItem("Game Window", NULL, &this->show_poker_win_);
                 ImGui::MenuItem("Card Images", NULL, &this->show_card_image_);
                 ImGui::MenuItem("Rank Images", NULL, &this->show_rank_image_);
                 ImGui::MenuItem("Suit Images", NULL, &this->show_suit_image_);

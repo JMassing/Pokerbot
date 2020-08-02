@@ -3,21 +3,34 @@
 #include <utility>
 #include <vector>
 
-#include "Hand.hpp"
+#include "Player.hpp"
 
 namespace poker
 {
+    const enum phase { NOT_STARTED, HAND_CARDS, FLOP, TURN, RIVER, PLACE_BETS };
+
     struct DataPoker
     {
-        const enum phase { NOT_STARTED, HAND_CARDS, FLOP, TURN, RIVER };
 
-        std::vector<Hand> player_hands;
-        Hand robot_hand;
+        std::vector<Player> players;
         std::pair<double,double> probability;
         int game_phase;
+        int whos_turn;
+        int button_pos;
+        std::vector<Hand> player_hands;
+        Hand robot_hand;
+        std::vector<int> player_money;
 
 
-        DataPoker(): player_hands(), robot_hand(), probability(), game_phase(0) {};
+        DataPoker(): 
+            players(), 
+            probability(), 
+            game_phase(0), 
+            whos_turn(0),
+            player_hands(),
+            robot_hand(),
+            player_money()
+        {};
 		~DataPoker(){};
 
 		// Using default copy and move constructors. 

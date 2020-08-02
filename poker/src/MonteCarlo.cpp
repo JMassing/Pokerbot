@@ -2,8 +2,20 @@
 
 namespace poker{
 
-void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand robot_hand)
-{
+    namespace{
+        // local function to add public card from deck to robot_hand and player hands. 
+        void addCardFromDeck(Hand& robot_hand, std::vector<Hand>& player_hands, const BaseCard& card)
+        {
+            robot_hand.addToHand(card);
+            for(auto& player_hand: player_hands)
+            {
+                player_hand.addToHand(card);
+            }
+        }
+    }
+
+    void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand robot_hand)
+    {
         std::ofstream logfile;
         logfile.open("simlog.txt", std::ios::app);
         if(logfile.is_open())
@@ -32,10 +44,10 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
     }
 
     std::pair<double,double> MonteCarlo::run(
-                SimSettings& settings,
+                const int& iterations,
                 Deck deck,
-                const std::vector<BaseCard>& public_cards,
-                const std::vector<BaseCard>& robot_cards,
+                const std::vector<Player>& players,
+                const int& game_phase,
                 const bool& log_sim
                 )
     {
@@ -44,32 +56,21 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
 
         // set up logging of % of hands dealt in simulation
         std::array<int,9> hand_count{0};
-
-        std::vector<Hand> player_hands{};
-        player_hands.resize(settings.nr_of_human_players, Hand());
         Hand robot_hand{};
+        std::vector<Hand> player_hands{};
 
         // Run Monte Carlo Simulation for given nr of runs.
-        for(int i = 0; i < settings.nr_of_simulation_runs; ++i)
+        for(int i = 0; i < iterations; ++i)
         {
-            // revert hands to build hands from scratch
-            for(auto& hand: player_hands)
-            {
-                hand.clear();
-            }
-            robot_hand.clear();
-            
-            // holds detected public cards. If size < 5, cards will be drawn from Deck and added
-            // until size == 5. These will be then added to the hands
-            std::vector<BaseCard> public_cards_tmp{};
-            public_cards_tmp = public_cards; 
 
-            HandBuilder::buildHands(
-                public_cards_tmp, 
-                robot_cards,
-                player_hands,
-                robot_hand
-            );
+            robot_hand.reset();
+            player_hands.clear();
+            
+            robot_hand = players.at(0).hand;            
+            for(int i = 1; i < players.size(); ++i)
+            {
+                player_hands.emplace_back(players.at(i).hand);
+            }           
 
             // Step 1 reset position in deck and shuffle deck;
             deck.resetPosition();
@@ -77,7 +78,7 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
             // Add hand cards to robot hand, if it is unknown
             for(int i = 0; i < 2; ++i)
             {
-                if(robot_hand.hand_.at(i).rank == UNKNOWN)
+                if(robot_hand.cards_.at(i).rank == UNKNOWN)
                 {
                     robot_hand.addToHand(deck.pullCard());
                 }
@@ -91,90 +92,56 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
             }
 
             // simulate flop, turn, river if not dealt
-            switch(public_cards_tmp.size())
+            switch(game_phase)
             {
                 // pre flop
-                case 0: 
+                case HAND_CARDS: 
+
                     // flop
                     deck.burnCard();
                     for(int i=0; i<3; ++i)
                     {
-                        public_cards_tmp.emplace_back(deck.pullCard());
+                        addCardFromDeck(robot_hand, player_hands, deck.pullCard());
                     }
 
                     // turn
                     deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
+                    addCardFromDeck(robot_hand, player_hands, deck.pullCard());
 
                     // river
                     deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
+                    addCardFromDeck(robot_hand, player_hands, deck.pullCard());
                     break;
 
-                // first flop card dealt
-                case 1: 
+                // pre river
+                case FLOP:
 
-                    //two more flop cards
+                    // turn
                     deck.burnCard();
-                    for(int i=0; i<2; ++i)
+                    addCardFromDeck(robot_hand, player_hands, deck.pullCard());
+
+                    // river
+                    deck.burnCard();
+                    addCardFromDeck(robot_hand, player_hands, deck.pullCard());
+
+                    // add more cards, this is only necessary while flop is
+                    // being dealt and we have less than 3 flop cards    
+                    for(int i=0; i<3; ++i)
                     {
-                        public_cards_tmp.emplace_back(deck.pullCard());
+                        addCardFromDeck(robot_hand, player_hands, deck.pullCard());
                     }
 
-                    // turn
-                    deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
-
-                    // river
-                    deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
-                    break;
-
-                 // secons flop card dealt
-                case 2: 
-
-                    //third flop cards
-                    deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
-                    
-                    // turn
-                    deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
-
-                    // river
-                    deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
                     break;
 
                 // pre river
-                case 3:
-
-                    // turn
-                    deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
+                case TURN:
 
                     // river
                     deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
-                    break;
-
-                // pre river
-                case 4:
-
-                    // river
-                    deck.burnCard();
-                    public_cards_tmp.emplace_back(deck.pullCard());
+                    addCardFromDeck(robot_hand, player_hands, deck.pullCard());
                     break;
             }
-
-            // update hands with simulated drawn public cards
-            HandBuilder::buildHands(
-                public_cards_tmp, 
-                robot_cards,
-                player_hands,
-                robot_hand
-            );      
-           
+          
             // determine winner from hands
             int winner =  WinnerDeterminator::determineWinner(
                 player_hands, 
@@ -206,9 +173,9 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
          std::pair<double,double> probability = 
             std::make_pair(
                 static_cast<double>(nr_of_wins) /
-                static_cast<double>(settings.nr_of_simulation_runs)*100.0, 
+                static_cast<double>(iterations)*100.0, 
                 static_cast<double>(nr_of_ties_with_highest_hand) /
-                static_cast<double>(settings.nr_of_simulation_runs)*100.0
+                static_cast<double>(iterations)*100.0
                 );       
 
         // log hands 
@@ -222,7 +189,7 @@ void MonteCarlo::logRun(const int& winner, std::vector<Hand> player_hands, Hand 
                 {
                     logfile << static_cast<double>(i) << ": " 
                             << static_cast<double>(hand_count.at(i)) /
-                               static_cast<double>(settings.nr_of_simulation_runs)*100.0 
+                               static_cast<double>(iterations)*100.0 
                             << "%" << std::endl;
                 }
                 logfile.close();

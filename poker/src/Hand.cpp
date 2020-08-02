@@ -8,13 +8,13 @@ namespace poker
     //@brief: Checks if Hand already contains card
     bool Hand::containsCard(const BaseCard& card)
     {
-        return templates::contains(this->hand_.begin(), this->hand_.end(), card);
+        return templates::contains(this->cards_.begin(), this->cards_.end(), card);
     }
 
     //@brief: Checks if Hand contains rank 
     bool Hand::containsRank(const int& rank)
     {
-         return templates::contains(this->hand_.begin(), this->hand_.end(), rank, 
+         return templates::contains(this->cards_.begin(), this->cards_.end(), rank, 
                     [](const auto& lhs, const auto& rhs)
                     {
                         return lhs.rank == rhs;
@@ -25,7 +25,7 @@ namespace poker
      //@brief: Checks if Hand contains suit 
     bool Hand::containsSuit(const int& suit)
     {
-        return templates::contains(this->hand_.begin(), this->hand_.end(), suit, 
+        return templates::contains(this->cards_.begin(), this->cards_.end(), suit, 
                     [](const auto& lhs, const auto& rhs)
                     {
                         return lhs.suit == rhs;
@@ -38,12 +38,12 @@ namespace poker
     {
         if(!this->containsCard(card))
         {
-            for(int i=0; i<this->hand_.size(); i++)
+            for(int i=0; i<this->cards_.size(); i++)
             {
                 //replace first unknown card in hand with card
-                if(this->hand_.at(i) == BaseCard())    
+                if(this->cards_.at(i) == BaseCard())    
                 {
-                    this->hand_.at(i) = card;
+                    this->cards_.at(i) = card;
                     return;
                 }
             }    
@@ -55,7 +55,7 @@ namespace poker
     {
         Mapping mapping;
         std::stringstream out;
-        for(const auto& card: this->hand_)
+        for(const auto& card: this->cards_)
         { 
             std::string rank = mapping.text_mappings.right.at(card.rank);
 			std::string	suit = mapping.text_mappings.right.at(card.suit);
@@ -69,7 +69,7 @@ namespace poker
     //@brief sort cards in hand by rank in ascending order
     void Hand::sort()
     {
-        std::sort(this->hand_.begin(), this->hand_.end(), [](const auto& lhs, const auto& rhs)
+        std::sort(this->cards_.begin(), this->cards_.end(), [](const auto& lhs, const auto& rhs)
             {
                 return lhs.rank > rhs.rank;
             }
@@ -77,13 +77,14 @@ namespace poker
         
     }
 
-    void Hand::clear()
+    void Hand::reset()
     {
-        for(auto& card : this->hand_)
+        for(auto& card : this->cards_)
         {
             card = BaseCard(UNKNOWN, UNKNOWN);
         }
 
         this->high_cards_.fill(UNKNOWN);
     }
+
 }//end namespace poker
