@@ -15,7 +15,6 @@ namespace poker
 			virtual bool checkUserInput() const = 0;
 			virtual void setData(const DataPoker& data) = 0;
 			virtual DataPoker getData() = 0;
-			virtual int getBetSize() = 0;
 			virtual ~IPokerGui() {};
 	};
 

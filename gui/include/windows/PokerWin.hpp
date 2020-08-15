@@ -7,6 +7,8 @@
 #include "LayoutConfig.hpp"
 #include "GuiPokerInterface.hpp"
 #include "PlaceBetWin.hpp"
+#include "WhoWonWin.hpp"
+#include "NextRoundWin.hpp"
 
 namespace gui {
 
@@ -16,9 +18,13 @@ namespace gui {
 		
 		Mapping mapping_;
 		LayoutConfig& layout_settings_;
-		std::shared_ptr<GuiPokerInterface> poker_if_;
+		std::shared_ptr<GuiPokerInterface>& poker_if_;
 		PlaceBetWin place_bet_win_;
+		WhoWonWin who_won_win_;
+		NextRoundWin next_round_win_;
 		bool show_place_bet_win_;
+		bool show_who_won_win_;
+		bool show_next_round_win_;
 		
 		public:
 
@@ -36,7 +42,11 @@ namespace gui {
 				layout_settings_{layout_settings},
 				poker_if_(poker_if),	
 				show_place_bet_win_(false),
-				place_bet_win_("", this->show_place_bet_win_, poker_if, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize)			
+				show_who_won_win_(false),
+				show_next_round_win_(false),
+				place_bet_win_("", this->show_place_bet_win_, poker_if, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize),
+				who_won_win_("", this->show_who_won_win_, poker_if, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize),			
+				next_round_win_("", this->show_next_round_win_, poker_if, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize)			
 			{};
 
 			virtual ~PokerWin() {};

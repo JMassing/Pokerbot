@@ -5,12 +5,17 @@ namespace gui
     void LiveImageWin::print_instructions(cv::Mat& live_image)
     {
         std::string instructions = "";
-        switch(this->game_state_)
+        switch(this->game_phase_)
         {
             case 1: instructions = "Deal Robot Hand Cards."; break;
-            case 2: instructions = "Deal flop."; break;
-            case 3: instructions = "Deal turn."; break;
-            case 4: instructions = "Deal river."; break;
+            case 2: instructions = "Place Bets."; break;
+            case 3: instructions = "Deal flop."; break;
+            case 4: instructions = "Place Bets."; break;
+            case 5: instructions = "Deal turn."; break;
+            case 6: instructions = "Place Bets."; break;
+            case 7: instructions = "Deal river."; break;
+            case 8: instructions = "Place Bets."; break;
+            case 9: instructions = "Showdown."; break;
             default: instructions = "";
         }
 
@@ -37,11 +42,12 @@ namespace gui
                     this->cards_, 
                     shown_image.image, 
                     this->controls_.card_outline_color,
+                    this->game_phase_,
                     this->controls_.mask_robot_cards
                     );
             }              
 
-            if(this->game_state_ != 0)
+            if(this->game_phase_ != 0)
             {
                 this->print_instructions(shown_image.image);
             }

@@ -7,7 +7,7 @@
 
 namespace poker
 {
-    const enum phase { NOT_STARTED, HAND_CARDS, FLOP, TURN, RIVER, PLACE_BETS };
+    const enum phase { NOT_STARTED, HAND_CARDS, BET_HAND, FLOP, BET_FLOP, TURN, BET_TURN, RIVER, BET_RIVER, SHOW_DOWN };
 
     struct DataPoker
     {
@@ -17,19 +17,25 @@ namespace poker
         int game_phase;
         int whos_turn;
         int button_pos;
-        std::vector<Hand> player_hands;
-        Hand robot_hand;
-        std::vector<int> player_money;
+        int highest_bet;
+        int winner;
+        int pot_size;
+        bool next_round;
 
+    	void nextPlayer()
+        {
+            this->whos_turn = (this->whos_turn + 1) % this->players.size();
+        }
 
         DataPoker(): 
             players(), 
             probability(), 
             game_phase(0), 
             whos_turn(0),
-            player_hands(),
-            robot_hand(),
-            player_money()
+            highest_bet(0),
+            winner(-1),
+            pot_size(0),
+            next_round(false)
         {};
 		~DataPoker(){};
 

@@ -17,13 +17,14 @@ namespace gui
         const std::vector<std::vector<cv::Point> >& contours, 
         cv::Mat& dst, 
         const cv::Scalar& color,
+        const int& game_phase,
         const bool& fill_contours
         )
 	{
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), dst.type());
         
         // Set thickness to filled and contour color to solid white if contours should be filled
-        int thickness = fill_contours ? -1 : 2;
+        int thickness = (fill_contours && game_phase < 3) ? -1 : 2;
         cv::Scalar contour_color = fill_contours ?  cv::Scalar{255, 255, 255} : color;
 
 		for (int i = 0; i < contours.size(); ++i) 
@@ -134,6 +135,7 @@ namespace gui
         const std::vector<detect::Card>& cards, 
         cv::Mat& dst, 
         const cv::Scalar& color,
+        const int& game_phase,
         const bool& mask_cards
         )
 	{
@@ -150,9 +152,9 @@ namespace gui
 		//
 		if(contours.size() > 0)
 		{
-			this->drawContours(contours, dst, color, mask_cards);
+			this->drawContours(contours, dst, color, game_phase, mask_cards);
 
-			mask_cards ? "" : this->writeCard(dst, cards, color);
+			(mask_cards && game_phase < 3) ? "" : this->writeCard(dst, cards, color);
 		}		
 	}
 

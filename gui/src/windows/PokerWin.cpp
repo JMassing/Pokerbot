@@ -19,7 +19,6 @@ namespace gui{
             }
 
      
-            // Show player hands
             int player_nr = 0;
             for(const auto& player: this->poker_if_->data_.players)
             {
@@ -36,7 +35,7 @@ namespace gui{
                 }
                 else
                 {
-                    player_string = "Player" + std::to_string(player_nr) +  " Hand:";                                                                                  
+                    player_string = "Player " + std::to_string(player_nr) +  " Hand:";                                                                                  
                 }
 
                 ImGui::Text(player_string.c_str());
@@ -55,26 +54,62 @@ namespace gui{
                 ++player_nr;
             }
 
-            // Show Player Money
-            ImGui::NewLine();
-            player_nr = 0;
-            for(const auto& player: this->poker_if_->data_.players)
-            {
-                std::string money_str = std::to_string(player.money);                
-                std::string text = (player_nr < 1) ? "Robot money: " + money_str : 
-                                                     "Player " + std::to_string(player_nr) 
-                                                        + " money: " + money_str;
+         
+              // Game Information
+            int phase = this->poker_if_->data_.game_phase;
 
-                ImGui::Text(text.c_str());
-                ++player_nr;
-            }                
+            // show who has the button
+            if(phase != poker::NOT_STARTED)
+            {
+                ImGui::NewLine();
+                std::string button_string = (this->poker_if_->data_.button_pos == 0) ? 
+                    "Robot" : ("Player " + std::to_string(this->poker_if_->data_.button_pos));  
+                std::string button_text = button_string + " has button";
+                ImGui::Text(button_text.c_str());
+            
+                // Show Player Money and currend bet
+                player_nr = 0;
+                for(const auto& player: this->poker_if_->data_.players)
+                {
+                    std::string money_str = std::to_string(player.money);    
+                    std::string bet_str = (player.current_decision == poker::FOLD) ?
+                        "FOLD" : std::to_string(player.money_bet_in_phase);                
+                
+                    std::string text = (player_nr < 1) ? 
+                        "Robot money: " + money_str + ", Bet size: " + bet_str :    
+                        "Player " + std::to_string(player_nr) + " money: " + money_str + 
+                        ", Bet size: " + bet_str;
+
+                    ImGui::Text(text.c_str());
+                    ++player_nr;
+                }        
+
+                  // show pot size
+                std::string pot_size = "Pot size: " + std::to_string(this->poker_if_->data_.pot_size);       
+                ImGui::Text(pot_size.c_str()); 
+            }
 
             // Place Bets
-            if(this->poker_if_->data_.game_phase == poker::PLACE_BETS)
+            if( phase == poker::BET_HAND || phase == poker::BET_FLOP ||
+                phase == poker::BET_RIVER || phase == poker::BET_TURN )
             {
                 this->show_place_bet_win_ = true;
                 place_bet_win_.draw();
             }  
+
+            //Check who won in showdown
+            if(phase == poker::SHOW_DOWN && this->poker_if_->data_.winner < 0)
+            {
+                this->show_who_won_win_ = true;
+                who_won_win_.draw();
+            }
+
+            // Next round if we have a winner
+            if(this->poker_if_->data_.winner >= 0)
+            {
+                this->show_next_round_win_ = true;
+                this->next_round_win_.draw();
+            }
                                 
             ImGui::End();
         }

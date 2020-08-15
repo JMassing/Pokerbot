@@ -9,20 +9,20 @@
 
 namespace gui {
 
-	class PlaceBetWin: public IWindow
+	class WhoWonWin: public IWindow
 	{
 		private:
 		
 		InputField input_field_;
 		Button button_;
 		std::shared_ptr<GuiPokerInterface>& poker_if_; 
-		int bet_size_;
+		int winner_;
 
 		public:
 			
 			void draw() override;
 	
-			PlaceBetWin(
+			WhoWonWin(
 				const std::string& name, 
 				bool& show, 
 				std::shared_ptr<GuiPokerInterface>& poker_if,
@@ -32,15 +32,15 @@ namespace gui {
 				poker_if_(poker_if),
 				input_field_(), 
 				button_(),
-				bet_size_(0)
+				winner_(0)
 			{};
-			virtual ~PlaceBetWin() {};
+			virtual ~WhoWonWin() {};
 
 			// Using default copy and move constructors. 
-			PlaceBetWin(const PlaceBetWin& other) = default;	
-			PlaceBetWin& operator=(const PlaceBetWin& other) = default;
-			PlaceBetWin(PlaceBetWin&& other) noexcept = default;
-			PlaceBetWin& operator=(PlaceBetWin&& other) noexcept = default;
+			WhoWonWin(const WhoWonWin& other) = default;	
+			WhoWonWin& operator=(const WhoWonWin& other) = default;
+			WhoWonWin(WhoWonWin&& other) noexcept = default;
+			WhoWonWin& operator=(WhoWonWin&& other) noexcept = default;
 	};
 
 } // namespace gui

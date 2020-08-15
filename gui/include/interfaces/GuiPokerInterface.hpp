@@ -15,8 +15,6 @@ namespace gui {
 			poker::GameSettings& game_settings_;
 			bool& user_input_;
 			poker::DataPoker data_;
-			int bet_size_;
-			bool bet_placed_;
 
             poker::GameSettings getSettings() const override
 			{
@@ -38,29 +36,13 @@ namespace gui {
 				return this->data_;
 			}
 
-			int getBetSize() override
-			{
-				if(this->bet_placed_)
-				{
-					this->bet_placed_ = false;
-					return this->bet_size_;
-				}
-				else
-				{
-					return 0;
-				}
-
-			}
-
         	GuiPokerInterface(
 				poker::GameSettings& settings,
 				bool& input
 				): 
 				game_settings_(settings), 
 				user_input_(input),
-				data_(),
-				bet_size_(0),
-				bet_placed_{false}
+				data_()
 			{};
 
 			virtual ~GuiPokerInterface() {};

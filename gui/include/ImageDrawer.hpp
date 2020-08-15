@@ -35,6 +35,7 @@ namespace gui {
 				const std::vector<std::vector<cv::Point> >& contours, 
 				cv::Mat& dst,
 				const cv::Scalar& color,
+				const int& game_phase,
 				const bool& fill_contours = false
 				);	
 
@@ -54,6 +55,7 @@ namespace gui {
 				const std::vector<detect::Card>& cards, 
 				cv::Mat& dst, 
 				const cv::Scalar& color,
+				const int& game_phase,
 				const bool& mask_cards = false
 				);
 

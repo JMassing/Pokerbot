@@ -24,7 +24,6 @@ namespace poker{
             bool containsSuit(const int& suit);
             void sort();
             void reset();
-            void clear();
 
             Hand(): ranking_{}, high_cards_{0}
             {

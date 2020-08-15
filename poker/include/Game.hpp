@@ -22,7 +22,17 @@ namespace poker{
 
             void start();
             void stop();
-            void processBet(int bet_size);
+            void processBet();
+    	    bool haveAllPlayersDecided();
+            bool hasPlayerRaised();
+            void processPlayerDecisions();
+            void resetPhase();
+            bool getWinner();
+            void startNextRound();
+            void setGamePhase();
+            void calcPotSize();
+            bool isPlayerAllIn();
+            bool hasPlayerNoMoney();
 
             GameSettings settings_;
             std::shared_ptr<IPokerGui> gui_interface_;
@@ -30,7 +40,7 @@ namespace poker{
             std::vector<BaseCard> public_cards_;
             std::vector<BaseCard> robot_cards_; 
             int game_phase_;
-            
+                        
             const int starting_money_ = 10000;
             const int big_blind_ = 50;
             const int small_blind_ = 25;

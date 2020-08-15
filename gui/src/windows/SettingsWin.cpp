@@ -21,14 +21,18 @@ namespace gui
             this->input_ |= ImGui::Checkbox("Mask Robot Cards", &this->layout_settings_.mask_robot_cards);
             this->input_ |= ImGui::Checkbox("Show Probability", &this->layout_settings_.show_probability);
             this->input_ |= ImGui::Checkbox("Show Robot Hand", &this->layout_settings_.show_robot_hand);
-            this->input_ |= this->input_field_.draw(
+            
+            // preparation for making it possible to play with multiple human players. Right now deactivated
+            // as side pots are not implemented yet.
+
+            /*this->input_ |= this->input_field_.draw(
                 "# of Opponents", 
                 this->min_players_, 
                 this->max_players_, 
                 this->game_settings_.nr_of_human_players, 
                 true
             ); ImGui::SameLine(); 
-            this->helpMarker("Nr of opponents playing against the bot.");  
+            this->helpMarker("Nr of opponents playing against the bot."); */ 
 
             this->input_ |= this->slider_.draw(
                 "# of simulation runs", 

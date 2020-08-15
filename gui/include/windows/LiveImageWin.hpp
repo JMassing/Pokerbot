@@ -19,7 +19,7 @@ namespace gui {
 			Image& live_frame_;
 			LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
-			int& game_state_;
+			int& game_phase_;
 			
 			void print_instructions(cv::Mat& live_image);
 
@@ -40,7 +40,7 @@ namespace gui {
 				live_frame_(live_frame), 
 				controls_(controls), 
 				cards_{cards},
-				game_state_{game_state}
+				game_phase_{game_state}
 			{};
 				
 			virtual ~LiveImageWin() {};
