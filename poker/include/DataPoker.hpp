@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Player.hpp"
+#include "BaseCard.hpp"
 
 namespace poker
 {
@@ -21,6 +22,7 @@ namespace poker
         int winner;
         int pot_size;
         bool next_round;
+        std::vector<BaseCard> robot_cards; 
 
     	void nextPlayer()
         {

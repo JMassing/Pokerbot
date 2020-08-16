@@ -17,14 +17,13 @@ namespace gui
         const std::vector<std::vector<cv::Point> >& contours, 
         cv::Mat& dst, 
         const cv::Scalar& color,
-        const int& game_phase,
         const bool& fill_contours
         )
 	{
 		cv::Mat drawing = cv::Mat::zeros(dst.size(), dst.type());
         
         // Set thickness to filled and contour color to solid white if contours should be filled
-        int thickness = (fill_contours && game_phase < 3) ? -1 : 2;
+        int thickness = fill_contours ? -1 : 2;
         cv::Scalar contour_color = fill_contours ?  cv::Scalar{255, 255, 255} : color;
 
 		for (int i = 0; i < contours.size(); ++i) 
@@ -39,7 +38,7 @@ namespace gui
 	//@brief: Writes card Rank/Suit into image. Writes approx. into middle of card contour
 	void ImageDrawer::writeCard(
         cv::Mat& src, 
-        const std::vector<detect::Card>& cards, 
+        const detect::Card& card, 
         const cv::Scalar& color
         )
 	{
@@ -49,21 +48,19 @@ namespace gui
 		std::string text;
 		Mapping mapping;
 
-		for (int i = 0; i < cards.size(); ++i)
-		{	
-			if (cards[i].suit == UNKNOWN || cards[i].rank == UNKNOWN)
-			{
-				text = "Unknown";
-			}
-			else
-			{
-				rank = mapping.image_mappings.right.at(cards[i].rank);
-				suit = mapping.image_mappings.right.at(cards[i].suit);
-				text = rank + " of " + suit;
-			}
-			this->printText(src, text, cards[i].center_point-cv::Point(50,0), color);
+	
+		if (card.suit == UNKNOWN || card.rank == UNKNOWN)
+		{
+			text = "Unknown";
 		}
-
+		else
+		{
+			rank = mapping.image_mappings.right.at(card.rank);
+			suit = mapping.image_mappings.right.at(card.suit);
+			text = rank + " of " + suit;
+		}
+		this->printText(src, text, card.center_point-cv::Point(50,0), color);
+		
 	}
     
     //@brief: Copy text to given image
@@ -131,30 +128,28 @@ namespace gui
     }
 
     //@brief: Copy Card Contours and Rank/Suits as Text to image. Used to visualize Cards in given frame.
-	void ImageDrawer::drawCards(
-        const std::vector<detect::Card>& cards, 
+	void ImageDrawer::drawCard(
+        const detect::Card& card, 
         cv::Mat& dst, 
         const cv::Scalar& color,
-        const int& game_phase,
         const bool& mask_cards
         )
 	{
 		std::vector<std::vector<cv::Point> > contours;
-		for (const auto& card : cards)
+		
+		// make sure card has a contour
+		if(card.contour.size() > 0)
 		{
-			// make sure card has a contour
-			if(card.contour.size() > 0)
-			{
-				contours.emplace_back(card.contour);
-			}
+			contours.emplace_back(card.contour);
 		}
+		
 		
 		//
 		if(contours.size() > 0)
 		{
-			this->drawContours(contours, dst, color, game_phase, mask_cards);
+			this->drawContours(contours, dst, color, mask_cards);
 
-			(mask_cards && game_phase < 3) ? "" : this->writeCard(dst, cards, color);
+			mask_cards ? "" : this->writeCard(dst, card, color);
 		}		
 	}
 

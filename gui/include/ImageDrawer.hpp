@@ -27,7 +27,7 @@ namespace gui {
 
 			void writeCard(
 				cv::Mat& src, 
-				const std::vector<detect::Card>& cards, 
+				const detect::Card& card, 
 				const cv::Scalar& color
 				);
 			
@@ -35,7 +35,6 @@ namespace gui {
 				const std::vector<std::vector<cv::Point> >& contours, 
 				cv::Mat& dst,
 				const cv::Scalar& color,
-				const int& game_phase,
 				const bool& fill_contours = false
 				);	
 
@@ -51,11 +50,10 @@ namespace gui {
 
 			void draw(const cv::Mat& frame, const int& image_width, const int& image_height);
 
-			void drawCards(
-				const std::vector<detect::Card>& cards, 
+			void drawCard(
+				const detect::Card& card, 
 				cv::Mat& dst, 
 				const cv::Scalar& color,
-				const int& game_phase,
 				const bool& mask_cards = false
 				);
 

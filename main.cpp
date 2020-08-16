@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
 		settings_window.layout_settings_, 
 		gui_capture_interface->live_image_, 
 		gui_detection_interface->cards_,
-		gui_poker_interface->data_.game_phase,
+		gui_poker_interface->data_,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 

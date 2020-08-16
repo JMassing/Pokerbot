@@ -376,6 +376,7 @@ namespace poker{
         // send hands to GUI if a GUI is connected
         if(this->gui_interface_ != nullptr)
         {
+            this->data_.robot_cards = this->robot_cards_;
             this->data_.game_phase = this->game_phase_;
             this->gui_interface_->setData(this->data_);
         }

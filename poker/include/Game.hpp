@@ -42,8 +42,8 @@ namespace poker{
             int game_phase_;
                         
             const int starting_money_ = 10000;
-            const int big_blind_ = 50;
-            const int small_blind_ = 25;
+            const int big_blind_ = 100;
+            const int small_blind_ = 50;
 
         public:
 

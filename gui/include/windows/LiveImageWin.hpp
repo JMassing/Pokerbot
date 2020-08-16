@@ -8,6 +8,8 @@
 #include "Image.hpp"
 #include "LayoutConfig.hpp"
 #include "Card.hpp"
+#include "DataPoker.hpp"
+#include "TemplateFunctions.hpp"
 
 namespace gui {
 
@@ -19,7 +21,7 @@ namespace gui {
 			Image& live_frame_;
 			LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
-			int& game_phase_;
+			poker::DataPoker& data_poker_;
 			
 			void print_instructions(cv::Mat& live_image);
 
@@ -33,14 +35,14 @@ namespace gui {
 				LayoutConfig& controls, 
 				Image& live_frame, 
 				std::vector<detect::Card>& cards,
-				int& game_state,
+				poker::DataPoker& data_poker,
 				const int& flag = 0
 				): 
 				IWindow(name, show, flag), 
 				live_frame_(live_frame), 
 				controls_(controls), 
 				cards_{cards},
-				game_phase_{game_state}
+				data_poker_{data_poker}
 			{};
 				
 			virtual ~LiveImageWin() {};
