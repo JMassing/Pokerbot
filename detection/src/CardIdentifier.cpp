@@ -64,33 +64,56 @@ namespace detect{
 		}		
 	}
 
-    int CardIdentifier::compareToTrainImage(
+     std::pair<int, std::string> CardIdentifier::compareToTrainImage(
         const cv::Mat& image, 
-        std::vector<TrainImage> train_images
+        std::vector<TrainImage> rank_images,
+		std::vector<TrainImage> suit_images
         )
     {
 		Mapping mapping;
         double score = 10000.0;
         int count = 0;
         int val = Cards::UNKNOWN;
+		std::string type = "UNKNOWN";
 
-		for (auto &train_image: train_images)
+		for (const auto& rank_image: rank_images)
 		{
-			double tmp_score = this->compareImages(image, train_image.getImage());
+			double tmp_score = this->compareImages(image, rank_image.getImage().image);
 
 			if (tmp_score < score)
 			{
 				score = tmp_score;
-				std::string name = train_images.at(count).getLabel();	
+				std::string name = rank_images.at(count).getLabel();	
 				if (score < this->max_score_)
 				{
 					val = mapping.image_mappings.left.at(name);
+					type = "rank";
 				}
 			}
 			
             count++;
 		}
-        return val;
+
+		count = 0;
+		for (const auto& suit_image: suit_images)
+		{
+			double tmp_score = this->compareImages(image, suit_image.getImage().image);
+
+			if (tmp_score < score)
+			{
+				score = tmp_score;
+				std::string name = suit_images.at(count).getLabel();	
+				if (score < this->max_score_)
+				{
+					val = mapping.image_mappings.left.at(name);
+					type = "suit";
+				}
+			}
+			
+            count++;
+		}
+
+        return std::make_pair(val, type);
     }
 
     //@brief: Identifies what card is shown in card image
@@ -137,54 +160,75 @@ namespace detect{
 		// Identify suit and Rank of card
 		if (bounding_box.size() > 1)
 		{
-			cv::Mat rank, suit;
+			cv::Mat img1, img2;
 			
-			// sort contours for size. Rank has the largest bounding box, 
-            // whereas suit has the second largest
+			// sort contours for size. Rank and suit have the 
+			// two largest bounding boxes
 			std::sort(
                 bounding_box.begin(), 
                 bounding_box.end(), 
                 [](const cv::Rect& lhs, const cv::Rect& rhs) {return lhs.area() > rhs.area();}
                 );
 
-			rank = card_zoom(bounding_box.at(0)).clone();
-			suit = card_zoom(bounding_box.at(1)).clone();
+			img1 = card_zoom(bounding_box.at(0)).clone();
+			img2 = card_zoom(bounding_box.at(1)).clone();
 		
-			cv::Mat rank_binary, suit_binary;
+			cv::Mat img1_binary, img2_binary;
+
+			// resize suit train image to match rank train image size
+			for(auto& img : train_suits_)
+			{
+				cv::Mat img_temp = img.getImage().image;
+				cv::resize(img_temp, img_temp, train_ranks_.at(0).getImage().image.size(), 0, 0, cv::INTER_LINEAR);
+				img.setImage(Image(img_temp));
+			}
 
 			// Binarize rank and suit image			
-			rank_binary.create(
-                this->train_ranks_[0].getImage().size(), 
-                this->train_ranks_[0].getImage().type()
+			img1_binary.create(
+                this->train_ranks_.at(0).getImage().image.size(), 
+                this->train_ranks_.at(0).getImage().image.type()
                 );
 
-			suit_binary.create(
-                this->train_suits_[0].getImage().size(), 
-                this->train_suits_[0].getImage().type()
+			img2_binary.create(
+                this->train_ranks_.at(0).getImage().image.size(), 
+                this->train_ranks_.at(0).getImage().image.type()
                 );
 
-			cv::resize(rank, rank, rank_binary.size(), 0, 0, cv::INTER_LINEAR);
+			cv::resize(img1, img1, img1_binary.size(), 0, 0, cv::INTER_LINEAR);
 			ContourFinder::binarizeImage(
-                rank, 
-                rank_binary, 
+                img1, 
+                img1_binary, 
                 this->binarization_threshold_, 
                 cv::THRESH_BINARY_INV
                 );
 
-			cv::resize(suit, suit, suit_binary.size(), 0, 0, cv::INTER_LINEAR); 
+			cv::resize(img2, img2, img2_binary.size(), 0, 0, cv::INTER_LINEAR); 
 			ContourFinder::binarizeImage(
-                suit, suit_binary, 
+                img2, img2_binary, 
                 this->binarization_threshold_, 
                 cv::THRESH_BINARY_INV
                 );
 
-			card.rank_image.image = rank_binary;
-			card.suit_image.image = suit_binary;
- 
 			// Compare to train images
 			
-            card.rank = this->compareToTrainImage(rank_binary, this->train_ranks_);
-            card.suit = this->compareToTrainImage(suit_binary, this->train_suits_);		
+            std::pair<int, std::string> result_img1 = this->compareToTrainImage(img1_binary, this->train_ranks_, this->train_suits_);
+            std::pair<int, std::string> result_img2 = this->compareToTrainImage(img2_binary, this->train_ranks_, this->train_suits_);	
+
+			if(result_img1.second == "rank")
+			{
+				card.rank =  result_img1.first;
+				card.rank_image.image = img1_binary;
+				card.suit = result_img2.first;
+				card.suit_image.image = img2_binary;
+			}
+			else
+			{
+				card.rank =  result_img2.first;
+				card.rank_image.image = img2_binary;
+				card.suit = result_img1.first;
+				card.suit_image.image = img1_binary;
+			}
+ 	
 		}
 		else 
 		{

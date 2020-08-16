@@ -13,6 +13,7 @@
         cv::Mat image;
 
         Image() : image{} { };
+        explicit Image(cv::Mat img) : image{img} { };
         ~Image() {};
 
         // Make sure we do a deep copy the images when we use copy constructors.

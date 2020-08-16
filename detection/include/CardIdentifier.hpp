@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <utility>
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -49,9 +50,10 @@ namespace detect
 
            	double compareImages(const cv::Mat &src, const cv::Mat &dst);		
 
-            int compareToTrainImage(
+            std::pair<int, std::string> compareToTrainImage(
                 const cv::Mat& image, 
-                std::vector<TrainImage> train_images
+                std::vector<TrainImage> rank_images,
+                std::vector<TrainImage> suit_images
                 );	
 
 		public:    

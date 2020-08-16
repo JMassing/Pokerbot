@@ -13,15 +13,17 @@ namespace detect {
 	class TrainImage
 	{
 		private:
-			Image image_;
 			std::string label_;
+			Image image_;
 
 			void readImage(const std::string & filename);
 			void readLabel(const std::string & filename);		
 
 		public:
 
-			cv::Mat getImage() const { return this->image_.image; } 
+			
+			Image getImage() const { return this->image_; } 
+			void setImage(Image image){this->image_ = image;}
 			std::string getLabel() const { return this->label_; }
 
 			TrainImage(){};
