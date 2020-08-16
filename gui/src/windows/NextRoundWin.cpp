@@ -8,10 +8,18 @@ namespace gui
         if(this->show_)
         {
             ImGui::Begin(this->name_.c_str(), &this->show_, this->flag_);
-
-            std::string winner_string = (this->poker_if_->data_.winner == 0) ?
-                "Robot " : ("Player " + std::to_string(this->poker_if_->data_.winner));
-            std::string winner_text = winner_string + " has won!";
+            
+            std::string winner_text = "";
+            if(this->poker_if_->data_.winner == -1)
+            {
+                winner_text = "We have a tie.";
+            }
+            else
+            {
+                std::string winner_string = (this->poker_if_->data_.winner == 0) ?
+                    "Robot " : ("Player " + std::to_string(this->poker_if_->data_.winner));
+                winner_text = winner_string + " has won!";
+            }
             ImGui::Text(winner_text.c_str());
             ImGui::Text("Please remove all Cards and hit next to start next round.");
 

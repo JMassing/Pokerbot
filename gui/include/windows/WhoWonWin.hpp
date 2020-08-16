@@ -32,7 +32,7 @@ namespace gui {
 				poker_if_(poker_if),
 				input_field_(), 
 				button_(),
-				winner_(0)
+				winner_(-1)
 			{};
 			virtual ~WhoWonWin() {};
 

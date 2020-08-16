@@ -124,7 +124,7 @@ namespace poker{
     bool Game::getWinner()
     {
         // Check if all players except for one have folded.
-        int winner = -1;
+        int winner = -2;
         int nr_players_not_folded = 0;
         int i = 0;
         for(const auto& player: this->data_.players)
@@ -155,15 +155,29 @@ namespace poker{
             (this->data_.button_pos + 3) % (this->settings_.nr_of_human_players + 1);
         this->resetPhase();
 
+        //add pot to winner or tie pot
+        if(this->data_.winner >= 0)
+        {
+            this->data_.players.at(this->data_.winner).money += this->data_.pot_size;
+        }
+        else
+        {
+            // we had a tie, everybody gets their money back
+            for(auto& player: this->data_.players)
+            {
+                player.money += player.money_in_play;
+            }
+        }
+        
         for(auto& player: this->data_.players)
         {
             player.hand.reset();
             player.money_in_play = 0;
             player.has_folded = false;
-        }
+        }        
 
         // reset winner
-        this->data_.winner = -1;
+        this->data_.winner = -2;
         this->data_.next_round = false;
 
         //clear robot cards
@@ -339,7 +353,6 @@ namespace poker{
             // start next round, if user confirmed to start it
             if(this->data_.next_round && this->detect_interface_->getData().cards.size() == 0)
             {
-                this->data_.players.at(this->data_.winner).money += this->data_.pot_size;
                 this->startNextRound();
             }
             else if(this->data_.next_round && this->public_cards_.size() > 0)

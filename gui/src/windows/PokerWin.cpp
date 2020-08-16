@@ -98,14 +98,14 @@ namespace gui{
             }  
 
             //Check who won in showdown
-            if(phase == poker::SHOW_DOWN && this->poker_if_->data_.winner < 0)
+            if(phase == poker::SHOW_DOWN && this->poker_if_->data_.winner < -1)
             {
                 this->show_who_won_win_ = true;
                 who_won_win_.draw();
             }
 
             // Next round if we have a winner
-            if(this->poker_if_->data_.winner >= 0)
+            if(this->poker_if_->data_.winner >= -1)
             {
                 this->show_next_round_win_ = true;
                 this->next_round_win_.draw();

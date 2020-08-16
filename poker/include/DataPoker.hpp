@@ -33,7 +33,7 @@ namespace poker
             game_phase(0), 
             whos_turn(0),
             highest_bet(0),
-            winner(-1),
+            winner(-2),
             pot_size(0),
             next_round(false)
         {};
