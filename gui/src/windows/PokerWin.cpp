@@ -90,8 +90,9 @@ namespace gui{
             }
 
             // Place Bets
-            if( phase == poker::BET_HAND || phase == poker::BET_FLOP ||
-                phase == poker::BET_RIVER || phase == poker::BET_TURN )
+            if( (phase == poker::BET_HAND || phase == poker::BET_FLOP ||
+                phase == poker::BET_RIVER || phase == poker::BET_TURN) 
+                && this->poker_if_->data_.winner < -1 )
             {
                 this->show_place_bet_win_ = true;
                 place_bet_win_.draw();

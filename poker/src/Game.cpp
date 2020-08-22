@@ -355,13 +355,14 @@ namespace poker{
             {
                 this->startNextRound();
             }
-            else if(this->data_.next_round && this->public_cards_.size() > 0)
+            /*else if(this->data_.next_round && this->public_cards_.size() > 0)
             {
                 this->data_.next_round = false;
             }
+            */
             else
             {
-                // do nothing
+                this->data_.next_round = false;
             }
         }
         else if(this->detect_interface_ == nullptr && this->game_phase_ > NOT_STARTED)
