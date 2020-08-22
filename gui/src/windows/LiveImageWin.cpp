@@ -5,7 +5,7 @@ namespace gui
     void LiveImageWin::print_instructions(cv::Mat& live_image)
     {
         std::string instructions = "";
-        switch(this->data_poker_.game_phase)
+        switch(this->poker_if_->data_.game_phase)
         {
             case 1: instructions = "Deal Robot Hand Cards."; break;
             case 2: instructions = "Place Bets."; break;
@@ -41,37 +41,17 @@ namespace gui
                
                 for(const auto& card: this->cards_)
                 {
-                    // mask card if we want to mask robot cards and are befor flop since there 
-                    // should only be robot cards in the image
-                    bool mask_card = ( this->controls_.mask_robot_cards && 
-                                        this->data_poker_.game_phase < poker::FLOP) ? 
-                                        true : false;
-                    // also mask robot cards in later stages if they are still there. 
-                    // For show down they should be unmasked. 
-                    if( this->controls_.mask_robot_cards && 
-                        this->data_poker_.game_phase >= poker::FLOP && 
-                        this->data_poker_.game_phase < poker::SHOW_DOWN &&
-                        templates::contains(this->data_poker_.robot_cards.begin(), 
-                                            this->data_poker_.robot_cards.end(), card) 
-                      )
-                    {
-                        mask_card = true;
-                    }
-                    else
-                    {
-                        //do nothing
-                    }
 
                     this->drawer_.drawCard(
                         card, 
                         shown_image.image, 
                         this->controls_.card_outline_color,
-                        mask_card
+                        this->poker_if_->isCardMasked(this->controls_.mask_robot_cards, card)
                         );
                 }
             }              
 
-            if(this->data_poker_.game_phase != 0)
+            if(this->poker_if_->data_.game_phase != 0)
             {
                 this->print_instructions(shown_image.image);
             }

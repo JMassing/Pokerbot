@@ -5,7 +5,7 @@ namespace gui
 
     void CardImageWin::draw()
     {        
-        if(this->show_ && !this->controls_.mask_robot_cards)
+        if(this->show_)
         {
             ImGui::Begin(this->name_.c_str(), &this->show_, this->flag_);
 
@@ -18,12 +18,19 @@ namespace gui
 
             for(const auto& card : this->cards_)
             {
-                this->drawer_.draw(
-                    card.card_image.image, 
-                    width, 
-                    height
-                    ); 
-                ImGui::SameLine();
+                if(this->poker_if_->isCardMasked(this->controls_.mask_robot_cards, card))
+                {
+                    //don't show masked cards
+                }
+                else
+                {
+                     this->drawer_.draw(
+                        card.card_image.image, 
+                        width, 
+                        height
+                        ); 
+                    ImGui::SameLine();
+                }
             }    
 
             ImGui::End();
