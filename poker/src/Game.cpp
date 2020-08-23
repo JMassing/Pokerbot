@@ -246,6 +246,7 @@ namespace poker{
 
     void Game::play()
     { 
+        
         // get settings from GUI if a GUI is connected
         if(this->gui_interface_ != nullptr)
         {
@@ -325,15 +326,27 @@ namespace poker{
             if( this->game_phase_ == BET_HAND || this->game_phase_ == BET_FLOP ||
                 this->game_phase_ == BET_RIVER || this->game_phase_ == BET_TURN)
             {
-               if (this->isPlayerAllIn() && !this->hasPlayerRaised())
-               {
+                // Robot decides his move
+                if(this->data_.whos_turn == 0)
+                {
+                    DecisionMaker decision_maker_(this->data_, this->big_blind_);
+                    decision_maker_.makeDecision();
+                    std::cout << "Decision: " << this->data_.players.at(0).current_decision << std::endl;
+                    std::cout << "Betsize: " << this->data_.players.at(0).current_bet << std::endl;
+                }
+                if (this->isPlayerAllIn() && !this->hasPlayerRaised())
+                {
                     this->processBet();
                     ++this->game_phase_;
-               }
-               else
-               {
+                }
+                else
+                {
                     this->processBet();
-               }
+                    if(this->data_.whos_turn == 0)
+                    {
+                        this->data_.nextPlayer();
+                    }
+                }
                      
             }      
 

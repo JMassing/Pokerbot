@@ -12,6 +12,7 @@
 #include "IPokerDetect.hpp"
 #include "BaseCard.hpp"
 #include "CardAssigner.hpp"
+#include "DecisionMaker.hpp"
 
 // Coordinates the entities needed to run a monte carlo simulation with the given cards
 namespace poker{
@@ -71,7 +72,7 @@ namespace poker{
                 game_phase_(NOT_STARTED),
                 robot_cards_{},
                 public_cards_{},
-                settings_{settings}
+                settings_(settings)
             {};
             ~Game() {};   
                 

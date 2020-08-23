@@ -89,10 +89,11 @@ namespace gui{
                 ImGui::Text(pot_size.c_str()); 
             }
 
-            // Place Bets
+            // Place Bets if its a players turn
             if( (phase == poker::BET_HAND || phase == poker::BET_FLOP ||
                 phase == poker::BET_RIVER || phase == poker::BET_TURN) 
-                && this->poker_if_->data_.winner < -1 )
+                && this->poker_if_->data_.winner < -1 
+                && this->poker_if_->data_.whos_turn != 0)
             {
                 this->show_place_bet_win_ = true;
                 place_bet_win_.draw();
