@@ -9,7 +9,7 @@ namespace poker{
 
         private:
             DataPoker& data_;
-            const int& big_blind_;
+            const int big_blind_ = 100;
 
             void decideMove();
             void decideBetsize();
@@ -18,9 +18,8 @@ namespace poker{
             
             void makeDecision();
             
-            DecisionMaker(DataPoker& data, int big_blind): 
-                data_(data), 
-                big_blind_(big_blind)
+            DecisionMaker(DataPoker& data): 
+                data_(data)
             {};
             ~DecisionMaker() {};   
                 

@@ -26,6 +26,8 @@ namespace poker{
             void processBet();
     	    bool haveAllPlayersDecided();
             bool hasPlayerRaised();
+            bool hasRobotRaised();
+            bool wasRaised();
             void processPlayerDecisions();
             void resetPhase();
             bool getWinner();

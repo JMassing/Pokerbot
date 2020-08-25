@@ -7,6 +7,9 @@ endfunction()
 
 add_gtest(TestPoker TestPoker.cpp)
 add_gtest(TestDetect TestDetect.cpp)
+add_gtest(TestDM TestDM.cpp)
+
 
 target_link_libraries(TestPoker PRIVATE PokerbotLib ${CONAN_LIBS_BOOST})
+target_link_libraries(TestDM PRIVATE PokerbotLib ${CONAN_LIBS_BOOST})
 target_link_libraries(TestDetect PRIVATE PokerbotLib ${CONAN_LIBS_OPENCV} ${CONAN_LIBS_ZLIB} ${CONAN_LIBS_BOOST})

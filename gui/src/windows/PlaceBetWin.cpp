@@ -5,23 +5,26 @@ namespace gui
 
     void PlaceBetWin::draw()
     {
-        if(this->show_)
+        int whos_turn = this->poker_if_->data_.whos_turn;
+        poker::Player& player_tmp = this->poker_if_->data_.players.at(whos_turn);
+
+        if(this->show_ && whos_turn > 0)
         {
             ImGui::Begin(this->name_.c_str(), &this->show_, this->flag_);
 
-            int whos_turn = this->poker_if_->data_.whos_turn;
-            poker::Player& player_tmp = this->poker_if_->data_.players.at(whos_turn);
-
-            // Check if its the players turn who made the highest bet. Then every other
-            // player has called/folded and we set the decision to call to advance to the
-            // next phase
-            if( player_tmp.money_bet_in_phase == this->poker_if_->data_.highest_bet && 
-                this->poker_if_->data_.highest_bet != 0 && player_tmp.current_decision != poker::NO_DECISION
-                && player_tmp.current_decision != poker::RAISE)
+       	    // Robot decision:
+            std::string decision = "";
+            switch (this->poker_if_->data_.players.at(0).current_decision)
             {
-                player_tmp.current_decision = poker::CHECK;
-            }    
+                case poker::NO_DECISION : decision = "not had his turn yet."; break;
+                case poker::CHECK       : decision = "checked"; break;
+                case poker::CALL        : decision = "called"; break;
+                case poker::RAISE       : decision = "raised to " + std::to_string(this->poker_if_->data_.players.at(0).money_bet_in_phase); break;
+                case poker::HAS_RAISED  : decision = "raised to " + std::to_string(this->poker_if_->data_.players.at(0).money_bet_in_phase); break;
 
+            }
+            std::string robot_decision = "Robot has " + decision;
+            ImGui::Text(robot_decision.c_str());
             std::string text = "Player " + std::to_string(whos_turn) + " your turn.";          
             ImGui::Text(text.c_str());
 
