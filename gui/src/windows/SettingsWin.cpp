@@ -43,14 +43,14 @@ namespace gui
             );
 
             this->input_ |= this->button_.draw(
-                "Start Game", !this->play_game_,
+                "Start Game", !this->game_settings_.play_game,
                 [this](){this->game_settings_.start_game = true;
-                this->play_game_ = true;}
+                this->game_settings_.play_game = true;}
             ); ImGui::SameLine();
             this->input_ |= this->button_.draw(
-                "Stop Game", this->play_game_, 
+                "Stop Game", this->game_settings_.play_game, 
                 [this](){this->game_settings_.stop_game = true;
-                this->play_game_ = false;}
+                this->game_settings_.play_game = false;}
             ); 
             ImGui::NewLine();    
             // Layout

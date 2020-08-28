@@ -42,8 +42,9 @@ namespace gui {
 				live_frame_(live_frame), 
 				controls_(controls), 
 				cards_{cards},
-				poker_if_{poker_if}
-			{};
+				poker_if_{poker_if},
+				drawer_{}
+			{ };
 				
 			virtual ~LiveImageWin() {};
 

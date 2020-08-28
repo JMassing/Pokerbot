@@ -23,6 +23,8 @@ namespace gui {
 	{
 		private:
 
+			GLuint texture;
+
 			cv::Mat resize(const cv::Mat& frame, const int& width, const int& height);
 
 			void writeCard(
@@ -40,7 +42,9 @@ namespace gui {
 
 		public:		
 
-			
+			void init_texture();
+			void delete_texture();
+
 			void printText(
 				cv::Mat& dst, 
 				std::string& text, 
@@ -69,7 +73,10 @@ namespace gui {
 					const cv::Scalar& color
 					);
 
-			ImageDrawer() {};
+			ImageDrawer() 
+			{ 
+				this->init_texture(); 
+			};
 			~ImageDrawer() {};
 
 			// Using default copy and move constructors. 
@@ -78,7 +85,6 @@ namespace gui {
 			ImageDrawer(ImageDrawer&& other) noexcept = default;
 			ImageDrawer& operator=(ImageDrawer&& other) noexcept = default;
 	};
-
 
 } // namespace gui
 

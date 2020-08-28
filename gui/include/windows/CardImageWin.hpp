@@ -40,7 +40,8 @@ namespace gui {
 				IWindow(name, show, flag), 
 				controls_(controls), 
 				cards_{cards},
-				poker_if_{poker_if}
+				poker_if_{poker_if},
+				drawer_{}
 			{};
 				
 			virtual ~CardImageWin() {};

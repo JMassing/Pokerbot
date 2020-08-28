@@ -189,7 +189,7 @@ int main(int argc, char* argv[])
 				// set gui state to should_close_ = true and exit for loop
 				gui.closeWindow();
 				break;
-			}			
+			}		
 
 			// Detect Cards in Frame and notify other modules
 			card_detector.detectCards();

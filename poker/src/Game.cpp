@@ -20,6 +20,8 @@ namespace poker{
             templates::rollDie(this->settings_.nr_of_human_players + 1, g) - 1;
         
         this->startNextRound();
+        this->settings_.start_game = false;
+        this->settings_.play_game = true;
     }
 
     void Game::stop()
@@ -30,6 +32,8 @@ namespace poker{
         this->data_.probability = {0,0};
         this->game_phase_ = NOT_STARTED;
         this->data_.highest_bet = 0;
+        this->settings_.stop_game = false;
+        this->settings_.play_game = false;
     }
 
     //@brief:: Checks if any player has no more money left
@@ -268,14 +272,12 @@ namespace poker{
         if(this->settings_.start_game)
         {
             this->start();
-            this->settings_.start_game = false;
         }
 
         // stop game if stop was hit
         if(this->settings_.stop_game)
         {
             this->stop();
-            this->settings_.stop_game = false;
         }
 
         //stop game if players have no money left and we are at the beginning of the round
@@ -347,12 +349,11 @@ namespace poker{
                 }
                 else
                 {
-                    std::cout << "Player: " << this->hasPlayerRaised() << std::endl;
-                    std::cout << "Robot: " << this->hasRobotRaised() << std::endl;
-
-                    // Robot decides move of it is his turn and he hasn't decided and nobody raised
+                    // Robot decides move of it is his turn and he hasn't decided and nobody raised 
+                    // and nobody has won yet
                     if ( this->data_.whos_turn == 0 
-                         && ( !this->haveAllPlayersDecided() || this->hasPlayerRaised() ) )
+                         && ( !this->haveAllPlayersDecided() || this->hasPlayerRaised() ) 
+                         && !this->getWinner())
                     {
                         DecisionMaker decision_maker_(this->data_);
                         decision_maker_.makeDecision();

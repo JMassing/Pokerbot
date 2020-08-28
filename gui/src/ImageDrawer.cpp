@@ -2,7 +2,32 @@
 
 namespace gui
 {
-
+    void ImageDrawer::delete_texture()
+    {
+        glDeleteTextures(1, &this->texture);
+    }
+    void ImageDrawer::init_texture()
+    {
+            cv::Mat image = cv::Mat::zeros(100, 100, CV_8UC3);
+            cv::cvtColor( image, image, cv::COLOR_BGR2RGBA );        
+            glGenTextures( 1, &this->texture );
+            glBindTexture( GL_TEXTURE_2D, this->texture );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+            glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
+            
+            glTexImage2D( 
+                GL_TEXTURE_2D, 
+                0, 
+                GL_RGBA, 
+                image.cols, 
+                image.rows, 
+                0, 
+                GL_RGBA, 
+                GL_UNSIGNED_BYTE, 
+                image.data 
+                );            
+    }
     
 	cv::Mat ImageDrawer::resize(const cv::Mat& frame, const int& width, const int& height)
 	{
@@ -31,6 +56,8 @@ namespace gui
 			cv::drawContours(drawing, contours, i, contour_color, thickness);
 		}
 		drawing.copyTo(dst, drawing);
+
+        drawing.release();
 	
 	}
 
@@ -97,13 +124,13 @@ namespace gui
             }
 
             cv::cvtColor( shown_image, shown_image, cv::COLOR_BGR2RGBA );
-            GLuint texture;
-            glGenTextures( 1, &texture );
-            glBindTexture( GL_TEXTURE_2D, texture );
-            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-            glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
-            
+                
+            ImGui::Image( 
+                reinterpret_cast<void*>( static_cast<intptr_t>( this->texture ) ), 
+                ImVec2( shown_image.cols, shown_image.rows ) 
+                );
+        
+            glBindTexture( GL_TEXTURE_2D, this->texture );
             glTexImage2D( 
                 GL_TEXTURE_2D, 
                 0, 
@@ -116,10 +143,11 @@ namespace gui
                 shown_image.data 
                 );
 
-            ImGui::Image( 
-                reinterpret_cast<void*>( static_cast<intptr_t>( texture ) ), 
-                ImVec2( shown_image.cols, shown_image.rows ) 
-                );
+        
+
+                //glDeleteTextures(1, &texture);
+                shown_image.release();
+                glBindTexture(GL_TEXTURE_2D, 0);
         }
         else
         {
