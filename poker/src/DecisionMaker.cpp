@@ -45,9 +45,31 @@ namespace poker{
             //do nothing
         }
 
-        this->data_.players.at(0).current_bet = bet;
-        this->data_.highest_bet =  bet + this->data_.players.at(0).money_bet_in_phase;
 
+        // Other player went all in
+        if( this->data_.players.at(1).is_all_in && 
+            (this->data_.players.at(0).current_decision == CALL || this->data_.players.at(0).current_decision == RAISE || this->data_.players.at(0).current_decision == HAS_RAISED) ) 
+        {
+             // Check if robot has more money than player who went all in
+            if( this->data_.players.at(0).money >= this->data_.players.at(1).current_bet)
+            { 
+                bet = this->data_.players.at(1).money_bet_in_phase - this->data_.players.at(0).money_bet_in_phase;
+            }
+            else
+            {
+                this->data_.players.at(0).money;
+            }       
+            // set robot player decision to call                
+            this->data_.players.at(0).current_decision = CALL;
+        }
+
+        this->data_.players.at(0).current_bet = bet;
+        if( bet + this->data_.players.at(0).money_bet_in_phase > this->data_.highest_bet)
+        {
+            this->data_.highest_bet =  bet + this->data_.players.at(0).money_bet_in_phase;
+        }
+        this->data_.players.at(0).money -= this->data_.players.at(0).current_bet;
+        this->data_.players.at(0).money_bet_in_phase += this->data_.players.at(0).current_bet;
         
     }
 
@@ -112,7 +134,14 @@ namespace poker{
         else
         {
             
-        }           
+        }
+
+        //set decision to call if robot has to go all in an decided to raise
+        if(this->data_.highest_bet >= this->data_.players.at(0).money && this->data_.players.at(0).current_decision == RAISE)
+        {
+            this->data_.players.at(0).current_decision = CALL;
+        }
+
     }
 
     void DecisionMaker::makeDecision()

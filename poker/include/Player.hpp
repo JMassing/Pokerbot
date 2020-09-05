@@ -15,6 +15,7 @@ namespace poker{
             int current_bet;
             int current_decision;
             bool has_folded;
+            bool is_all_in;
 
             Player():
                 hand{},
@@ -33,7 +34,8 @@ namespace poker{
                 money_in_play(0),
                 current_bet(0),
                 current_decision(NO_DECISION),
-                has_folded(false)
+                has_folded(false),
+                is_all_in(false)
             {}
             ~Player() {};
            

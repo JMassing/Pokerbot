@@ -10,7 +10,7 @@ namespace poker
         int nr_of_simulation_runs;     
         bool start_game;
         bool stop_game;
-        bool play_game;
+        bool playing_game;
 
          void setToDefault(DefaultConfig& default_settings)
         {
@@ -23,7 +23,7 @@ namespace poker
             nr_of_simulation_runs(10000),
             start_game{false},
             stop_game{false},
-            play_game{false}
+            playing_game{false}
         {};
 		~GameSettings(){};
 

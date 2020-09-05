@@ -1,4 +1,4 @@
-#include "PlaceBetWin.hpp"        
+#include "PlaceBetWin.hpp"   
 
 namespace gui
 {
@@ -7,6 +7,16 @@ namespace gui
     {
         int whos_turn = this->poker_if_->data_.whos_turn;
         poker::Player& player_tmp = this->poker_if_->data_.players.at(whos_turn);
+
+        if(this->poker_if_->data_.players.at(0).is_all_in && this->poker_if_->data_.highest_bet == player_tmp.money_bet_in_phase)
+        {
+            player_tmp.money += (player_tmp.money_bet_in_phase - this->poker_if_->data_.players.at(0).money_bet_in_phase);
+            player_tmp.money_in_play -= (player_tmp.money_bet_in_phase - this->poker_if_->data_.players.at(0).money_bet_in_phase);
+            player_tmp.money_bet_in_phase = this->poker_if_->data_.players.at(0).money_bet_in_phase;
+            player_tmp.current_decision = poker::CALL;
+            this->poker_if_->data_.nextPlayer();
+            whos_turn++;
+        }
 
         if(this->show_ && whos_turn > 0)
         {
@@ -21,8 +31,8 @@ namespace gui
                 case poker::CALL        : decision = "called"; break;
                 case poker::RAISE       : decision = "raised to " + std::to_string(this->poker_if_->data_.players.at(0).money_bet_in_phase); break;
                 case poker::HAS_RAISED  : decision = "raised to " + std::to_string(this->poker_if_->data_.players.at(0).money_bet_in_phase); break;
-
             }
+
             std::string robot_decision = "Robot has " + decision;
             ImGui::Text(robot_decision.c_str());
             std::string text = "Player " + std::to_string(whos_turn) + " your turn.";          
@@ -43,7 +53,7 @@ namespace gui
                 [this, &player_tmp](){
                     player_tmp.current_decision = poker::CALL;
                     player_tmp.current_bet = 
-                        this->poker_if_->data_.highest_bet <= player_tmp.money ?
+                        this->poker_if_->data_.highest_bet - player_tmp.money_bet_in_phase <= player_tmp.money ?
                         (this->poker_if_->data_.highest_bet - player_tmp.money_bet_in_phase) 
                         : player_tmp.money;
                     this->poker_if_->data_.nextPlayer();
@@ -61,6 +71,9 @@ namespace gui
             ImGui::SameLine();
 
             bool can_raise = this->poker_if_->data_.highest_bet <= player_tmp.money ? true : false;
+            // can't raise if robot already went all in
+            can_raise = this->poker_if_->data_.players.at(0).money <= 0 ? false : true;
+
             this->button_.draw("Raise", can_raise, 
                 [this, &player_tmp](){player_tmp.current_decision = poker::RAISE;});   
            
@@ -82,6 +95,9 @@ namespace gui
                         }
                     );  
             }
+
+            player_tmp.money -= player_tmp.current_bet;
+            player_tmp.money_bet_in_phase += player_tmp.current_bet;
 
             ImGui::End();
         }

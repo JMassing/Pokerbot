@@ -21,7 +21,7 @@ namespace poker{
         
         this->startNextRound();
         this->settings_.start_game = false;
-        this->settings_.play_game = true;
+        this->settings_.playing_game = true;
     }
 
     void Game::stop()
@@ -33,35 +33,21 @@ namespace poker{
         this->game_phase_ = NOT_STARTED;
         this->data_.highest_bet = 0;
         this->settings_.stop_game = false;
-        this->settings_.play_game = false;
+        this->settings_.playing_game = false;
     }
 
-    //@brief:: Checks if any player has no more money left
-    bool Game::hasPlayerNoMoney()
-    {
-        for(const auto& player: this->data_.players)
-        {
-            if(player.money <= 0)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
     //@brief: processes the bets made by the players
     void Game::processBet()
     {
         for(auto& player : this->data_.players)
         {
             // process player money
-            player.money -= player.current_bet;
             player.money_in_play += player.current_bet;
-            player.money_bet_in_phase += player.current_bet;
             player.current_bet = 0;          
         }; 
     }
 
-    //@brief:: calculates potsize and sidepots
+    //@brief:: calculates potsize 
     void Game::calcPotSize()
     {
         this->data_.pot_size = 0;
@@ -84,6 +70,19 @@ namespace poker{
         return true;
     }
 
+    //@brief:: checks one player has less money than the big blind
+    bool Game::hasPlayerLessThanBigblind()
+    {
+           for(const auto& player: this->data_.players)
+        {
+            if(player.money < this->big_blind_)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //@brief:: checks if a player has raised
     bool Game::hasPlayerRaised()
     {
@@ -99,13 +98,14 @@ namespace poker{
     {
         return (this->hasRobotRaised() || this->hasPlayerRaised());
     }
-    //@brief:: returns true if a player has 0 money, i.e. is all in
+    //@brief:: checks if player is all in 
     bool Game::isPlayerAllIn()
     {
-        for(const auto& player: this->data_.players)
+        for(auto& player: this->data_.players)
         {
-            if(player.money == 0)
+            if(player.money <= 0)
             {
+                player.is_all_in = true;
                 return true;
             }
         }
@@ -180,6 +180,7 @@ namespace poker{
             player.hand.reset();
             player.money_in_play = 0;
             player.has_folded = false;
+            player.is_all_in = false;
         }        
 
         // reset winner
@@ -208,7 +209,7 @@ namespace poker{
 
         if(this->haveAllPlayersDecided())
         {
-            if(!wasRaised() && !this->isPlayerAllIn())
+            if(!wasRaised())
             {
                 // all players have called or all folded and nobody is all in
                 this->resetPhase();
@@ -280,8 +281,8 @@ namespace poker{
             this->stop();
         }
 
-        //stop game if players have no money left and we are at the beginning of the round
-        if(this->hasPlayerNoMoney() && this->game_phase_ == HAND_CARDS)
+        //stop game if players have less money than big blind left and we are at the beginning of the round
+        if(this->hasPlayerLessThanBigblind() && this->game_phase_ == HAND_CARDS)
         {
             this->stop();
         }
@@ -290,7 +291,7 @@ namespace poker{
         // Game has to be started
         if(this->detect_interface_ != nullptr && this->game_phase_ > NOT_STARTED)
         {
-
+            
             // Assign Cards to Robot or Public Cards  
             CardAssigner::assignCards(
                 this->detect_interface_->getData().cards, 
@@ -319,7 +320,7 @@ namespace poker{
             this->setGamePhase();
 
             // get bets
-            //skip player if folded
+            //skip player if folded or is all in
             if(this->data_.players.at(this->data_.whos_turn).has_folded)
             {
                 this->data_.nextPlayer();
@@ -363,20 +364,25 @@ namespace poker{
                     {
                         //do nothing
                     }
+
                     this->processBet();
+
+                    // process player decisions if we do not have a winner
+                    if(this->getWinner())
+                    {
+                        // next round window will show and next round will start when confirmed by user
+                    }
+                    else
+                    {
+                        this->processPlayerDecisions();
+                    }
                 }
-                     
+        
+                        
             }      
 
-            // process player decisions if we do not have a winner
-            if(this->getWinner())
-            {
-                // next round window will show and next round will start when confirmed by user
-            }
-            else
-            {
-                this->processPlayerDecisions();
-            }
+            this->getWinner();
+  
             
             // get pot size
             this->calcPotSize();
@@ -386,11 +392,6 @@ namespace poker{
             {
                 this->startNextRound();
             }
-            /*else if(this->data_.next_round && this->public_cards_.size() > 0)
-            {
-                this->data_.next_round = false;
-            }
-            */
             else
             {
                 this->data_.next_round = false;
@@ -404,13 +405,20 @@ namespace poker{
         {
             // do nothing
         } 
-           
-        // send hands to GUI if a GUI is connected
+
+        this->isPlayerAllIn();
+        // send hands and data to GUI if a GUI is connected
         if(this->gui_interface_ != nullptr)
         {
             this->data_.robot_cards = this->robot_cards_;
             this->data_.game_phase = this->game_phase_;
             this->gui_interface_->setData(this->data_);
+        }
+
+        // send game settings to settings window
+        if(this->gui_interface_ != nullptr)
+        {
+            this->gui_interface_->setSettings(this->settings_);
         }
 
     }

@@ -35,7 +35,8 @@ namespace poker{
             void setGamePhase();
             void calcPotSize();
             bool isPlayerAllIn();
-            bool hasPlayerNoMoney();
+            bool hasPlayerLessThanBigblind();
+
 
             GameSettings settings_;
             std::shared_ptr<IPokerGui> gui_interface_;

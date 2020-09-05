@@ -22,6 +22,11 @@ namespace gui {
 			{
 				 return this->game_settings_;
 			} 
+
+			void setSettings( poker::GameSettings& settings) override
+			{
+				this->game_settings_ = settings;
+			}
 			
 			bool checkUserInput() const override
 			{
