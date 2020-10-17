@@ -3,7 +3,11 @@ function(add_gtest TEST_NAME SOURCE_FILE)
     add_executable(${TEST_EXECUTABLE} ${SOURCE_FILE})
 
     target_link_libraries(${TEST_EXECUTABLE} PRIVATE ${CONAN_LIBS_GTEST})
+    add_test(NAME ${TEST_EXECUTABLE} COMMAND $<TARGET_FILE:${TEST_EXECUTABLE}>)
+    
 endfunction()
+
+
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions
