@@ -63,7 +63,6 @@ ExternalProject_Get_Property( glfw INSTALL_DIR )
 set( GLFW_DIR ${INSTALL_DIR} )
 set( GLFW_INCLUDE_DIR ${GLFW_DIR}/include )
 set( GLFW_LIBRARIES   ${GLFW_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glfw3${CMAKE_STATIC_LIBRARY_SUFFIX} )
-#add_dependencies( GuiLib glfw )
 
 target_link_libraries( 
     GuiLib 

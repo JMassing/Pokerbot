@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Pokerbot VERSION 0.1.0)
+project(Pokerbot VERSION 1.0.0)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
@@ -33,7 +33,7 @@ add_subdirectory(poker)
 ## tests
 add_subdirectory(unit_tests)
 
-
+## Executable
 add_executable(Pokerbot main.cpp)
 
 target_link_libraries(
