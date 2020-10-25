@@ -10,6 +10,7 @@ I am planning to implement the following in the future (in not particular order)
 * Use Depp Learning for card detection
 * Use Mulithreading to improve runtime of monte-carlo simulation
 * Make the bot smarter by using a more sophisticated decision making
+* Game.cpp needs some refactoring
 
 ## Releases
 See the Releases section
@@ -28,9 +29,20 @@ See the Releases section
 * You can also find the package folder by using the command _conan info --paths Pokerbot/1.0.0@ -pr conan_configs/<config_file>_. Look for the Pokerbot/1.0.0 package-folder.
 * The package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
 * Build Dependencies:
-    * OpenCV >= v4.1.1 
-    * Boost >= v 1.72
-    * Gtest >= v1.10.0
-    * ImGui >= v1.72b https://github.com/ocornut/imgui
-    * glfw >= v3.3 https://github.com/glfw/glfw.git
+    * OpenCV v4.1.1 
+    * Boost v1.72
+    * Gtest v1.10.0
+    * ImGui v1.72b https://github.com/ocornut/imgui
+    * glfw v3.3 https://github.com/glfw/glfw.git
     * Opengl
+
+## Use Pokerbot
+* Use Pokerbot.exe to start the pokerbot
+* First, place a playing card within the camera view and adjust camera settings and processing settings until card is detected
+* To start a game press start game button
+* Follow the instructions in the top left corner of the live view
+* Activate "mask robot cards" and deactivate "show probability" when playing a real game against the bot. 
+* We use OpenCV to control the camera. The OpenCV VideoCapture class uses the member device_id to determine the camera. 
+    * device_id = 0 is usually the integrated webcam, whereas usb cameras are usually device_id = 1. 
+    * The config.ini initially sets the device_id. The default value is 1. You can change the device_id in the config.ini to the appropiate value for the camera you are using.
+* The config.ini also contains initial values for camera and processing settings, which can be overwritten by using the "save as default" button. 
