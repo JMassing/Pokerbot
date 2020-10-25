@@ -2,7 +2,7 @@ from conans import ConanFile, CMake, tools
 
 class PokerbotConan(ConanFile):
     name = "Pokerbot"
-    version = "0.1.0"
+    version = "1.0.0"
     license = "Open Source"
     author = "Julian Massing julimassing@gmail.com"
     settings = "os", "compiler", "build_type", "arch"
