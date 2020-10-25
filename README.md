@@ -6,13 +6,13 @@ Pokerbot is a c++-project that uses OpenCV image processing methods to detect ca
 Pokerbot currently only runs on Windows.
 
 I am planning to implement the following in the future (in not particular order):
-* Build and Run on Linux
+* Build and run on Linux
 * Use Depp Learning for card detection
 * Use Mulithreading to improve runtime of monte-carlo simulation
 * Make the bot smarter by using a more sophisticated decision making
 
 ## Releases
-* See the Releases section
+See the Releases section
 
 ## HowTo
 ### Build Pokerbot
@@ -28,9 +28,9 @@ I am planning to implement the following in the future (in not particular order)
 * You can also find the package folder by using the command conan info --paths Pokerbot/1.0.0@ -pr conan_configs/vs17_release. Look for the Pokerbot/1.0.0 package-folder.
 * The package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
 * Build Dependencies:
-    ** OpenCV >= v4.2.2 
-    ** Boost >= v 1.72
-    ** Gtest >= v1.10.0
-    ** ImGui >= v1.72b https://github.com/ocornut/imgui
-    ** glfw >= v3.3 https://github.com/glfw/glfw.git
-    ** Opengl
+    * OpenCV >= v4.2.2 
+    * Boost >= v 1.72
+    * Gtest >= v1.10.0
+    * ImGui >= v1.72b https://github.com/ocornut/imgui
+    * glfw >= v3.3 https://github.com/glfw/glfw.git
+    * Opengl
