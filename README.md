@@ -21,11 +21,11 @@ See the Releases section
 * See https://docs.conan.io/en/latest/installation.html on how to install conan
 * Conan config files for visual studio 15 and 17 compilers are prepared in the conan_configs directory of the source directory
 * To build the project download the source code and change into the source directory
-* Use conan create . -pr conan_configs/<config_file> to build the project, where config_file is one of the files given in the conan_config folder (e.g. vs17_release)
+* Use _conan create . -pr conan_configs/<config_file>_ to build the project, where config_file is one of the files given in the conan_config folder (e.g. vs17_release)
 * Conan will download the build dependencies given in the conan-file (conanfile.py) from conan-center (https://bintray.com/conan/conan-center)
 * Build files will be created in the conan-build folder, while the Pokerbot.exe will be created in the conan-package folder
-* The build and package folders are given when the build is finished (looks something like: C:\.conan\41e8cc\1)
-* You can also find the package folder by using the command conan info --paths Pokerbot/1.0.0@ -pr conan_configs/vs17_release. Look for the Pokerbot/1.0.0 package-folder.
+* The build and package folders are given when the build is finished (looks something like: C:\/.conan\41e8cc\1)
+* You can also find the package folder by using the command _conan info --paths Pokerbot/1.0.0@ -pr conan_configs/vs17_release_. Look for the Pokerbot/1.0.0 package-folder.
 * The package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
 * Build Dependencies:
     * OpenCV >= v4.1.1 
