@@ -48,7 +48,7 @@ See the Releases section
 * To start a game press the "start game" button
 * Follow the instructions in the top left corner of the live view
 <img src="./docs/RobotHand_Shown.png" width="700"/></img>
-* Probability of Winning shows the probability that the robot will win the current hand. Probability of tie shows the probability of a tie.
+* Probability of Winning shows the probability that the robot will win the current hand. Probability of Winning Tie shows the probability of a tie.
 * Activate "mask robot cards" and deactivate "show probability" and "show robot hand" when playing a real game against the bot.  
 <img src="./docs/RobotHand_masked.png" width="700"/></img>
 * Have fun :grinning:
