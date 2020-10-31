@@ -26,7 +26,7 @@ See the Releases section
 * Build files will be created in the conan-build folder, while the Pokerbot.exe will be created in the conan-package folder
 * The build and package folders are given when the build is finished (looks something like: C:\\.conan\41e8cc\1)
 * You can also find the package folder by using the command _conan info --paths Pokerbot/1.0.0@ -pr conan_configs/<config_file>_ , where _<config_file>_ is the conan config you used during build. Look for the Pokerbot/1.0.0 package-folder.
-![conan-info](docs/Conan-Info.png)
+<img src="./docs/Conan-Info.png" width="500"/></img>
 * The package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
 * Build Dependencies:
     * OpenCV v4.1.1 
@@ -37,13 +37,17 @@ See the Releases section
     * Opengl
 
 ## Use Pokerbot
-* Use Pokerbot.exe to start the pokerbot
-* First, place a playing card within the camera view and adjust camera settings and processing settings until the card is detected
-* To start a game press the "start game" button
-* Follow the instructions in the top left corner of the live view
-* Activate "mask robot cards" and deactivate "show probability" and "show robot hand" when playing a real game against the bot.  
 * We use OpenCV to control the camera. The OpenCV VideoCapture class uses the member device_id to determine the camera. 
     * device_id = 0 is usually the integrated webcam, whereas usb cameras are usually device_id = 1. 
     * The config.ini initially sets the device_id. The default value is 1. You can change the device_id in the config.ini to the appropiate value for the camera you are using.
 * The config.ini also contains initial values for camera and processing settings, which can be overwritten by using the "save as default" button. 
+* Use Pokerbot.exe to start the pokerbot
+* First, place a playing card within the camera view and adjust camera settings and processing settings until the card is detected
+<img src="./docs/Pokerbot_Settings.png" width="700"/></img>
+* To start a game press the "start game" button
+* Follow the instructions in the top left corner of the live view
+<img src="./docs/RobotHand_Shown.png" width="700"/></img>
+* Probability of Winning shows the probability that the robot will win the current hand. Probability of tie shows the probability of a tie.
+* Activate "mask robot cards" and deactivate "show probability" and "show robot hand" when playing a real game against the bot.  
+<img src="./docs/RobotHand_masked.png" width="700"/></img>
 * Have fun :grinning:
