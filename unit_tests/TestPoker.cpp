@@ -266,8 +266,8 @@ namespace UnitTest
 						);
 
 				std::cout << prob.first << ", " << prob.second << std::endl;
-				EXPECT_TRUE( (prob.first + prob.second >= expected_probability-1) && 
-							 (prob.first + prob.second <= expected_probability+1)
+				EXPECT_TRUE( (prob.first  >= expected_probability-1) && 
+							 (prob.first  <= expected_probability+1)
 							);
 			}
 			file.close();
