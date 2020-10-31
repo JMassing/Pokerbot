@@ -5,7 +5,7 @@ namespace gui
 
     void SuitImageWin::draw()
     {        
-        if(this->show_ && !this->controls_.mask_robot_cards)
+        if(this->show_)
         {
             ImGui::Begin(this->name_.c_str(), &this->show_, this->flag_);
 
@@ -16,16 +16,43 @@ namespace gui
 
             int width = static_cast<int>(static_cast<double>(height)/this->aspect_ratio_);
 
+            cv::Mat shown_img;
+            std::vector<cv::Mat> image_vector;
+
             for(const auto& card : this->cards_)
             {
-                this->drawer_.draw(
-                    card.suit_image.image, 
-                    width, 
-                    height
-                    ); 
-                ImGui::SameLine();
+                if(this->poker_if_->isCardMasked(this->controls_.mask_robot_cards, card))
+                {
+                    //don't show masked card ranks
+                }
+                else
+                {
+                    if(image_vector.size() == 0)
+                    { 
+                        image_vector.emplace_back(card.suit_image.image); 
+                    }
+                    else if(image_vector.size() > 0 && card.suit_image.image.cols == image_vector.at(0).cols)
+                    {
+                        image_vector.emplace_back(card.suit_image.image); 
+                    }
+                    else
+                    {
+                        //Do nothing
+                    }               
+                } 
             }    
 
+            if(image_vector.size()>0)
+            {
+                cv::hconcat(image_vector, shown_img);
+            
+
+                this->drawer_.draw(
+                    shown_img, 
+                    width*image_vector.size(), 
+                    height
+                    );
+            }    
             ImGui::End();
         }
         

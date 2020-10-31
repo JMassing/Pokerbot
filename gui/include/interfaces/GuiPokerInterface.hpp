@@ -3,6 +3,8 @@
 #include <memory>
 
 #include "IPokerGui.hpp"
+#include "TemplateFunctions.hpp"
+#include "Card.hpp"
 
 namespace gui {
 
@@ -20,6 +22,11 @@ namespace gui {
 			{
 				 return this->game_settings_;
 			} 
+
+			void setSettings( poker::GameSettings& settings) override
+			{
+				this->game_settings_ = settings;
+			}
 			
 			bool checkUserInput() const override
 			{
@@ -34,6 +41,27 @@ namespace gui {
 			poker::DataPoker getData() override
 			{
 				return this->data_;
+			}
+
+			bool isCardMasked(bool mask_card, detect::Card card)
+			{
+				if( mask_card && this->data_.game_phase < poker::FLOP && 
+					this->data_.game_phase > poker::NOT_STARTED )
+				{
+					return true;
+				}
+				else if( mask_card && 
+                         this->data_.game_phase >= poker::FLOP && 
+                         this->data_.game_phase < poker::SHOW_DOWN &&
+                         templates::contains(this->data_.robot_cards.begin(), 
+                                             this->data_.robot_cards.end(), card) )
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 
         	GuiPokerInterface(

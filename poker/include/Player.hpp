@@ -9,12 +9,13 @@ namespace poker{
     struct Player
     {
             Hand hand;
-            int money;                      // overall money the player is
+            int money;                      // overall money the player has
             int money_in_play;              // overall money the player has in play
             int money_bet_in_phase;         // money the player has put in for this phase of betting
             int current_bet;
             int current_decision;
             bool has_folded;
+            bool is_all_in;
 
             Player():
                 hand{},
@@ -23,7 +24,8 @@ namespace poker{
                 money_in_play(0),
                 current_bet(0),
                 current_decision(NO_DECISION),
-                has_folded(false)
+                has_folded(false),
+                is_all_in(false)
             {}
 
             explicit Player(const int& starting_money):
@@ -33,7 +35,8 @@ namespace poker{
                 money_in_play(0),
                 current_bet(0),
                 current_decision(NO_DECISION),
-                has_folded(false)
+                has_folded(false),
+                is_all_in(false)
             {}
             ~Player() {};
            

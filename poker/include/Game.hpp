@@ -12,6 +12,7 @@
 #include "IPokerDetect.hpp"
 #include "BaseCard.hpp"
 #include "CardAssigner.hpp"
+#include "DecisionMaker.hpp"
 
 // Coordinates the entities needed to run a monte carlo simulation with the given cards
 namespace poker{
@@ -25,6 +26,8 @@ namespace poker{
             void processBet();
     	    bool haveAllPlayersDecided();
             bool hasPlayerRaised();
+            bool hasRobotRaised();
+            bool wasRaised();
             void processPlayerDecisions();
             void resetPhase();
             bool getWinner();
@@ -32,7 +35,8 @@ namespace poker{
             void setGamePhase();
             void calcPotSize();
             bool isPlayerAllIn();
-            bool hasPlayerNoMoney();
+            bool hasPlayerLessThanBigblind();
+
 
             GameSettings settings_;
             std::shared_ptr<IPokerGui> gui_interface_;
@@ -42,8 +46,8 @@ namespace poker{
             int game_phase_;
                         
             const int starting_money_ = 10000;
-            const int big_blind_ = 50;
-            const int small_blind_ = 25;
+            const int big_blind_ = 100;
+            const int small_blind_ = 50;
 
         public:
 
@@ -71,7 +75,7 @@ namespace poker{
                 game_phase_(NOT_STARTED),
                 robot_cards_{},
                 public_cards_{},
-                settings_{settings}
+                settings_(settings)
             {};
             ~Game() {};   
                 

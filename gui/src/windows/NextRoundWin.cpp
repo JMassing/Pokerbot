@@ -17,11 +17,11 @@ namespace gui
             else
             {
                 std::string winner_string = (this->poker_if_->data_.winner == 0) ?
-                    "Robot " : ("Player " + std::to_string(this->poker_if_->data_.winner));
+                    "Robot" : ("Player " + std::to_string(this->poker_if_->data_.winner));
                 winner_text = winner_string + " has won!";
             }
             ImGui::Text(winner_text.c_str());
-            ImGui::Text("Please remove all Cards and hit next to start next round.");
+            ImGui::Text("Please remove all cards and hit next to start next round.");
 
             this->button_.draw("Next", true, 
                     [this](){ 

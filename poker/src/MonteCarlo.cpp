@@ -91,31 +91,28 @@ namespace poker{
                 hand.addToHand(deck.pullCard()); // add second hand card
             }
 
-            // simulate flop, turn, river if not dealt
-            switch(game_phase)
+            // simulate flop, turn, river if not dealt       
+            // pre flop
+            if(game_phase == HAND_CARDS || game_phase == BET_HAND)
             {
-                // pre flop
-                case HAND_CARDS: 
-
-                    // flop
-                    deck.burnCard();
-                    for(int i=0; i<3; ++i)
-                    {
-                        addCardFromDeck(robot_hand, player_hands, deck.pullCard());
-                    }
-
-                    // turn
-                    deck.burnCard();
+                 // flop
+                deck.burnCard();
+                for(int i=0; i<3; ++i)
+                {
                     addCardFromDeck(robot_hand, player_hands, deck.pullCard());
+                }
 
-                    // river
-                    deck.burnCard();
-                    addCardFromDeck(robot_hand, player_hands, deck.pullCard());
-                    break;
+                // turn
+                deck.burnCard();
+                addCardFromDeck(robot_hand, player_hands, deck.pullCard());
 
-                // pre river
-                case FLOP:
-
+                // river
+                deck.burnCard();
+                addCardFromDeck(robot_hand, player_hands, deck.pullCard());
+            }
+            // pre turn
+            else if(game_phase == FLOP || game_phase == BET_FLOP)
+            {
                     // turn
                     deck.burnCard();
                     addCardFromDeck(robot_hand, player_hands, deck.pullCard());
@@ -130,16 +127,18 @@ namespace poker{
                     {
                         addCardFromDeck(robot_hand, player_hands, deck.pullCard());
                     }
-
-                    break;
-
-                // pre river
-                case TURN:
+            }
+            // pre river
+            else if(game_phase == TURN || game_phase == BET_TURN)
+            {
 
                     // river
                     deck.burnCard();
                     addCardFromDeck(robot_hand, player_hands, deck.pullCard());
-                    break;
+            }
+            else
+            {
+                // all cards are known
             }
           
             // determine winner from hands

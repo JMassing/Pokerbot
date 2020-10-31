@@ -41,6 +41,7 @@ namespace capture {
 		{
 			this->gui_interface_->setImage(this->frame_);
 		}
+		
 
 		return true;
 	}

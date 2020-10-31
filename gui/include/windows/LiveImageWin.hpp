@@ -2,12 +2,14 @@
 
 #include <opencv2/core.hpp>
 #include <vector>
+#include <memory>
 
 #include "ImageDrawer.hpp"
 #include "IWindow.hpp"
 #include "Image.hpp"
 #include "LayoutConfig.hpp"
 #include "Card.hpp"
+#include "GuiPokerInterface.hpp"
 
 namespace gui {
 
@@ -19,7 +21,7 @@ namespace gui {
 			Image& live_frame_;
 			LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
-			int& game_phase_;
+			std::shared_ptr<GuiPokerInterface>& poker_if_;
 			
 			void print_instructions(cv::Mat& live_image);
 
@@ -33,15 +35,16 @@ namespace gui {
 				LayoutConfig& controls, 
 				Image& live_frame, 
 				std::vector<detect::Card>& cards,
-				int& game_state,
+				std::shared_ptr<GuiPokerInterface>& poker_if,
 				const int& flag = 0
 				): 
 				IWindow(name, show, flag), 
 				live_frame_(live_frame), 
 				controls_(controls), 
 				cards_{cards},
-				game_phase_{game_state}
-			{};
+				poker_if_{poker_if},
+				drawer_{}
+			{ };
 				
 			virtual ~LiveImageWin() {};
 

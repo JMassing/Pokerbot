@@ -23,11 +23,13 @@ namespace gui {
 	{
 		private:
 
+			GLuint texture;
+
 			cv::Mat resize(const cv::Mat& frame, const int& width, const int& height);
 
 			void writeCard(
 				cv::Mat& src, 
-				const std::vector<detect::Card>& cards, 
+				const detect::Card& card, 
 				const cv::Scalar& color
 				);
 			
@@ -35,13 +37,14 @@ namespace gui {
 				const std::vector<std::vector<cv::Point> >& contours, 
 				cv::Mat& dst,
 				const cv::Scalar& color,
-				const int& game_phase,
 				const bool& fill_contours = false
 				);	
 
 		public:		
 
-			
+			void init_texture();
+			void delete_texture();
+
 			void printText(
 				cv::Mat& dst, 
 				std::string& text, 
@@ -51,11 +54,10 @@ namespace gui {
 
 			void draw(const cv::Mat& frame, const int& image_width, const int& image_height);
 
-			void drawCards(
-				const std::vector<detect::Card>& cards, 
+			void drawCard(
+				const detect::Card& card, 
 				cv::Mat& dst, 
 				const cv::Scalar& color,
-				const int& game_phase,
 				const bool& mask_cards = false
 				);
 
@@ -71,7 +73,10 @@ namespace gui {
 					const cv::Scalar& color
 					);
 
-			ImageDrawer() {};
+			ImageDrawer() 
+			{ 
+				this->init_texture(); 
+			};
 			~ImageDrawer() {};
 
 			// Using default copy and move constructors. 
@@ -80,7 +85,6 @@ namespace gui {
 			ImageDrawer(ImageDrawer&& other) noexcept = default;
 			ImageDrawer& operator=(ImageDrawer&& other) noexcept = default;
 	};
-
 
 } // namespace gui
 

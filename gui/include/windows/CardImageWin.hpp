@@ -8,6 +8,7 @@
 #include "Image.hpp"
 #include "LayoutConfig.hpp"
 #include "Card.hpp"
+#include "GuiPokerInterface.hpp"
 
 namespace gui {
 
@@ -18,6 +19,7 @@ namespace gui {
 			ImageDrawer drawer_;
             LayoutConfig& controls_;
 			std::vector<detect::Card>& cards_;
+			std::shared_ptr<GuiPokerInterface>& poker_if_;
 
             // initial sizes of displayed card images
             const double aspect_ratio_ = 1.4;
@@ -32,11 +34,14 @@ namespace gui {
 				bool& show,
 				LayoutConfig& controls, 
 				std::vector<detect::Card>& cards,
+				std::shared_ptr<GuiPokerInterface>& poker_if,
 				const int& flag = 0
 				): 
 				IWindow(name, show, flag), 
 				controls_(controls), 
-				cards_{cards}
+				cards_{cards},
+				poker_if_{poker_if},
+				drawer_{}
 			{};
 				
 			virtual ~CardImageWin() {};

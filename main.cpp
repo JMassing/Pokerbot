@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
 		settings_window.layout_settings_, 
 		gui_capture_interface->live_image_, 
 		gui_detection_interface->cards_,
-		gui_poker_interface->data_.game_phase,
+		gui_poker_interface,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 
@@ -139,6 +139,7 @@ int main(int argc, char* argv[])
 		main_menu.show_card_image_,
 		settings_window.layout_settings_, 
 		gui_detection_interface->cards_,
+		gui_poker_interface,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 	
@@ -147,6 +148,7 @@ int main(int argc, char* argv[])
 		main_menu.show_rank_image_,
 		settings_window.layout_settings_, 
 		gui_detection_interface->cards_,
+		gui_poker_interface,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 	
@@ -155,6 +157,7 @@ int main(int argc, char* argv[])
 		main_menu.show_suit_image_,
 		settings_window.layout_settings_, 
 		gui_detection_interface->cards_,
+		gui_poker_interface,
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);	
 
@@ -186,7 +189,7 @@ int main(int argc, char* argv[])
 				// set gui state to should_close_ = true and exit for loop
 				gui.closeWindow();
 				break;
-			}			
+			}		
 
 			// Detect Cards in Frame and notify other modules
 			card_detector.detectCards();

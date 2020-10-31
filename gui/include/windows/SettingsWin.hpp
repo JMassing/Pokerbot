@@ -24,7 +24,6 @@ namespace gui {
 			Slider slider_;
 			Button button_;
 			InputField input_field_;	
-			bool play_game_;
 
 			// Slider Constraints
 			// Layout
@@ -96,8 +95,7 @@ namespace gui {
 				camera_settings_(camera_settings), 
 				proc_settings_(proc_settings),
 				game_settings_(sim_settings),
-				input_(false),
-				play_game_(false)
+				input_(false)
 			{};
 
 			virtual ~SettingsWin() {};
