@@ -29,14 +29,30 @@ See the Releases section
 
 <img src="./docs/Conan-Info.png" width="500"/></img>
 * The package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
-* Build Dependencies:
+* Build Dependencies Windows:
     * OpenCV v4.1.1 
     * Boost v1.72
     * Gtest v1.10.0
     * ImGui v1.72b https://github.com/ocornut/imgui
     * glfw v3.3 https://github.com/glfw/glfw.git
     * Opengl
-
+    * VS15 compiler or higher
+    * Conan v1.30 or higher
+    * Python v3.5 or higher
+    * cmake v3.10 or higher
+* Build Dependencies Linux (Ubuntu 18.04):
+    * OpenCV v4.1.1 
+    * Boost v1.72
+    * Gtest v1.10.0
+    * ImGui v1.72b https://github.com/ocornut/imgui
+    * glfw v3.3 https://github.com/glfw/glfw.git
+    * g++7
+    * Conan v1.30 or higher
+    * Python v3.5 or higher
+    * build-essentials
+    * cmake v3.10 or higher
+    * libglu1-mesa, libglu1-mesa-dev, xorg-dev
+ 
 ## Use Pokerbot
 * We use OpenCV to control the camera. The OpenCV VideoCapture class uses the member device_id to determine the camera. 
     * device_id = 0 is usually the integrated webcam, whereas usb cameras are usually device_id = 1. 
