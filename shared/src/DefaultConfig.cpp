@@ -40,7 +40,8 @@
     void DefaultConfig::saveConfig()
     {
         ConfigFileHandler handler{};
-        handler.writeFile(this->generateFileContents());
+        std::stringstream config = this->generateFileContents();
+        handler.writeFile(config);
     }
 
     std::stringstream DefaultConfig::generateFileContents()

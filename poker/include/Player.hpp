@@ -4,7 +4,7 @@
 
 namespace poker{
 
-    const enum decision { NO_DECISION, CHECK, CALL, RAISE, HAS_RAISED, FOLD };
+    enum decision { NO_DECISION, CHECK, CALL, RAISE, HAS_RAISED, FOLD };
 
     struct Player
     {

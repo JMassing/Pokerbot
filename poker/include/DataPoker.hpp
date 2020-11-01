@@ -8,7 +8,7 @@
 
 namespace poker
 {
-    const enum phase { NOT_STARTED, HAND_CARDS, BET_HAND, FLOP, BET_FLOP, TURN, BET_TURN, RIVER, BET_RIVER, SHOW_DOWN };
+    enum phase { NOT_STARTED, HAND_CARDS, BET_HAND, FLOP, BET_FLOP, TURN, BET_TURN, RIVER, BET_RIVER, SHOW_DOWN };
 
     struct DataPoker
     {
