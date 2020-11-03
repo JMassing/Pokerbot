@@ -8,7 +8,7 @@ class PokerbotConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     requires = [
-    ("opencv/4.1.1@conan/stable"), 
+    ("opencv/2.4.13.7"), 
     ("boost/1.72.0"), 
     ("gtest/1.10.0"),
     ]
