@@ -47,29 +47,33 @@ ${imgui_files} ${imgui_impl_files} ${gl3w}
 
 ## add GLFW
 
-include( ExternalProject )
-ExternalProject_Add(
-  glfw PREFIX glfw
-  GIT_REPOSITORY https://github.com/glfw/glfw.git
-  GIT_TAG 3.3
-  CMAKE_ARGS
-    "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>"
-    "-DCMAKE_BUILD_TYPE=Release"
-    "-DGLFW_BUILD_DOCS=OFF"
-    "-DGLFW_BUILD_EXAMPLES=OFF"
-    "-DGLFW_BUILD_TESTS=OFF"
-)
-ExternalProject_Get_Property( glfw INSTALL_DIR )
-set( GLFW_DIR ${INSTALL_DIR} )
-set( GLFW_INCLUDE_DIR ${GLFW_DIR}/include )
-set( GLFW_LIBRARIES X11 Xrandr Xi Xxf86vm GLEW::GLEW ${GLFW_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glfw3${CMAKE_STATIC_LIBRARY_SUFFIX} )
+#include( ExternalProject )
+#ExternalProject_Add(
+#  glfw PREFIX glfw
+ # GIT_REPOSITORY https://github.com/glfw/glfw.git
+#  GIT_TAG 3.3
+#  CMAKE_ARGS
+#    "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>"
+#    "-DCMAKE_BUILD_TYPE=Release"
+#    "-DGLFW_BUILD_DOCS=OFF"
+#    "-DGLFW_BUILD_EXAMPLES=OFF"
+#    "-DGLFW_BUILD_TESTS=OFF"
+#)
+#ExternalProject_Get_Property( glfw INSTALL_DIR )
+#set( GLFW_DIR ${INSTALL_DIR} )
+#set( GLFW_INCLUDE_DIR ${GLFW_DIR}/include )
+#set( GLFW_LIBRARIES ${GLFW_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glfw3${CMAKE_STATIC_LIBRARY_SUFFIX} )
+
+## find GLFW3
+find_package( glfw3 3.3 REQUIRED )
 
 target_link_libraries( 
     GuiLib 
     DetectionLib 
     PokerLib
     CaptureLib
-    ${GLFW_LIBRARIES} 
+    glfw
+    #${GLFW_LIBRARIES} 
     ${OPENGL_LIBRARIES} 
     )
 
@@ -82,8 +86,8 @@ target_include_directories(
     ${IMGUI_DIR} 
     ${IMGUI_DIR}/examples 
     ${IMGUI_DIR}/examples/libs/gl3w
-    ${GLFW_INCLUDE_DIR}
-    ${GLFW_LIBRARIES}
+    #${GLFW_INCLUDE_DIR}
+    #${GLFW_LIBRARIES}
     )
 
 
