@@ -94,7 +94,7 @@ namespace gui
 	void ImageDrawer::printText(
         cv::Mat& dst, 
         std::string& text, 
-        cv::Point& pos, 
+        const cv::Point& pos, 
         const cv::Scalar& color
         )
 	{
@@ -177,7 +177,10 @@ namespace gui
 		{
 			this->drawContours(contours, dst, color, mask_cards);
 
-			mask_cards ? "" : this->writeCard(dst, card, color);
+			if(mask_cards)
+            {
+                this->writeCard(dst, card, color);
+            } 
 		}		
 	}
 

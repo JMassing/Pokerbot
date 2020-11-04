@@ -17,6 +17,9 @@ find_package(GTest REQUIRED)
 ## find OpenGL
 find_package( OpenGL REQUIRED )
 
+## find GLEW
+find_package( GLEW REQUIRED )
+
 ## set up unit testing
 include(CTest)
 
@@ -38,6 +41,7 @@ add_executable(Pokerbot main.cpp)
 
 target_link_libraries(
   Pokerbot  
+  X11 Xrandr Xi Xxf86vm GLEW::GLEW
   DetectionLib 
   SharedLib 
   CaptureLib 

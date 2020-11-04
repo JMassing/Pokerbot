@@ -22,7 +22,10 @@ namespace gui {
 			{
 				bool changed = ImGui::SliderInt(name.c_str(), &value, min, max); 
 				
-				enforce_boundaries ? templates::enforceBoundaries(min, max, value) : "";
+				if(enforce_boundaries)
+				{
+					templates::enforceBoundaries(min, max, value);
+				}
 
 				return changed;
 			};
@@ -37,8 +40,11 @@ namespace gui {
 			{
 				bool changed = ImGui::SliderFloat(name.c_str(), &value, min, max); 
 				
-				enforce_boundaries ? templates::enforceBoundaries(min, max, value) : "";
-
+				if(enforce_boundaries)
+				{
+					templates::enforceBoundaries(min, max, value);
+				}
+				
 				return changed;
 			};
 

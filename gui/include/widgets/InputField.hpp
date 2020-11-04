@@ -21,7 +21,10 @@ namespace gui {
 			{
 				bool changed = ImGui::InputInt(name.c_str(), &value);
 								
-				enforce_boundaries ? templates::enforceBoundaries(min, max, value) : "";
+				if(enforce_boundaries)
+				{ 
+					templates::enforceBoundaries(min, max, value);
+				} 
 
 				return changed;
 			};
@@ -36,8 +39,10 @@ namespace gui {
 			{
 				bool changed = ImGui::InputFloat(name.c_str(), &value);
 				
-				enforce_boundaries ? templates::enforceBoundaries(min, max, value) : "";
-
+				if(enforce_boundaries)
+				{ 
+					templates::enforceBoundaries(min, max, value);
+				} 
 				return changed;
 			};
 

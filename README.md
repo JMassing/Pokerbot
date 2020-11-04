@@ -51,7 +51,7 @@ See the Releases section
     * Python v3.5 or higher
     * build-essentials
     * cmake v3.10 or higher
-    * libglu1-mesa, libglu1-mesa-dev, xorg-dev
+    * libglu1-mesa, libglu1-mesa-dev, xorg-dev, libglew-dev
  
 ## Use Pokerbot
 * We use OpenCV to control the camera. The OpenCV VideoCapture class uses the member device_id to determine the camera. 

@@ -48,7 +48,7 @@ namespace gui {
 			void printText(
 				cv::Mat& dst, 
 				std::string& text, 
-				cv::Point& pos, 
+				const cv::Point& pos, 
 				const cv::Scalar& color
 				);
 

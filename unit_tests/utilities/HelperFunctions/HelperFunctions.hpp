@@ -2,10 +2,10 @@
 
 #include<vector>
 #include<string>
-#include<windows.h>
+//#include<windows.h>
 #include<iostream> 
 
-#include <boost/filesystem.hpp>
+//#include <boost/filesystem.hpp>
 
 #include "Hand.hpp"
 #include "BaseCard.hpp"

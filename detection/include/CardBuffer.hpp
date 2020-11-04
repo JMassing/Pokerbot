@@ -57,7 +57,7 @@ namespace detect
 		}
 
 		explicit CardBuffer(int frame_nr) :
-			RingBuffer(), 
+			templates::RingBuffer<BaseCard,N>::RingBuffer(), 
 			center_point_(), 
 			filled_once_(false), 
 			contour_(), 
@@ -66,7 +66,7 @@ namespace detect
 			rank_image_(), 
 			suit_image_() 
 			{};
-		CardBuffer(const Card& card, int frame_nr) : RingBuffer(), filled_once_(false) 
+		CardBuffer(const Card& card, int frame_nr) : templates::RingBuffer<BaseCard,N>::RingBuffer(), filled_once_(false) 
 		{
 			this->put(card, frame_nr);
 		};
@@ -81,7 +81,7 @@ namespace detect
 	template<std::size_t N>
 	void CardBuffer<N>::put(const Card& card_in, const int& frame_nr)
 	{
-		RingBuffer::put(card_in);
+		templates::RingBuffer<BaseCard,N>::put(card_in);
 		this->center_point_ = card_in.center_point;
 		this->contour_ = card_in.contour;
 		this->last_update_ = frame_nr;
@@ -89,7 +89,10 @@ namespace detect
 		this->rank_image_ = card_in.rank_image;
 		this->suit_image_ = card_in.suit_image;
 
-		this->full() ? (this->filled_once_ = true) : "";
+		if(this->full())
+		{ 
+			this->filled_once_ = true;
+		}
 	};
 	
 	template<std::size_t N>
