@@ -2,7 +2,7 @@ from conans import ConanFile, CMake, tools
 
 class PokerbotConan(ConanFile):
     name = "Pokerbot"
-    version = "1.0.0"
+    version = "1.1.0"
     license = "Open Source"
     author = "Julian Massing julimassing@gmail.com"
     settings = "os", "compiler", "build_type", "arch"
@@ -32,6 +32,7 @@ class PokerbotConan(ConanFile):
        self.copy("*.lib", dst="lib", keep_path=False)
        #self.copy("*.dll", dst="bin", src="bin", keep_path=False)
        self.copy("Pokerbot.exe", dst="bin", src="bin", keep_path=False)
+       self.copy("Pokerbot", dst="bin", src="bin", keep_path=False)
        self.copy("Card_Imgs/*", dst="bin", keep_path=True)
        self.copy("*.ini", dst="bin") 
 

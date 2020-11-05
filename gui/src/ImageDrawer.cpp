@@ -177,7 +177,7 @@ namespace gui
 		{
 			this->drawContours(contours, dst, color, mask_cards);
 
-			if(mask_cards)
+			if(!mask_cards)
             {
                 this->writeCard(dst, card, color);
             } 
