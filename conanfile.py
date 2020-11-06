@@ -19,7 +19,7 @@ class PokerbotConan(ConanFile):
         pass
 
     def imports(self):
-        #self.copy("*.dll", dst="bin", src="@bindirs", keep_path=False)
+        self.copy("*.dll", dst="bin", src="@bindirs", keep_path=False)
         self.copy("*.ini", dst="bin") 
 
     def build(self, keep_imports=True):
@@ -30,7 +30,9 @@ class PokerbotConan(ConanFile):
 
     def package(self):
        self.copy("*.lib", dst="lib", keep_path=False)
-       #self.copy("*.dll", dst="bin", src="bin", keep_path=False)
+       self.copy("*.dll", dst="bin", keep_path=False)
+       self.copy("*.so", dst="lib", keep_path=False)
+       self.copy("*.a", dst="lib", keep_path=False)
        self.copy("Pokerbot.exe", dst="bin", src="bin", keep_path=False)
        self.copy("Pokerbot", dst="bin", src="bin", keep_path=False)
        self.copy("Card_Imgs/*", dst="bin", keep_path=True)

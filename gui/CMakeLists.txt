@@ -47,24 +47,52 @@ ${imgui_files} ${imgui_impl_files} ${gl3w}
 
 ## add GLFW
 
-#include( ExternalProject )
-#ExternalProject_Add(
-#  glfw PREFIX glfw
- # GIT_REPOSITORY https://github.com/glfw/glfw.git
-#  GIT_TAG 3.3
-#  CMAKE_ARGS
-#    "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>"
-#    "-DCMAKE_BUILD_TYPE=Release"
-#    "-DGLFW_BUILD_DOCS=OFF"
-#    "-DGLFW_BUILD_EXAMPLES=OFF"
-#    "-DGLFW_BUILD_TESTS=OFF"
-#)
-#ExternalProject_Get_Property( glfw INSTALL_DIR )
-#set( GLFW_DIR ${INSTALL_DIR} )
-#set( GLFW_INCLUDE_DIR ${GLFW_DIR}/include )
-#set( GLFW_LIBRARIES ${GLFW_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glfw3${CMAKE_STATIC_LIBRARY_SUFFIX} )
+if(WIN32)
 
+MESSAGE("We are in the -win block")
+
+  include( ExternalProject )
+  ExternalProject_Add(
+  glfw PREFIX glfw
+  GIT_REPOSITORY https://github.com/glfw/glfw.git
+  GIT_TAG 3.3
+  CMAKE_ARGS
+    "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>"
+    "-DCMAKE_BUILD_TYPE=Release"
+    "-DGLFW_BUILD_DOCS=OFF"
+    "-DGLFW_BUILD_EXAMPLES=OFF"
+    "-DGLFW_BUILD_TESTS=OFF"
+  )
+  ExternalProject_Get_Property( glfw INSTALL_DIR )
+  set( GLFW_DIR ${INSTALL_DIR} )
+  set( GLFW_INCLUDE_DIR ${GLFW_DIR}/include )
+  set( GLFW_LIBRARIES ${GLFW_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glfw3${CMAKE_STATIC_LIBRARY_SUFFIX} )
+
+  target_link_libraries( 
+      GuiLib 
+      DetectionLib 
+      PokerLib
+      CaptureLib
+      ${GLFW_LIBRARIES} 
+      ${OPENGL_LIBRARIES} 
+      )
+
+  target_include_directories(
+      GuiLib PUBLIC 
+      ${PROJECT_SOURCE_DIR}/gui/include
+      ${PROJECT_SOURCE_DIR}/gui/include/widgets
+      ${PROJECT_SOURCE_DIR}/gui/include/windows
+      ${PROJECT_SOURCE_DIR}/gui/include/interfaces
+      ${IMGUI_DIR} 
+      ${IMGUI_DIR}/examples 
+      ${IMGUI_DIR}/examples/libs/gl3w
+      ${GLFW_INCLUDE_DIR}
+      ${GLFW_LIBRARIES}
+      )    
+
+ELSE()
 ## find GLFW3
+MESSAGE("We are in the else block")
 find_package( glfw3 3.3 REQUIRED )
 
 target_link_libraries( 
@@ -73,7 +101,6 @@ target_link_libraries(
     PokerLib
     CaptureLib
     glfw
-    #${GLFW_LIBRARIES} 
     ${OPENGL_LIBRARIES} 
     )
 
@@ -86,9 +113,9 @@ target_include_directories(
     ${IMGUI_DIR} 
     ${IMGUI_DIR}/examples 
     ${IMGUI_DIR}/examples/libs/gl3w
-    #${GLFW_INCLUDE_DIR}
-    #${GLFW_LIBRARIES}
     )
+
+ENDIF()
 
 
 
