@@ -15,7 +15,7 @@ namespace detect
 
 		public:
 
-            const enum Filter { LARGEST_AREA, SMALLEST_AREA, LE_AREA, GE_AREA };
+            enum Filter { LARGEST_AREA, SMALLEST_AREA, LE_AREA, GE_AREA };
 
             
             static void binarizeImage(

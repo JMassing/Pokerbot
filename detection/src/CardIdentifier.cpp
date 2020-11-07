@@ -49,7 +49,7 @@ namespace detect{
 	{	
 		std::vector<std::string> file_names{};
 
-		cv::glob(path + "\\*.jpg", file_names, false);		
+		cv::glob(path, file_names, false);		
 
         // check if input could be read
 		if (file_names.size() == 0) 

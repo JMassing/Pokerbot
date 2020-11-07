@@ -14,7 +14,7 @@ namespace poker
     //@brief: Checks if Hand contains rank 
     bool Hand::containsRank(const int& rank)
     {
-         return templates::contains(this->cards_.begin(), this->cards_.end(), rank, 
+        return templates::contains(this->cards_.begin(), this->cards_.end(), rank, 
                     [](const auto& lhs, const auto& rhs)
                     {
                         return lhs.rank == rhs;

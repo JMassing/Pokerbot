@@ -18,6 +18,7 @@ namespace capture
             int zoom;
 			int image_width;
 			int image_height;
+			int wb_temperature;
 
 			void setToDefault(const DefaultConfig& default_settings)
 			{
@@ -28,6 +29,7 @@ namespace capture
 				this->brightness = default_settings.brightness;
 				this->focus = default_settings.focus;
 				this->zoom = default_settings.zoom;
+				this->wb_temperature = default_settings.wb_temperature;
 				this->image_width = default_settings.image_width;
 				this->image_height = default_settings.image_height;
 			};
@@ -41,7 +43,8 @@ namespace capture
 				focus(40), 
 				zoom(40), 
 				image_width(1280), 
-				image_height(1024)
+				image_height(1024),
+				wb_temperature(4000)
 			{};
 
 			~CameraSettings(){};

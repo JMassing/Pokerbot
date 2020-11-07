@@ -12,7 +12,7 @@ namespace gui {
 		public:
 			
 			template<class T>
-			bool draw(const std::string name, const bool& active, T& callback)
+			bool draw(const std::string name, const bool& active, const T& callback)
 			{
 				bool button_pressed = false;
 				if(active)

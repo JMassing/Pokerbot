@@ -17,6 +17,11 @@ find_package(GTest REQUIRED)
 ## find OpenGL
 find_package( OpenGL REQUIRED )
 
+IF(UNIX)
+## find GLEW
+find_package( GLEW REQUIRED )
+ENDIF()
+
 ## set up unit testing
 include(CTest)
 

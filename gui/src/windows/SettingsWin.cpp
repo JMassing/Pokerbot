@@ -247,6 +247,15 @@ namespace gui
             ); ImGui::SameLine(); 
             this->helpMarker("CTRL+click to input value.");
 
+            this->input_ |= this->slider_.draw(
+                "WB Temperature", 
+                this->min_wb_temp_, 
+                this->max_wb_temp_, 
+                this->camera_settings_.wb_temperature, 
+                true
+            ); ImGui::SameLine(); 
+            this->helpMarker("CTRL+click to input value.");
+
             // Image Processing
             ImGui::NewLine();
             ImGui::Text("Image Processing Settings:");

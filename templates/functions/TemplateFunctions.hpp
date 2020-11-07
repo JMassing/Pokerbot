@@ -1,5 +1,7 @@
 #pragma once
 
+#include <random>
+
 namespace templates{
 
     //@brief: Checks if rhs is present within range lhs_first and lhs_last, 
@@ -22,7 +24,7 @@ namespace templates{
     //        using comparison function func, e.g if a vector contains a 
     //        custom class with a custom comparison function  
     template<class it, class T, class Compare>
-    bool contains(it lhs_first, it lhs_last, const T& rhs, Compare& func)
+    bool contains(it lhs_first, it lhs_last, const T& rhs, const Compare& func)
     {
         for(auto p = lhs_first; p != lhs_last; ++p)
         {

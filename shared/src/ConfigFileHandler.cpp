@@ -6,7 +6,7 @@
     opts_("Default Config"), 
     variables_map_()
     {
-        fs::path filename = fs::current_path() / "config.ini";
+        fs::path filename = fs::current_path() / ".." / "config.ini";
         this->config_file_ = filename.string();
         this->setOptions();
         this->parseFile();
@@ -23,6 +23,7 @@
             ("camera.brightness", po::value<int>())
             ("camera.focus", po::value<int>())
             ("camera.zoom", po::value<int>())
+            ("camera.wb_temperature", po::value<int>())
             ("camera.image_width", po::value<int>())
             ("camera.image_height", po::value<int>())
             ("detection.live_threshold", po::value<int>())

@@ -34,6 +34,10 @@ namespace capture {
 			{
 				this->gui_interface_ = interface;
 			}
+			int getBackend()
+			{
+				return this->cap_.get(cv::CAP_PROP_BACKEND);
+			}
 			
 			// Constructor used to caputre live frame from camera
 			CameraController(

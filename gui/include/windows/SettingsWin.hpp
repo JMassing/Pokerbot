@@ -34,8 +34,10 @@ namespace gui {
 			const int min_rank_suit_image_height_percent_ = 25; 
 			const int max_rank_suit_image_height_percent_ = 175; 
 			// Camera Control
-			const int max_exp_time_ = -1;
-       		const int min_exp_time_ = -12;
+			int max_exp_time_;
+       		int min_exp_time_; 
+			const int max_wb_temp_ = 10000;
+       		const int min_wb_temp_= 0;   
         	const int max_focus_ = 250;
         	const int min_focus_ = 0;
         	const int max_brightness_ = 255;
@@ -83,6 +85,7 @@ namespace gui {
 				const LayoutConfig& layout_settings,
 				const detect::ImProcSettings& proc_settings,
 				const poker::GameSettings& sim_settings,
+				const int& cam_backend,
 				const int& flag = 0
 				):
 				IWindow(name, show, flag), 
@@ -96,7 +99,19 @@ namespace gui {
 				proc_settings_(proc_settings),
 				game_settings_(sim_settings),
 				input_(false)
-			{};
+			{
+				// V4L/V4L2 backend interprets exposure times differently
+				if(cam_backend == 200)
+				{
+					this->max_exp_time_ = 2000;
+					this->min_exp_time_ = 0;
+				}
+				else
+				{
+					this->max_exp_time_ = -1;
+					this->min_exp_time_ = -12;
+				}
+			};
 
 			virtual ~SettingsWin() {};
 
