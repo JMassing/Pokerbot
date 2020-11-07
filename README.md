@@ -27,6 +27,7 @@ See the Releases section
 * The build and package folders are given when the build is finished (looks something like: C:\\.conan\41e8cc\1)
 * You can also find the build/package folder by using the command _conan info --paths Pokerbot/1.0.0@_.  Look for the Pokerbot/1.0.0 package-folder.
 * If you get the error _ERROR: opencv/4.1.1@conan/stable: Invalid configuration: OpenCV 4.x requires Visual Studio 2015 and higher_ use _conan info --paths Pokerbot/1.0.0@ -pr conan_configs/<config_file>_, where _<config_file>_ is the conan config you used during build.
+
 <img src="./docs/Conan-Info.png" width="500"/></img>
 * The build/package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
 * Both build and package folder will have a bin/Pokerbot.exe you can use to start the pokerbot. The package folder is used to create the .zip for each release.
@@ -56,8 +57,8 @@ See the Releases section
  
 ## Use Pokerbot
 * We use OpenCV to control the camera. The OpenCV VideoCapture class uses the member device_id to determine the camera. 
-    * device_id = 0 is usually the integrated webcam, whereas usb cameras are usually device_id = 1. 
-    * The config.ini initially sets the device_id. The default value is 1. You can change the device_id in the config.ini to the appropiate value for the camera you are using.
+    * device_id = 0 is usually the integrated webcam, whereas usb cameras are usually device_id = 1 on windows. On linux I usually got device_id = 2 for my usb camera.
+    * The config.ini initially sets the device_id. The default value is 1 for windows builds and 2 for linux builds. You can change the device_id in the config.ini to the appropiate value for the camera you are using.
 * The config.ini also contains initial values for camera and processing settings, which can be overwritten by using the "save as default" button. 
 * Use Pokerbot.exe to start the pokerbot
 * First, place a playing card within the camera view and adjust camera settings and processing settings until the card is detected
