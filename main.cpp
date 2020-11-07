@@ -191,6 +191,8 @@ int main(int argc, char* argv[])
 				break;
 			}		
 
+			cam_controller.printCameraState();
+			
 			// Detect Cards in Frame and notify other modules
 			card_detector.detectCards();
 

@@ -96,8 +96,8 @@ namespace detect{
 		int count = 0;
 		cv::Mat card_image;
 
-		fs::path rank_folder = fs::current_path() / "Card_Imgs" / "ranks" / "*.jpg";
-		fs::path suit_folder = fs::current_path() / "Card_Imgs" / "suits" / "*.jpg";
+		fs::path rank_folder = fs::current_path() / ".." / "Card_Imgs" / "ranks" / "*.jpg";
+		fs::path suit_folder = fs::current_path() / ".." / "Card_Imgs" / "suits" / "*.jpg";
 
         CardIdentifier card_identifier(
             rank_folder.string(),

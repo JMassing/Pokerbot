@@ -6,7 +6,7 @@
     opts_("Default Config"), 
     variables_map_()
     {
-        fs::path filename = fs::current_path() / "config.ini";
+        fs::path filename = fs::current_path() / ".." / "config.ini";
         this->config_file_ = filename.string();
         this->setOptions();
         this->parseFile();

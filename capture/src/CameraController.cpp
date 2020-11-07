@@ -85,8 +85,11 @@ namespace capture {
 		<< "Exposure time: " << this->cap_.get(cv::CAP_PROP_EXPOSURE) << "\n"
 		<< "Focus: " << this->cap_.get(cv::CAP_PROP_FOCUS) << "\n"
 		<< "Brightness: " << this->cap_.get(cv::CAP_PROP_BRIGHTNESS) << "\n"
-		<< "Zoom: " << this->cap_.get(cv::CAP_PROP_ZOOM) << std::endl;
-
+		<< "Zoom: " << this->cap_.get(cv::CAP_PROP_ZOOM) << std::endl << "\n"
+		<< "Gamma: " << this->cap_.get(cv::CAP_PROP_GAMMA) << std::endl << "\n"
+		<< "Saturation: " << this->cap_.get(cv::CAP_PROP_SATURATION) << std::endl << "\n"
+		<< "Hue: " << this->cap_.get(cv::CAP_PROP_HUE) << std::endl << "\n"
+		<< "Gain: " << this->cap_.get(cv::CAP_PROP_GAIN) << std::endl << "\n";
 	}
 
 }

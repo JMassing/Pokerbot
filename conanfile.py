@@ -35,10 +35,10 @@ class PokerbotConan(ConanFile):
        self.copy("*.a", dst="lib", keep_path=False)
        self.copy("Pokerbot.exe", dst="bin", src="bin", keep_path=False)
        self.copy("Pokerbot", dst="bin", src="bin", keep_path=False)
-       self.copy("Card_Imgs/*", dst="bin", keep_path=True)
-       self.copy("*.ini", dst="bin") 
-
-
+       self.copy("Card_Imgs/*", dst="", keep_path=True)
+       self.copy("config.ini", dst="", keep_path=False)
+       self.copy("imgui.ini", dst="bin", keep_path=False) 
+ 
     def package_info(self):
         self.cpp_info.libs = ["opencv", "boost", "gtest"]
 
