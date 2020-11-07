@@ -49,8 +49,6 @@ ${imgui_files} ${imgui_impl_files} ${gl3w}
 
 if(WIN32)
 
-MESSAGE("We are in the -win block")
-
   include( ExternalProject )
   ExternalProject_Add(
   glfw PREFIX glfw
@@ -92,7 +90,6 @@ MESSAGE("We are in the -win block")
 
 ELSE()
 ## find GLFW3
-MESSAGE("We are in the else block")
 find_package( glfw3 3.3 REQUIRED )
 
 target_link_libraries( 
