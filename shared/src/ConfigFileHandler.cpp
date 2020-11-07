@@ -23,6 +23,7 @@
             ("camera.brightness", po::value<int>())
             ("camera.focus", po::value<int>())
             ("camera.zoom", po::value<int>())
+            ("camera.wb_temperature", po::value<int>())
             ("camera.image_width", po::value<int>())
             ("camera.image_height", po::value<int>())
             ("detection.live_threshold", po::value<int>())

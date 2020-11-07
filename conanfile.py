@@ -23,6 +23,11 @@ class PokerbotConan(ConanFile):
         self.copy("*.ini", dst="bin") 
 
     def build(self, keep_imports=True):
+        if self.settings.os == "Windows":
+            tools.rename("config_windows.ini", "config.ini")
+        else:
+            tools.rename("config_linux.ini", "config.ini")
+
         cmake = CMake(self)
         cmake.configure()
         cmake.build()

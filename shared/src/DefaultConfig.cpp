@@ -13,6 +13,7 @@
         this->brightness = handler.getConfig()["camera.brightness"].as<int>();
         this->focus = handler.getConfig()["camera.focus"].as<int>();
         this->zoom = handler.getConfig()["camera.zoom"].as<int>();
+        this->wb_temperature = handler.getConfig()["camera.wb_temperature"].as<int>();
         this->image_width = handler.getConfig()["camera.image_width"].as<int>();
         this->image_height = handler.getConfig()["camera.image_height"].as<int>();
         
@@ -58,6 +59,7 @@
         << "brightness = " << this->brightness << "\n"
         << "focus = " << this->focus << "\n"
         << "zoom = " << this->zoom << "\n"
+        << "wb_temperature = " << this->wb_temperature << "\n"
         << "image_width = " << this->image_width << "\n"
         << "image_height = " << this->image_height << "\n"
 

@@ -62,7 +62,7 @@ namespace capture {
 	{
 		this->cap_.set(cv::CAP_PROP_AUTOFOCUS, camera_settings.auto_focus);
 		this->cap_.set(cv::CAP_PROP_AUTO_EXPOSURE, camera_settings.auto_exposure);
-		this->cap_.set(cv::CAP_PROP_AUTO_WB, camera_settings.auto_exposure);
+		this->cap_.set(cv::CAP_PROP_AUTO_WB, camera_settings.auto_wb);
 		if(!camera_settings.auto_exposure)
 		{
 			this->cap_.set(cv::CAP_PROP_EXPOSURE, camera_settings.exposure_time);
@@ -70,6 +70,10 @@ namespace capture {
 		if(!camera_settings.auto_focus)
 		{
 			this->cap_.set(cv::CAP_PROP_FOCUS, camera_settings.focus);
+		}
+		if(!camera_settings.auto_wb)
+		{
+			this->cap_.set(cv::CAP_PROP_WB_TEMPERATURE, camera_settings.wb_temperature);
 		}
 		this->cap_.set(cv::CAP_PROP_BRIGHTNESS, camera_settings.brightness);
 		this->cap_.set(cv::CAP_PROP_ZOOM, camera_settings.zoom);
@@ -86,10 +90,14 @@ namespace capture {
 		<< "Focus: " << this->cap_.get(cv::CAP_PROP_FOCUS) << "\n"
 		<< "Brightness: " << this->cap_.get(cv::CAP_PROP_BRIGHTNESS) << "\n"
 		<< "Zoom: " << this->cap_.get(cv::CAP_PROP_ZOOM) << std::endl << "\n"
-		<< "Gamma: " << this->cap_.get(cv::CAP_PROP_GAMMA) << std::endl << "\n"
+		// << "Gamma: " << this->cap_.get(cv::CAP_PROP_GAMMA) << std::endl << "\n"
 		<< "Saturation: " << this->cap_.get(cv::CAP_PROP_SATURATION) << std::endl << "\n"
-		<< "Hue: " << this->cap_.get(cv::CAP_PROP_HUE) << std::endl << "\n"
-		<< "Gain: " << this->cap_.get(cv::CAP_PROP_GAIN) << std::endl << "\n";
+		// << "Hue: " << this->cap_.get(cv::CAP_PROP_HUE) << std::endl << "\n"
+		<< "Gain: " << this->cap_.get(cv::CAP_PROP_GAIN) << std::endl << "\n"
+		<< "WB TEMP: " << this->cap_.get(cv::CAP_PROP_WB_TEMPERATURE) << std::endl << "\n"
+		<< "WB BLUE: " << this->cap_.get(cv::CAP_PROP_WHITE_BALANCE_BLUE_U) << std::endl << "\n"
+		<< "WB RED: " << this->cap_.get(cv::CAP_PROP_WHITE_BALANCE_RED_V) << std::endl << "\n";
+
 	}
 
 }

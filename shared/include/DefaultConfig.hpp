@@ -16,6 +16,7 @@
             int exposure_time;
             int brightness;
             int focus;
+            int wb_temperature;
             int zoom;
             int image_width;
             int image_height;

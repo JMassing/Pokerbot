@@ -95,7 +95,8 @@ int main(int argc, char* argv[])
 		*camera_settings,
 		*layout_settings,
 		*proc_settings,
-		*sim_settings
+		*sim_settings,
+		cam_controller.getBackend()
 		);
 	
 	// SetUp GUI Interfaces to modules
@@ -191,7 +192,7 @@ int main(int argc, char* argv[])
 				break;
 			}		
 
-			cam_controller.printCameraState();
+			//cam_controller.printCameraState();
 			
 			// Detect Cards in Frame and notify other modules
 			card_detector.detectCards();
