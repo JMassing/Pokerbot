@@ -24,9 +24,9 @@ class PokerbotConan(ConanFile):
 
     def build(self, keep_imports=True):
         if self.settings.os == "Windows":
-            tools.rename("config_windows.ini", "config.ini")
+            tools.rename("app/config_windows.ini", "app/config.ini")
         else:
-            tools.rename("config_linux.ini", "config.ini")
+            tools.rename("app/config_linux.ini", "app/config.ini")
 
         cmake = CMake(self)
         cmake.configure()
@@ -41,8 +41,8 @@ class PokerbotConan(ConanFile):
        self.copy("Pokerbot.exe", dst="bin", src="bin", keep_path=False)
        self.copy("Pokerbot", dst="bin", src="bin", keep_path=False)
        self.copy("Card_Imgs/*", dst="", keep_path=True)
-       self.copy("config.ini", dst="", keep_path=False)
-       self.copy("imgui.ini", dst="bin", keep_path=False) 
+       self.copy("app/config.ini", dst="", keep_path=False)
+       self.copy("app/imgui.ini", dst="bin", keep_path=False) 
  
     def package_info(self):
         self.cpp_info.libs = ["opencv", "boost", "gtest"]

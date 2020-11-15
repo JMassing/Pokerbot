@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Pokerbot VERSION 1.0.0)
+project(Pokerbot VERSION 1.1.0)
 
+# Global CMake variables are set here
+set(CMAKE_CXX_STANDARD          11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS        OFF)
+
+# Set Up Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
@@ -27,29 +33,25 @@ include(CTest)
 
 ## shared
 add_subdirectory(shared)
+
 ## gui
 add_subdirectory(gui)
+
 ## capture
 add_subdirectory(capture)
+
 ## detection
 add_subdirectory(detection)
+
 ## poker
 add_subdirectory(poker)
+
 ## tests
 add_subdirectory(unit_tests)
 
-## Executable
-add_executable(Pokerbot main.cpp)
+## app
+add_subdirectory(app)
 
-target_link_libraries(
-  Pokerbot  
-  DetectionLib 
-  SharedLib 
-  CaptureLib 
-  GuiLib 
-  PokerLib 
-  ${CONAN_LIBS}
-  )
 
 
 
