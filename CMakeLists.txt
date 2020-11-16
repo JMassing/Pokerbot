@@ -15,11 +15,6 @@ set(CAPTURELIB_NAME       "CaptureLib")
 set(GUILIB_NAME           "GuiLib")
 set(GLFWLIB_NAME          "glfw")
 
-
-## add imgui
-set(IMGUI_DIR ${PROJECT_BINARY_DIR}/imgui )
-
-
 # Set Up Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
