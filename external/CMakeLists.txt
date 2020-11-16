@@ -21,13 +21,13 @@ endif()
 
 ## GLFW Library
 add_subdirectory(glfw)
-target_compile_definitions(
+target_compile_options(
     glfw PUBLIC 
-    CMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    CMAKE_BUILD_TYPE=Release
-    GLFW_BUILD_DOCS=OFF
-    GLFW_BUILD_EXAMPLES=OFF
-    GLFW_BUILD_TESTS=OFF
+    -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+    -DCMAKE_BUILD_TYPE=Release
+    -DGLFW_BUILD_DOCS=OFF
+    -DGLFW_BUILD_EXAMPLES=OFF
+    -DGLFW_BUILD_TESTS=OFF
     )
 
 add_library(${GLFWLIB_NAME} ALIAS glfw)

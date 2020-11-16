@@ -34,8 +34,8 @@ See the Releases section
     * OpenCV v4.1.1 
     * Boost v1.72
     * Gtest v1.10.0
-    * ImGui v1.72b https://github.com/ocornut/imgui
-    * glfw v3.3 https://github.com/glfw/glfw.git
+    * ImGui v1.72b https://github.com/ocornut/imgui (provided as git submodule)
+    * glfw v3.3 https://github.com/glfw/glfw.git (provided as git submodule)
     * Opengl
     * VS15 compiler or higher
     * Conan v1.30 or higher
@@ -45,8 +45,8 @@ See the Releases section
     * OpenCV v4.1.1 
     * Boost v1.72
     * Gtest v1.10.0
-    * ImGui v1.72b https://github.com/ocornut/imgui
-    * glfw v3.3 https://github.com/glfw/glfw.git
+    * ImGui v1.72b https://github.com/ocornut/imgui (provided as git submodule)
+    * glfw v3.3 https://github.com/glfw/glfw.git (provided as git submodule)
     * g++7
     * Conan v1.30 or higher
     * Python v3.5 or higher

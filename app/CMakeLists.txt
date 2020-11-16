@@ -2,12 +2,12 @@
 add_executable(Pokerbot src/main.cpp)
 
 target_link_libraries(
-  Pokerbot  
+  Pokerbot  PUBLIC
   ${DETECTIONLIB_NAME} 
   ${SHAREDLIB_NAME} 
   ${CAPTURELIB_NAME}
   ${GUILIB_NAME} 
-  ${POKERLIB_NAME} 
+  ${POKERLIB_NAME}
   ${CONAN_LIBS}
   )
 

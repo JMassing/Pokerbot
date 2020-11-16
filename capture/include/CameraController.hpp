@@ -1,7 +1,18 @@
 #pragma once
+/**
+ * @file CameraController.hpp
+ * @author Julian Massing (julimassing@gmail.com)
+ * @brief Controls the video I/O using OpenCV VideoCapture class. 
+ * 		  Using the setCameraControls method, camera settings can be changed (e.g. exposure time)
+ *		  The grabLive method is used to grab live images from a camera
+ *  	  The grabVideo method is used to grab frames from a video file
+ * @version 1.0
+ * @date 2020-11-16
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
 
-// Controls the video I/O. It controls the camera settings (e.g. exposure time)
-// and captures live frames from the camera or frames from a video
 
 #include <string>
 #include <memory>
@@ -26,6 +37,12 @@ namespace capture {
 			Image frame_;
 
 			bool initCamera(const CameraSettings& camera_settings) override;
+			/**
+			 * @brief Grabs live Image from camera
+			 * 
+			 * @return true Image was grabbed
+			 * @return false No Image was grabbed
+			 */
 			bool grabLive() override;
 			bool grabVideo();
 			void setCameraControls(const CameraSettings& camera_settings) override;

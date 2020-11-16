@@ -2,7 +2,6 @@
 
 namespace capture {
 
-	// @brief: open selected camera using selected API
 	bool CameraController::initCamera(const CameraSettings& camera_settings)
 	{
 		// set camera controls to default values during initialization
@@ -19,7 +18,6 @@ namespace capture {
 		return true;
 	}
 
-	//@brief: Grab live image from camera
 	bool CameraController::grabLive()
 	{
 		// Set Camera settings if they were changed if gui is connected

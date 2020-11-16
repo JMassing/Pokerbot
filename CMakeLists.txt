@@ -13,17 +13,16 @@ set(DETECTIONLIB_NAME     "DetectionLib")
 set(SHAREDLIB_NAME        "SharedLib")
 set(CAPTURELIB_NAME       "CaptureLib")
 set(GUILIB_NAME           "GuiLib")
+set(TEMPLATELIB_NAME      "TemplateLib")
 set(GLFWLIB_NAME          "glfw")
+
+# Include own cmake modules
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
+include(Documentation)
 
 # Set Up Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
-
-# Bring templates into the project
-include_directories(
-    ${PROJECT_SOURCE_DIR}/templates/classes
-    ${PROJECT_SOURCE_DIR}/templates/functions  
-    )
 
 ## find gtest
 find_package(GTest REQUIRED)
@@ -41,6 +40,9 @@ include(CTest)
 
 ## shared
 add_subdirectory(shared)
+
+## templates
+add_subdirectory(templates)
 
 ## gui
 add_subdirectory(gui)

@@ -30,6 +30,8 @@ set( imgui_impl_files
 
 set(gl3w ${IMGUI_DIR}/examples/libs/gl3w/GL/gl3w.c)
 
+# add GuiLib
+
 add_library(
   ${GUILIB_NAME}  
   ${SOURCES_GUI}
@@ -50,17 +52,6 @@ if(WIN32)
       ${GLFWLIB_NAME}
       )
 
-  target_include_directories(
-    ${GUILIB_NAME} PUBLIC 
-      ${PROJECT_SOURCE_DIR}/gui/include
-      ${PROJECT_SOURCE_DIR}/gui/include/widgets
-      ${PROJECT_SOURCE_DIR}/gui/include/windows
-      ${PROJECT_SOURCE_DIR}/gui/include/interfaces
-      ${IMGUI_DIR} 
-      ${IMGUI_DIR}/backends 
-      ${IMGUI_DIR}/examples/libs/gl3w
-      )    
-
 ELSE()
 ## find GLFW3
 find_package( glfw3 3.3 REQUIRED )
@@ -74,6 +65,8 @@ target_link_libraries(
     ${OPENGL_LIBRARIES} 
     )
 
+ENDIF()
+
 target_include_directories(
     ${GUILIB_NAME} PUBLIC 
     ${PROJECT_SOURCE_DIR}/gui/include
@@ -81,11 +74,7 @@ target_include_directories(
     ${PROJECT_SOURCE_DIR}/gui/include/windows
     ${PROJECT_SOURCE_DIR}/gui/include/interfaces
     ${IMGUI_DIR} 
-    ${IMGUI_DIR}/examples 
+    ${IMGUI_DIR}/backends 
     ${IMGUI_DIR}/examples/libs/gl3w
-    )
-
-ENDIF()
-
-
+    )    
 
