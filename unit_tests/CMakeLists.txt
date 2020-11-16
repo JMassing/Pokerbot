@@ -18,6 +18,6 @@ add_gtest(TestDetect TestDetect.cpp)
 add_gtest(TestDM TestDM.cpp)
 
 
-target_link_libraries(TestPoker PRIVATE PokerLib SharedLib ${CONAN_LIBS_BOOST})
-target_link_libraries(TestDM PRIVATE PokerLib SharedLib ${CONAN_LIBS_BOOST})
-target_link_libraries(TestDetect PRIVATE PokerLib DetectionLib SharedLib ${CONAN_LIBS_OPENCV} ${CONAN_LIBS_ZLIB} ${CONAN_LIBS_BOOST})
+target_link_libraries(TestPoker PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_BOOST})
+target_link_libraries(TestDM PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_BOOST})
+target_link_libraries(TestDetect PRIVATE  ${POKERLIB_NAME} ${DETECTIONLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_OPENCV} ${CONAN_LIBS_ZLIB} ${CONAN_LIBS_BOOST})

@@ -7,6 +7,19 @@ set(CMAKE_CXX_STANDARD          11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS        OFF)
 
+## Set lib names
+set(POKERLIB_NAME         "PokerLib")
+set(DETECTIONLIB_NAME     "DetectionLib")
+set(SHAREDLIB_NAME        "SharedLib")
+set(CAPTURELIB_NAME       "CaptureLib")
+set(GUILIB_NAME           "GuiLib")
+set(GLFWLIB_NAME          "glfw")
+
+
+## add imgui
+set(IMGUI_DIR ${PROJECT_BINARY_DIR}/imgui )
+
+
 # Set Up Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
@@ -21,11 +34,11 @@ include_directories(
 find_package(GTest REQUIRED)
 
 ## find OpenGL
-find_package( OpenGL REQUIRED )
+find_package(OpenGL REQUIRED)
 
 IF(UNIX)
 ## find GLEW
-find_package( GLEW REQUIRED )
+find_package(GLEW REQUIRED)
 ENDIF()
 
 ## set up unit testing
@@ -51,6 +64,9 @@ add_subdirectory(unit_tests)
 
 ## app
 add_subdirectory(app)
+
+## external libraries
+add_subdirectory(external)
 
 
 

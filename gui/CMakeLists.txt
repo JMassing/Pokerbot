@@ -4,15 +4,6 @@ file(GLOB SOURCES_WIDGETS "src/widgets/*.cpp")
 file(GLOB SOURCES_INTERFACES "src/interfaces/*.cpp")
 file(GLOB SOURCES_WINDOWS "src/windows/*.cpp")
 
-## add imgui
-
-find_package( Git )
-execute_process(
-  COMMAND ${GIT_EXECUTABLE} clone "https://github.com/ocornut/imgui.git" -b v1.72b
-  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-)
-set( IMGUI_DIR ${PROJECT_BINARY_DIR}/imgui )
-
 set( imgui_files
   ${IMGUI_DIR}/imconfig.h
   ${IMGUI_DIR}/imgui.cpp
@@ -37,46 +28,48 @@ set( gl3w
   ${IMGUI_DIR}/examples/libs/gl3w/GL/gl3w.c
 )
 
-add_library( GuiLib 
-${SOURCES_GUI}
-${SOURCES_WIDGETS}
-${SOURCES_INTERFACES}
-${SOURCES_WINDOWS}
-${imgui_files} ${imgui_impl_files} ${gl3w}
+add_library(
+  ${GUILIB_NAME}  
+  ${SOURCES_GUI}
+  ${SOURCES_WIDGETS}
+  ${SOURCES_INTERFACES}
+  ${SOURCES_WINDOWS}
+  ${imgui_files} ${imgui_impl_files} ${gl3w}
 )
 
 ## add GLFW
 
 if(WIN32)
 
-  include( ExternalProject )
-  ExternalProject_Add(
-  glfw PREFIX glfw
-  GIT_REPOSITORY https://github.com/glfw/glfw.git
-  GIT_TAG 3.3
-  CMAKE_ARGS
-    "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>"
-    "-DCMAKE_BUILD_TYPE=Release"
-    "-DGLFW_BUILD_DOCS=OFF"
-    "-DGLFW_BUILD_EXAMPLES=OFF"
-    "-DGLFW_BUILD_TESTS=OFF"
-  )
-  ExternalProject_Get_Property( glfw INSTALL_DIR )
-  set( GLFW_DIR ${INSTALL_DIR} )
-  set( GLFW_INCLUDE_DIR ${GLFW_DIR}/include )
-  set( GLFW_LIBRARIES ${GLFW_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glfw3${CMAKE_STATIC_LIBRARY_SUFFIX} )
+  # include( ExternalProject )
+  # ExternalProject_Add(
+  # glfw PREFIX glfw
+  # GIT_REPOSITORY https://github.com/glfw/glfw.git
+  # GIT_TAG 3.3
+  # CMAKE_ARGS
+  #   "-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>"
+  #   "-DCMAKE_BUILD_TYPE=Release"
+  #   "-DGLFW_BUILD_DOCS=OFF"
+  #   "-DGLFW_BUILD_EXAMPLES=OFF"
+  #   "-DGLFW_BUILD_TESTS=OFF"
+  # )
+  # ExternalProject_Get_Property( glfw INSTALL_DIR )
+  # set( GLFW_DIR ${INSTALL_DIR} )
+  # set( GLFW_INCLUDE_DIR ${GLFW_DIR}/include )
+  # set( GLFW_LIBRARIES ${GLFW_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glfw3${CMAKE_STATIC_LIBRARY_SUFFIX} )
 
   target_link_libraries( 
-      GuiLib 
-      DetectionLib 
-      PokerLib
-      CaptureLib
+      ${GUILIB_NAME} PUBLIC 
+      ${DETECTIONLIB_NAME}  
+      ${POKERLIB_NAME} 
+      ${CAPTURELIB_NAME}
       ${GLFW_LIBRARIES} 
       ${OPENGL_LIBRARIES} 
+      ${GLFWLIB_NAME}
       )
 
   target_include_directories(
-      GuiLib PUBLIC 
+    ${GUILIB_NAME} PUBLIC 
       ${PROJECT_SOURCE_DIR}/gui/include
       ${PROJECT_SOURCE_DIR}/gui/include/widgets
       ${PROJECT_SOURCE_DIR}/gui/include/windows
@@ -84,8 +77,6 @@ if(WIN32)
       ${IMGUI_DIR} 
       ${IMGUI_DIR}/examples 
       ${IMGUI_DIR}/examples/libs/gl3w
-      ${GLFW_INCLUDE_DIR}
-      ${GLFW_LIBRARIES}
       )    
 
 ELSE()
@@ -93,16 +84,16 @@ ELSE()
 find_package( glfw3 3.3 REQUIRED )
 
 target_link_libraries( 
-    GuiLib 
-    DetectionLib 
-    PokerLib
-    CaptureLib
+    ${GUILIB_NAME} PUBLIC
+    ${DETECTIONLIB_NAME}  
+    ${POKERLIB_NAME} 
+    ${CAPTURELIB_NAME}
     glfw
     ${OPENGL_LIBRARIES} 
     )
 
 target_include_directories(
-    GuiLib PUBLIC 
+    ${GUILIB_NAME} PUBLIC 
     ${PROJECT_SOURCE_DIR}/gui/include
     ${PROJECT_SOURCE_DIR}/gui/include/widgets
     ${PROJECT_SOURCE_DIR}/gui/include/windows
