@@ -1,11 +1,21 @@
 #pragma once
 
-// Interface for camera controller
 
 #include "CameraSettings.hpp"
 
 namespace capture {
 
+	/**
+	* @class ICameraDevice
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Interface which defines minimum required functionality for camera control. 
+	*		
+	* @version 1.0
+	* @date 2020-11-18
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/	
 	class ICameraDevice
 	{ 
 		public:

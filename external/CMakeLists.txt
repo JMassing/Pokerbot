@@ -19,16 +19,14 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/glfw/CMakeLists.txt")
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
+## Files of submodule imgui are integrated and compiled together with GUI component and are brought into the project in the CMakeLists.txt of the GUI subdirectory 
+
 ## GLFW Library
+# Turn off all build targets but glfw library target
+set(GLFW_BUILD_DOCS OFF)
+set(GLFW_BUILD_EXAMPLES OFF)
+set(GLFW_BUILD_TESTS OFF)
 add_subdirectory(glfw)
-target_compile_options(
-    glfw PUBLIC 
-    -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-    -DCMAKE_BUILD_TYPE=Release
-    -DGLFW_BUILD_DOCS=OFF
-    -DGLFW_BUILD_EXAMPLES=OFF
-    -DGLFW_BUILD_TESTS=OFF
-    )
 
 add_library(${GLFWLIB_NAME} ALIAS glfw)
 

@@ -24,16 +24,13 @@ include(Documentation)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-## find gtest
-find_package(GTest REQUIRED)
-
 ## find OpenGL
 find_package(OpenGL REQUIRED)
 
-IF(UNIX)
-## find GLEW
-find_package(GLEW REQUIRED)
-ENDIF()
+if(UNIX)
+    ## find GLEW
+    find_package(GLEW REQUIRED)
+endif()
 
 ## set up unit testing
 include(CTest)

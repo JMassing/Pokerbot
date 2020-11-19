@@ -1,12 +1,24 @@
 #pragma once
 
-// CaptureDetectInterface exposes captured live frame to detection module.
+//  
 
 #include "IDetectCapture.hpp"
 #include "Image.hpp"
 
 namespace capture {
 
+	/**
+	* @class CaptureDetectInterface
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Implements communication interface between detection and capture module.
+	*		 Exposes captured live frame to detection module.
+	*		
+	* @version 1.0
+	* @date 2020-11-18
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class CaptureDetectInterface: public detect::IDetectCapture
 	{ 
 

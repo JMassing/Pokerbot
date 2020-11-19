@@ -17,7 +17,7 @@ namespace detect {
 			
             DataDetect getData() const override { return this->data_; };
 
-			explicit DetectPokerInterface(DataDetect& data, int& game_phase): 
+			explicit DetectPokerInterface(DataDetect& data): 
 				data_(data)
 			{};
 

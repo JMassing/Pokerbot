@@ -4,7 +4,17 @@
 
 namespace capture
 {
-
+	/**
+	* @class CameraSettings
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Data Structure containing Camera Settings
+	*
+	* @version 1.0
+	* @date 2020-11-18
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	struct CameraSettings
 	{ 		    
 		public:
@@ -20,6 +30,12 @@ namespace capture
 			int image_height;
 			int wb_temperature;
 
+			/**
+			 * @brief Sets the Camera Settings to default values. Method is called on first camera initialization
+			 *  	  and when user presses the "set to default button" in the gui.
+			 * 
+			 * @param default_settings Default values for camera settings. 
+			 */
 			void setToDefault(const DefaultConfig& default_settings)
 			{
 				this->auto_exposure = default_settings.auto_exposure;

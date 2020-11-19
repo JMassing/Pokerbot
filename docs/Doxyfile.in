@@ -4,8 +4,8 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "C++ Project Template"
-PROJECT_NUMBER         = 1.0
+PROJECT_NAME           = "Pokerbot"
+PROJECT_NUMBER         = 1.1.1
 PROJECT_BRIEF          = 
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = ./
