@@ -22,10 +22,10 @@ set( imgui_files
 )
 
 set( imgui_impl_files
-  ${IMGUI_DIR}/backends/imgui_impl_glfw.h
-  ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
-  ${IMGUI_DIR}/backends/imgui_impl_opengl3.h
-  ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+  ${IMGUI_DIR}/examples/imgui_impl_glfw.h
+  ${IMGUI_DIR}/examples/imgui_impl_glfw.cpp
+  ${IMGUI_DIR}/examples/imgui_impl_opengl3.h
+  ${IMGUI_DIR}/examples/imgui_impl_opengl3.cpp
 )
 
 set(gl3w ${IMGUI_DIR}/examples/libs/gl3w/GL/gl3w.c)
@@ -75,7 +75,7 @@ target_include_directories(
     ${PROJECT_SOURCE_DIR}/gui/include/windows
     ${PROJECT_SOURCE_DIR}/gui/include/interfaces
     ${IMGUI_DIR} 
-    ${IMGUI_DIR}/backends 
+    ${IMGUI_DIR}/examples
     ${IMGUI_DIR}/examples/libs/gl3w
     )    
 
