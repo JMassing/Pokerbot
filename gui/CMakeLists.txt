@@ -41,32 +41,18 @@ add_library(
   ${imgui_files} ${imgui_impl_files} ${gl3w}
 )
 
-if(WIN32)
-
-  target_link_libraries( 
-      ${GUILIB_NAME} PUBLIC 
-      ${DETECTIONLIB_NAME}  
-      ${POKERLIB_NAME} 
-      ${CAPTURELIB_NAME}
-      ${OPENGL_LIBRARIES} 
-      ${GLFWLIB_NAME}
-      )
-
-ELSE()
-## find GLFW3
-find_package( glfw3 3.3 REQUIRED )
-
 target_link_libraries( 
-    ${GUILIB_NAME} PUBLIC
+    ${GUILIB_NAME} PUBLIC 
     ${DETECTIONLIB_NAME}  
     ${POKERLIB_NAME} 
     ${CAPTURELIB_NAME}
-    glfw
     ${OPENGL_LIBRARIES} 
-    GLEW::GLEW
+    ${GLFWLIB_NAME}
     )
 
-ENDIF()
+if(UNIX)
+  target_link_libraries(${GUILIB_NAME} PUBLIC GLEW::GLEW)
+endif()
 
 target_include_directories(
     ${GUILIB_NAME} PUBLIC 
