@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.10)
 project(Pokerbot VERSION 1.1.0)
 
 # Global CMake variables are set here
-set(CMAKE_CXX_STANDARD          11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS        OFF)
+# set(CMAKE_CXX_STANDARD          14)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(CMAKE_CXX_EXTENSIONS        OFF)
 
 ## Set lib names
 set(POKERLIB_NAME         "PokerLib")

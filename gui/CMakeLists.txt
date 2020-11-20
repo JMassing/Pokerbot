@@ -63,6 +63,7 @@ target_link_libraries(
     ${CAPTURELIB_NAME}
     glfw
     ${OPENGL_LIBRARIES} 
+    GLEW::GLEW
     )
 
 ENDIF()

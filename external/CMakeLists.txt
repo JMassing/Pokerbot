@@ -21,12 +21,14 @@ endif()
 
 ## Files of submodule imgui are integrated and compiled together with GUI component and are brought into the project in the CMakeLists.txt of the GUI subdirectory 
 
-## GLFW Library
-# Turn off all build targets but glfw library target
-set(GLFW_BUILD_DOCS OFF)
-set(GLFW_BUILD_EXAMPLES OFF)
-set(GLFW_BUILD_TESTS OFF)
-add_subdirectory(glfw)
+if(WIN32)
+    ## GLFW Library
+    # Turn off all build targets but glfw library target
+    set(GLFW_BUILD_DOCS OFF)
+    set(GLFW_BUILD_EXAMPLES OFF)
+    set(GLFW_BUILD_TESTS OFF)
+    add_subdirectory(glfw)
 
-add_library(${GLFWLIB_NAME} ALIAS glfw)
+    add_library(${GLFWLIB_NAME} ALIAS glfw)
+endif()
 

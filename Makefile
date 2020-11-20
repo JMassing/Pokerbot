@@ -2,10 +2,12 @@ ifeq ($(OS), Windows_NT)
 	RM = rm -r
 	PROFILE = vs17
 	CONFIGURE = cmake .. -G "Visual Studio 15 2017" -T host=x86 -A x64
+	TARGET = ALL_BUILD
 else
 	RM = sudo rm -r
 	PROFILE = gcc7
-	CONFIGURE = 
+	CONFIGURE = cmake .. -G "Unix Makefiles" 
+	TARGET = all
 endif
 
 help:
@@ -31,10 +33,10 @@ configure:
 	@cd build && $(CONFIGURE) && cd ..
 
 build_release:
-	@cd build && cmake --build . --config Release --target ALL_BUILD && cd ..
+	@cd build && cmake --build . --config Release --target $(TARGET) && cd ..
 
 build_debug:
-	@cd build && cmake --build . --config Debug --target ALL_BUILD && cd ..
+	@cd build && cmake --build . --config Debug --target $(TARGET) && cd ..
 
 documentation:
 	@cd build && cmake --build . --target Pokerbot_docs && cd ..
