@@ -7,10 +7,32 @@
 
 namespace gui {
 
+ 	/**
+	* @class InputField
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Wrapper for ImGui::Input
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class InputField
 	{				
 		public:
 			
+			/**
+			 * @brief Wrapper for ImGui::InputInt
+			 * 
+			 * @param name Name of input field
+			 * @param min min value
+			 * @param max max value
+			 * @param value default
+			 * @param enforce_boundaries true to enforce min <= value <= max
+			 * @return true if user input
+			 * @return false if no user input
+			 */
 			bool draw(
 				const std::string& name, 
 				const int& min,
@@ -29,6 +51,10 @@ namespace gui {
 				return changed;
 			};
 			
+			/**
+			 * @brief Function overload for ImGui::InputFloat
+			 * 
+			 */
 			bool draw(
 				const std::string& name, 
 				const float& min, 

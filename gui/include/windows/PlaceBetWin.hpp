@@ -9,6 +9,17 @@
 
 namespace gui {
 
+	/**
+	* @class PlaceBetWin
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Window that pops up when it is the players turn to place his bet.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class PlaceBetWin: public IWindow
 	{
 		private:

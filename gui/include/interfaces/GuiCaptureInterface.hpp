@@ -6,6 +6,17 @@
 
 namespace gui {
 
+	/**
+	* @class GuiCaptureInterface
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Implements communication interface between capture and GUI module.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class GuiCaptureInterface: public capture::ICaptureGui
 	{
 		public:	

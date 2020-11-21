@@ -6,6 +6,17 @@
 
 namespace gui {
 
+	/**
+	* @class LayoutConfig
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Data structure containing GUI layout settings
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     struct LayoutConfig
     {
         bool show_cards;

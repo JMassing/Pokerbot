@@ -6,9 +6,20 @@
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
-// Sets up GUI Context with ImGui
 namespace gui {
-
+    
+    /**
+	* @class GuiContext
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Wrapper around Dear ImGui with glfw and OpenGl3 backend. Sets up GUI context, event handlers,
+    *        platform bindings and renders GUI.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class GuiContext
 	{
 		protected:
@@ -28,10 +39,34 @@ namespace gui {
 
 		public:
 
+            /**
+             * @brief Initialize Gui Context and main Gui frame with graphics context
+             * 
+             * @return true on successfull init
+             * @return false on failed init
+             */
             bool init();
-            void drawGuiFrame();            
+            /**
+             * @brief Draw main Gui frame
+             * 
+             */
+            void drawGuiFrame();    
+            /**
+             * @brief Renders all gui windows 
+             * 
+             */
             void render();
-            bool shouldClose() { return this->should_close_; };             
+            /**
+             * @brief Checks if User closes Gui
+             * 
+             * @return true if close
+             * @return false if not close
+             */
+            bool shouldClose() { return this->should_close_; }; 
+            /**
+             * @brief Forces Gui closure.
+             * 
+             */
             void closeWindow() { this->should_close_ = true; }; 
   					
 			GuiContext(): window_(nullptr), should_close_(false) {};

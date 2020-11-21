@@ -9,6 +9,17 @@
 
 namespace gui {
 
+	/**
+	* @class NextRoundWin
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Window that pops up when round is finished.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class NextRoundWin: public IWindow
 	{
 		private:

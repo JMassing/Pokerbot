@@ -7,6 +7,18 @@
 
 namespace gui {
 
+	/**
+	* @class AskForSaveWin
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Window that pops up when hitting the "save as default button", asking the user if he wants to 
+	* 		 permanently override the default settings.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class AskForSaveWin: public IWindow
 	{
 		private:

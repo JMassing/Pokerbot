@@ -5,12 +5,33 @@
 
 namespace gui {
 
+ 	/**
+	* @class Button
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Wrapper for ImGui::Button
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class Button
 	{
 		protected:
 			
 		public:
 			
+			/**
+			 * @brief Draw Button
+			 * 
+			 * @tparam T 
+			 * @param name Button name
+			 * @param active True if button is active (i.e. can be pressed)
+			 * @param callback Pointer to function that is called on button press
+			 * @return true if button was pressed
+			 * @return false if button was not pressed
+			 */
 			template<class T>
 			bool draw(const std::string name, const bool& active, const T& callback)
 			{
@@ -25,12 +46,13 @@ namespace gui {
 				}
 				else
 				{
+					// Grey out button that is not active
 					ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
 					ImGui::Button(name.c_str());					
 					ImGui::PopStyleVar();
 				}
 				      
-				return button_pressed ;
+				return button_pressed;
 			};
 
 			Button() {};

@@ -11,7 +11,17 @@
 #include "NextRoundWin.hpp"
 
 namespace gui {
-
+	/**
+	* @class PokerWin
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Window showing information concerning the poker game.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class PokerWin: public IWindow
 	{
 		private:

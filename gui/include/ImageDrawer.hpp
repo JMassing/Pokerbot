@@ -16,9 +16,19 @@
 #include "Card.hpp"
 #include "Mapping.hpp"
 
-// Loads cv::Mat image to OpenGL texture and draws it in ImGui
 namespace gui {
-
+	/**
+	* @class ImageDrawer
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Adds contour outlines, text, rectangles and points to camera image and 
+	* 		 draws live frame into live image window
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class ImageDrawer
 	{
 		private:
@@ -42,9 +52,25 @@ namespace gui {
 
 		public:		
 
-			void init_texture();
-			void delete_texture();
+			/**
+			 * @brief Inits OpenGl texture for drawing live image
+			 * 
+			 */
+			void initTexture();
+			/**
+			 * @brief Deletes texture
+			 * 
+			 */
+			void deleteTexture();
 
+			/**
+			 * @brief Print text to given frame
+			 * 
+			 * @param dst destination frame
+			 * @param text text to print
+			 * @param pos Text position
+			 * @param color Text color
+			 */
 			void printText(
 				cv::Mat& dst, 
 				std::string& text, 
@@ -52,21 +78,50 @@ namespace gui {
 				const cv::Scalar& color
 				);
 
+			/**
+			 * @brief Load given image as texture using OpenGl and display it in GUI window using ImGui::Image()
+			 * 
+			 * @param frame Frame to draw
+			 * @param image_width Width in pixel
+			 * @param image_height Height in Pixel
+			 */
 			void draw(const cv::Mat& frame, const int& image_width, const int& image_height);
 
+			/**
+			 * @brief Print Card Contours and Rank/Suits as Text to image. Used to visualize Cards in given frame.
+			 * 
+			 * @param card Card to draw
+			 * @param dst Destination frame
+			 * @param color Contour and Text color
+			 * @param mask_cards True if cards should be masked. 
+			 */
 			void drawCard(
 				const detect::Card& card, 
 				cv::Mat& dst, 
 				const cv::Scalar& color,
 				const bool& mask_cards = false
 				);
-
+			
+			/**
+			 * @brief Draw rectangle in given frame
+			 * 
+			 * @param frame Destination frame
+			 * @param rect Rectangle object
+			 * @param color Linecolor
+			 */
 			void drawRectangle(
 					cv::Mat& frame, 
 					const cv::Rect& rect, 
 					const cv::Scalar& color
 					);
 			
+			/**
+			 * @brief Draw point in given frame
+			 * 
+			 * @param frame Destination frame
+			 * @param center Point object
+			 * @param color 
+			 */
 			void drawPoint(
 					cv::Mat& frame, 
 					const cv::Point& center, 
@@ -75,7 +130,7 @@ namespace gui {
 
 			ImageDrawer() 
 			{ 
-				this->init_texture(); 
+				this->initTexture(); 
 			};
 			~ImageDrawer() {};
 
