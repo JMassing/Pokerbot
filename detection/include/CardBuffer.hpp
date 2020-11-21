@@ -9,16 +9,28 @@
 #include "RingBuffer.hpp"
 #include "Image.hpp"
 
-// The card buffer is used to account for outliers in the detection.
-// We always compare a sample of the N-1 last detections with the current detection of the card. 
-// If the current detection has changed, this is first considered an outlier. 
-// However, it might be the case, that the card was initially detected as unknown or something 
-// wrong for a different reason. After some time the new and right detections 
-// take over the buffer and we return the right card. 
+ 
 
 namespace detect
 {	
 
+	/**
+	* @class CardBuffer
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief RingBuffer Pattern adapted for buffering Cards. \n 
+	* The card buffer is used to account for outliers in the detection. 
+	* We always compare a sample of the N-1 last detections with the current detection of the card. 
+	* If the current detection has changed, this is first considered an outlier. 
+	* However, it might be the case, that the card was initially detected as unknown or something 
+	* wrong for a different reason. After some time the new and right detections
+	* take over the buffer and we return the right card
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	template<std::size_t N>
 	class CardBuffer: public templates::RingBuffer<BaseCard, N>
 	{	
@@ -39,8 +51,11 @@ namespace detect
 
 		bool getCard(Card& card_out);
 		
-		// Override put function for card buffer to also update center point and 
-		// contour with the center point and contour of the latest card
+		/**
+		* @brief Override put function for card buffer to also update center point and 
+		         contour with the center point and contour of the latest card
+		* 
+		*/
 		void put(const Card& card_in, const int& frame_nr);
 		cv::Point getCenter() const
 		{
@@ -50,7 +65,10 @@ namespace detect
 		{
 			return this->contour_;
 		}
-
+        /**
+		* @brief Returns the frame nr when the buffer was last updated 
+		* 
+		*/
 		int getLastUpdate() const
 		{
 			return this->last_update_;

@@ -14,10 +14,20 @@
 #include "TrainImage.hpp"
 #include "ContourFinder.hpp"
 
-// Compares card images to train images and returns the rank and suit of the detected
-// Card image
+// 
 namespace detect 
 {
+    /**
+	* @class CardIdentifier
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Compares Card Image to TrainImage and returns the rank and suit of the detected Card Image
+	*		
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     class CardIdentifier
 	{
 
@@ -48,6 +58,13 @@ namespace detect
                    std::vector<TrainImage>& train_images
                    );			
 
+            /**
+             * @brief Calculates similarity of two images 
+             * 
+             * @param src First image
+             * @param dst Second image
+             * @return double L2-error
+             */
            	double compareImages(const cv::Mat &src, const cv::Mat &dst);		
 
             std::pair<int, std::string> compareToTrainImage(
@@ -58,6 +75,16 @@ namespace detect
 
 		public:    
 
+            /**
+             * @brief Identifies what Card is shown in Card Image.
+             * Card Image is binarized and upper right corner is zoomed in.
+			 * Upper right corner is then compared to TrainImage using L2 Norm.
+	   	     * Lowest difference wins.
+            * 
+             * @param card Detected card
+             * @param card_image Training image
+             */
+		      
         	void identifyCard(Card& card, const cv::Mat& card_image);
 
 			CardIdentifier(

@@ -7,6 +7,18 @@
 
 namespace detect
 {
+	/**
+	* @class Card
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Data Structure for detected cards. 
+	* Extends BaseCard with the detected center_point and card contour and card, rank and suit images
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	struct Card: public BaseCard
 	{
 	

@@ -21,7 +21,7 @@ using namespace capture;
 int main(int argc, char* argv[])
 {
 
-	// Read default settings from config.ini	
+	// Read intial settings from config.ini	
 	unique_ptr<DefaultConfig> default_settings = 
 		make_unique<DefaultConfig>();
 

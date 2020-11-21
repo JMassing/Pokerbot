@@ -2,12 +2,6 @@
 
 namespace detect{
 
-    // @brief: filters contours after given method. Value ist given according to method
-	// 		   Methods are: 
-	// 		   LARGEST_AREA = 0, only keept largest contour
-	// 		   SMALLEST_AREA = 1, only keep smalles contour 
-	// 		   LE_AREA = 2, contour area is smaller/equal then given value
-	// 		   GE_AREA = 3, contour area is larger/equal then given value 
 	void ContourFinder::filterContours(
         std::vector<std::vector<cv::Point> >& contours, 
         const int& method, 
