@@ -2,11 +2,11 @@
 
 namespace gui
 {
-    void ImageDrawer::delete_texture()
+    void ImageDrawer::deleteTexture()
     {
         glDeleteTextures(1, &this->texture);
     }
-    void ImageDrawer::init_texture()
+    void ImageDrawer::initTexture()
     {
             cv::Mat image = cv::Mat::zeros(100, 100, CV_8UC3);
             cv::cvtColor( image, image, cv::COLOR_BGR2RGBA );        
@@ -37,7 +37,7 @@ namespace gui
 		return live_img;
 	}
 
-    //@brief: Draw given contour into given image 
+    // Draw given contour into given image 
 	void ImageDrawer::drawContours(
         const std::vector<std::vector<cv::Point> >& contours, 
         cv::Mat& dst, 
@@ -90,7 +90,7 @@ namespace gui
 		
 	}
     
-    //@brief: Copy text to given image
+    //@brief: 
 	void ImageDrawer::printText(
         cv::Mat& dst, 
         std::string& text, 
@@ -110,7 +110,7 @@ namespace gui
         cv::circle(frame, center, 1, color);
     }
 
-    //@brief: Load given image as texture using opengl and display it in GUI window using ImGui::Image()
+    //@brief: 
     void ImageDrawer::draw(const cv::Mat& frame, const int& image_width, const int& image_height)
     {
        if(!frame.empty())
@@ -141,9 +141,7 @@ namespace gui
                 GL_RGBA, 
                 GL_UNSIGNED_BYTE, 
                 shown_image.data 
-                );
-
-        
+                );   
 
                 //glDeleteTextures(1, &texture);
                 shown_image.release();
@@ -155,7 +153,6 @@ namespace gui
         }
     }
 
-    //@brief: Copy Card Contours and Rank/Suits as Text to image. Used to visualize Cards in given frame.
 	void ImageDrawer::drawCard(
         const detect::Card& card, 
         cv::Mat& dst, 

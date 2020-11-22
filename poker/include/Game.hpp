@@ -14,9 +14,18 @@
 #include "CardAssigner.hpp"
 #include "DecisionMaker.hpp"
 
-// Coordinates the entities needed to run a monte carlo simulation with the given cards
 namespace poker{
-    
+    /**  \ingroup poker
+	* @class Game
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Coordinates the poker module objects and the communication to the other modules during a game of poker        
+	*
+	* @version 1.0
+	* @date 2020-11-22
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     class Game{
         
         private: 

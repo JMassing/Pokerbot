@@ -7,6 +7,18 @@
 
 namespace detect
 {
+	/** *\ingroup detection
+	* @class IDetectGui
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Interface which defines communication between gui and detection module.
+	*		 Implemented in gui module.
+	*		
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class IDetectGui
 	{
 		public:

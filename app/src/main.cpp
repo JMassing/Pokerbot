@@ -21,7 +21,7 @@ using namespace capture;
 int main(int argc, char* argv[])
 {
 
-	// Read default settings from config.ini	
+	// Read intial settings from config.ini	
 	unique_ptr<DefaultConfig> default_settings = 
 		make_unique<DefaultConfig>();
 
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 
 	// Interface to Poker Module
 	shared_ptr<DetectPokerInterface> detect_poker_interface = 
-		make_shared<DetectPokerInterface>(card_detector.data_, card_detector.game_phase_);
+		make_shared<DetectPokerInterface>(card_detector.data_);
 
 	
 	// ----- Poker Module ------------------------------------------------------

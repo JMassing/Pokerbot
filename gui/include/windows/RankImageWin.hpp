@@ -11,7 +11,17 @@
 #include "GuiPokerInterface.hpp"
 
 namespace gui {
-
+	/**  \ingroup gui
+	* @class RankImageWin
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Window showing binarized images of card ranks.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class RankImageWin : public IWindow
 	{
 		private:
