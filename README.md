@@ -16,7 +16,7 @@ I am planning to implement the following in the future (in no particular order):
 See [Releases](https://github.com/JMassing/Pokerbot/releases)
 
 ## Documentation
-The doxygen documentation od the source code can be found [here](https://jmassing.github.io/Pokerbot_docs/index.html)
+The doxygen documentation of the source code can be found [here](https://jmassing.github.io/Pokerbot_docs/index.html)
 
 ## HowTo
 ### Build Pokerbot
