@@ -15,6 +15,9 @@ I am planning to implement the following in the future (in no particular order):
 ## Releases
 See [Releases](https://github.com/JMassing/Pokerbot/releases)
 
+## Documentation
+The documentation of each class can be found [here](https://jmassing.github.io/Pokerbot_docs/index.html)
+
 ## HowTo
 ### Build Pokerbot
 * Pokerbot uses the [Conan](https://conan.io/) package-manager and cmake for building the project 
