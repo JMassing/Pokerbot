@@ -15,7 +15,7 @@
 
 namespace gui {
 
-	/**
+	/**  \ingroup gui
 	* @class SettingsWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window showing camera and detection settings.

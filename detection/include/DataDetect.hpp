@@ -8,7 +8,7 @@
 
 namespace detect
 {
-	/**
+	/** *\ingroup detection
 	* @class DataDetect
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Data structure containing detection module output data to poker module

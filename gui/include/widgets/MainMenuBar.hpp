@@ -5,7 +5,7 @@
 
 namespace gui {
 
-    /**
+    /**  \ingroup gui
 	* @class MainMenuBar
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Wrapper for ImGui menubar. Draws main GUI menubar.

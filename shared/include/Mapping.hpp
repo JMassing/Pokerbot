@@ -6,6 +6,17 @@
 	enum Hands { HIGH_CARD, PAIR, TWO_PAIR, THREE_OF_A_KIND, STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH};
 
 	// Mappings between Cards and text symbols
+	/** \ingroup shared
+	* @class Image
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Defines mapping between textual representation and internal representation (enums) of Card ranks/suits and Hand ranks.
+	*		
+	* @version 1.0
+	* @date 2020-11-22
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class Mapping
 	{
 	    using bm_type = boost::bimaps::bimap<std::string, int>;
@@ -62,7 +73,6 @@
 		public:
 			bm_type image_mappings;
 			bm_type text_mappings;
-
 
 			Mapping() 
 			{

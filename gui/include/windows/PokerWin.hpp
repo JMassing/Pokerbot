@@ -11,7 +11,7 @@
 #include "NextRoundWin.hpp"
 
 namespace gui {
-	/**
+	/**  \ingroup gui
 	* @class PokerWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window showing information concerning the poker game.

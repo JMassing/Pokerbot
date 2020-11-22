@@ -8,7 +8,7 @@
 
 namespace gui {
 
-	/**
+	/**  \ingroup gui
 	* @class GuiPokerInterface
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Implements communication interface between poker and GUI module.

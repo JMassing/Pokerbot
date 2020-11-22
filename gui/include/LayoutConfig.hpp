@@ -6,7 +6,7 @@
 
 namespace gui {
 
-	/**
+	/**  \ingroup gui
 	* @class LayoutConfig
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Data structure containing GUI layout settings

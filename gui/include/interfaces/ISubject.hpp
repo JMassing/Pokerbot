@@ -9,7 +9,7 @@
 
 namespace gui
 {
-	/**
+	/**  \ingroup gui
 	* @class ISubject
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Subject Interface used in Observer Pattern 

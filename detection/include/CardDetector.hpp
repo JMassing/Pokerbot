@@ -32,7 +32,7 @@ namespace detect
 	// when all distances > max_distance, a new buffer is created.
     constexpr double MAX_DISTANCE_TO_BUFFER = 30;
 
-	/**
+	/** *\ingroup detection
 	* @class CardDetector
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Detects Cards in the live image.

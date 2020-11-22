@@ -14,7 +14,7 @@
 namespace detect
 {	
 
-	/**
+	/** *\ingroup detection
 	* @class CardBuffer
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief RingBuffer Pattern adapted for buffering Cards. \n 

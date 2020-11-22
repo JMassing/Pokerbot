@@ -7,7 +7,7 @@
 
 namespace gui {
 
-	/**
+	/**  \ingroup gui
 	* @class AskForSaveWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window that pops up when hitting the "save as default button", asking the user if he wants to 

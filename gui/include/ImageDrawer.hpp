@@ -17,7 +17,7 @@
 #include "Mapping.hpp"
 
 namespace gui {
-	/**
+	/** \ingroup gui
 	* @class ImageDrawer
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Adds contour outlines, text, rectangles and points to camera image and 

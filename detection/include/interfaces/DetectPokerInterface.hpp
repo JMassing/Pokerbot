@@ -5,7 +5,7 @@
 
 namespace detect {
 
-	/**
+	/** *\ingroup detection
 	* @class DetectPokerInterface
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Implements communication interface between detection and poker module.

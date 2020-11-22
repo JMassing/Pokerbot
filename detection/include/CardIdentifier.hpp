@@ -17,7 +17,7 @@
 // 
 namespace detect 
 {
-    /**
+    /** *\ingroup detection
 	* @class CardIdentifier
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Compares Card Image to TrainImage and returns the rank and suit of the detected Card Image

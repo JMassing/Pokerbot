@@ -5,10 +5,19 @@
 #include "BaseCard.hpp"
 #include "Player.hpp"
 
-// Builds the robot and player hands out of given robot cards and
-// public card from detection module
 namespace poker{
 
+   /**  \ingroup poker
+	* @class HandBuilder
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Builds the robot and player hands out of given robot cards and public card from detection module       
+	*
+	* @version 1.0
+	* @date 2020-11-22
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     class HandBuilder{
         
         public:

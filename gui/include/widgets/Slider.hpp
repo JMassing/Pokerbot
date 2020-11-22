@@ -7,7 +7,7 @@
 
 namespace gui {
 
-    /**
+    /**  \ingroup gui
 	* @class Slider
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Wrapper for ImGui::Slider.

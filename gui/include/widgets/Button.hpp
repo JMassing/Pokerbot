@@ -5,7 +5,7 @@
 
 namespace gui {
 
- 	/**
+ 	/**  \ingroup gui
 	* @class Button
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Wrapper for ImGui::Button

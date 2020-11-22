@@ -4,7 +4,7 @@
 
 namespace detect
 {
-	/**
+	/** *\ingroup detection
 	* @class IDetectCapture
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Interface which defines communication between capture and detection module.

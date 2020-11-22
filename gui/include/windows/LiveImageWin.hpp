@@ -13,7 +13,7 @@
 
 namespace gui {
 
-	/**
+	/**  \ingroup gui
 	* @class LiveImageWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window that shows the live image

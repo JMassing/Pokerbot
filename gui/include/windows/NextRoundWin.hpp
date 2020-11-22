@@ -9,7 +9,7 @@
 
 namespace gui {
 
-	/**
+	/**  \ingroup gui
 	* @class NextRoundWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window that pops up when round is finished.

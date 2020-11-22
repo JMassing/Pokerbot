@@ -5,6 +5,17 @@
 
 #include "ConfigFileHandler.hpp"
 
+	/** \ingroup shared
+	* @class DefaultConfig
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Data structure that holds the default config for all settings loaded from the config.ini.
+	*		
+	* @version 1.0
+	* @date 2020-11-22
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     struct DefaultConfig
     {
         public:

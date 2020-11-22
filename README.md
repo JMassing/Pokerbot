@@ -20,11 +20,18 @@ See the Releases section
 * See https://docs.conan.io/en/latest/installation.html on how to install conan
 * Conan config files for visual studio 15 and 17 compilers are prepared in the conan_configs directory of the source directory
 * To build the project download the source code and change into the source directory
+* You can build the Pokerbot with conan or using Cmake commands or the Makefile provided
+#### Build using Makefile
+* Use make prepare_release or prepare_debug to delete the old build folder, create a new build folder and download conan libraries for release/debug build
+* Use make configure to configure cmake.
+* Use make build_release or build_debug to build the Pokerbot as release/debug. The Pokerbot.exe is in the source/build/bin folder.
+* Use make documentation to create the doxygen documentation in the source/docs/html folder.
+#### Build using Conan
 * Use _conan create . -pr conan_configs/<config_file>_ to build the project, where config_file is one of the files given in the conan_config folder (e.g. vs17_release)
 * Conan will download the build dependencies given in the conan-file (conanfile.py) from conan-center (https://bintray.com/conan/conan-center)
 * Build files will be created in the conan-build folder, while the Pokerbot package will be created in the conan-package folder
 * The build and package folders are given when the build is finished (looks something like: C:\\.conan\41e8cc\1)
-* You can also find the build/package folder by using the command _conan info --paths Pokerbot/1.0.0@_.  Look for the Pokerbot/1.0.0 package-folder.
+* You can also find the build/package folder by using the command _conan info --paths Pokerbot/1.0.0@_.  Look for the Pokerbot/1.1.1 package-folder.
 * If you get the error _ERROR: opencv/4.1.1@conan/stable: Invalid configuration: OpenCV 4.x requires Visual Studio 2015 and higher_ use _conan info --paths Pokerbot/1.0.0@ -pr conan_configs/<config_file>_, where _<config_file>_ is the conan config you used during build.
 
 <img src="./docs/Conan-Info.png" width="500"/></img>
@@ -52,7 +59,7 @@ See the Releases section
     * Python v3.5 or higher
     * build-essentials
     * cmake v3.10 or higher
-    * libglu1-mesa, libglu1-mesa-dev, xorg-dev, libglew-dev, libx11-dev, libglfw3-dev
+    * libglu1-mesa, libglu1-mesa-dev, xorg-dev, libglew-dev, libx11-dev
  
 ## Use Pokerbot
 * We use OpenCV to control the camera. The OpenCV VideoCapture class uses the member device_id to determine the camera. 

@@ -6,9 +6,9 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
-			   namespace detect 
+namespace detect 
 {
-    /**
+    /** *\ingroup detection
 	* @class ContourFinder
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Finds contours in Image
@@ -40,7 +40,7 @@
                 const int& thresh_method = cv::THRESH_BINARY
                 );
             
-            /**
+            /** 
             * @brief filters contours after given method. Value ist given according to method. \n
 	        * Methods are: \n
 	        * - LARGEST_AREA = 0, only keept largest contour \n

@@ -5,6 +5,7 @@
 namespace capture
 {
 	/**
+	*\ingroup capture
 	* @class CameraSettings
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Data Structure containing Camera Settings

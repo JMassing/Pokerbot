@@ -11,7 +11,7 @@
 #include "GuiPokerInterface.hpp"
 
 namespace gui {
-	/**
+	/**  \ingroup gui
 	* @class CardImageWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window that shows the card images

@@ -9,9 +9,19 @@
 #include "Mapping.hpp"
 #include "TemplateFunctions.hpp"
 
-// Determines Rank of given Hand
 namespace poker{
 
+    /**  \ingroup poker
+	* @class RankDeterminator
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Determines rank of given Hand       
+	*
+	* @version 1.0
+	* @date 2020-11-22
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     class RankDeterminator{
         
         private:

@@ -6,7 +6,7 @@
 
 namespace gui {
 
-	/**
+	/** \ingroup gui
 	* @class GuiCaptureInterface
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Implements communication interface between capture and GUI module.

@@ -8,7 +8,7 @@
 #include "GuiPokerInterface.hpp"
 
 namespace gui {
-	/**
+	/**  \ingroup gui
 	* @class WhoWonWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window asking player to enter who won the round.

@@ -9,7 +9,7 @@
 
 namespace gui {
 
-	/**
+	/**  \ingroup gui
 	* @class PlaceBetWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window that pops up when it is the players turn to place his bet.

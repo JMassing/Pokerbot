@@ -11,7 +11,7 @@
 #include "GuiPokerInterface.hpp"
 
 namespace gui {
-	/**
+	/**  \ingroup gui
 	* @class SuitImageWin
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Window showing binarized images of card suits.

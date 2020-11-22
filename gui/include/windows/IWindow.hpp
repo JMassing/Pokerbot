@@ -5,7 +5,7 @@
 
 namespace gui {
 
-	/**
+	/**  \ingroup gui
 	* @class IWindow
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Interface which defines minimum required functionality for Gui windows. 

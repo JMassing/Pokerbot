@@ -6,6 +6,7 @@
 namespace capture {
 
 	/**
+	*\ingroup capture
 	* @class ICameraDevice
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Interface which defines minimum required functionality for camera control. 

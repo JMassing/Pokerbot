@@ -4,7 +4,7 @@
 
 namespace detect
 {
-    /**
+    /** *\ingroup detection
 	* @class ImProcSettings
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Data structure containing image processing settings

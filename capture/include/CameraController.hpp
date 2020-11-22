@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 #include <string>
 #include <memory>
 
@@ -12,7 +10,11 @@
 #include "Image.hpp"
 
 namespace capture {
+
 	/**
+	* \defgroup capture
+	* The Capture module controls the camera and captures images. It is based on the OpenCV framework.
+ 	* @{ 
 	* @class CameraController
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief This class controls the video I/O. It implements the CameraDevice interface using the OpenCV VideoCapture class.
@@ -23,7 +25,7 @@ namespace capture {
 	* @copyright Copyright (c) 2020
 	* 
 	*/
-	
+	/**@}*/
 	class CameraController: public ICameraDevice
 	{ 
 		private:

@@ -5,7 +5,7 @@
 
 namespace gui
 {
-	/**
+	/**  \ingroup gui
 	* @class IObserver
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Observer Interface used in Observer Pattern 

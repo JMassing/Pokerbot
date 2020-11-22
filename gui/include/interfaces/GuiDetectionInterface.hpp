@@ -7,7 +7,7 @@
 
 namespace gui {
 
-	/**
+	/** \ingroup gui
 	* @class GuiDetectionInterface
 	* @author Julian Massing (julimassing@gmail.com)
 	* @brief Implements communication interface between detection and GUI module.
