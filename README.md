@@ -2,7 +2,7 @@
 Welcome! This is an open-source project. It is intended for experimenting and testing different ideas and concepts and in general just have some fun :grinning:. If you have any questions or suggestions, you can contact me at julimassing@gmail.com. 
 
 ## Introduction
-Pokerbot is a c++-project that uses OpenCV image processing methods to detect cards from a USB-camera feed and can play texas holdem poker against a human player. The decision making of the bot in this version is purely probability based using Monte Carlo Simulation. It takes the current game state into account and calculates the probability of winning with the bot's hand. The bot makes a decision based on the winning probability and the potsize and bets placed by the player. Refer to the HowTo section for instructions on how to build and use the Pokerbot. The Pokerbot currently only runs on Windows.
+Pokerbot is a c++-project that uses OpenCV image processing methods to detect cards from a USB-camera feed and can play texas holdem poker against a human player. The decision making of the bot in this version is purely probability based using Monte Carlo Simulation. It takes the current game state into account and calculates the probability of winning with the bot's hand. The bot makes a decision based on the winning probability and the potsize and bets placed by the player. Refer to the HowTo section for instructions on how to build and use the Pokerbot. The Pokerbot is tested on Windows 10 and Linux Ubuntu 18.04 and 20.04.
 
 I am planning to implement the following in the future (in no particular order):
 * Use Deep Learning for card detection
@@ -37,7 +37,7 @@ make documentation # create doxygen documentation
 ``` cmake
 conan create . -pr conan_configs/<config_file> 
 ```
-* config_file is one of the files given in the conan_config folder (e.g. vs17_release)
+* config_file is one of the files given in the [conan_configs](conan_configs/) folder (e.g. vs17_release)
 * Conan will download the build dependencies given in the conan-file (conanfile.py) from [conan-center](https://bintray.com/conan/conan-center)
 * Build files will be created in the conan-build folder, while the Pokerbot package will be created in the conan-package folder
 * The build and package folders are given when the build is finished (looks something like: C:\\.conan\41e8cc\1)
@@ -45,7 +45,7 @@ conan create . -pr conan_configs/<config_file>
 ``` make
 conan info --paths Pokerbot/1.1.1@
 ```
-* Look for the Pokerbot/1.1.1 package-folder.
+* Look for the Pokerbot/1.1.1 build- or package-folder.
 * If you get the error _ERROR: opencv/4.1.1@conan/stable: Invalid configuration: OpenCV 4.x requires Visual Studio 2015 and higher_ use 
 ``` cmake
 conan info --paths Pokerbot/1.1.1@ -pr conan_configs/<config_file> # config_file used during build
