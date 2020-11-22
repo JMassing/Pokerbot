@@ -97,11 +97,13 @@ conan info --paths Pokerbot/1.1.1@ -pr conan_configs/<config_file> # config_file
 * The config.ini also contains initial values for camera and processing settings, which can be overwritten by using the "save as default" button. 
 * Use Pokerbot.exe to start the pokerbot
 * First, place a playing card within the camera view and adjust camera settings and processing settings until the card is detected
-<img src="https://github.com/JMassing/Pokerbot_docs/tree/main/doc_images/Pokerbot_Settings.png" width="700"/></img>
+
+<img src="https://github.com/JMassing/Pokerbot_docs/blob/main/doc_images/Pokerbot_Settings.png" width="700"/></img>
 * To start a game press the "start game" button
 * Follow the instructions in the top left corner of the live view
-<img src="https://github.com/JMassing/Pokerbot_docs/tree/main/doc_images/RobotHand_Shown.png" width="700"/></img>
+<img src="https://github.com/JMassing/Pokerbot_docs/blob/main/doc_images//RobotHand_Shown.png" width="700"/></img>
 * Probability of Winning shows the probability that the robot will win the current hand. Probability of Winning Tie shows the probability of a tie.
 * Activate "mask robot cards" and deactivate "show probability" and "show robot hand" when playing a real game against the bot.  
-<img src="https://github.com/JMassing/Pokerbot_docs/tree/main/doc_images/RobotHand_masked.png" width="700"/></img>
+
+<img src="https://github.com/JMassing/Pokerbot_docs/blob/main/doc_images//RobotHand_masked.png" width="700"/></img>
 * Have fun :grinning:
