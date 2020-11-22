@@ -4,7 +4,7 @@
 Welcome! This is an open-source project. It is intended for experimenting and testing different ideas and concepts and in general just have some fun :grinning:. If you have any questions or suggestions, you can contact me at julimassing@gmail.com. 
 
 ## Introduction
-Pokerbot is a c++-project that uses OpenCV image processing methods to detect cards from a USB-camera feed and can play texas holdem poker against a human player. The decision making of the bot in this version is purely probability based using Monte Carlo Simulation. It takes the current game state into account and calculates the probability of winning with the bot's hand. The bot makes a decision based on the winning probability and the potsize and bets placed by the player. Refer to the HowTo section for instructions on how to build and use the Pokerbot. The Pokerbot is tested on Windows 10 and Linux Ubuntu 18.04 and 20.04.
+Pokerbot is a C++-project that uses OpenCV image processing methods to detect cards from a (USB) camera feed and can play texas hold'em poker against a human player. The decision making of the bot in this version is purely probability based using Monte Carlo Simulation. It takes the current game state into account and calculates the probability of winning with the bot's hand. The bot makes a decision based on the winning probability and the potsize and bets placed by the player. Refer to the HowTo section for instructions on how to build and use the Pokerbot. The Pokerbot is tested on Windows 10 and Linux Ubuntu 18.04 and 20.04.
 
 I am planning to implement the following in the future (in no particular order):
 * Use Deep Learning for card detection
@@ -24,6 +24,7 @@ See [Releases](https://github.com/JMassing/Pokerbot/releases)
 * To build the project download the source code and change into the source directory
 * You can build the Pokerbot with conan or using Cmake commands or the Makefile provided
 #### Build using Makefile
+* Provided make commands
 ``` cmake
 make prepare_release # delete old build folder, create a new build folder, download conan libraries for release build
 make prepare_debug # delete old build folder, create a new build folder, download conan libraries for debug
@@ -31,6 +32,12 @@ make configure #configure cmake.
 make build_release # build Pokerbot as release
 make build_debug # build Pokerbot as debug. 
 make documentation # create doxygen documentation
+```
+* If you want to build the targets with build type release:
+``` cmake
+make prepare_release
+make configure
+make build_release
 ```
 * The Pokerbot.exe is in the _<source>/build/bin_ folder.
 * The doxygen documentation is in the _<source>/docs/html_ folder. Use index.html to open the documentation.
