@@ -33,12 +33,23 @@ make documentation # create doxygen documentation
 * The Pokerbot.exe is in the _<source>/build/bin_ folder.
 * The doxygen documentation is in the _<source>/docs/html_ folder. Use index.html to open the documentation.
 #### Build using Conan
-* Use _conan create . -pr conan_configs/<config_file>_ to build the project, where config_file is one of the files given in the conan_config folder (e.g. vs17_release)
+* Use the following command to build the project using conan
+``` cmake
+conan create . -pr conan_configs/<config_file> 
+```
+* config_file is one of the files given in the conan_config folder (e.g. vs17_release)
 * Conan will download the build dependencies given in the conan-file (conanfile.py) from [conan-center](https://bintray.com/conan/conan-center)
 * Build files will be created in the conan-build folder, while the Pokerbot package will be created in the conan-package folder
 * The build and package folders are given when the build is finished (looks something like: C:\\.conan\41e8cc\1)
-* You can also find the build/package folder by using the command _conan info --paths Pokerbot/1.1.1@_.  Look for the Pokerbot/1.1.1 package-folder.
-* If you get the error _ERROR: opencv/4.1.1@conan/stable: Invalid configuration: OpenCV 4.x requires Visual Studio 2015 and higher_ use _conan info --paths Pokerbot/1.1.1@ -pr conan_configs/<config_file>_, where _<config_file>_ is the conan config you used during build.
+* You can also find the build/package folder by using the command
+``` make
+conan info --paths Pokerbot/1.1.1@
+```
+* Look for the Pokerbot/1.1.1 package-folder.
+* If you get the error _ERROR: opencv/4.1.1@conan/stable: Invalid configuration: OpenCV 4.x requires Visual Studio 2015 and higher_ use 
+``` cmake
+conan info --paths Pokerbot/1.1.1@ -pr conan_configs/<config_file> # config_file used during build
+```
 
 <img src="./docs/Conan-Info.png" width="500"/></img>
 * The build/package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
