@@ -11,28 +11,34 @@ I am planning to implement the following in the future (in no particular order):
 * Game.cpp needs some refactoring
 
 ## Releases
-See the Releases section
+See [Releases](https://github.com/JMassing/Pokerbot/releases)
 
 ## HowTo
 ### Build Pokerbot
-* Pokerbot uses the Conan package-manager and cmake for building the project https://conan.io/
+* Pokerbot uses the [Conan](https://conan.io/) package-manager and cmake for building the project 
 * To use Conan you need python version > 3.5 
-* See https://docs.conan.io/en/latest/installation.html on how to install conan
-* Conan config files for visual studio 15 and 17 compilers are prepared in the conan_configs directory of the source directory
+* See [conan install how-to](https://docs.conan.io/en/latest/installation.html) on how to install conan
+* Conan config files for visual studio 15 and 17 compilers are prepared in the [conan_configs](conan_configs/) directory 
 * To build the project download the source code and change into the source directory
 * You can build the Pokerbot with conan or using Cmake commands or the Makefile provided
 #### Build using Makefile
-* Use make prepare_release or prepare_debug to delete the old build folder, create a new build folder and download conan libraries for release/debug build
-* Use make configure to configure cmake.
-* Use make build_release or build_debug to build the Pokerbot as release/debug. The Pokerbot.exe is in the source/build/bin folder.
-* Use make documentation to create the doxygen documentation in the source/docs/html folder.
+``` cmake
+make prepare_release # delete old build folder, create a new build folder, download conan libraries for release build
+make prepare_debug # delete old build folder, create a new build folder, download conan libraries for debug
+make configure #configure cmake.
+make build_release # build Pokerbot as release
+make build_debug # build Pokerbot as debug. 
+make documentation # create doxygen documentation
+```
+* The Pokerbot.exe is in the _<source>/build/bin_ folder.
+* The doxygen documentation is in the _<source>/docs/html_ folder. Use index.html to open the documentation.
 #### Build using Conan
 * Use _conan create . -pr conan_configs/<config_file>_ to build the project, where config_file is one of the files given in the conan_config folder (e.g. vs17_release)
-* Conan will download the build dependencies given in the conan-file (conanfile.py) from conan-center (https://bintray.com/conan/conan-center)
+* Conan will download the build dependencies given in the conan-file (conanfile.py) from [conan-center](https://bintray.com/conan/conan-center)
 * Build files will be created in the conan-build folder, while the Pokerbot package will be created in the conan-package folder
 * The build and package folders are given when the build is finished (looks something like: C:\\.conan\41e8cc\1)
-* You can also find the build/package folder by using the command _conan info --paths Pokerbot/1.0.0@_.  Look for the Pokerbot/1.1.1 package-folder.
-* If you get the error _ERROR: opencv/4.1.1@conan/stable: Invalid configuration: OpenCV 4.x requires Visual Studio 2015 and higher_ use _conan info --paths Pokerbot/1.0.0@ -pr conan_configs/<config_file>_, where _<config_file>_ is the conan config you used during build.
+* You can also find the build/package folder by using the command _conan info --paths Pokerbot/1.1.1@_.  Look for the Pokerbot/1.1.1 package-folder.
+* If you get the error _ERROR: opencv/4.1.1@conan/stable: Invalid configuration: OpenCV 4.x requires Visual Studio 2015 and higher_ use _conan info --paths Pokerbot/1.1.1@ -pr conan_configs/<config_file>_, where _<config_file>_ is the conan config you used during build.
 
 <img src="./docs/Conan-Info.png" width="500"/></img>
 * The build/package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
@@ -41,8 +47,8 @@ See the Releases section
     * OpenCV v4.1.1 
     * Boost v1.72
     * Gtest v1.10.0
-    * ImGui v1.72b https://github.com/ocornut/imgui (provided as git submodule)
-    * glfw v3.3 https://github.com/glfw/glfw.git (provided as git submodule)
+    * [ImGui v1.72b](https://github.com/ocornut/imgui) (provided as git submodule)
+    * [glfw v3.3](https://github.com/glfw/glfw.git) (provided as git submodule)
     * Opengl
     * VS15 compiler or higher
     * Conan v1.30 or higher
@@ -52,8 +58,8 @@ See the Releases section
     * OpenCV v4.1.1 
     * Boost v1.72
     * Gtest v1.10.0
-    * ImGui v1.72b https://github.com/ocornut/imgui (provided as git submodule)
-    * glfw v3.3 https://github.com/glfw/glfw.git (provided as git submodule)
+    * [ImGui v1.72b](https://github.com/ocornut/imgui) (provided as git submodule)
+    * [glfw v3.3](https://github.com/glfw/glfw.git) (provided as git submodule)
     * g++7
     * Conan v1.30 or higher
     * Python v3.5 or higher
