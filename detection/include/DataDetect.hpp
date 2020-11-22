@@ -1,6 +1,5 @@
 #pragma once
 
-// Data Structure holding output data to poker module
 
 #include <utility>
 #include <vector>
@@ -9,6 +8,17 @@
 
 namespace detect
 {
+	/** *\ingroup detection
+	* @class DataDetect
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Data structure containing detection module output data to poker module
+	*
+	* @version 1.0
+	* @date 2020-11-18
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     struct DataDetect
     {
 

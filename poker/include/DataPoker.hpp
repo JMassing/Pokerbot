@@ -10,6 +10,17 @@ namespace poker
 {
     enum phase { NOT_STARTED, HAND_CARDS, BET_HAND, FLOP, BET_FLOP, TURN, BET_TURN, RIVER, BET_RIVER, SHOW_DOWN };
 
+	/** \ingroup poker
+	* @class DataPoker
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Data structure containing poker module output data to GUI module
+	*
+	* @version 1.0
+	* @date 2020-11-18
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     struct DataPoker
     {
 

@@ -5,6 +5,17 @@
 
 namespace gui {
 
+    /**  \ingroup gui
+	* @class MainMenuBar
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Wrapper for ImGui menubar. Draws main GUI menubar.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class MainMenuBar
 	{
 				

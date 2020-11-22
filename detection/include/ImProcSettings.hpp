@@ -4,12 +4,34 @@
 
 namespace detect
 {
+    /** *\ingroup detection
+	* @class ImProcSettings
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Data structure containing image processing settings
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     struct ImProcSettings
     {
-
-        int live_threshold;            // threshold for finding cards in live image 
-        int binary_threshold;          // threshold for binaryzing suit and rank image;
-        int identification_threshold;  // threshold for finding the rank and suit in the card image 
+        /**
+         * @brief threshold for finding cards in live image
+         * 
+         */
+        int live_threshold;            
+        /**
+         * @brief threshold for binaryzing suit and rank image
+         * 
+         */
+        int binary_threshold;          
+        /**
+         * @brief threshold for finding the rank and suit in the card image
+         * 
+         */
+        int identification_threshold; 
 
         void setToDefault(DefaultConfig& default_settings)
         {

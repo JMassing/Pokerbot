@@ -2,12 +2,22 @@
 
 #include <opencv2/core.hpp>
 
-// Wrapper class for cv::Mat. This makes sure we have a deep copy when using a copy constructor or 
-// an assignment operator. Image is used in different classes where image processing is done on the 
-// underlying images in some cases. We do not want to be surprised by changes in the original data, 
-// after it was copied and we change to the new image object.
 
 
+    /** \ingroup shared
+	* @class Image
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Wrapper  for cv::Mat. This makes sure we have a deep copy when using a copy constructor or 
+    *        an assignment operator. Image is used in different modules where image processing is done on the 
+    *        underlying image in some cases. We do not want to be surprised by changes in the original data, 
+    *        after it was copied and we apply changes to the new image object.
+	*		
+	* @version 1.0
+	* @date 2020-11-22
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     struct Image{
 
         cv::Mat image;
@@ -16,15 +26,22 @@
         explicit Image(cv::Mat img) : image{img} { };
         ~Image() {};
 
-        // Make sure we do a deep copy the images when we use copy constructors.
-        // Otherwise we might be surprised at some point, when doing changes to 
-        // the image data.
+        /**
+         * @brief Custom copy constructor to get deep copy
+         * 
+         * @param other 
+         */
         Image(const Image& other) noexcept : image{}
         {
             // use copy assignment operator as defined below
             *this = other;
         };	
 
+        /**
+         * @brief Custom copy assignment operator to get deep copy
+         * 
+         * @param other 
+         */
         Image& operator=(const Image& other) noexcept
         {	
             if (this != &other)
@@ -34,12 +51,21 @@
             return *this;
         };
             
-        // Custom move constructors
+        /**
+         * @brief Custom move constructor 
+         * 
+         * @param other 
+         */
         Image(Image&& other) noexcept : image{}
         {
             *this = std::move(other);
         };
 
+         /**
+         * @brief Custom move assignment operator
+         * 
+         * @param other 
+         */
         Image& operator=(Image&& other) noexcept
         {
             if (this != &other)

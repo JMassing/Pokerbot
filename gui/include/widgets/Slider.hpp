@@ -7,11 +7,33 @@
 
 namespace gui {
 
+    /**  \ingroup gui
+	* @class Slider
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Wrapper for ImGui::Slider.
+	*
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class Slider
 	{
 				
 		public:
 			
+			/**
+			 * @brief Wrapper for ImGui::SliderInt
+			 * 
+			 * @param name Name of slider
+			 * @param min min value
+			 * @param max max value
+			 * @param value default
+			 * @param enforce_boundaries true to enforce min <= value <= max
+			 * @return true if user input
+			 * @return false if no user input
+			 */
 			bool draw(
 				const std::string& name, 
 				const int& min, 
@@ -30,6 +52,10 @@ namespace gui {
 				return changed;
 			};
 
+			/**
+			 * @brief Function overload for ImGui::SliderFloat
+			 * 
+			 */
 			bool draw(
 				const std::string& name, 
 				const float& min, 

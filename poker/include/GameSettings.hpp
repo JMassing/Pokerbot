@@ -4,6 +4,17 @@
 
 namespace poker
 {
+    /** \ingroup poker
+	* @class GameSettings
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Data structure containing settings for the poker game
+	*
+	* @version 1.0
+	* @date 2020-11-22
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
     struct GameSettings
     {
         int nr_of_human_players;
@@ -12,7 +23,12 @@ namespace poker
         bool stop_game;
         bool playing_game;
 
-         void setToDefault(DefaultConfig& default_settings)
+        /** 
+         * @brief Set settings to default
+         * 
+         * @param default_settings 
+         */
+        void setToDefault(DefaultConfig& default_settings)
         {
             this->nr_of_simulation_runs = default_settings.nr_sim_runs;      
             this->nr_of_human_players = default_settings.nr_opponents;     

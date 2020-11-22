@@ -6,10 +6,19 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
-// Finds contours in images
 namespace detect 
 {
-    
+    /** *\ingroup detection
+	* @class ContourFinder
+	* @author Julian Massing (julimassing@gmail.com)
+	* @brief Finds contours in Image
+    *  		
+	* @version 1.0
+	* @date 2020-11-21
+	* 
+	* @copyright Copyright (c) 2020
+	* 
+	*/
 	class ContourFinder
 	{
 
@@ -31,6 +40,18 @@ namespace detect
                 const int& thresh_method = cv::THRESH_BINARY
                 );
             
+            /** 
+            * @brief filters contours after given method. Value ist given according to method. \n
+	        * Methods are: \n
+	        * - LARGEST_AREA = 0, only keept largest contour \n
+            * - SMALLEST_AREA = 1, only keep smalles contour \n
+	        * - LE_AREA = 2, contour area is smaller/equal then given value \n
+	        * - GE_AREA = 3, contour area is larger/equal then given value \n
+             * 
+             * @param contour Contours found in Image.
+             * @param method Filtering method.
+             * @param value Only for method 2 and 3. Gives max/min contour area. 
+             */
             static void filterContours(
                 std::vector<std::vector<cv::Point> >& contour, 
                 const int& method, 

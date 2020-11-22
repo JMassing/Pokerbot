@@ -3,8 +3,7 @@
 
 namespace detect{
 
-    //@brief: sorts corner points given by calculateCornerPoints method to order expected by 
-    //		  perspectiveTransformation. Start lower right corner -> going clockwise
+
     std::vector< cv::Point2f > PerspectiveCorrector::sortCorners(
         const std::vector< cv::Point2f >& points, 
         const cv::Point2f& center
@@ -63,7 +62,6 @@ namespace detect{
 		return sorted_points;
     }
 
-	//@brief: Transforms perspectively distorted card image into 2D upright view of card
     bool PerspectiveCorrector::warpImage(
         const cv::Mat src, 
         cv::Mat& dst, 
