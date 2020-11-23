@@ -19,7 +19,7 @@ jobs:
       
     - name: Install Tools
       run: |
-        sudo apt-install python3-setuptools
+        sudo apt install python3-setuptools
         pip3 install conan
       
     - name: Create Build Environment
