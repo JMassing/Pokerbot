@@ -19,7 +19,15 @@ jobs:
       
     - name: Install Tools
       run: |
+        sudo apt update
         sudo apt install python3-setuptools
+        sudo apt install libglu1-mesa
+        sudo apt install libglu1-mesa-dev
+        sudo apt install xorg-dev
+        sudo apt install libglew-dev
+        sudo apt install libx11-dev
+        sudo apt install freeglut3-dev
+        sudo apt install mesa-common-dev
         sudo pip3 install conan
       
     - name: Create Build Environment
