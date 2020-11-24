@@ -1,3 +1,4 @@
+![Ubuntu](https://github.com/JMassing/Pokerbot/workflows/Ubuntu/badge.svg)
 ![License](https://camo.githubusercontent.com/890acbdcb87868b382af9a4b1fac507b9659d9bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d626c75652e737667)
 
 # Pokerbot
@@ -15,6 +16,9 @@ I am planning to implement the following in the future (in no particular order):
 ## Releases
 See [Releases](https://github.com/JMassing/Pokerbot/releases)
 
+## Documentation
+The doxygen documentation of the source code can be found [here](https://jmassing.github.io/Pokerbot_docs/index.html)
+
 ## HowTo
 ### Build Pokerbot
 * Pokerbot uses the [Conan](https://conan.io/) package-manager and cmake for building the project 
@@ -23,6 +27,7 @@ See [Releases](https://github.com/JMassing/Pokerbot/releases)
 * Conan config files for visual studio 15 and 17 compilers are prepared in the [conan_configs](conan_configs/) directory 
 * To build the project download the source code and change into the source directory
 * You can build the Pokerbot with conan or using Cmake commands or the Makefile provided
+* The conan opencv package is currently only available for gcc7 and vs17 (vc15) compiler. Therefore only these will work.
 #### Build using Makefile
 * Provided make commands
 ``` cmake
@@ -60,7 +65,7 @@ conan info --paths Pokerbot/1.1.1@
 conan info --paths Pokerbot/1.1.1@ -pr conan_configs/<config_file> # config_file used during build
 ```
 
-<img src="./docs/Conan-Info.png" width="500"/></img>
+<img src="https://github.com/JMassing/Pokerbot_docs/blob/main/doc_images/Conan-Info.png" width="500"/></img>
 * The build/package folder given by the conan info command will have a .conan_link file which contains the path to the real package folder.
 * Both build and package folder will have a bin/Pokerbot.exe you can use to start the pokerbot. The package folder is used to create the .zip for each release.
 * Build Dependencies Windows:
@@ -94,11 +99,14 @@ conan info --paths Pokerbot/1.1.1@ -pr conan_configs/<config_file> # config_file
 * The config.ini also contains initial values for camera and processing settings, which can be overwritten by using the "save as default" button. 
 * Use Pokerbot.exe to start the pokerbot
 * First, place a playing card within the camera view and adjust camera settings and processing settings until the card is detected
-<img src="./docs/Pokerbot_Settings.png" width="700"/></img>
+
+<img src="https://github.com/JMassing/Pokerbot_docs/blob/main/doc_images/Pokerbot_Settings.png" width="700"/></img>
 * To start a game press the "start game" button
 * Follow the instructions in the top left corner of the live view
-<img src="./docs/RobotHand_Shown.png" width="700"/></img>
+
+<img src="https://github.com/JMassing/Pokerbot_docs/blob/main/doc_images//RobotHand_Shown.png" width="700"/></img>
 * Probability of Winning shows the probability that the robot will win the current hand. Probability of Winning Tie shows the probability of a tie.
 * Activate "mask robot cards" and deactivate "show probability" and "show robot hand" when playing a real game against the bot.  
-<img src="./docs/RobotHand_masked.png" width="700"/></img>
+
+<img src="https://github.com/JMassing/Pokerbot_docs/blob/main/doc_images//RobotHand_masked.png" width="700"/></img>
 * Have fun :grinning:
