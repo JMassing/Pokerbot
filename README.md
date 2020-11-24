@@ -27,6 +27,7 @@ The doxygen documentation of the source code can be found [here](https://jmassin
 * Conan config files for visual studio 15 and 17 compilers are prepared in the [conan_configs](conan_configs/) directory 
 * To build the project download the source code and change into the source directory
 * You can build the Pokerbot with conan or using Cmake commands or the Makefile provided
+* The conan opencv package is currently only available for gcc7 and vs17 (vc15) compiler. Therefore only these will work.
 #### Build using Makefile
 * Provided make commands
 ``` cmake
