@@ -19,7 +19,6 @@ jobs:
       
     - name: Install Tools
       run: |
-        sudo apt update
         sudo apt install python3-setuptools
         sudo apt install libglu1-mesa
         sudo apt install libglu1-mesa-dev
