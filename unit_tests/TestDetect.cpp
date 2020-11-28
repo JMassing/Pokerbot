@@ -53,5 +53,4 @@ namespace UnitTest
 			std::cerr << "Could not open file" << std::endl;
 		}
 	}
-
 } // end namespace unit test

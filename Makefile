@@ -40,3 +40,6 @@ build_debug:
 
 documentation:
 	@cd build && cmake --build . --target Pokerbot_docs && cd ..
+
+coverage:
+	@cd build && cmake -DCMAKE_BUILD_TYPE=Coverage -DENABLE_CODE_COVERAGE=ON -DGCOV_PATH=/usr/bin/gcov-7 .. && cmake --build . --config Coverage --target Code_Coverage
