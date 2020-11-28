@@ -24,12 +24,12 @@ The doxygen documentation of the source code can be found [here](https://jmassin
 * Pokerbot uses the [Conan](https://conan.io/) package-manager and cmake for building the project 
 * To use Conan you need python version > 3.5 
 * See [conan install how-to](https://docs.conan.io/en/latest/installation.html) on how to install conan
-* Conan config files for visual studio 15 and 17 compilers are prepared in the [conan_configs](conan_configs/) directory 
+* Conan config files for visual studio 15, 17 and 19 and g++7, 8 and 9  compilers are prepared in the [conan_configs](conan_configs/) directory 
 * To build the project download the source code and change into the source directory
 * You can build the Pokerbot with conan or using Cmake commands or the Makefile provided
-* The conan opencv package is currently only available for gcc7 and vs17 (vc15) compiler. Therefore only these will work.
+* The conan opencv package is currently only available for <=gcc8 and <=vs17 (vc15) compiler. Therefore only these will work.
 #### Build using Makefile
-* Provided make commands
+* Provided make commands (using vs17/gcc7 conan profile)
 ``` cmake
 make prepare_release # delete old build folder, create a new build folder, download conan libraries for release build
 make prepare_debug # delete old build folder, create a new build folder, download conan libraries for debug
@@ -45,7 +45,8 @@ make configure
 make build_release
 ```
 * The Pokerbot.exe is in the _<source>/build/bin_ folder.
-* The doxygen documentation is in the _<source>/docs/html_ folder. Use index.html to open the documentation.
+* After building the doxygen documentation it is in the _<source>/doxygen/html_ folder. Use index.html to open the documentation.
+* If you want to build the doxygen documentation yourself, you need [graphviz](https://graphviz.org/download/) installed. However, it is also available [online]((https://jmassing.github.io/Pokerbot_docs/index.html).
 #### Build using Conan
 * Use the following command to build the project using conan
 ``` cmake

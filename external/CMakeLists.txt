@@ -16,7 +16,7 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 endif()
 
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/glfw/CMakeLists.txt")
-    message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+    message(FATAL_ERROR "The glfw submodule was not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
 ## Files of submodule imgui are integrated and compiled together with GUI component and are brought into the project in the CMakeLists.txt of the GUI subdirectory 
@@ -29,4 +29,5 @@ set(GLFW_BUILD_TESTS OFF)
 add_subdirectory(glfw)
 
 add_library(${GLFWLIB_NAME} ALIAS glfw)
+
 
