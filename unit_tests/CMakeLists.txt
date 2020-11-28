@@ -20,3 +20,22 @@ add_gtest(TestDM TestDM.cpp)
 target_link_libraries(TestPoker PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_BOOST})
 target_link_libraries(TestDM PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_BOOST})
 target_link_libraries(TestDetect PRIVATE  ${POKERLIB_NAME} ${DETECTIONLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_OPENCV} ${CONAN_LIBS_ZLIB} ${CONAN_LIBS_BOOST})
+
+
+if(ENABLE_CODE_COVERAGE)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        set(COVERAGE_MAIN "${PROJECT}_coverage")
+        set(COVERAGE_LCOV_EXCLUDES
+            "${PROJECT_SOURCE_DIR}/app/*"
+            "${PROJECT_SOURCE_DIR}/external/*"
+            "${PROJECT_SOURCE_DIR}/unittests/*"
+            "${CONAN_GTEST_ROOT}/*"
+            "${CONAN_BOOST_ROOT}/"
+            "${CONAN_OPENCV_ROOT}/"
+            "/usr/include/c++/*")
+        setup_target_for_coverage_lcov(
+            NAME ${COVERAGE_MAIN}
+            EXECUTABLE ctest
+            DEPENDENCIES TestPoker, TestDM, TestDetect)
+    endif()
+endif()

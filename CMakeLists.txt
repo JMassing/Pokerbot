@@ -16,9 +16,20 @@ set(GUILIB_NAME           "GuiLib")
 set(TEMPLATELIB_NAME      "TemplateLib")
 set(GLFWLIB_NAME          "glfw")
 
+#options
+option(ENABLE_CODE_COVERAGE "Enable a Code Coverage build." OFF)
+
 # Include own cmake modules
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(Documentation)
+if(ENABLE_CODE_COVERAGE)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        include(CodeCoverage)
+    else()
+        message("You must use a GNU or Clang Compiler for CodeCoverage!")
+    endif()
+endif()
+
 
 # Set Up Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
