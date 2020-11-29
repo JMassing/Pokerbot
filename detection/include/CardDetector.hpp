@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <memory>
 #include <boost/filesystem.hpp>
+#include <boost/dll.hpp>
 
 #include "ICardDetector.hpp"
 

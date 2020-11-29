@@ -28,11 +28,11 @@ namespace capture {
 	class CameraController: public ICameraController
 	{ 
 		protected:
-			std::unique_ptr<ICameraDevice> cam_;
 			std::shared_ptr<ICaptureGui> gui_interface_;
 
 		public:
 			Image frame_;
+			std::unique_ptr<ICameraDevice> cam_;
 
 			/**
 			 * @brief Initializes camera and sets camera controls to initial settings

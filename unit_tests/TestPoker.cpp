@@ -1,4 +1,5 @@
 #include <boost/filesystem.hpp>
+#include <boost/dll.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
@@ -152,7 +153,7 @@ namespace UnitTest
 
 	GTEST_TEST(TestPoker, TestGetRanking)
 	{
-		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "Rankings.txt";
+		fs::path filename = boost::dll::program_location().parent_path() / "unit_tests" / "utilities" / "PokerHands" / "Rankings.txt";
 		std::ifstream file;
 		file.open(filename.string());	
 		std::string line;
@@ -179,7 +180,7 @@ namespace UnitTest
 	GTEST_TEST(TestPoker, TestGetWinner)
 	{
 
-		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "CompetingHands.txt";
+		fs::path filename = boost::dll::program_location().parent_path() / "unit_tests" / "utilities" / "PokerHands" / "CompetingHands.txt";
 		std::ifstream file;
 
 		// Read player hands from file
@@ -222,7 +223,7 @@ namespace UnitTest
 		// Set Up DataStructures
 		int iterations = 100000;
 
-		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "PokerHands" / "StartingHands.txt";
+		fs::path filename = boost::dll::program_location().parent_path() / "unit_tests" / "utilities" / "PokerHands" / "StartingHands.txt";
 		std::ifstream file;
 
 		double expected_probability{};

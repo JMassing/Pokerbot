@@ -1,12 +1,11 @@
 #include "ConfigFileHandler.hpp"
 
-
     ConfigFileHandler::ConfigFileHandler(): 
     config_file_(), 
     opts_("Default Config"), 
     variables_map_()
     {
-        fs::path filename = fs::current_path() / ".." / "config.ini";
+        fs::path filename = boost::dll::program_location().parent_path() / ".." / "config.ini";
         this->config_file_ = filename.string();
         this->setOptions();
         this->parseFile();

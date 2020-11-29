@@ -11,6 +11,7 @@ endfunction()
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/unit_tests/utilities/HelperFunctions
+    ${PROJECT_SOURCE_DIR}/unit_tests/utilities/HelperClasses
 )
 
 # Test Flags
@@ -23,12 +24,21 @@ endif()
 add_gtest(TestPoker TestPoker.cpp)
 add_gtest(TestDetect TestDetect.cpp)
 add_gtest(TestDM TestDM.cpp)
+add_gtest(TestCamController TestCamController.cpp)
 
 
-target_link_libraries(TestPoker PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_BOOST})
-target_link_libraries(TestDM PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_BOOST})
-target_link_libraries(TestDetect PRIVATE  ${POKERLIB_NAME} ${DETECTIONLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS_OPENCV} ${CONAN_LIBS_ZLIB} ${CONAN_LIBS_BOOST})
 
+target_link_libraries(TestPoker PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
+target_link_libraries(TestDM PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
+target_link_libraries(TestDetect PRIVATE  ${POKERLIB_NAME} ${DETECTIONLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
+target_link_libraries(TestCamController PRIVATE ${CAPTURELIB_NAME} ${CONAN_LIBS})
+
+## Copy utilities to unit_tests folder
+add_custom_command( 
+    TARGET TestPoker POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${PROJECT_SOURCE_DIR}/unit_tests/utilities/ $<TARGET_FILE_DIR:TestPoker>/unit_tests/utilities
+)
 
 if(ENABLE_CODE_COVERAGE)
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
