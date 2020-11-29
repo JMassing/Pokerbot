@@ -3,11 +3,10 @@
 #include <string>
 #include <memory>
 
-#include <opencv2/videoio.hpp>
-
-#include "ICameraDevice.hpp"
+#include "ICameraController.hpp"
 #include "ICaptureGui.hpp"
 #include "Image.hpp"
+#include "OpenCvCam.hpp"
 
 namespace capture {
 
@@ -26,12 +25,10 @@ namespace capture {
 	* 
 	*/
 	/**@}*/
-	class CameraController: public ICameraDevice
+	class CameraController: public ICameraController
 	{ 
-		private:
-			cv::VideoCapture cap_;
-			int device_ID_;
-			int api_ID_;
+		protected:
+			std::unique_ptr<ICameraDevice> cam_;
 			std::shared_ptr<ICaptureGui> gui_interface_;
 
 		public:
@@ -85,9 +82,9 @@ namespace capture {
 			 * 
 			 * @return int rerpresenting OpenCV ID of camera backend (see OpenCV manual)
 			 */
-			int getBackend()
+			double getBackend()
 			{
-				return this->cap_.get(cv::CAP_PROP_BACKEND);
+				return this->cam_->get(cv::CAP_PROP_BACKEND);
 			}
 			
 			/**
@@ -101,12 +98,11 @@ namespace capture {
 				const int& device_ID = 0, 
 				const int& api_ID = cv::CAP_ANY
 				):
-				device_ID_(device_ID), 
 				frame_{}, 
-				cap_{}, 
-				api_ID_(api_ID),
 				gui_interface_(nullptr)
-			{};
+			{
+				this->cam_ = std::make_unique<OpenCvCam>(this->frame_, device_ID, api_ID);
+			 };
 
 			/**
 			 * @brief Constructor overload for reading images from video file 
@@ -118,11 +114,11 @@ namespace capture {
 				const int& device_ID = 0, 
 				const int& api_ID = cv::CAP_ANY
 				): 
-				frame_{}, 
-				cap_(video), 
-				device_ID_(device_ID), 
-				api_ID_(api_ID) 
-			{};
+				frame_{},
+				gui_interface_(nullptr)		
+			{
+				this->cam_ = std::make_unique<OpenCvCam>(video, this->frame_, device_ID, api_ID);
+			};
 
 			~CameraController() {};
 

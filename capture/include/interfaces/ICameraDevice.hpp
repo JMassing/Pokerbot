@@ -1,7 +1,6 @@
 #pragma once
 
-
-#include "CameraSettings.hpp"
+#include <string>
 
 namespace capture {
 
@@ -9,10 +8,10 @@ namespace capture {
 	*\ingroup capture
 	* @class ICameraDevice
 	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Interface which defines minimum required functionality for camera control. 
+	* @brief Interface for attached cameras. 
 	*		
 	* @version 1.0
-	* @date 2020-11-18
+	* @date 2020-11-29
 	* 
 	* @copyright Copyright (c) 2020
 	* 
@@ -21,9 +20,12 @@ namespace capture {
 	{ 
 		public:
 			
-			virtual bool initCamera(const CameraSettings& camera_settings) = 0;
-			virtual bool grabLive() = 0;
-			virtual void setCameraControls(const CameraSettings& camera_settings) = 0;
+            virtual bool open() = 0;
+			virtual bool isOpened() = 0;
+			virtual bool read() = 0;
+            virtual bool set(const int&, const int&) = 0;
+            virtual double get(const int&) const = 0;
+            virtual std::string getBackendName() = 0;
 
 			virtual ~ICameraDevice() {};
 			
