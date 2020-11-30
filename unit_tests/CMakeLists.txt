@@ -55,6 +55,6 @@ if(ENABLE_CODE_COVERAGE)
         setup_target_for_coverage_lcov(
             NAME ${COVERAGE_MAIN}
             EXECUTABLE ctest
-            DEPENDENCIES TestPoker TestDetect TestDM) 
+            DEPENDENCIES TestPoker TestDetect TestDM TestCamController) 
     endif()
 endif()

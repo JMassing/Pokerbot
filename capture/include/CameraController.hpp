@@ -101,7 +101,7 @@ namespace capture {
 				frame_{}, 
 				gui_interface_(nullptr)
 			{
-				this->cam_ = std::make_unique<OpenCvCam>(this->frame_, device_ID, api_ID);
+				this->cam_ = std::make_unique<OpenCvCam>(device_ID, api_ID);
 			 };
 
 			/**
@@ -117,7 +117,7 @@ namespace capture {
 				frame_{},
 				gui_interface_(nullptr)		
 			{
-				this->cam_ = std::make_unique<OpenCvCam>(video, this->frame_, device_ID, api_ID);
+				this->cam_ = std::make_unique<OpenCvCam>(video, device_ID, api_ID);
 			};
 
 			~CameraController() {};

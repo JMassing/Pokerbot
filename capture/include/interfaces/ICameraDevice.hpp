@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Image.hpp"
 
 namespace capture {
 
@@ -22,7 +23,7 @@ namespace capture {
 			
             virtual bool open() = 0;
 			virtual bool isOpened() = 0;
-			virtual bool read() = 0;
+			virtual Image read() = 0;
             virtual bool set(const int&, const int&) = 0;
             virtual double get(const int&) const = 0;
             virtual std::string getBackendName() = 0;

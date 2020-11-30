@@ -30,7 +30,6 @@ namespace capture {
 			cv::VideoCapture cap_;
 			int device_ID_;
 			int api_ID_;
-            Image& frame_;
 
 		public:
 			
@@ -60,9 +59,11 @@ namespace capture {
              * @return true 
              * @return false if no frame has been grabbed
              */
-            bool read() override
+            Image read() override
             {
-                return this->cap_.read(this->frame_.image);
+				Image img{};
+                this->cap_.read(img.image);
+				return img;
             }
            
             bool set(const int& prop_id, const int& value) override
@@ -79,23 +80,19 @@ namespace capture {
             }
             
 			OpenCvCam(
-                Image& frame,
 				const int& device_ID = 0, 
 				const int& api_ID = cv::CAP_ANY
 				):
 				device_ID_(device_ID), 
-				frame_{frame}, 
 				cap_{}, 
 				api_ID_(api_ID)
 			{};
 
 			OpenCvCam(
 				const std::string& video,
-                Image& frame,
 				const int& device_ID = 0, 
 				const int& api_ID = cv::CAP_ANY           
 				): 
-				frame_{frame}, 
 				cap_(video), 
 				device_ID_(device_ID), 
 				api_ID_(api_ID) 
