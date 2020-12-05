@@ -9,6 +9,7 @@
 #include <opencv2/imgproc.hpp>
 
 #include "TemplateFunctions.hpp"
+#include "CornerSorter.hpp"
 
 namespace detect 
 {
@@ -28,17 +29,10 @@ namespace detect
 
         private: 
 
-            /**
-            * @brief sorts corner points to orderexpected by perspectiveTransformation. 
-            * Start lower right corner -> going clockwise
-            * 
-            */	  
-            std::vector< cv::Point2f > sortCorners(
-               const std::vector< cv::Point2f >& points, 
-               const cv::Point2f& center
-               );  
+           CornerSorter sorter_;
 
-		public:    
+		public:              
+           
            /**
             * @brief Transforms perspectively distorted card image into 2D upright view of card
             * 
@@ -60,7 +54,7 @@ namespace detect
                 );
 
 
-			PerspectiveCorrector(){};
+			PerspectiveCorrector(): sorter_() {};
 
 			~PerspectiveCorrector(){};
 

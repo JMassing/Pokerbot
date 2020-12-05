@@ -17,7 +17,7 @@ namespace fs = boost::filesystem;
 namespace UnitTest
 {
 
-	GTEST_TEST(TestDetect, TestCardBuffer)
+	GTEST_TEST(TestCardBuffer, TestAll)
 	{
 		detect::CardBuffer<10> buffer(0);
 

@@ -22,16 +22,19 @@ elseif(UNIX)
 endif()
 
 add_gtest(TestPoker TestPoker.cpp)
-add_gtest(TestDetect TestDetect.cpp)
+add_gtest(TestCardBuffer TestCardBuffer.cpp)
 add_gtest(TestDM TestDM.cpp)
 add_gtest(TestCamController TestCamController.cpp)
+add_gtest(TestCornerSorter TestCornerSorter.cpp)
 
 
 
 target_link_libraries(TestPoker PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
 target_link_libraries(TestDM PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
-target_link_libraries(TestDetect PRIVATE  ${POKERLIB_NAME} ${DETECTIONLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
+target_link_libraries(TestCardBuffer PRIVATE  ${POKERLIB_NAME} ${DETECTIONLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
 target_link_libraries(TestCamController PRIVATE ${CAPTURELIB_NAME} ${CONAN_LIBS})
+target_link_libraries(TestCornerSorter PRIVATE ${DETECTIONLIB_NAME}  ${SHAREDLIB_NAME} ${CONAN_LIBS})
+
 
 ## Copy utilities to unit_tests folder
 add_custom_command( 
@@ -55,6 +58,6 @@ if(ENABLE_CODE_COVERAGE)
         setup_target_for_coverage_lcov(
             NAME ${COVERAGE_MAIN}
             EXECUTABLE ctest
-            DEPENDENCIES TestPoker TestDetect TestDM TestCamController) 
+            DEPENDENCIES TestPoker TestCardBuffer TestDM TestCamController TestCornerSorter) 
     endif()
 endif()
