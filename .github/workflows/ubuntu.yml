@@ -19,6 +19,10 @@ jobs:
       
     - name: Install Tools
       run: |
+        sudo gem install apt-spy2
+        sudo apt-spy2 check
+        sudo apt-spy2 fix
+        sudo apt-get update
         sudo apt install python3-setuptools
         sudo apt install libglu1-mesa
         sudo apt install libglu1-mesa-dev
