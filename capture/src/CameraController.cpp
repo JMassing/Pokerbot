@@ -47,8 +47,9 @@ namespace capture {
 	
 	bool CameraController::grabVideo()
 	{ 
-		cam_->read();
-		if (this->frame_.image.empty()) {
+		this->frame_ = this->cam_->read();
+		if (this->frame_.image.empty())
+		{
 			return false;
 		}
 		return true;
