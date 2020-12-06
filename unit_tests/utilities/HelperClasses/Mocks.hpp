@@ -44,9 +44,9 @@ namespace UnitTest
                 this->cam_.swap(mock);
                 mock.release();
             }
-            //Delegates call to real CameraController method on default
             CameraControllerTester(): capture::CameraController(0, 0) 
             {
+                //Delegates call to real CameraController method on default
                 ON_CALL(*this, setCameraControls).WillByDefault(
                     [this](const capture::CameraSettings& camera_settings) {
                         //We need to give the real Object a mock cam_ object before invoking the method

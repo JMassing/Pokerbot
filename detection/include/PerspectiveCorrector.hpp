@@ -10,6 +10,7 @@
 
 #include "TemplateFunctions.hpp"
 #include "CornerSorter.hpp"
+#include "TCoordsCalculator.hpp"
 
 namespace detect 
 {
@@ -29,7 +30,8 @@ namespace detect
 
         private: 
 
-           CornerSorter sorter_;
+            TCoordsCalculator coords_calc_;
+            CornerSorter sorter_;
 
 		public:              
            
@@ -53,8 +55,7 @@ namespace detect
                 const int& offset
                 );
 
-
-			PerspectiveCorrector(): sorter_() {};
+			PerspectiveCorrector(): sorter_(),coords_calc_() {};
 
 			~PerspectiveCorrector(){};
 

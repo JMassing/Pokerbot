@@ -25,7 +25,7 @@ namespace detect
 		public:    
             /**
             * @brief sorts corner points to orderexpected by perspectiveTransformation. 
-            * Start lower right corner -> going clockwise
+            * Start upper right corner -> going counter clockwise in image coordinates
             * 
             */	  
             std::vector< cv::Point2f > sortCorners(
