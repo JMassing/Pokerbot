@@ -17,8 +17,9 @@
 #include "CardAssigner.hpp"
 #include "ImProcSettings.hpp"
 #include "DataDetect.hpp"
-#include "IDetectGui.hpp"
-#include "IDetectCapture.hpp"
+#include "Card.hpp"
+#include "Image.hpp"
+#include "IDetectionDataHandler.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -56,21 +57,17 @@ namespace detect
 			std::vector<CardBuffer<CARD_BUFFER_SIZE>> card_buffers_;
 			int frame_nr_;
             ImProcSettings settings_;
+			std::unique_ptr<IDetectionDataHandler> data_handler_;
             PerspectiveCorrector perspective_corrector_;
-			const int perspective_transform_offset_ = 5;
 
+			const int perspective_transform_offset_ = 5;
             // Parameters used for filtering Card Contours
             const int max_card_size_ = 500000;
             const int min_card_size_ = 8000;
-
-            // Parameters for Card Image size. Card width in pixel, apsect ratio
-            // Measured from real cards used here 
+            // Parameters for Card Image size. Card width in pixel
             const int card_width_ = 301;
+			//Aspsect ratio as estimated from real cards used here 
             const double card_aspect_ratio_ = 1.4;
-
-			// Interfaces
-			std::shared_ptr<IDetectGui> gui_interface_;
-			std::shared_ptr<IDetectCapture> capture_interface_;
 
 			void bufferCard(const Card& card);
 
@@ -86,27 +83,12 @@ namespace detect
 			 * @param input_frame Live frame from camera
 			 * 			
 			 *  */
-			void updateFrame(const Image& input_frame) override;
+			void updateFrame() override;
 			const std::vector<Card> getCards() override { return this->cards_; }
-			/**
-			 * @brief Attach communication interface to GUI
-			 * 
-			 * @param interface 
-			 */
-			void attachGuiInterface(std::shared_ptr<IDetectGui> interface)
+			void attachDataHandler(std::unique_ptr<IDetectionDataHandler> handler)
 			{
-				this->gui_interface_ = interface;
+				this->data_handler_.swap(handler); 
 			}
-			/**
-			 * @brief Attach communication interface to capture module
-			 * 
-			 * @param interface 
-			 */
-			void attachCaptureInterface(std::shared_ptr<IDetectCapture> interface)
-			{
-				this->capture_interface_ = interface;
-			}
-
 			/**
 			 * @brief Construct a new Card Detector object
 			 * 
@@ -119,8 +101,6 @@ namespace detect
                 frame_nr_(0),
 				data_{},
                 settings_(initial_settings),
-				gui_interface_(nullptr),
-				capture_interface_(nullptr),
 				game_phase_{0}
             {};
 			~CardDetector(){};

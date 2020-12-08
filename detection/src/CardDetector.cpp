@@ -2,14 +2,12 @@
 
 namespace detect{
 
-    void CardDetector::updateFrame(const Image& input_frame)
+    void CardDetector::updateFrame()
     {
-        this->live_frame_ = input_frame;
+       	this->data_handler_->getLiveFrame(this->live_frame_);
         ++this->frame_nr_;
     }    
 
-	// @brief: Add Card to a CardBuffer. For more information on the why we use
-	// 		   CardBuffers, see CardBuffer.hpp
     void CardDetector::bufferCard(const Card& card)
 	{
 		if(this->card_buffers_.size() == 0)
@@ -47,25 +45,14 @@ namespace detect{
 		}
 	}
 
+
     void CardDetector::detectCards()
 	{
         this->cards_.clear();
 		this->data_.cards.clear();
 
-		// get settings from GUI if a GUI is connected
-		if(this->gui_interface_ != nullptr)
-		{
-			if(this->gui_interface_->checkUserInput())
-			{
-				this->settings_ = this->gui_interface_->getSettings();
-			}
-		}
-
-		// get live frame from camera if connected
-		if(this->capture_interface_ != nullptr)
-		{
-			this->updateFrame(capture_interface_->getImage());
-		}
+		this->updateFrame();
+		this->data_handler_->getProcessingSettings(this->settings_);
 
 		// Find Contours of interest in frame	
 		std::vector<std::vector<cv::Point> > card_contours =	
@@ -156,7 +143,7 @@ namespace detect{
 			// remove buffers unused within the last 3 frames
 			else if((*p).getLastUpdate() <= this->frame_nr_-3)
 			{				
-				// p mus be decremented after erase is called, as p is invalidated by erase
+				// p must be decremented after erase is called, as p is invalidated by erase
 				this->card_buffers_.erase(p--);
 			}			
 			else
@@ -165,8 +152,8 @@ namespace detect{
 			}
 			
 		}	
-	
-		// Add detected Cards to poker interface
+		
+		// Add detected Cards to Data
 		for(auto& card: this->cards_)
 		{
 			if(!templates::contains(this->data_.cards.begin(), this->data_.cards.end(), card))
@@ -174,11 +161,8 @@ namespace detect{
 				 this->data_.cards.emplace_back(card);
 			 }
 		}
-		// send cards to GUI if a GUI is connected
-		if(this->gui_interface_ != nullptr)
-		{
-			this->gui_interface_->setCards(this->cards_);
-		}
+
+		this->data_handler_->sendDetectedCards(this->cards_);
     }
 
 } // end namespace detect

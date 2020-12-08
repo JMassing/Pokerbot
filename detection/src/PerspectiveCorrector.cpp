@@ -1,5 +1,4 @@
 #include "PerspectiveCorrector.hpp"
-#include <iostream>
 
 namespace detect{
 

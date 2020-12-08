@@ -17,7 +17,7 @@ namespace detect
 	/** *\ingroup detection
 	* @class CardBuffer
 	* @author Julian Massing (julimassing@gmail.com)
-	* @brief RingBuffer Pattern adapted for buffering Cards. \n 
+	* @brief RingBuffer Pattern adapted for buffering Cards. 
 	* The card buffer is used to account for outliers in the detection. 
 	* We always compare a sample of the N-1 last detections with the current detection of the card. 
 	* If the current detection has changed, this is first considered an outlier. 

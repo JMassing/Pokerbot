@@ -27,7 +27,7 @@ namespace detect {
 			
 			virtual void detectCards() = 0;
 			virtual const std::vector<Card> getCards() = 0; 
-			virtual void updateFrame(const Image& input_frame) = 0;
+			virtual void updateFrame() = 0;
 
 			virtual ~ICardDetector() {};			
 	};

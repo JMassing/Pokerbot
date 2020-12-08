@@ -41,7 +41,7 @@ namespace gui {
 			{
 				this->cards_ = cards;
 			}
-			
+		
         	GuiDetectionInterface(
 				detect::ImProcSettings& settings,
 				bool& input

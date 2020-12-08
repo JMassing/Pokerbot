@@ -54,9 +54,6 @@ int main(int argc, char* argv[])
 
 	// Set Up detection process and connect to capture input
 	CardDetector card_detector(*proc_settings);
-	
-	// Input from capture modlue giving live frame
-	card_detector.attachCaptureInterface(cam_detect_interface);
 
 	// Interface to Poker Module
 	shared_ptr<DetectPokerInterface> detect_poker_interface = 
@@ -106,7 +103,6 @@ int main(int argc, char* argv[])
 			settings_window.proc_settings_,
 			settings_window.input_
 			);
-	card_detector.attachGuiInterface(gui_detection_interface);	
 
 	// Interface to Capture module
 	shared_ptr<GuiCaptureInterface> gui_capture_interface =
@@ -170,13 +166,21 @@ int main(int argc, char* argv[])
 		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize
 		);
 
-
 	// Free Initialization Data Structures
 	default_settings.release();
 	camera_settings.release();
 	proc_settings.release();
 	sim_settings.release();
 	layout_settings.release();
+
+	// ------ Data Handlers --------------------------------------------------
+	// Detection
+	unique_ptr<DetectionDataHandler> detection_data_handler = 
+		make_unique<DetectionDataHandler>();
+	// Input from capture modlue giving live frame
+	detection_data_handler->attachCaptureInterface(cam_detect_interface);
+	detection_data_handler->attachGuiInterface(gui_detection_interface);	
+	card_detector.attachDataHandler(std::move(detection_data_handler));
 
 
 	// ------ Run Pokerbot ----------------------------------------------------
@@ -191,9 +195,7 @@ int main(int argc, char* argv[])
 				gui.closeWindow();
 				break;
 			}		
-
-			//cam_controller.printCameraState();
-			
+						
 			// Detect Cards in Frame and notify other modules
 			card_detector.detectCards();
 

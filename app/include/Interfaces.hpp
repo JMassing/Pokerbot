@@ -3,3 +3,4 @@
 #include "GuiDetectionInterface.hpp"
 #include "GuiCaptureInterface.hpp"
 #include "GuiPokerInterface.hpp"
+#include "DetectionDataHandler.hpp"
