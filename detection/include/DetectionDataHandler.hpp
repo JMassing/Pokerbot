@@ -58,7 +58,7 @@ namespace detect
 		* @return true if settings were changed
 		* @return false if settings were not changed
         */
-		bool getProcessingSettings(ImProcSettings& settings) const override;
+		bool getProcessingSettings(ImProcSettings& settings) override;
         /**
         * @brief Send detected cards to Capture gui
         * 

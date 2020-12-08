@@ -142,7 +142,7 @@ namespace UnitTest
         EXPECT_TRUE(p_cor.warpImage(src, dst, points, center, 5));
     };
 
-        GTEST_TEST(Test_PerspectiveCorrector, warp_image_returns_false_if_less_than_4_points)
+    GTEST_TEST(Test_PerspectiveCorrector, warp_image_returns_false_if_less_than_4_points)
 	{
         //dummy points
 		std::vector< cv::Point2f > points{{40, 490}, {240, 330}, {5, 70}};

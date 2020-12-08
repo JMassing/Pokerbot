@@ -9,7 +9,7 @@
 #include "CameraSettings.hpp"
 #include "ICameraDevice.hpp"
 #include "Image.hpp"
-#include "Mocks.hpp"
+#include "Capture_Mocks.hpp"
 
 namespace UnitTest
 {
@@ -87,7 +87,7 @@ namespace UnitTest
 
 	GTEST_TEST(Test_grabLive, does_not_call_gui_checkUserInput_nor_setImage_if_not_conneccted )
 	{
-		std::shared_ptr<NiceMock<MockGuiInterface>> mock_gui = std::make_unique<NiceMock<MockGuiInterface>>();
+		std::shared_ptr<NiceMock<MockCaptureGuiInterface>> mock_gui = std::make_unique<NiceMock<MockCaptureGuiInterface>>();
 		std::unique_ptr<NiceMock<MockCam>> mock_cam = std::make_unique<NiceMock<MockCam>>();
 		EXPECT_CALL(*mock_gui, checkUserInput()).Times(0);
 		EXPECT_CALL(*mock_gui, setImage(_)).Times(0);
@@ -99,7 +99,7 @@ namespace UnitTest
 
 	GTEST_TEST(Test_grabLive, calls_gui_checkUserInput_and_setImage_once_if_connected )
 	{
-		std::shared_ptr<NiceMock<MockGuiInterface>> mock_gui = std::make_unique<NiceMock<MockGuiInterface>>();
+		std::shared_ptr<NiceMock<MockCaptureGuiInterface>> mock_gui = std::make_unique<NiceMock<MockCaptureGuiInterface>>();
 		std::unique_ptr<NiceMock<MockCam>> mock_cam = std::make_unique<NiceMock<MockCam>>();
 		EXPECT_CALL(*mock_cam, read()).WillOnce(Return(Image(cv::Mat(500, 1000, CV_8UC1, cv::Scalar(70)))));
 		EXPECT_CALL(*mock_gui, checkUserInput()).Times(1);
@@ -113,7 +113,7 @@ namespace UnitTest
 
 	GTEST_TEST(Test_grabLive, calls_setCameraControls_on_user_input )
 	{
-		std::shared_ptr<NiceMock<MockGuiInterface>> mock_gui = std::make_unique<NiceMock<MockGuiInterface>>();
+		std::shared_ptr<NiceMock<MockCaptureGuiInterface>> mock_gui = std::make_unique<NiceMock<MockCaptureGuiInterface>>();
 		EXPECT_CALL(*mock_gui, checkUserInput()).WillOnce(Return(true));
 		CameraControllerTester controller{};
 		EXPECT_CALL(controller, setCameraControls(_)).Times(1);

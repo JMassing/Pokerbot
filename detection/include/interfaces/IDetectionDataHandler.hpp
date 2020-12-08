@@ -24,7 +24,7 @@ namespace detect
 		public:
         
 			virtual bool getLiveFrame(Image&) const = 0;
-			virtual bool getProcessingSettings(ImProcSettings&) const = 0;
+			virtual bool getProcessingSettings(ImProcSettings&) = 0;
             virtual bool sendDetectedCards(const std::vector<Card>&) const = 0;		
 			virtual ~IDetectionDataHandler() {};
 	};

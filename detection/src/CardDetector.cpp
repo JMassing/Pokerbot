@@ -74,12 +74,11 @@ namespace detect{
         // Find corner points and center points of contours
 		std::vector < std::vector< cv::Point2f >> card_corners = 
 			ContourFinder::calculateCornerPoints(card_contours);
-
+			
 		std::vector< cv::Point2f > card_centers =
 		    ContourFinder::calculateCenterPoints(card_contours);
 
         // Identify Cards rank and suit
-
 		int count = 0;
 		cv::Mat card_image;
 

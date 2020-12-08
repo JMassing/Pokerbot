@@ -45,6 +45,33 @@ namespace detect
             binary_threshold(120), 
             identification_threshold(120)
         {};
+
+        ImProcSettings(int live_threshold, int binary_threshold, int identification_threshold): 
+            live_threshold(live_threshold), 
+            binary_threshold(binary_threshold), 
+            identification_threshold(identification_threshold)
+        {};
+
+        bool operator==(const ImProcSettings& other) const
+			{
+				return 
+				(
+                    this->live_threshold == other.live_threshold &&
+                    this->binary_threshold == other.binary_threshold &&
+                    this->identification_threshold == other.identification_threshold
+				);
+			};
+
+			bool operator!=(const ImProcSettings& other) const
+			{
+				return 
+				(
+				    this->live_threshold != other.live_threshold &&
+                    this->binary_threshold != other.binary_threshold &&
+                    this->identification_threshold != other.identification_threshold
+				);
+			};
+
         
 		~ImProcSettings(){};
 

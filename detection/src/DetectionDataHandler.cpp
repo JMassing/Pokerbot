@@ -26,7 +26,7 @@ namespace detect{
         } 
     }
 
-    bool DetectionDataHandler::getProcessingSettings(ImProcSettings& settings) const
+    bool DetectionDataHandler::getProcessingSettings(ImProcSettings& settings)
     {
         // get settings from GUI if a GUI is connected
 		if(this->gui_interface_ != nullptr)

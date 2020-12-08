@@ -195,7 +195,7 @@ int main(int argc, char* argv[])
 				gui.closeWindow();
 				break;
 			}		
-						
+
 			// Detect Cards in Frame and notify other modules
 			card_detector.detectCards();
 
@@ -203,9 +203,9 @@ int main(int argc, char* argv[])
 			game.play();
 								
 			// Draw Gui Frame
-			gui.drawGuiFrame();
+			gui.drawGuiFrame(); 
 
-			//draw Windows
+			// Draw Windows
 			settings_window.draw();
 			main_menu.draw();
 			live_view.draw();
@@ -214,8 +214,8 @@ int main(int argc, char* argv[])
 			suit_view.draw();
 			poker_win.draw();
 
+			// Render Gui
 			gui.render();
-	
 			if (gui.shouldClose())
 			{
 					break;

@@ -23,6 +23,7 @@ namespace detect {
 	class TrainImage
 	{
 		private:
+
 			std::string label_;
 			Image image_;
 
@@ -30,15 +31,14 @@ namespace detect {
 			void readLabel(const std::string & filename);		
 
 		public:
-
-			
+	
 			Image getImage() const { return this->image_; } 
 			void setImage(Image image){this->image_ = image;}
 			/**
-			 * @brief Get Label of the TrainImage which contains rank and suit.
-			 * 
-			 * @return std::string label
-			 */
+			* @brief Get Label of the TrainImage which contains rank and suit.
+			* 
+			* @return std::string label
+			*/
 			std::string getLabel() const { return this->label_; }
 
 			TrainImage(){};
@@ -49,7 +49,7 @@ namespace detect {
 			};
 			~TrainImage(){};		
 			
-				// Using default copy and move constructors. 
+			// Using default copy and move constructors. 
 			TrainImage(const TrainImage &other) = default;
 			TrainImage& operator=(const TrainImage& other) = default;
 			TrainImage(TrainImage &&other) noexcept = default;

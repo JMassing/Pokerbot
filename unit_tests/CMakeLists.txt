@@ -26,6 +26,8 @@ add_gtest(TestCardBuffer TestCardBuffer.cpp)
 add_gtest(TestDM TestDM.cpp)
 add_gtest(TestCamController TestCamController.cpp)
 add_gtest(TestPerspectiveCorrector TestPerspectiveCorrector.cpp)
+add_gtest(TestCardDetector TestCardDetector.cpp)
+
 
 
 
@@ -34,6 +36,7 @@ target_link_libraries(TestDM PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN
 target_link_libraries(TestCardBuffer PRIVATE  ${POKERLIB_NAME} ${DETECTIONLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
 target_link_libraries(TestCamController PRIVATE ${CAPTURELIB_NAME} ${CONAN_LIBS})
 target_link_libraries(TestPerspectiveCorrector PRIVATE ${DETECTIONLIB_NAME}  ${SHAREDLIB_NAME} ${CONAN_LIBS})
+target_link_libraries(TestCardDetector PRIVATE ${DETECTIONLIB_NAME}  ${SHAREDLIB_NAME} ${CONAN_LIBS})
 
 
 ## Copy utilities to unit_tests folder
@@ -64,6 +67,7 @@ if(ENABLE_CODE_COVERAGE)
                 TestDM 
                 TestCamController 
                 TestPerspectiveCorrector
+                TestCardDetector
             ) 
     endif()
 endif()

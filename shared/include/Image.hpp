@@ -24,8 +24,21 @@
 
         Image() : image{} { };
         explicit Image(cv::Mat img) : image{img} { };
+        
+        bool operator==(const Image& other) const
+		{
+            cv::Mat dst{};
+			cv::bitwise_xor(this->image, other.image, dst);  
+            return cv::countNonZero(dst) == 0;
+		};
+	    bool operator!=(const Image& other) const
+		{
+            cv::Mat dst{};
+			cv::bitwise_xor(this->image, other.image, dst);  
+            return cv::countNonZero(dst) > 0;
+		};
+        
         ~Image() {};
-
         /**
          * @brief Custom copy constructor to get deep copy
          * 
@@ -36,7 +49,6 @@
             // use copy assignment operator as defined below
             *this = other;
         };	
-
         /**
          * @brief Custom copy assignment operator to get deep copy
          * 
@@ -49,8 +61,7 @@
                 this->image = other.image.clone();
             }
             return *this;
-        };
-            
+        }; 
         /**
          * @brief Custom move constructor 
          * 
@@ -59,8 +70,7 @@
         Image(Image&& other) noexcept : image{}
         {
             *this = std::move(other);
-        };
-
+        }
          /**
          * @brief Custom move assignment operator
          * 
@@ -70,12 +80,10 @@
         {
             if (this != &other)
             {
-                this->image.release();
-                    
+                this->image.release();                    
                 // assignment operator for cv::Mat returns a pointer to the object, 
                 // and not a deep copy
-                this->image = other.image;
-                    
+                this->image = other.image;                    
                 // releasing the old images here will decrement the ref counter, but 
                 // not delete the underlying data. Other.image will point to nullptr 
                 // according to cv::Mat reference

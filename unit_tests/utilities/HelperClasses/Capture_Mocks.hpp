@@ -2,15 +2,15 @@
 
 #include <string>
 #include <memory>
-#include <iostream>
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "CameraSettings.hpp"
-#include "ICameraDevice.hpp"
 #include "Image.hpp"
+#include "CameraSettings.hpp"
 #include "CameraController.hpp"
+#include "ICaptureGui.hpp"
+#include "ICameraDevice.hpp"
 
 namespace UnitTest
 {
@@ -27,7 +27,7 @@ namespace UnitTest
             MOCK_METHOD(std::string, getBackendName, (), (override));
     };
 
-    class MockGuiInterface : public capture::ICaptureGui
+    class MockCaptureGuiInterface : public capture::ICaptureGui
     {
         public:
             MOCK_METHOD(capture::CameraSettings, getSettings, (), (const, override));

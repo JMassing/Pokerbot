@@ -55,7 +55,7 @@ namespace detect
                 const int& offset
                 );
 
-			PerspectiveCorrector(): sorter_(),coords_calc_() {};
+			PerspectiveCorrector(): sorter_(), coords_calc_() {};
 
 			~PerspectiveCorrector(){};
 
