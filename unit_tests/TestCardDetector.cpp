@@ -2,10 +2,6 @@
 #include <vector>
 #include <algorithm>
 
-#include <iostream>
-#include <opencv2/highgui.hpp>
-
-
 #include <gtest/gtest.h>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>

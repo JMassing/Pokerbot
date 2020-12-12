@@ -2,29 +2,29 @@
 
 namespace detect{
 
-    	CardIdentifier::CardIdentifier(
-            const std::string& path_to_rank_training_images,
-            const std::string& path_to_suit_training_images,
-            int& identification_threshold,
-            int& binarization_threshold
-            ):
-            identification_threshold_(identification_threshold),
-            binarization_threshold_(binarization_threshold)
-        {
-            // reserve space for train images, these should be 13 ranks and 4 suits
-		    this->train_ranks_.reserve(13);
-		    this->train_suits_.reserve(4);
+    CardIdentifier::CardIdentifier(
+        const std::string& path_to_rank_training_images,
+        const std::string& path_to_suit_training_images,
+        int& identification_threshold,
+        int& binarization_threshold
+        ):
+        identification_threshold_(identification_threshold),
+        binarization_threshold_(binarization_threshold)
+    {
+        // reserve space for train images, these should be 13 ranks and 4 suits
+		this->train_ranks_.reserve(13);
+		this->train_suits_.reserve(4);
 
-		    this->loadTrainImages(
-                    path_to_rank_training_images,
-                    this->train_ranks_
-                    );
+		this->loadTrainImages(
+                path_to_rank_training_images,
+                this->train_ranks_
+                );
 
-	        this->loadTrainImages(
-                    path_to_suit_training_images,
-                    this->train_suits_
-                    );
-        };
+	    this->loadTrainImages(
+                path_to_suit_training_images,
+                this->train_suits_
+                );
+    };
 	
     double CardIdentifier::compareImages(const cv::Mat &src, const cv::Mat &dst)
     {

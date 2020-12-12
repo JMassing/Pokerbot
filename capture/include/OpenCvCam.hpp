@@ -74,7 +74,7 @@ namespace capture {
             {
                 return this->cap_.get(prop_id);
             }
-            std::string getBackendName() override
+        	std::string getBackendName() override
             {
                 return this->cap_.getBackendName();
             }
@@ -104,9 +104,7 @@ namespace capture {
 			OpenCvCam(const OpenCvCam& other) = default;	
 			OpenCvCam& operator=(const OpenCvCam& other) = default;
 			OpenCvCam(OpenCvCam&& other) noexcept = default;
-			OpenCvCam& operator=(OpenCvCam&& other) noexcept = default;
-			
+			OpenCvCam& operator=(OpenCvCam&& other) noexcept = default;		
 	};
-
 } //end namespace capture
 

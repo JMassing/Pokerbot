@@ -61,8 +61,6 @@ namespace gui
 	
 	}
 
-    
-	//@brief: Writes card Rank/Suit into image. Writes approx. into middle of card contour
 	void ImageDrawer::writeCard(
         cv::Mat& src, 
         const detect::Card& card, 
@@ -110,7 +108,6 @@ namespace gui
         cv::circle(frame, center, 1, color);
     }
 
-    //@brief: 
     void ImageDrawer::draw(const cv::Mat& frame, const int& image_width, const int& image_height)
     {
        if(!frame.empty())
@@ -181,7 +178,6 @@ namespace gui
 		}		
 	}
 
-    //@brief: Copy rectanlge to image
     void ImageDrawer::drawRectangle(
         cv::Mat& frame, 
         const cv::Rect& rect, 

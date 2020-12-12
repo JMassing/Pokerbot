@@ -58,7 +58,6 @@ namespace detect
                    const std::string &path, 
                    std::vector<TrainImage>& train_images
                    );			
-
             /**
              * @brief Calculates similarity of two images 
              * 
@@ -67,7 +66,14 @@ namespace detect
              * @return double L2-error
              */
            	double compareImages(const cv::Mat &src, const cv::Mat &dst);		
-
+            /**
+             * @brief compares image to train images
+             * 
+             * @param image 
+             * @param rank_images rank train images
+             * @param suit_images suit train images
+             * @return std::pair<int, std::string> Pair of value corresponding to enum Cards and type ("rank" or "suit")
+             */
             std::pair<int, std::string> compareToTrainImage(
                 const cv::Mat& image, 
                 std::vector<TrainImage> rank_images,
