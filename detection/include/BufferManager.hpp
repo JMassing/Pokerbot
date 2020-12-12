@@ -57,8 +57,17 @@ namespace detect
              * @param current_frame 
              */
             void removeStaleBuffers(const int& update_threshold, const int& current_frame);
+            /**
+             * @brief Returns vector of existing buffers
+             * 
+             * @return std::vector<CardBuffer<CARD_BUFFER_SIZE>> 
+             */
+            std::vector<CardBuffer<CARD_BUFFER_SIZE>> getBuffers()
+            {
+                return this->buffers_;
+            }
 
-			BufferManager(){};
+			BufferManager(): buffers_{}{};
 			~BufferManager(){};
 
 			// Using default copy and move constructors. 
