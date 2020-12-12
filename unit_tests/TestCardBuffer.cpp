@@ -1,4 +1,5 @@
 #include <boost/filesystem.hpp>
+#include <boost/dll.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
@@ -19,10 +20,10 @@ namespace UnitTest
 
 	GTEST_TEST(TestCardBuffer, TestAll)
 	{
-		detect::CardBuffer<10> buffer(0);
+		detect::CardBuffer<10> buffer{};
 
 		std::ifstream file;
-		fs::path filename = fs::current_path() / "unit_tests" / "utilities" / "DetectCardlists" / "buffer.txt";
+		fs::path filename = boost::dll::program_location().parent_path() / "unit_tests" / "utilities" / "DetectCardlists" / "buffer.txt";
 		// Read player hands from file
 		file.open(filename.string());	
 		std::string line;

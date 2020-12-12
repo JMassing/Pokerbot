@@ -8,16 +8,16 @@
 namespace poker{
 
     /**  \ingroup poker
-	* @class RankDeterminator
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Determines the winner between the given hands       
-	*
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class RankDeterminator
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Determines the winner between the given hands       
+	 *
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     class WinnerDeterminator{
         
         public:

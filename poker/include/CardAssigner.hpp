@@ -10,22 +10,22 @@
 namespace poker 
 {
 	/**
-    * \defgroup poker
-	* The Poker module manages the actual game of poker. It gets the players decisions from user input and calculates
-	* the robot decsisions based on player decision and probability of winning. The probability of winning is calculated
-	* from a monte carlo simulation based on the current robot hand and nr. of opponents.
- 	* @{
-	* @class CardAssigner
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Assigns detected cards in image to robot cards or public cards
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
-	/**@}*/
+     * \defgroup poker
+	 * The Poker module manages the actual game of poker. It gets the players decisions from user input and calculates
+	 * the robot decsisions based on player decision and probability of winning. The probability of winning is calculated
+	 * from a monte carlo simulation based on the current robot hand and nr. of opponents.
+ 	 * @{
+	 * @class CardAssigner
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Assigns detected cards in image to robot cards or public cards
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
+	 /**@}*/
     class CardAssigner
 	{         
 

@@ -10,16 +10,16 @@
 // Data Structure for training images
 namespace detect {
     /** *\ingroup detection
-	* @class TrainImage
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Data structure containing training images. Taining images are stored in the Card_Imgs folder.
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class TrainImage
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Data structure containing training images. Taining images are stored in the Card_Imgs folder.
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+     * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
 	class TrainImage
 	{
 		private:
@@ -35,10 +35,10 @@ namespace detect {
 			Image getImage() const { return this->image_; } 
 			void setImage(Image image){this->image_ = image;}
 			/**
-			* @brief Get Label of the TrainImage which contains rank and suit.
-			* 
-			* @return std::string label
-			*/
+			 * @brief Get Label of the TrainImage which contains rank and suit.
+			 * 
+			 * @return std::string label
+			 */
 			std::string getLabel() const { return this->label_; }
 
 			TrainImage(){};

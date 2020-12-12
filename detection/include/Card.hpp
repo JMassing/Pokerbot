@@ -8,25 +8,25 @@
 namespace detect
 {
 	/**
-	* \defgroup detection
-	* The Detection module uses OpenCV methods to detect cards in the camera image. First we use the cv::findContour method to detect
-	* the card outlines. Then we extract individual images of each card and zoom into the upper left corner where the
-	* rank and suit are printed. We use cv::findContours again to determine an image of the rank and the suit, which are
-	* binarized and compared to training images. This gives the rank and suit of each card in the live image.
-	*  
- 	* @{
-	* @class Card
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Data Structure for detected cards. 
-	* Extends BaseCard with the detected center_point and card contour and card, rank and suit images
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
-	/**@}*/
+	 * \defgroup detection
+	 * The Detection module uses OpenCV methods to detect cards in the camera image. First we use the cv::findContour method to detect
+	 * the card outlines. Then we extract individual images of each card and zoom into the upper left corner where the
+	 * rank and suit are printed. We use cv::findContours again to determine an image of the rank and the suit, which are
+	 * binarized and compared to training images. This gives the rank and suit of each card in the live image.
+	 *  
+ 	 * @{
+	 * @class Card
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Data Structure for detected cards. 
+	 * Extends BaseCard with the detected center_point and card contour and card, rank and suit images
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
+	 /**@}*/
 	struct Card: public BaseCard
 	{
 	

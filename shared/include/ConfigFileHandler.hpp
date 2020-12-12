@@ -13,16 +13,16 @@ namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
 	/** \ingroup shared
-	* @class ConfigFileHandler
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Loads the config.ini file
-	*		
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class ConfigFileHandler
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Loads the config.ini file
+	 *		
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     class ConfigFileHandler
     {
         private:

@@ -12,26 +12,27 @@
 namespace poker{
 
     /**  \ingroup poker
-	* @class RankDeterminator
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Determines rank of given Hand       
-	*
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class RankDeterminator
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Determines rank of given Hand       
+	 *
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     class RankDeterminator{
         
         private:
 
             int ranking_;
-
-            // 5 highest cards in hand (only card rank). Starting with highest card and decreasing.
-            // If you have a pair, the first two cards will be the cards of the pair and then the 
-            // next highest card. If you have a straight, all five cards will be the highest card 
-            // of the straight, since it is the only one that counts. Etc. ...
+            /**
+             * @brief  5 highest cards in hand (only card rank). Starting with highest card and decreasing.
+             * If you have a pair, the first two cards will be the cards of the pair and then the 
+             * next highest card. If you have a straight, all five cards will be the highest card 
+             * of the straight, since it is the only one that counts. Etc. ... 
+             */
             std::array<int,5> high_cards_;
 
             void isMultipleOfCards(Hand& hand); 

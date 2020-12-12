@@ -8,16 +8,16 @@
 namespace gui {
 
     /**  \ingroup gui
-	* @class Slider
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Wrapper for ImGui::Slider.
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class Slider
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Wrapper for ImGui::Slider.
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
 	class Slider
 	{
 				

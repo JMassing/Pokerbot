@@ -5,16 +5,16 @@
 namespace poker
 {
     /** \ingroup poker
-	* @class GameSettings
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Data structure containing settings for the poker game
-	*
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class GameSettings
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Data structure containing settings for the poker game
+	 *
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     struct GameSettings
     {
         int nr_of_human_players;

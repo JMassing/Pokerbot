@@ -7,16 +7,16 @@ namespace poker{
     enum decision { NO_DECISION, CHECK, CALL, RAISE, HAS_RAISED, FOLD };
 
     /**  \ingroup poker
-	* @class Player
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Data structure representing a player. Tracking the player hand, money, decision, bet and bet size.      
-	*
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class Player
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Data structure representing a player. Tracking the player hand, money, decision, bet and bet size.      
+	 *
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     struct Player
     {
             Hand hand;

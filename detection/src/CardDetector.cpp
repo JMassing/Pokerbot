@@ -8,44 +8,6 @@ namespace detect{
         ++this->frame_nr_;
     }    
 
-    void CardDetector::bufferCard(const Card& card)
-	{
-		if(this->card_buffers_.size() == 0)
-		{
-			this->card_buffers_.emplace_back(
-                CardBuffer<CARD_BUFFER_SIZE>(card, this->frame_nr_)
-                );
-		}
-		else
-		{
-			// calculate squared distances of card to known buffers
-			std::vector<double> squared_distances;
-			for(const auto& buffer: this->card_buffers_)
-			{
-				squared_distances.emplace_back(
-                    templates::squaredEuclideanDistance2D(buffer.getCenter(), card.center_point)
-                    );
-			}
-
-			// find min distance and add card to that buffer, if the distance is small enough. 
-            // Otherwise it is a new card and a new buffer is created
-			auto p = std::min_element(squared_distances.begin(), squared_distances.end());
-			auto pos = std::distance(squared_distances.begin(), p);
-
-			if( *p < MAX_DISTANCE_TO_BUFFER * MAX_DISTANCE_TO_BUFFER)
-			{
-				this->card_buffers_.at(pos).put(card, this->frame_nr_);
-			}
-			else
-			{
-				this->card_buffers_.emplace_back(
-                    CardBuffer<CARD_BUFFER_SIZE>(card, this->frame_nr_)
-                    );
-			}			
-		}
-	}
-
-
     void CardDetector::detectCards()
 	{
         this->cards_.clear();
@@ -74,7 +36,6 @@ namespace detect{
         // Find corner points and center points of contours
 		std::vector < std::vector< cv::Point2f >> card_corners = 
 			ContourFinder::calculateCornerPoints(card_contours);
-			
 		std::vector< cv::Point2f > card_centers =
 		    ContourFinder::calculateCenterPoints(card_contours);
 
@@ -92,6 +53,7 @@ namespace detect{
             this->settings_.binary_threshold
             );
 
+		// Loop through all detected contours and identify the card that is enclosed by the contour
         for (const auto& contour : card_contours)
 		{
 			card_image.create(
@@ -100,16 +62,15 @@ namespace detect{
                 this->live_frame_.image.type()
                 );
 			
-            // Rewarp cards to correct perspective errors 
-			bool transform_result = this->perspective_corrector_.warpImage(
+            // Rewarp image within contours to correct perspective errors 
+			bool image_was_warped = this->perspective_corrector_.warpImage(
                 this->live_frame_.image, 
                 card_image, 
                 card_corners.at(count),
                 card_centers.at(count),
                 this->perspective_transform_offset_
                 );
-
-			if (!transform_result)
+			if (!image_was_warped)
 			{
 				card_image.release();
 				break;
@@ -123,34 +84,17 @@ namespace detect{
             // Identify cards rank and suit
 			card_identifier.identifyCard(card_tmp, card_image);
 
-            // Add card to card buffer
-			this->bufferCard(card_tmp);			
+            // Add card to card buffers
+			buffer_manager_.addDetectedCard(card_tmp, this->frame_nr_, 30);			
 
             // clear card_image
 			card_image.release();								
 			++count;
 		}
 
-        for(auto p = this->card_buffers_.begin(); p != this->card_buffers_.end(); ++p)
-		{
-			Card card_tmp;
-			// only use buffers that were updated in the last 3 frames
-			if((*p).getLastUpdate() >= this->frame_nr_-3 && (*p).getCard(card_tmp))
-			{				
-				this->cards_.emplace_back(card_tmp);
-			}	
-			// remove buffers unused within the last 3 frames
-			else if((*p).getLastUpdate() <= this->frame_nr_-3)
-			{				
-				// p must be decremented after erase is called, as p is invalidated by erase
-				this->card_buffers_.erase(p--);
-			}			
-			else
-			{
-					//do nothing
-			}
-			
-		}	
+		// Remove stale Buffers and get cards from buffers
+		this->buffer_manager_.removeStaleBuffers(3, this->frame_nr_);
+		this->cards_ = this->buffer_manager_.getBufferedCards();	
 		
 		// Add detected Cards to Data
 		for(auto& card: this->cards_)
@@ -163,5 +107,4 @@ namespace detect{
 
 		this->data_handler_->sendDetectedCards(this->cards_);
     }
-
 } // end namespace detect

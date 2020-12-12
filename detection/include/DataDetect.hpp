@@ -9,16 +9,16 @@
 namespace detect
 {
 	/** *\ingroup detection
-	* @class DataDetect
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Data structure containing detection module output data to poker module
-	*
-	* @version 1.0
-	* @date 2020-11-18
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class DataDetect
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Data structure containing detection module output data to poker module
+	 *
+	 * @version 1.0
+	 * @date 2020-11-18
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     struct DataDetect
     {
 

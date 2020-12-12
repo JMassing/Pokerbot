@@ -12,16 +12,16 @@
 
 namespace gui {
 	/**  \ingroup gui
-	* @class SuitImageWin
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Window showing binarized images of card suits.
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class SuitImageWin
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Window showing binarized images of card suits.
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
 	class SuitImageWin : public IWindow
 	{
 		private:

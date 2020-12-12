@@ -5,17 +5,17 @@
 namespace capture
 {
 	/**
-	*\ingroup capture
-	* @class CameraSettings
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Data Structure containing Camera Settings
-	*
-	* @version 1.0
-	* @date 2020-11-18
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 *\ingroup capture
+	 * @class CameraSettings
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Data Structure containing Camera Settings
+	 *
+	 * @version 1.0
+	 * @date 2020-11-18
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
 	struct CameraSettings
 	{ 		    
 		public:

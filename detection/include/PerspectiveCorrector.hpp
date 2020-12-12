@@ -15,16 +15,16 @@
 namespace detect 
 {
     /** *\ingroup detection
-	* @class PerspectiveCorrector
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Warps given image to correct for perspective errors and get a birdseye view of card image
-    *  		
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class PerspectiveCorrector
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Warps given image to correct for perspective errors and get a birdseye view of card image
+     *  		
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     class PerspectiveCorrector
 	{
 
@@ -34,7 +34,6 @@ namespace detect
             CornerSorter sorter_;
 
 		public:              
-           
            /**
             * @brief Transforms perspectively distorted card image into 2D upright view of card
             * 

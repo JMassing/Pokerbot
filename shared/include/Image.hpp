@@ -2,22 +2,20 @@
 
 #include <opencv2/core.hpp>
 
-
-
     /** \ingroup shared
-	* @class Image
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Wrapper  for cv::Mat. This makes sure we have a deep copy when using a copy constructor or 
-    *        an assignment operator. Image is used in different modules where image processing is done on the 
-    *        underlying image in some cases. We do not want to be surprised by changes in the original data, 
-    *        after it was copied and we apply changes to the new image object.
-	*		
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class Image
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Wrapper  for cv::Mat. This makes sure we have a deep copy when using a copy constructor or 
+     *        an assignment operator. Image is used in different modules where image processing is done on the 
+     *        underlying image in some cases. We do not want to be surprised by changes in the original data, 
+     *        after it was copied and we apply changes to the new image object.
+	 *		
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     struct Image{
 
         cv::Mat image;

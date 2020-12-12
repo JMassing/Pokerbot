@@ -15,85 +15,83 @@ namespace detect
 {	
 
 	/** *\ingroup detection
-	* @class CardBuffer
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief RingBuffer Pattern adapted for buffering Cards. 
-	* The card buffer is used to account for outliers in the detection. 
-	* We always compare a sample of the N-1 last detections with the current detection of the card. 
-	* If the current detection has changed, this is first considered an outlier. 
-	* However, it might be the case, that the card was initially detected as unknown or something 
-	* wrong for a different reason. After some time the new and right detections
-	* take over the buffer and we return the right card
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class CardBuffer
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief RingBuffer Pattern adapted for buffering Cards. 
+	 * The card buffer is used to account for outliers in the detection. 
+	 * We always compare a sample of the N-1 last detections with the current detection of the card. 
+	 * If the current detection has changed, this is first considered an outlier. 
+	 * However, it might be the case, that the card was initially detected as unknown or something 
+	 * wrong for a different reason. After some time the new and right detections
+	 * take over the buffer and we return the right card
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
 	template<std::size_t N>
 	class CardBuffer: public templates::RingBuffer<BaseCard, N>
 	{	
+		private:
+
+			cv::Point center_point_;
+			std::vector<cv::Point> contour_;
+			Image card_image_;
+			Image rank_image_;
+			Image suit_image_;
+			bool filled_once_;
+			int last_update_;
+
+		public:
+
+			bool getCard(Card& card_out);		
+			/**
+			 * @brief Override put function for card buffer to also update center point and 
+					 contour with the center point and contour of the latest card
+			 * 
+			 */
+			void put(const Card& card_in, const int& frame_nr);
+			cv::Point getCenter() const
+			{
+				return this->center_point_;
+			}
+			std::vector<cv::Point> getContour() const
+			{
+				return this->contour_;
+			}
+			/**
+			 * @brief Returns the frame nr when the buffer was last updated 
+			 * 
+			 */
+			int getLastUpdate() const
+			{
+				return this->last_update_;
+			}
+
+			CardBuffer() :
+				templates::RingBuffer<BaseCard, N>::RingBuffer(), 
+				center_point_(), 
+				filled_once_(false), 
+				contour_(), 
+				last_update_(0),
+				card_image_(), 
+				rank_image_(), 
+				suit_image_() 
+				{};
+
+			CardBuffer(const Card& card, int frame_nr) :
+				templates::RingBuffer<BaseCard, N>::RingBuffer(), 
+				filled_once_(false) 
+			{
+				this->put(card, frame_nr);
+			};
 		
-	private:
-
-		cv::Point center_point_;
-		std::vector<cv::Point> contour_;
-		Image card_image_;
-		Image rank_image_;
-		Image suit_image_;
-
-		bool filled_once_;
-		int last_update_;
-
-	public:
-
-
-		bool getCard(Card& card_out);
-		
-		/**
-		* @brief Override put function for card buffer to also update center point and 
-		         contour with the center point and contour of the latest card
-		* 
-		*/
-		void put(const Card& card_in, const int& frame_nr);
-		cv::Point getCenter() const
-		{
-			return this->center_point_;
-		}
-		std::vector<cv::Point> getContour() const
-		{
-			return this->contour_;
-		}
-        /**
-		* @brief Returns the frame nr when the buffer was last updated 
-		* 
-		*/
-		int getLastUpdate() const
-		{
-			return this->last_update_;
-		}
-
-		explicit CardBuffer(int frame_nr) :
-			templates::RingBuffer<BaseCard,N>::RingBuffer(), 
-			center_point_(), 
-			filled_once_(false), 
-			contour_(), 
-			last_update_(frame_nr),
-			card_image_(), 
-			rank_image_(), 
-			suit_image_() 
-			{};
-		CardBuffer(const Card& card, int frame_nr) : templates::RingBuffer<BaseCard,N>::RingBuffer(), filled_once_(false) 
-		{
-			this->put(card, frame_nr);
-		};
-	
-		CardBuffer(const CardBuffer& other) = default;	
-		CardBuffer& operator=(const CardBuffer& other) = default;
-		CardBuffer(CardBuffer&& other) noexcept = default;
-		CardBuffer& operator=(CardBuffer&& other) noexcept = default;
-		
+			CardBuffer(const CardBuffer& other) = default;	
+			CardBuffer& operator=(const CardBuffer& other) = default;
+			CardBuffer(CardBuffer&& other) noexcept = default;
+			CardBuffer& operator=(CardBuffer&& other) noexcept = default;	
 	};
 
 	template<std::size_t N>
@@ -158,6 +156,5 @@ namespace detect
 		card_out.rank_image = this->rank_image_;
 			
 		return true;
-	
 	};
 }

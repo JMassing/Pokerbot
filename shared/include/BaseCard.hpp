@@ -3,19 +3,19 @@
 #include "Mapping.hpp"
 
 	/** \defgroup shared
-	* This modules contains classes that are shared between all modules.
- 	* @{
-	* @class BaseCard
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Data structure representing a playing card
-	*		
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
-	/**@}*/
+	 * This modules contains classes that are shared between all modules.
+ 	 * @{
+	 * @class BaseCard
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Data structure representing a playing card
+	 *		
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
+	 /**@}*/
 	struct BaseCard
 	{
 		int rank;

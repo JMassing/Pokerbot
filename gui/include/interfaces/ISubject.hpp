@@ -10,16 +10,16 @@
 namespace gui
 {
 	/**  \ingroup gui
-	* @class ISubject
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Subject Interface used in Observer Pattern 
-	*		
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/	
+	 * @class ISubject
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Subject Interface used in Observer Pattern 
+	 *		
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */	
 	class ISubject
 	{
 		private:

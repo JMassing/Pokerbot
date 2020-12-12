@@ -5,16 +5,16 @@
 namespace detect
 {
     /** *\ingroup detection
-	* @class ImProcSettings
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Data structure containing image processing settings
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class ImProcSettings
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Data structure containing image processing settings
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     struct ImProcSettings
     {
         /**
@@ -53,24 +53,24 @@ namespace detect
         {};
 
         bool operator==(const ImProcSettings& other) const
-			{
-				return 
-				(
-                    this->live_threshold == other.live_threshold &&
-                    this->binary_threshold == other.binary_threshold &&
-                    this->identification_threshold == other.identification_threshold
-				);
-			};
+		{
+			return 
+			(
+                this->live_threshold == other.live_threshold &&
+                this->binary_threshold == other.binary_threshold &&
+                this->identification_threshold == other.identification_threshold
+			);
+		};
 
-			bool operator!=(const ImProcSettings& other) const
-			{
-				return 
-				(
-				    this->live_threshold != other.live_threshold &&
-                    this->binary_threshold != other.binary_threshold &&
-                    this->identification_threshold != other.identification_threshold
-				);
-			};
+		bool operator!=(const ImProcSettings& other) const
+		{
+		    return 
+			(
+			    this->live_threshold != other.live_threshold &&
+                this->binary_threshold != other.binary_threshold &&
+                this->identification_threshold != other.identification_threshold
+			);
+		};
 
         
 		~ImProcSettings(){};

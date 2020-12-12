@@ -5,17 +5,17 @@
 
 namespace poker{    
     /**  \ingroup poker
-	* @class DecisionMaker
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Decides move (check, call, raise, fold) and betsize for robot based on probability of winning
-    *        with the robot hand and betsize of the opponent.        
-	*
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class DecisionMaker
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Decides move (check, call, raise, fold) and betsize for robot based on probability of winning
+     *        with the robot hand and betsize of the opponent.        
+	 *
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     class DecisionMaker{
 
         private:

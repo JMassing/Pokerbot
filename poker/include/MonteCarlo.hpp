@@ -16,16 +16,16 @@
 namespace poker{
 
     /**  \ingroup poker
-	* @class MonteCarlo
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Monte Carlo simulation of a poker game       
-	*
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class MonteCarlo
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Monte Carlo simulation of a poker game       
+	 *
+ 	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     class MonteCarlo{
         
         public:

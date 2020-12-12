@@ -9,21 +9,21 @@
 namespace gui {
     
     /**
-    * \defgroup gui
-    * The Gui module uses the Dear ImGui framework to create the Pokerbot GUI.
- 	* @{
-	* @class GuiContext
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Wrapper around Dear ImGui with glfw and OpenGl3 backend. Sets up GUI context, event handlers,
-    *        platform bindings and renders GUI.
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
-    /**@}*/
+     * \defgroup gui
+     * The Gui module uses the Dear ImGui framework to create the Pokerbot GUI.
+ 	 * @{
+	 * @class GuiContext
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Wrapper around Dear ImGui with glfw and OpenGl3 backend. Sets up GUI context, event handlers,
+     *        platform bindings and renders GUI.
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
+     /**@}*/
 	class GuiContext
 	{
 		protected:

@@ -6,16 +6,16 @@
 namespace gui {
 
 	/**  \ingroup gui
-	* @class IWindow
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Interface which defines minimum required functionality for Gui windows. 
-	*		
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/	
+	 * @class IWindow
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Interface which defines minimum required functionality for Gui windows. 
+	 *		
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */	
 	class IWindow
 	{
 		protected:

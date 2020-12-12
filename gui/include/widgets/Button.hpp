@@ -6,16 +6,16 @@
 namespace gui {
 
  	/**  \ingroup gui
-	* @class Button
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Wrapper for ImGui::Button
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class Button
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Wrapper for ImGui::Button
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
 	class Button
 	{
 		protected:

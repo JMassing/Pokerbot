@@ -5,16 +5,16 @@
 namespace templates{
 
     /**
-	* @class RingBuffer
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief RingBuffer Pattern 
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class RingBuffer
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief RingBuffer Pattern 
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     template<class T, std::size_t N>
     class RingBuffer
     {    

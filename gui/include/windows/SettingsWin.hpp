@@ -16,16 +16,16 @@
 namespace gui {
 
 	/**  \ingroup gui
-	* @class SettingsWin
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Window showing camera and detection settings.
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class SettingsWin
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Window showing camera and detection settings.
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
 	class SettingsWin: public IWindow
 	{
 		private:

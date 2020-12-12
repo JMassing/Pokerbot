@@ -11,16 +11,16 @@
 namespace poker{
 
     /**  \ingroup poker
-	* @class Hand
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Object representing a players hand.        
-	*
-	* @version 1.0
-	* @date 2020-11-22
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class Hand
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Object representing a players hand.        
+	 *
+	 * @version 1.0
+	 * @date 2020-11-22
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     class Hand{
         
         public:

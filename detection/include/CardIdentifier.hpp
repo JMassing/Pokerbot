@@ -18,38 +18,39 @@
 namespace detect 
 {
     /** *\ingroup detection
-	* @class CardIdentifier
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Compares Card Image to TrainImage and returns the rank and suit of the detected Card Image
-	*		
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class CardIdentifier
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Compares Card Image to TrainImage and returns the rank and suit of the detected Card Image
+	 *		
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
     class CardIdentifier
 	{
-
         private: 
 
             std::vector<TrainImage> train_suits_;
 			std::vector<TrainImage> train_ranks_;
             int& identification_threshold_;
             int& binarization_threshold_;
-
-            // Parameters for zoom into upper left corner. Ranks and Suit is
-            // determined from zoomed image. Parameters were found empirically
-            // and fit well to the cards used here
+            /**
+             * @brief Parameters for zoom into upper left corner. Ranks and Suit is
+             * determined from zoomed image. Parameters were found empirically
+             * and fit well to the cards used here
+             */
             const int zoom_offset_ = 5;
             const double zoom_width_to_card_width_ratio_ = 0.25;
             const double zoom_height_to_card_height_ratio_ = 0.4;
-
-            // Upper limit for size of rank contour area as a ratio of the zoomed image area
-            // This is used to filter out contours in the zoomed image that are to large to
-            // be the contour of the rank/suit
+            /**
+             * @brief Upper limit for size of rank contour area as a ratio of the zoomed image area
+             * This is used to filter out contours in the zoomed image that are to large to
+             * be the contour of the rank/suit
+             * 
+             */
             const double max_rank_area_ratio_ = 0.6;
-
             // Max comparison score to be considered a valid comparison. Empirical parameter
             const double max_score_ = 1.5;
 
@@ -80,7 +81,7 @@ namespace detect
              * Card Image is binarized and upper right corner is zoomed in.
 			 * Upper right corner is then compared to TrainImage using L2 Norm.
 	   	     * Lowest difference wins.
-            * 
+             * 
              * @param card Detected card
              * @param card_image Training image
              */

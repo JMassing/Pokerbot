@@ -18,17 +18,17 @@
 
 namespace gui {
 	/** \ingroup gui
-	* @class ImageDrawer
-	* @author Julian Massing (julimassing@gmail.com)
-	* @brief Adds contour outlines, text, rectangles and points to camera image and 
-	* 		 draws live frame into live image window
-	*
-	* @version 1.0
-	* @date 2020-11-21
-	* 
-	* @copyright Copyright (c) 2020
-	* 
-	*/
+	 * @class ImageDrawer
+	 * @author Julian Massing (julimassing@gmail.com)
+	 * @brief Adds contour outlines, text, rectangles and points to camera image and 
+	 * 		 draws live frame into live image window
+	 *
+	 * @version 1.0
+	 * @date 2020-11-21
+	 * 
+	 * @copyright Copyright (c) 2020
+	 * 
+	 */
 	class ImageDrawer
 	{
 		private:
@@ -62,7 +62,6 @@ namespace gui {
 			 * 
 			 */
 			void deleteTexture();
-
 			/**
 			 * @brief Print text to given frame
 			 * 
@@ -77,7 +76,6 @@ namespace gui {
 				const cv::Point& pos, 
 				const cv::Scalar& color
 				);
-
 			/**
 			 * @brief Load given image as texture using OpenGl and display it in GUI window using ImGui::Image()
 			 * 
@@ -86,7 +84,6 @@ namespace gui {
 			 * @param image_height Height in Pixel
 			 */
 			void draw(const cv::Mat& frame, const int& image_width, const int& image_height);
-
 			/**
 			 * @brief Print Card Contours and Rank/Suits as Text to image. Used to visualize Cards in given frame.
 			 * 
@@ -101,7 +98,6 @@ namespace gui {
 				const cv::Scalar& color,
 				const bool& mask_cards = false
 				);
-			
 			/**
 			 * @brief Draw rectangle in given frame
 			 * 
@@ -114,7 +110,6 @@ namespace gui {
 					const cv::Rect& rect, 
 					const cv::Scalar& color
 					);
-			
 			/**
 			 * @brief Draw point in given frame
 			 * 
