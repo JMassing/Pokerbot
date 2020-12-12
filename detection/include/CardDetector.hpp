@@ -72,6 +72,10 @@ namespace detect
 			{
 				this->data_handler_.swap(handler); 
 			}
+			int get_frame_nr()
+			{
+				return this->frame_nr_;
+			}
 			/**
 			 * @brief Construct a new Card Detector object
 			 * 
@@ -84,7 +88,8 @@ namespace detect
                 frame_nr_(0),
 				data_{},
                 settings_(initial_settings),
-				game_phase_{0}
+				game_phase_{0},
+				data_handler_{nullptr}
             {};
 			~CardDetector(){};
 

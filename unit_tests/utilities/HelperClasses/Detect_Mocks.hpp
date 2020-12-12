@@ -21,12 +21,19 @@ namespace UnitTest
             MOCK_METHOD(Image, getImage, (), (const, override));
     };
 
-    // Mocks for Detection module
     class MockDetectGuiInterface: public detect::IDetectGui
     {
         public:
             MOCK_METHOD(detect::ImProcSettings, getSettings, (), (const, override));
             MOCK_METHOD(bool, checkUserInput, (), (const, override));
             MOCK_METHOD(void, setCards, (std::vector<detect::Card>), (override));
+    };
+
+    class MockDetectionDataHandler: public detect::IDetectionDataHandler
+    {
+        public:
+            MOCK_METHOD(bool, getLiveFrame, (Image&), (const, override));
+            MOCK_METHOD(bool, getProcessingSettings, (detect::ImProcSettings&), (override));
+            MOCK_METHOD(bool, sendDetectedCards, (const std::vector<detect::Card>&), (const, override));
     };
 }//end namespace unit tests
