@@ -30,10 +30,30 @@ namespace poker{
 
         public:
 
+            /**
+             * @brief starts game
+             * 
+             */
             void start();
+            /**
+             * @brief stop game
+             * 
+             */
             void stop();
+            /**
+             * @brief resets current game phase
+             * 
+             */
             void resetPhase();
+            /**
+             * @brief starts next round
+             * 
+             */
             void startNextRound();
+            /**
+             * @brief sets game phase
+             * 
+             */
             void setGamePhase();
 
             GameStateController(

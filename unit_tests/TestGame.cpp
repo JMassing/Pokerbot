@@ -385,4 +385,64 @@ namespace UnitTest
         EXPECT_EQ(data.players.at(2).money_in_play, settings.small_blind);
         EXPECT_EQ(data.players.at(2).money, 450);
     }
+
+    GTEST_TEST(Test_GameStateController, setGamePhase_bet_hand)
+    {
+        poker::GameSettings settings{};
+        settings.nr_of_human_players = 2;
+        poker::DataPoker data{};
+        data.players.resize(3);
+        data.next_round = true;
+        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
+        std::vector<BaseCard> public_cards{};
+        int game_phase = poker::HAND_CARDS;
+        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
+        controller.setGamePhase();
+        EXPECT_EQ(game_phase, poker::BET_HAND);
+    }
+
+    GTEST_TEST(Test_GameStateController, setGamePhase_bet_flop)
+    {
+        poker::GameSettings settings{};
+        settings.nr_of_human_players = 2;
+        poker::DataPoker data{};
+        data.players.resize(3);
+        data.next_round = true;
+        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
+        std::vector<BaseCard> public_cards{3, BaseCard()};
+        int game_phase = poker::FLOP;
+        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
+        controller.setGamePhase();
+        EXPECT_EQ(game_phase, poker::BET_FLOP);
+    }
+
+    GTEST_TEST(Test_GameStateController, setGamePhase_bet_turn)
+    {
+        poker::GameSettings settings{};
+        settings.nr_of_human_players = 2;
+        poker::DataPoker data{};
+        data.players.resize(3);
+        data.next_round = true;
+        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
+        std::vector<BaseCard> public_cards{4, BaseCard()};
+        int game_phase = poker::TURN;
+        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
+        controller.setGamePhase();
+        EXPECT_EQ(game_phase, poker::BET_TURN);
+    }
+
+    GTEST_TEST(Test_GameStateController, setGamePhase_bet_river)
+    {
+        poker::GameSettings settings{};
+        settings.nr_of_human_players = 2;
+        poker::DataPoker data{};
+        data.players.resize(3);
+        data.next_round = true;
+        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
+        std::vector<BaseCard> public_cards{5, BaseCard()};
+        int game_phase = poker::RIVER;
+        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
+        controller.setGamePhase();
+        EXPECT_EQ(game_phase, poker::BET_RIVER);
+    }
 } //end namespace UnitTest

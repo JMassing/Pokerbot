@@ -168,7 +168,6 @@ namespace poker{
 
             this->getWinner();
   
-            
             // get pot size
             this->money_tracker_.calcPotSize();
 
@@ -205,7 +204,5 @@ namespace poker{
         {
             this->gui_interface_->setSettings(this->settings_);
         }
-
     }
-
 }// end namespace poker
