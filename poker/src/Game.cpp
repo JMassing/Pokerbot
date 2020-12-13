@@ -36,27 +36,6 @@ namespace poker{
         this->settings_.playing_game = false;
     }
 
-    //@brief: processes the bets made by the players
-    void Game::processBet()
-    {
-        for(auto& player : this->data_.players)
-        {
-            // process player money
-            player.money_in_play += player.current_bet;
-            player.current_bet = 0;          
-        }; 
-    }
-
-    //@brief:: calculates potsize 
-    void Game::calcPotSize()
-    {
-        this->data_.pot_size = 0;
-        for(const auto& player : this->data_.players)
-        {
-            this->data_.pot_size += player.money_in_play;
-        }
-    }
-
     //@brief:: checks if all players have made a decision
     bool Game::haveAllPlayersDecided()
     {
@@ -68,19 +47,6 @@ namespace poker{
             }
         }
         return true;
-    }
-
-    //@brief:: checks one player has less money than the big blind
-    bool Game::hasPlayerLessThanBigblind()
-    {
-           for(const auto& player: this->data_.players)
-        {
-            if(player.money < this->big_blind_)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     //@brief:: checks if a player has raised
@@ -98,21 +64,7 @@ namespace poker{
     {
         return (this->hasRobotRaised() || this->hasPlayerRaised());
     }
-    //@brief:: checks if player is all in 
-    bool Game::isPlayerAllIn()
-    {
-        for(auto& player: this->data_.players)
-        {
-            if(player.money <= 0)
-            {
-                player.is_all_in = true;
-                return true;
-            }
-        }
-        return false;
-    }
 
-    //@brief:: resets all decisions, bet sizes etc. when we enter a new game phase
     void Game::resetPhase()
     {
         for(auto& player: this->data_.players)
@@ -126,7 +78,6 @@ namespace poker{
             (this->data_.button_pos + 1) % (this->settings_.nr_of_human_players + 1);
     }
 
-    //@brief:: Gets the winner if we have one and then retunrs true. Else returns false 
     bool Game::getWinner()
     {
         // Check if all players except for one have folded.
@@ -282,7 +233,7 @@ namespace poker{
         }
 
         //stop game if players have less money than big blind left and we are at the beginning of the round
-        if(this->hasPlayerLessThanBigblind() && this->game_phase_ == HAND_CARDS)
+        if(this->money_tracker_.hasPlayerLessThanBigblind(this->big_blind_) && this->game_phase_ == HAND_CARDS)
         {
             this->stop();
         }
@@ -315,7 +266,6 @@ namespace poker{
                     this->data_.players,
                     this->game_phase_
                     );
-
      
             this->setGamePhase();
 
@@ -343,9 +293,9 @@ namespace poker{
                 }      
                 // go to next phase if a player went all in and all other players have called, else
                 // process bet                         
-                if (this->isPlayerAllIn() && !this->wasRaised())
+                if (this->money_tracker_.isPlayerAllIn() && !this->wasRaised())
                 {
-                    this->processBet();
+                    this->money_tracker_.processBet();
                     ++this->game_phase_;
                 }
                 else
@@ -365,7 +315,7 @@ namespace poker{
                         //do nothing
                     }
 
-                    this->processBet();
+                    this->money_tracker_.processBet();
 
                     // process player decisions if we do not have a winner
                     if(this->getWinner())
@@ -385,7 +335,7 @@ namespace poker{
   
             
             // get pot size
-            this->calcPotSize();
+            this->money_tracker_.calcPotSize();
 
             // start next round, if user confirmed to start it
             if(this->data_.next_round && this->detect_interface_->getData().cards.size() == 0)
@@ -406,7 +356,7 @@ namespace poker{
             // do nothing
         } 
 
-        this->isPlayerAllIn();
+        this->money_tracker_.isPlayerAllIn();
         // send hands and data to GUI if a GUI is connected
         if(this->gui_interface_ != nullptr)
         {

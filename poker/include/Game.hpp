@@ -13,6 +13,7 @@
 #include "BaseCard.hpp"
 #include "CardAssigner.hpp"
 #include "DecisionMaker.hpp"
+#include "MoneyTracker.hpp"
 
 namespace poker{
     /**  \ingroup poker
@@ -32,7 +33,6 @@ namespace poker{
 
             void start();
             void stop();
-            void processBet();
     	    bool haveAllPlayersDecided();
             bool hasPlayerRaised();
             bool hasRobotRaised();
@@ -42,12 +42,9 @@ namespace poker{
             bool getWinner();
             void startNextRound();
             void setGamePhase();
-            void calcPotSize();
-            bool isPlayerAllIn();
-            bool hasPlayerLessThanBigblind();
-
 
             GameSettings settings_;
+            MoneyTracker money_tracker_;
             std::shared_ptr<IPokerGui> gui_interface_;
             std::shared_ptr<IPokerDetect> detect_interface_;
             std::vector<BaseCard> public_cards_;
@@ -84,7 +81,8 @@ namespace poker{
                 game_phase_(NOT_STARTED),
                 robot_cards_{},
                 public_cards_{},
-                settings_(settings)
+                settings_(settings),
+                money_tracker_(this->data_)
             {};
             ~Game() {};   
                 
