@@ -14,6 +14,7 @@
 #include "CardAssigner.hpp"
 #include "DecisionMaker.hpp"
 #include "MoneyTracker.hpp"
+#include "DecisionProcessor.hpp"
 
 namespace poker{
     /**  \ingroup poker
@@ -33,11 +34,6 @@ namespace poker{
 
             void start();
             void stop();
-    	    bool haveAllPlayersDecided();
-            bool hasPlayerRaised();
-            bool hasRobotRaised();
-            bool wasRaised();
-            void processPlayerDecisions();
             void resetPhase();
             bool getWinner();
             void startNextRound();
@@ -45,6 +41,7 @@ namespace poker{
 
             GameSettings settings_;
             MoneyTracker money_tracker_;
+            DecisionProcessor decision_processor_;
             std::shared_ptr<IPokerGui> gui_interface_;
             std::shared_ptr<IPokerDetect> detect_interface_;
             std::vector<BaseCard> public_cards_;
@@ -82,7 +79,8 @@ namespace poker{
                 robot_cards_{},
                 public_cards_{},
                 settings_(settings),
-                money_tracker_(this->data_)
+                money_tracker_(this->data_),
+                decision_processor_(this->data_)
             {};
             ~Game() {};   
                 

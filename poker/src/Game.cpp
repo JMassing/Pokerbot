@@ -36,35 +36,6 @@ namespace poker{
         this->settings_.playing_game = false;
     }
 
-    //@brief:: checks if all players have made a decision
-    bool Game::haveAllPlayersDecided()
-    {
-        for(const auto& player: this->data_.players)
-        {
-            if(player.current_decision == NO_DECISION)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    //@brief:: checks if a player has raised
-    bool Game::hasPlayerRaised()
-    {
-        return (this->data_.players.at(1).current_decision == HAS_RAISED || this->data_.players.at(1).current_decision == RAISE);
-    }
-
-    bool Game::hasRobotRaised()
-    {
-        return (this->data_.players.at(0).current_decision == HAS_RAISED || this->data_.players.at(0).current_decision == RAISE);
-    }
-
-    bool Game::wasRaised()
-    {
-        return (this->hasRobotRaised() || this->hasPlayerRaised());
-    }
-
     void Game::resetPhase()
     {
         for(auto& player: this->data_.players)
@@ -155,24 +126,7 @@ namespace poker{
         this->data_.players.at(small_blind_pos).money -= this->small_blind_;
     }
 
-    void Game::processPlayerDecisions()
-    {
-
-        if(this->haveAllPlayersDecided())
-        {
-            if(!wasRaised())
-            {
-                // all players have called or all folded and nobody is all in
-                this->resetPhase();
-                ++this->game_phase_;                  
-            }
-            else
-            {
-                       
-            }
-        }
-    }
-
+   
     void Game::setGamePhase()
     {
         // Set next game phase, if robot cards are saved
@@ -293,7 +247,7 @@ namespace poker{
                 }      
                 // go to next phase if a player went all in and all other players have called, else
                 // process bet                         
-                if (this->money_tracker_.isPlayerAllIn() && !this->wasRaised())
+                if (this->money_tracker_.isPlayerAllIn() && !this->decision_processor_.wasRaised())
                 {
                     this->money_tracker_.processBet();
                     ++this->game_phase_;
@@ -303,7 +257,7 @@ namespace poker{
                     // Robot decides move of it is his turn and he hasn't decided and nobody raised 
                     // and nobody has won yet
                     if ( this->data_.whos_turn == 0 
-                         && ( !this->haveAllPlayersDecided() || this->hasPlayerRaised() ) 
+                         && ( !this->decision_processor_.haveAllPlayersDecided() || this->decision_processor_.hasPlayerRaised() ) 
                          && !this->getWinner())
                     {
                         DecisionMaker decision_maker_(this->data_);
@@ -324,9 +278,9 @@ namespace poker{
                     }
                     else
                     {
-                        if(this->haveAllPlayersDecided())
+                        if(this->decision_processor_.haveAllPlayersDecided())
                         {
-                            if(!wasRaised())
+                            if(!this->decision_processor_.wasRaised())
                             {
                                 // all players have called or all folded and nobody is all in
                                 this->resetPhase();
