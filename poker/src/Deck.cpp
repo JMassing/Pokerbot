@@ -1,7 +1,5 @@
 #include "Deck.hpp"
 
-#include <random>       // std::default_random_engine
-
 namespace poker
 {
     Deck::Deck(Hand& robot_hand): pos_tracker_{0} {
@@ -24,12 +22,10 @@ namespace poker
         }
     }
 
-    //@brief: shuffles the deck using std::shuffle function
     void Deck::shuffle()
     {        
         std::random_device rd;
         std::mt19937 g(rd());
         std::shuffle(this->deck_.begin(), this->deck_.end(), g);
     }
-
 }//end namespace poker

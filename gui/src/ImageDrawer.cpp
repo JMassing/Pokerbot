@@ -88,7 +88,6 @@ namespace gui
 		
 	}
     
-    //@brief: 
 	void ImageDrawer::printText(
         cv::Mat& dst, 
         std::string& text, 
@@ -165,8 +164,6 @@ namespace gui
 			contours.emplace_back(card.contour);
 		}
 		
-		
-		//
 		if(contours.size() > 0)
 		{
 			this->drawContours(contours, dst, color, mask_cards);

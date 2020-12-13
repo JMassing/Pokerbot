@@ -36,20 +36,15 @@ namespace poker{
             std::array<int,5> high_cards_;
 
             void isMultipleOfCards(Hand& hand); 
-
             void isStraight(Hand& hand);
-
             bool isAceLowStreet(Hand& hand);
-
             Hand isFlush(Hand& hand);                        
 
         public:
 
              // Checks Ranks
             void run(Hand& hand);
-
             int getRanking(){ return this->ranking_; };
-
             std::array<int,5> getHighCards(){ return this->high_cards_; };
 
             void clear()

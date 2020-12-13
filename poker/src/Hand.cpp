@@ -5,13 +5,12 @@
 
 namespace poker
 {
-    //@brief: Checks if Hand already contains card
+
     bool Hand::containsCard(const BaseCard& card)
     {
         return templates::contains(this->cards_.begin(), this->cards_.end(), card);
     }
 
-    //@brief: Checks if Hand contains rank 
     bool Hand::containsRank(const int& rank)
     {
         return templates::contains(this->cards_.begin(), this->cards_.end(), rank, 
@@ -22,7 +21,6 @@ namespace poker
                 );
     }
 
-     //@brief: Checks if Hand contains suit 
     bool Hand::containsSuit(const int& suit)
     {
         return templates::contains(this->cards_.begin(), this->cards_.end(), suit, 
@@ -33,7 +31,6 @@ namespace poker
                 );
     }
 
-    //@brief: Adds card to hand
     void Hand::addToHand(const BaseCard& card)
     {
         if(!this->containsCard(card))
@@ -50,7 +47,6 @@ namespace poker
         }        
     }
 
-    //@brief: returns a sstream with the current hand
     std::stringstream Hand::print()
     {
         Mapping mapping;
@@ -71,7 +67,15 @@ namespace poker
     {
         std::sort(this->cards_.begin(), this->cards_.end(), [](const auto& lhs, const auto& rhs)
             {
-                return lhs.rank > rhs.rank;
+                // if ranks are the same sort by suit
+                if(lhs.rank == rhs.rank)
+                {
+                    return lhs.suit > rhs.suit;
+                }
+                else
+                {
+                    return lhs.rank > rhs.rank;
+                }   
             }
         );
         

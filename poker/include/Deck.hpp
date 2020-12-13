@@ -31,7 +31,7 @@ namespace poker{
         // The nr. of known card changes depending on where in the game we are (start of game, flop, ...)
         std::vector<BaseCard> deck_;
         /**
-         * @brief Shuffle the deck
+         * @brief Shuffle the deck using std::shuffle
          * 
          */
         void shuffle();
