@@ -15,6 +15,7 @@
 #include "DecisionMaker.hpp"
 #include "MoneyTracker.hpp"
 #include "DecisionProcessor.hpp"
+#include "GameStateController.hpp"
 
 namespace poker{
     /**  \ingroup poker
@@ -32,26 +33,18 @@ namespace poker{
         
         private: 
 
-            void start();
-            void stop();
-            void resetPhase();
             bool getWinner();
-            void startNextRound();
-            void setGamePhase();
 
             GameSettings settings_;
             MoneyTracker money_tracker_;
             DecisionProcessor decision_processor_;
+            GameStateController controller_;
             std::shared_ptr<IPokerGui> gui_interface_;
             std::shared_ptr<IPokerDetect> detect_interface_;
             std::vector<BaseCard> public_cards_;
             std::vector<BaseCard> robot_cards_; 
             int game_phase_;
                         
-            const int starting_money_ = 10000;
-            const int big_blind_ = 100;
-            const int small_blind_ = 50;
-
         public:
 
             DataPoker data_;        
@@ -80,7 +73,8 @@ namespace poker{
                 public_cards_{},
                 settings_(settings),
                 money_tracker_(this->data_),
-                decision_processor_(this->data_)
+                decision_processor_(this->data_),
+                controller_(this->data_, this->game_phase_, this->settings_, this->robot_cards_, this->public_cards_)
             {};
             ~Game() {};   
                 

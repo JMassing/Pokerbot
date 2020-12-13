@@ -22,6 +22,9 @@ namespace poker
         bool start_game;
         bool stop_game;
         bool playing_game;
+        int starting_money;
+        int big_blind;
+        int small_blind;
 
         /** 
          * @brief Set settings to default
@@ -39,7 +42,10 @@ namespace poker
             nr_of_simulation_runs(10000),
             start_game{false},
             stop_game{false},
-            playing_game{false}
+            playing_game{false},
+            starting_money{10000},
+            big_blind{100},
+            small_blind{50}
         {};
 		~GameSettings(){};
 
