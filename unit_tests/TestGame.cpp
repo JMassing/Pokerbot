@@ -2,6 +2,9 @@
 
 #include "MoneyTracker.hpp"
 #include "DataPoker.hpp"
+#include "DecisionProcessor.hpp"
+#include "Player.hpp"
+
 
 namespace UnitTest
 {
@@ -99,5 +102,65 @@ namespace UnitTest
         data.players.at(1).money=1400;  
         data.players.at(2).money=700;
         EXPECT_FALSE(money_tracker.isPlayerAllIn());
+    }
+
+    //Test DecisionProcessor
+    GTEST_TEST(Test_DecisionProcessor, haveAllPlayersDecided_returns_false_if_one_player_has_not_decided)
+    {
+        poker::DataPoker data;
+        poker::DecisionProcessor decision_processor(data);
+        data.players.resize(3);
+        data.players.at(0).current_decision=poker::RAISE;  
+        data.players.at(1).current_decision=poker::RAISE; 
+        data.players.at(2).current_decision=poker::NO_DECISION; 
+        EXPECT_FALSE(decision_processor.haveAllPlayersDecided());
+    }
+
+    //Test DecisionProcessor
+    GTEST_TEST(Test_DecisionProcessor, haveAllPlayersDecided_returns_true_if_all_players_decided)
+    {
+        poker::DataPoker data;
+        poker::DecisionProcessor decision_processor(data);
+        data.players.resize(3);
+        data.players.at(0).current_decision=poker::RAISE;  
+        data.players.at(1).current_decision=poker::RAISE; 
+        data.players.at(2).current_decision=poker::CHECK; 
+        EXPECT_TRUE(decision_processor.haveAllPlayersDecided());
+    }
+
+    GTEST_TEST(Test_DecisionProcessor, wasRaised_returns_true_if_robot_raised)
+    {
+        poker::DataPoker data;
+        poker::DecisionProcessor decision_processor(data);
+        data.players.resize(2);
+        data.players.at(0).current_decision=poker::RAISE;  
+        data.players.at(1).current_decision=poker::CHECK; 
+        EXPECT_TRUE(decision_processor.wasRaised());
+        data.players.at(0).current_decision=poker::HAS_RAISED;  
+        data.players.at(1).current_decision=poker::CHECK; 
+        EXPECT_TRUE(decision_processor.wasRaised());
+    }
+
+    GTEST_TEST(Test_DecisionProcessor, wasRaised_returns_true_if_player_raised)
+    {
+        poker::DataPoker data;
+        poker::DecisionProcessor decision_processor(data);
+        data.players.resize(2);
+        data.players.at(0).current_decision=poker::CHECK;  
+        data.players.at(1).current_decision=poker::RAISE; 
+        EXPECT_TRUE(decision_processor.wasRaised());
+        data.players.at(0).current_decision=poker::CHECK;  
+        data.players.at(1).current_decision=poker::HAS_RAISED;  
+        EXPECT_TRUE(decision_processor.wasRaised());
+    }
+
+    GTEST_TEST(Test_DecisionProcessor, wasRaised_returns_false_if_nobody_raised)
+    {
+        poker::DataPoker data;
+        poker::DecisionProcessor decision_processor(data);
+        data.players.resize(2);
+        data.players.at(0).current_decision=poker::CHECK;  
+        data.players.at(1).current_decision=poker::CHECK; 
+        EXPECT_FALSE(decision_processor.wasRaised());
     }
 } //end namespace UnitTest

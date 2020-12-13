@@ -277,11 +277,11 @@ namespace poker{
             }
             
             
-            if( this->game_phase_ == BET_HAND || this->game_phase_ == BET_FLOP ||
-                this->game_phase_ == BET_RIVER || this->game_phase_ == BET_TURN)
+            if( this->game_phase_ == BET_HAND || this->game_phase_ == BET_FLOP 
+                || this->game_phase_ == BET_RIVER || this->game_phase_ == BET_TURN)
             {   
                 // Check if its the players turn who made the highest bet. Then every other
-                // player has called/folded and we set the decision to call to advance to the
+                // player has called/folded and we set the decision to check to advance to the
                 // next phase
                 if( this->data_.players.at(this->data_.whos_turn).money_bet_in_phase == this->data_.highest_bet 
                     && this->data_.highest_bet != 0 
@@ -324,11 +324,21 @@ namespace poker{
                     }
                     else
                     {
-                        this->processPlayerDecisions();
+                        if(this->haveAllPlayersDecided())
+                        {
+                            if(!wasRaised())
+                            {
+                                // all players have called or all folded and nobody is all in
+                                this->resetPhase();
+                                ++this->game_phase_;                  
+                            }
+                            else
+                            {
+                                    
+                            }
+                        }
                     }
                 }
-        
-                        
             }      
 
             this->getWinner();

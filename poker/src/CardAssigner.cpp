@@ -2,8 +2,6 @@
 
 namespace poker{
 
-    // @brief: assigns cards to robot cards or public cards, depending on where in the image
-    // 		   the card is placed
 	void CardAssigner::assignCards(
         const std::vector<BaseCard>& cards,
     	std::vector<BaseCard>& public_cards,
