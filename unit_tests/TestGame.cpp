@@ -7,6 +7,7 @@
 #include "GameStateController.hpp"
 #include "GameSettings.hpp"
 #include "BaseCard.hpp"
+#include "CardAssigner.hpp"
 
 namespace UnitTest
 {
@@ -444,5 +445,44 @@ namespace UnitTest
         poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
         controller.setGamePhase();
         EXPECT_EQ(game_phase, poker::BET_RIVER);
+    }
+
+    // Test CardAssigner
+    GTEST_TEST(Test_CardAssigner, assignCards_assigns_detected_cards_to_robot_cards_in_first_gamephase)
+    {
+        poker::CardAssigner assigner;
+        int game_phase = 1;
+        std::vector<BaseCard> cards{BaseCard(10,15), BaseCard(6,16)};
+        std::vector<BaseCard> public_cards;
+        std::vector<BaseCard> robot_cards;
+        assigner.assignCards(cards, public_cards, robot_cards, game_phase);
+        EXPECT_EQ(robot_cards, cards);
+        EXPECT_EQ(public_cards.size(), 0);
+    }
+
+    GTEST_TEST(Test_CardAssigner, assignCards_assigns_detected_cards_to_public_cards_if_gamephase_not_one)
+    {
+        poker::CardAssigner assigner;
+        int game_phase = 2;
+        std::vector<BaseCard> cards{BaseCard(10,15), BaseCard(6,16)};
+        std::vector<BaseCard> public_cards;
+        std::vector<BaseCard> robot_cards;
+        assigner.assignCards(cards, public_cards, robot_cards, game_phase);
+        EXPECT_EQ(robot_cards.size(), 0);
+        EXPECT_EQ(public_cards, cards);
+    }
+
+    GTEST_TEST(Test_CardAssigner, assignCards_does_not_assign_robot_cards_to_public_cards)
+    {
+        poker::CardAssigner assigner;
+        int game_phase = 2;
+        std::vector<BaseCard> cards{BaseCard(10,15), BaseCard(6,16), BaseCard(9,17), BaseCard(12,15)};
+        std::vector<BaseCard> public_cards;
+        std::vector<BaseCard> robot_cards{BaseCard(10,15), BaseCard(6,16)};
+        std::vector<BaseCard> expected_robot{BaseCard(10,15), BaseCard(6,16)};
+        std::vector<BaseCard> expected_public{BaseCard(9,17), BaseCard(12,15)};
+        assigner.assignCards(cards, public_cards, robot_cards, game_phase);
+        EXPECT_EQ(robot_cards, expected_robot);
+        EXPECT_EQ(public_cards, expected_public);
     }
 } //end namespace UnitTest
