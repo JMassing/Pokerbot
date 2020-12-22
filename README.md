@@ -1,6 +1,7 @@
 ![Ubuntu](https://github.com/JMassing/Pokerbot/workflows/Ubuntu/badge.svg)
 ![Windows](https://github.com/JMassing/Pokerbot/workflows/Windows/badge.svg)
 ![License](https://camo.githubusercontent.com/890acbdcb87868b382af9a4b1fac507b9659d9bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d626c75652e737667)
+[![codecov](https://codecov.io/gh/JMassing/Pokerbot/branch/develop/graph/badge.svg?token=KUAMPH8V26)](https://codecov.io/gh/JMassing/Pokerbot)
 
 # Pokerbot
 Welcome! This is an open-source project. It is intended for experimenting and testing different ideas and concepts and in general just have some fun :grinning:. If you have any questions or suggestions, you can contact me at julimassing@gmail.com. 
