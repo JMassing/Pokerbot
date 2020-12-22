@@ -30,7 +30,7 @@ namespace poker{
         this->robot_cards_.clear();
         this->public_cards_.clear();
         this->data_.probability = {0,0};
-        this->game_phase_ = NOT_STARTED;
+        this->data_.game_phase = NOT_STARTED;
         this->data_.highest_bet = 0;
         this->settings_.stop_game = false;
         this->settings_.playing_game = false;
@@ -52,7 +52,7 @@ namespace poker{
     void GameStateController::startNextRound()
     {
         this->resetPhase();
-        this->game_phase_ = HAND_CARDS;
+        this->data_.game_phase = HAND_CARDS;
         this->data_.button_pos = 
             (this->data_.button_pos + 1) % (this->settings_.nr_of_human_players + 1);
         this->data_.whos_turn = 
@@ -105,24 +105,24 @@ namespace poker{
     void GameStateController::setGamePhase()
     {
         // Set next game phase, if robot cards are saved
-        if(this->game_phase_ == HAND_CARDS && this->robot_cards_.size() == 2)
+        if(this->data_.game_phase == HAND_CARDS && this->robot_cards_.size() == 2)
         {
-            this->game_phase_ = BET_HAND;
+            this->data_.game_phase = BET_HAND;
         }       
         // Set next game phase, if flop cards are saved
-        else if(this->game_phase_ == FLOP && this->public_cards_.size() == 3)
+        else if(this->data_.game_phase == FLOP && this->public_cards_.size() == 3)
         {
-            this->game_phase_ = BET_FLOP;
+            this->data_.game_phase = BET_FLOP;
         }     
         // Set next game phase, if turn card is saved
-        else if(this->game_phase_ == TURN && this->public_cards_.size() == 4)
+        else if(this->data_.game_phase == TURN && this->public_cards_.size() == 4)
         {
-            this->game_phase_ = BET_TURN;
+            this->data_.game_phase = BET_TURN;
         }     
         // Set next game phase, if river card is saved
-        else if(this->game_phase_ == RIVER && this->public_cards_.size() == 5)
+        else if(this->data_.game_phase == RIVER && this->public_cards_.size() == 5)
         {
-            this->game_phase_ = BET_RIVER;
+            this->data_.game_phase = BET_RIVER;
         }     
         else
         {

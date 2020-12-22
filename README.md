@@ -12,7 +12,6 @@ I am planning to implement the following in the future (in no particular order):
 * Use Deep Learning for card detection
 * Use Multithreading to improve runtime of Monte Carlo Simulation
 * Make the bot smarter by using a more sophisticated decision making
-* Game.cpp needs some refactoring
 
 ## Releases
 See [Releases](https://github.com/JMassing/Pokerbot/releases)

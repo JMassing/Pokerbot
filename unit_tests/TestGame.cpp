@@ -1,488 +1,384 @@
 #include <gtest/gtest.h>
+#include <memory>
+#include <iostream>
 
-#include "MoneyTracker.hpp"
 #include "DataPoker.hpp"
-#include "DecisionProcessor.hpp"
+#include "Game.hpp"
+#include "Poker_Mocks.hpp"
 #include "Player.hpp"
-#include "GameStateController.hpp"
-#include "GameSettings.hpp"
-#include "BaseCard.hpp"
-#include "CardAssigner.hpp"
+#include "DataDetect.hpp"
 
 namespace UnitTest
 {
-    // Test MoneyTracker
-    GTEST_TEST(Test_MoneyTracker, processBet_adds_player_bet_to_money_in_play)
-    {
-        poker::DataPoker data;
-        poker::MoneyTracker money_tracker(data);
-        data.players.resize(3);
-        data.players.at(0).money_in_play=400; data.players.at(0).current_bet=200; 
-        data.players.at(1).money_in_play=1400; data.players.at(1).current_bet=100; 
-        data.players.at(2).money_in_play=700; data.players.at(2).current_bet=0; 
-        money_tracker.processBet();
-        EXPECT_EQ(data.players.at(0).money_in_play, 600);
-        EXPECT_EQ(data.players.at(1).money_in_play, 1500);
-        EXPECT_EQ(data.players.at(2).money_in_play, 700);
-    }
+	using ::testing::AtLeast;
+	using ::testing::Return;
+	using ::testing::_;
+	using ::testing::NiceMock;
 
-    GTEST_TEST(Test_MoneyTracker, processBet_resets_player_bets)
-    {
-        poker::DataPoker data;
-        poker::MoneyTracker money_tracker(data);
-        data.players.resize(3);
-        data.players.at(0).money_in_play=400; data.players.at(0).current_bet=200; 
-        data.players.at(1).money_in_play=1400; data.players.at(0).current_bet=100; 
-        data.players.at(2).money_in_play=700; data.players.at(2).current_bet=0; 
-        money_tracker.processBet();
-        EXPECT_EQ(data.players.at(0).current_bet, 0);
-        EXPECT_EQ(data.players.at(1).current_bet, 0);
-        EXPECT_EQ(data.players.at(2).current_bet, 0);
-    }
+	GTEST_TEST(TestGame, play_checkUserInput_if_gui_interface_connected)
+	{
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(1);
+		poker::GameSettings settings{};
+		poker::Game game(settings);
+		game.attachGuiInterface(mock_gui_if);		
+		game.play();
+	}
 
-    GTEST_TEST(Test_MoneyTracker, calcPotSize_adds_all_money_in_play_to_pot)
-    {
-        poker::DataPoker data;
-        poker::MoneyTracker money_tracker(data);
-        data.players.resize(3);
-        data.players.at(0).money_in_play=400;  
-        data.players.at(1).money_in_play=1400;  
-        data.players.at(2).money_in_play=700;
-        money_tracker.calcPotSize();
-        EXPECT_EQ(data.pot_size, 2500);
-    }
+	GTEST_TEST(TestGame, play_calls_getSettings_on_user_input)
+	{
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).WillOnce(Return(true));
+		EXPECT_CALL(*mock_gui_if, getSettings()).Times(1);
+		poker::GameSettings settings{};
+		poker::Game game(settings);
+		game.attachGuiInterface(mock_gui_if);		
+		game.play();
+	}
 
-    GTEST_TEST(Test_MoneyTracker, hasPlayerLessThanBigblind_returns_false_if_all_players_have_more_money_than_bigblind)
-    {
-        poker::DataPoker data;
-        poker::MoneyTracker money_tracker(data);
-        data.players.resize(3);
-        data.players.at(0).money=400;  
-        data.players.at(1).money=1400;  
-        data.players.at(2).money=700;
-        EXPECT_FALSE(money_tracker.hasPlayerLessThanBigblind(100));
-    }
+	GTEST_TEST(TestGame, play_calls_getData_from_gui_interface_once)
+	{
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, getData()).Times(1);
+		poker::GameSettings settings{};
+		poker::Game game(settings);
+		game.attachGuiInterface(mock_gui_if);		
+		game.play();
+	}
 
-    GTEST_TEST(Test_MoneyTracker, hasPlayerLessThanBigblind_returns_true_if_one_player_has_less_money_than_bigblind)
-    {
-        poker::DataPoker data;
-        poker::MoneyTracker money_tracker(data);
-        data.players.resize(3);
-        data.players.at(0).money=400;  
-        data.players.at(1).money=1400;  
-        data.players.at(2).money=700;
-        EXPECT_TRUE(money_tracker.hasPlayerLessThanBigblind(600));
-    }
+	GTEST_TEST(TestGame, play_setData_if_gui_interface_connected)
+	{
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, setData(_)).Times(1);
+		poker::GameSettings settings{};
+		poker::Game game(settings);
+		game.attachGuiInterface(mock_gui_if);		
+		game.play();
+	}
 
-    GTEST_TEST(Test_MoneyTracker, isPlayerAllIn_returns_true_if_one_player_is_all_in)
-    {
-        poker::DataPoker data;
-        poker::MoneyTracker money_tracker(data);
-        data.players.resize(3);
-        data.players.at(0).money=-100;  
-        data.players.at(1).money=1400;  
-        data.players.at(2).money=700;
-        EXPECT_TRUE(money_tracker.isPlayerAllIn());
-    }
+	GTEST_TEST(TestGame, play_setSettings_if_gui_interface_connected)
+	{
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, setSettings(_)).Times(1);
+		poker::GameSettings settings{};
+		poker::Game game(settings);
+		game.attachGuiInterface(mock_gui_if);		
+		game.play();
+	}
 
-    GTEST_TEST(Test_MoneyTracker, isPlayerAllIn_returns_true_if_one_player_has_negative_money)
-    {
-        poker::DataPoker data;
-        poker::MoneyTracker money_tracker(data);
-        data.players.resize(3);
-        data.players.at(0).money=-100;  
-        data.players.at(1).money=1400;  
-        data.players.at(2).money=700;
-        EXPECT_TRUE(money_tracker.isPlayerAllIn());
-    }  
-   
-    GTEST_TEST(Test_MoneyTracker, isPlayerAllIn_returns_false_if_no_player_is_all_in)
-    {
-        poker::DataPoker data;
-        poker::MoneyTracker money_tracker(data);
-        data.players.resize(3);
-        data.players.at(0).money=500;  
-        data.players.at(1).money=1400;  
-        data.players.at(2).money=700;
-        EXPECT_FALSE(money_tracker.isPlayerAllIn());
-    }
+	GTEST_TEST(TestGame, play_call_start_on_start)
+	{
+		poker::GameSettings settings{}; settings.start_game = true; settings.nr_of_human_players = 1;
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).WillOnce(Return(true));
+		EXPECT_CALL(*mock_gui_if, getSettings()).WillOnce(Return(settings));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);	
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		EXPECT_CALL(*mock_controller, start()).Times(1);
+		game.mockController(std::move(mock_controller));				
+		game.play();
+	}
 
-    //Test DecisionProcessor
-    GTEST_TEST(Test_DecisionProcessor, haveAllPlayersDecided_returns_false_if_one_player_has_not_decided)
-    {
-        poker::DataPoker data;
-        poker::DecisionProcessor decision_processor(data);
-        data.players.resize(3);
-        data.players.at(0).current_decision=poker::RAISE;  
-        data.players.at(1).current_decision=poker::RAISE; 
-        data.players.at(2).current_decision=poker::NO_DECISION; 
-        EXPECT_FALSE(decision_processor.haveAllPlayersDecided());
-    }
+	GTEST_TEST(TestGame, play_will_call_stop_on_stop)
+	{
+		poker::GameSettings settings{}; settings.stop_game= true; settings.nr_of_human_players = 1;
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).WillOnce(Return(true));
+		EXPECT_CALL(*mock_gui_if, getSettings()).WillOnce(Return(settings));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		EXPECT_CALL(*mock_controller, stop()).Times(1);
+		game.mockController(std::move(mock_controller));		
+		game.play();
+	}
 
-    //Test DecisionProcessor
-    GTEST_TEST(Test_DecisionProcessor, haveAllPlayersDecided_returns_true_if_all_players_decided)
-    {
-        poker::DataPoker data;
-        poker::DecisionProcessor decision_processor(data);
-        data.players.resize(3);
-        data.players.at(0).current_decision=poker::RAISE;  
-        data.players.at(1).current_decision=poker::RAISE; 
-        data.players.at(2).current_decision=poker::CHECK; 
-        EXPECT_TRUE(decision_processor.haveAllPlayersDecided());
-    }
+	GTEST_TEST(TestGame, play_will_call_stop_if_player_has_no_money)
+	{
+		// set up required game state for tests
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.players.at(1).money = 10;
+		gui_data.game_phase = poker::HAND_CARDS;
+		// Mocks
+ 		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).WillOnce(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).WillOnce(Return(gui_data));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();
+		EXPECT_CALL(*mock_controller, stop()).Times(1);
+		// Game Class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);		
+		game.mockController(std::move(mock_controller));	
+		game.play();
+	}
 
-    GTEST_TEST(Test_DecisionProcessor, wasRaised_returns_true_if_robot_raised)
-    {
-        poker::DataPoker data;
-        poker::DecisionProcessor decision_processor(data);
-        data.players.resize(2);
-        data.players.at(0).current_decision=poker::RAISE;  
-        data.players.at(1).current_decision=poker::CHECK; 
-        EXPECT_TRUE(decision_processor.wasRaised());
-        data.players.at(0).current_decision=poker::HAS_RAISED;  
-        data.players.at(1).current_decision=poker::CHECK; 
-        EXPECT_TRUE(decision_processor.wasRaised());
-    }
+	GTEST_TEST(TestGame, play_will_call_setGamephase_when_playing)
+	{
+		// set up required game state for tests
+		detect::DataDetect data_detect{};
+		data_detect.cards.emplace_back(BaseCard(9,15));
+		data_detect.cards.emplace_back(BaseCard(5,16));
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.game_phase = poker::HAND_CARDS;
+		// mocks
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(1).WillOnce(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).WillOnce(Return(gui_data));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		EXPECT_CALL(*mock_detect_if, getData()).WillOnce(Return(data_detect));
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		EXPECT_CALL(*mock_controller, setGamePhase()).Times(1);
+		// Game Class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);
+		game.mockController(std::move(mock_controller));	
+		game.play();
+	}
 
-    GTEST_TEST(Test_DecisionProcessor, wasRaised_returns_true_if_player_raised)
-    {
-        poker::DataPoker data;
-        poker::DecisionProcessor decision_processor(data);
-        data.players.resize(2);
-        data.players.at(0).current_decision=poker::CHECK;  
-        data.players.at(1).current_decision=poker::RAISE; 
-        EXPECT_TRUE(decision_processor.wasRaised());
-        data.players.at(0).current_decision=poker::CHECK;  
-        data.players.at(1).current_decision=poker::HAS_RAISED;  
-        EXPECT_TRUE(decision_processor.wasRaised());
-    }
+	GTEST_TEST(TestGame, play_will_skip_player_if_folded)
+	{
+		// set up required game state for tests
+		detect::DataDetect data_detect{};
+		data_detect.cards.emplace_back(BaseCard(9,15));
+		data_detect.cards.emplace_back(BaseCard(5,16));
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.game_phase = poker::HAND_CARDS; gui_data.whos_turn = 0; 
+		gui_data.players.at(0).has_folded = true;
+		// mocks
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(1).WillOnce(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).WillOnce(Return(gui_data));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		EXPECT_CALL(*mock_detect_if, getData()).WillOnce(Return(data_detect));
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();
+		// Game Class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);	
+		game.mockController(std::move(mock_controller));	
+		game.play();
+		EXPECT_EQ(game.data_.whos_turn, 1);
+	}
 
-    GTEST_TEST(Test_DecisionProcessor, wasRaised_returns_false_if_nobody_raised)
-    {
-        poker::DataPoker data;
-        poker::DecisionProcessor decision_processor(data);
-        data.players.resize(2);
-        data.players.at(0).current_decision=poker::CHECK;  
-        data.players.at(1).current_decision=poker::CHECK; 
-        EXPECT_FALSE(decision_processor.wasRaised());
-    }
+	GTEST_TEST(TestGame, play_will_set_player_decision_to_check_and_advance_next_round)
+	{
+		// set up required game state for tests
+		detect::DataDetect data_detect{};
+		data_detect.cards.emplace_back(BaseCard(9,15));
+		data_detect.cards.emplace_back(BaseCard(5,16));
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.game_phase = poker::BET_HAND; gui_data.whos_turn = 0; 
+		gui_data.players.at(0).current_decision = poker::HAS_RAISED;
+		gui_data.highest_bet = 1000; gui_data.players.at(0).money_bet_in_phase = gui_data.highest_bet;
+		// mocks
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(1).WillOnce(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).WillOnce(Return(gui_data));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		EXPECT_CALL(*mock_detect_if, getData()).WillOnce(Return(data_detect));
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		// Set Up game class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);
+		game.mockController(std::move(mock_controller));	
+		game.play();
+		EXPECT_EQ(game.data_.players.at(0).current_decision, poker::CHECK);
+	}
 
-    //Test GameStateController
-    GTEST_TEST(Test_GameStateController, start_sets_nr_of_players)
-    {
-        poker::GameSettings settings{};
-        poker::DataPoker data{};
-        std::vector<BaseCard> robot_cards{};
-        std::vector<BaseCard> public_cards{};
-        int game_phase = 0;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        settings.nr_of_human_players = 2;
-        controller.start();
-        EXPECT_EQ(data.players.size(), 3);
-    }
+	GTEST_TEST(TestGame, play_proceed_to_next_phase_if_player_all_in_and_all_called)
+	{
+		// set up required game state for tests
+		detect::DataDetect data_detect{};
+		data_detect.cards.emplace_back(BaseCard(9,15));
+		data_detect.cards.emplace_back(BaseCard(5,16));
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.game_phase = poker::BET_HAND; gui_data.whos_turn = 0; 
+		gui_data.players.at(0).is_all_in = true; gui_data.players.at(1).current_decision = poker::CALL;
+		// mocks
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(1).WillOnce(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).WillOnce(Return(gui_data));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		EXPECT_CALL(*mock_detect_if, getData()).WillOnce(Return(data_detect));
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		// Set Up game class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);
+		game.mockController(std::move(mock_controller));	
+		game.play();
+		EXPECT_EQ(game.data_.game_phase, poker::FLOP);
+	}
 
-    GTEST_TEST(Test_GameStateController, start_sets_button_pos)
-    {
-        poker::GameSettings settings{};
-        poker::DataPoker data{};
-        std::vector<BaseCard> robot_cards{};
-        std::vector<BaseCard> public_cards{};
-        int game_phase = 0;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        settings.nr_of_human_players = 2;
-        controller.start();
-        EXPECT_TRUE(data.button_pos >= 0 && data.button_pos <= 2);
-    }
+	GTEST_TEST(TestGame, play_with_four_aces_robot_should_raise_on_his_turn)
+	{
+		// set up required game state for tests
+		detect::DataDetect data_detect{};
+		data_detect.cards.emplace_back(BaseCard(14,17));
+		data_detect.cards.emplace_back(BaseCard(14,18));
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.game_phase = poker::HAND_CARDS; gui_data.whos_turn = 0; 
+		poker::DataPoker gui_data2{};
+		gui_data2.players.resize(2, poker::Player(10000));
+		gui_data2.game_phase = poker::BET_HAND; gui_data2.whos_turn = 0; 
+		// mocks
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(2).WillRepeatedly(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).Times(2).WillOnce(Return(gui_data)).WillOnce(Return(gui_data2));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		EXPECT_CALL(*mock_detect_if, getData()).Times(2).WillRepeatedly(Return(data_detect));
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		// Set Up game class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);
+		game.mockController(std::move(mock_controller));	
+		// first play to set robot cards, second play to test
+		game.play();
+		game.play();
+		EXPECT_EQ(game.data_.players.at(0).current_decision, poker::HAS_RAISED);
+		EXPECT_EQ(game.data_.whos_turn, 1);
+	}
 
-    GTEST_TEST(Test_GameStateController, start_sets_start_game_false_and_playing_game_true)
-    {
-        poker::GameSettings settings{};
-        poker::DataPoker data{};
-        std::vector<BaseCard> robot_cards{};
-        std::vector<BaseCard> public_cards{};
-        int game_phase = 0;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        settings.nr_of_human_players = 2;
-        controller.start();
-        EXPECT_TRUE(settings.playing_game);
-        EXPECT_FALSE(settings.start_game);
-    }
+	GTEST_TEST(TestGame, play_call_next_phase_if_all_players_called)
+	{
+		// set up required game state for tests
+		detect::DataDetect data_detect{};
+		data_detect.cards.emplace_back(BaseCard(9,15));
+		data_detect.cards.emplace_back(BaseCard(5,16));
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.game_phase = poker::BET_HAND; gui_data.whos_turn = 0; 
+		gui_data.players.at(0).current_decision = poker::CALL; gui_data.players.at(1).current_decision = poker::CALL;
+		// mocks
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(1).WillOnce(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).WillOnce(Return(gui_data));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		EXPECT_CALL(*mock_detect_if, getData()).WillOnce(Return(data_detect));
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		EXPECT_CALL(*mock_controller, resetPhase()).Times(1);
+		// Set Up game class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);
+		game.mockController(std::move(mock_controller));	
+		game.play();
+		EXPECT_EQ(game.data_.game_phase, poker::FLOP);
+	}
 
-    GTEST_TEST(Test_GameStateController, stop_clears_players_and_cards)
-    {
-        poker::GameSettings settings{};
-        poker::DataPoker data{};
-        data.players.resize(3);
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = 0;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        controller.stop();
-        EXPECT_EQ(data.players.size(), 0);
-        EXPECT_EQ(robot_cards.size(), 0);
-        EXPECT_EQ(public_cards.size(), 0);
-    }
+	GTEST_TEST(TestGame, play_gets_winner_if_all_players_have_folded)
+	{
+		// set up required game state for tests
+		detect::DataDetect data_detect{};
+		data_detect.cards.emplace_back(BaseCard(9,15));
+		data_detect.cards.emplace_back(BaseCard(5,16));
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.game_phase = poker::BET_HAND; gui_data.whos_turn = 0; 
+		gui_data.players.at(0).current_decision = poker::FOLD; 
+		// mocks
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(1).WillOnce(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).WillOnce(Return(gui_data));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		EXPECT_CALL(*mock_detect_if, getData()).WillOnce(Return(data_detect));
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		// Set Up game class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);
+		game.mockController(std::move(mock_controller));	
+		game.play();
+		EXPECT_EQ(game.data_.winner, 1);
+	}
 
-    GTEST_TEST(Test_GameStateController, stop_resets_game_state)
-    {
-        poker::GameSettings settings{};
-        poker::DataPoker data{};
-        data.players.resize(3);
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = poker::BET_HAND;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        controller.stop();
-        EXPECT_EQ(data.probability.first, 0);
-        EXPECT_EQ(data.probability.second, 0);
-        EXPECT_EQ(game_phase, poker::NOT_STARTED);
-        EXPECT_EQ(data.highest_bet, 0);
-        EXPECT_FALSE(settings.stop_game);
-        EXPECT_FALSE(settings.playing_game);
-    }
+	GTEST_TEST(TestGame, play_starts_next_round_on_user_input)
+	{
+		// set up required game state for tests
+		detect::DataDetect data_detect{};
+		poker::DataPoker gui_data{};
+		gui_data.players.resize(2, poker::Player(10000));
+		gui_data.game_phase = poker::BET_HAND; gui_data.whos_turn = 0; 
+		gui_data.next_round = true;
+		// mocks
+		std::shared_ptr<NiceMock<MockPokerGuiInterface>> mock_gui_if =
+			std::make_shared<NiceMock<MockPokerGuiInterface>>();
+		EXPECT_CALL(*mock_gui_if, checkUserInput()).Times(1).WillOnce(Return(false));
+		EXPECT_CALL(*mock_gui_if, getData()).WillOnce(Return(gui_data));
+		std::shared_ptr<NiceMock<MockPokerDetectInterface>> mock_detect_if =
+			std::make_shared<NiceMock<MockPokerDetectInterface>>();
+		EXPECT_CALL(*mock_detect_if, getData()).WillRepeatedly(Return(data_detect));
+		std::unique_ptr<NiceMock<MockController>> mock_controller = 
+			std::make_unique<NiceMock<MockController>>();	
+		EXPECT_CALL(*mock_controller, startNextRound()).Times(1);
+		// Set Up game class
+		poker::GameSettings initial_settings{};
+		GameTester game(initial_settings);
+		game.attachGuiInterface(mock_gui_if);	
+		game.attachDetectInterface(mock_detect_if);
+		game.mockController(std::move(mock_controller));	
+		game.play();
+	}
 
-    GTEST_TEST(Test_GameStateController, resetPhase_resets_player_state)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        data.players.at(0).current_decision = poker::CALL; data.players.at(1).current_decision = poker::RAISE;
-        data.players.at(0).current_bet = 500; data.players.at(1).current_bet = 700;
-        data.players.at(0).money_bet_in_phase = 1000; data.players.at(1).money_bet_in_phase = 1000;
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = poker::BET_HAND;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        data.button_pos = 2;
-        controller.resetPhase();
-        for(auto& player: data.players)
-        {
-            EXPECT_EQ(player.current_decision, poker::NO_DECISION);
-            EXPECT_EQ(player.current_bet, 0);
-            EXPECT_EQ(player.money_bet_in_phase, 0);
-        }
-        EXPECT_EQ(data.highest_bet, 0);
-        EXPECT_EQ(data.whos_turn, 0);
-    }
-
-    GTEST_TEST(Test_GameStateController, startNextRound_sets_game_phase_turn_and_button)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        data.button_pos = 2;
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = poker::BET_HAND;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);    
-        controller.startNextRound();
-        EXPECT_EQ(data.button_pos, 0);    
-        EXPECT_EQ(data.whos_turn, 0);
-        EXPECT_EQ(game_phase, poker::HAND_CARDS);    
-    }
-
-    GTEST_TEST(Test_GameStateController, startNextRound_adds_pot_to_winner)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = poker::BET_HAND;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        data.winner = 2;
-        data.pot_size = 1500;
-        data.players.at(2).money = 500;   
-        data.button_pos = 1; 
-        controller.startNextRound();
-        EXPECT_EQ(data.players.at(2).money, 2000);
-    }
-
-    GTEST_TEST(Test_GameStateController, startNextRound_adds_returns_money_on_tie_and_)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = poker::BET_HAND;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        data.winner = -1;
-        data.button_pos = 0;
-        data.players.at(0).money = 800; data.players.at(1).money = 300; data.players.at(2).money = 500;    
-        data.players.at(0).money_in_play = 500; data.players.at(1).money_in_play = 1000; data.players.at(2).money_in_play = 1000;    
-        controller.startNextRound();
-        EXPECT_EQ(data.players.at(0).money, 1200);
-        EXPECT_EQ(data.players.at(1).money, 1300);
-        EXPECT_EQ(data.players.at(2).money, 1450);
-    }
-
-    GTEST_TEST(Test_GameStateController, startNextRound_resets_players_and_clears_robot_cards)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = poker::BET_HAND;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        data.winner = -1;
-        data.button_pos = 0;
-        data.players.at(0).money = 800; data.players.at(1).money = 300; data.players.at(2).money = 500;    
-        data.players.at(0).money_in_play = 500; data.players.at(1).money_in_play = 1000; data.players.at(2).money_in_play = 1000;    
-        data.players.at(0).has_folded = true;  data.players.at(1).is_all_in = true;
-        controller.startNextRound();
-        for(auto& player: data.players)
-        {
-            EXPECT_EQ(player.has_folded, false);
-            EXPECT_EQ(player.is_all_in, false);
-        }
-    }
-
-    GTEST_TEST(Test_GameStateController, startNextRound_resets_robot_cards_winner_and_next_round)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        data.next_round = true;
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = poker::BET_HAND;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        data.winner = 2;
-        data.button_pos = 0;
-        controller.startNextRound();
-        EXPECT_EQ(data.winner, -2);
-        EXPECT_EQ(robot_cards.size(), 0);
-        EXPECT_EQ(data.next_round, false);
-    }
-
-    GTEST_TEST(Test_GameStateController, startNextRound_sets_blinds)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        data.next_round = true;
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        int game_phase = poker::BET_HAND;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        data.winner = 2;
-        data.button_pos = 0;
-        data.players.at(0).money = 800; data.players.at(1).money = 300; data.players.at(2).money = 500;    
-        data.players.at(0).money_in_play = 500; data.players.at(1).money_in_play = 1000; data.players.at(2).money_in_play = 1000;
-        controller.startNextRound();
-        EXPECT_EQ(data.players.at(0).money_bet_in_phase, settings.big_blind);
-        EXPECT_EQ(data.players.at(0).money_in_play, settings.big_blind);
-        EXPECT_EQ(data.players.at(0).money, 700);
-        EXPECT_EQ(data.players.at(2).money_bet_in_phase, settings.small_blind);
-        EXPECT_EQ(data.players.at(2).money_in_play, settings.small_blind);
-        EXPECT_EQ(data.players.at(2).money, 450);
-    }
-
-    GTEST_TEST(Test_GameStateController, setGamePhase_bet_hand)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        data.next_round = true;
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{};
-        int game_phase = poker::HAND_CARDS;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        controller.setGamePhase();
-        EXPECT_EQ(game_phase, poker::BET_HAND);
-    }
-
-    GTEST_TEST(Test_GameStateController, setGamePhase_bet_flop)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        data.next_round = true;
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{3, BaseCard()};
-        int game_phase = poker::FLOP;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        controller.setGamePhase();
-        EXPECT_EQ(game_phase, poker::BET_FLOP);
-    }
-
-    GTEST_TEST(Test_GameStateController, setGamePhase_bet_turn)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        data.next_round = true;
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{4, BaseCard()};
-        int game_phase = poker::TURN;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        controller.setGamePhase();
-        EXPECT_EQ(game_phase, poker::BET_TURN);
-    }
-
-    GTEST_TEST(Test_GameStateController, setGamePhase_bet_river)
-    {
-        poker::GameSettings settings{};
-        settings.nr_of_human_players = 2;
-        poker::DataPoker data{};
-        data.players.resize(3);
-        data.next_round = true;
-        std::vector<BaseCard> robot_cards{BaseCard(2, 15), BaseCard(10, 16)};
-        std::vector<BaseCard> public_cards{5, BaseCard()};
-        int game_phase = poker::RIVER;
-        poker::GameStateController controller(data, game_phase, settings, robot_cards, public_cards);
-        controller.setGamePhase();
-        EXPECT_EQ(game_phase, poker::BET_RIVER);
-    }
-
-    // Test CardAssigner
-    GTEST_TEST(Test_CardAssigner, assignCards_assigns_detected_cards_to_robot_cards_in_first_gamephase)
-    {
-        poker::CardAssigner assigner;
-        int game_phase = 1;
-        std::vector<BaseCard> cards{BaseCard(10,15), BaseCard(6,16)};
-        std::vector<BaseCard> public_cards;
-        std::vector<BaseCard> robot_cards;
-        assigner.assignCards(cards, public_cards, robot_cards, game_phase);
-        EXPECT_EQ(robot_cards, cards);
-        EXPECT_EQ(public_cards.size(), 0);
-    }
-
-    GTEST_TEST(Test_CardAssigner, assignCards_assigns_detected_cards_to_public_cards_if_gamephase_not_one)
-    {
-        poker::CardAssigner assigner;
-        int game_phase = 2;
-        std::vector<BaseCard> cards{BaseCard(10,15), BaseCard(6,16)};
-        std::vector<BaseCard> public_cards;
-        std::vector<BaseCard> robot_cards;
-        assigner.assignCards(cards, public_cards, robot_cards, game_phase);
-        EXPECT_EQ(robot_cards.size(), 0);
-        EXPECT_EQ(public_cards, cards);
-    }
-
-    GTEST_TEST(Test_CardAssigner, assignCards_does_not_assign_robot_cards_to_public_cards)
-    {
-        poker::CardAssigner assigner;
-        int game_phase = 2;
-        std::vector<BaseCard> cards{BaseCard(10,15), BaseCard(6,16), BaseCard(9,17), BaseCard(12,15)};
-        std::vector<BaseCard> public_cards;
-        std::vector<BaseCard> robot_cards{BaseCard(10,15), BaseCard(6,16)};
-        std::vector<BaseCard> expected_robot{BaseCard(10,15), BaseCard(6,16)};
-        std::vector<BaseCard> expected_public{BaseCard(9,17), BaseCard(12,15)};
-        assigner.assignCards(cards, public_cards, robot_cards, game_phase);
-        EXPECT_EQ(robot_cards, expected_robot);
-        EXPECT_EQ(public_cards, expected_public);
-    }
-} //end namespace UnitTest
+} // end namespace unit test

@@ -5,6 +5,7 @@
 #include "DataPoker.hpp"
 #include "BaseCard.hpp"
 #include "GameSettings.hpp"
+#include "IController.hpp"
 
 namespace poker{
     /**  \ingroup poker
@@ -18,13 +19,12 @@ namespace poker{
 	 * @copyright Copyright (c) 2020
 	 * 
 	 */
-    class GameStateController{
+    class GameStateController: public IController{
         
         private: 
 
             DataPoker& data_;
             GameSettings& settings_;
-            int& game_phase_;
             std::vector<BaseCard>& robot_cards_;
             std::vector<BaseCard>& public_cards_;
 
@@ -34,37 +34,35 @@ namespace poker{
              * @brief starts game
              * 
              */
-            void start();
+            void start() override;
             /**
              * @brief stop game
              * 
              */
-            void stop();
+            void stop() override;
             /**
              * @brief resets current game phase
              * 
              */
-            void resetPhase();
+            void resetPhase() override;
             /**
              * @brief starts next round
              * 
              */
-            void startNextRound();
+            void startNextRound() override;
             /**
              * @brief sets game phase
              * 
              */
-            void setGamePhase();
+            void setGamePhase() override;
 
             GameStateController(
                 DataPoker& data, 
-                int& game_phase, 
                 GameSettings& settings,
                 std::vector<BaseCard>& robot_cards,
                 std::vector<BaseCard>& public_cards
                 ): 
                 data_(data), 
-                game_phase_(game_phase),
                 settings_(settings),
                 robot_cards_(robot_cards),
                 public_cards_(public_cards)

@@ -28,6 +28,7 @@ add_gtest(TestPerspectiveCorrector TestPerspectiveCorrector.cpp)
 add_gtest(TestCardDetector TestCardDetector.cpp)
 add_gtest(TestHandDeckHandBuilder TestHandDeckHandBuilder.cpp)
 add_gtest(TestPoker TestPoker.cpp)
+add_gtest(TestGameSubClasses TestGameSubClasses.cpp)
 add_gtest(TestGame TestGame.cpp)
 
 target_link_libraries(TestPoker PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
@@ -37,7 +38,8 @@ target_link_libraries(TestCamController PRIVATE ${CAPTURELIB_NAME} ${CONAN_LIBS}
 target_link_libraries(TestPerspectiveCorrector PRIVATE ${DETECTIONLIB_NAME}  ${SHAREDLIB_NAME} ${CONAN_LIBS})
 target_link_libraries(TestCardDetector PRIVATE ${DETECTIONLIB_NAME}  ${SHAREDLIB_NAME} ${CONAN_LIBS})
 target_link_libraries(TestHandDeckHandBuilder PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
-target_link_libraries(TestGame PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
+target_link_libraries(TestGameSubClasses PRIVATE  ${POKERLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
+target_link_libraries(TestGame PRIVATE  ${POKERLIB_NAME} ${DETECTIONLIB_NAME} ${SHAREDLIB_NAME} ${CONAN_LIBS})
 
 
 ## Copy utilities to unit_tests folder
@@ -70,6 +72,7 @@ if(ENABLE_CODE_COVERAGE)
                 TestPerspectiveCorrector
                 TestCardDetector
                 TestHandDeckHandBuilder
+                TestGameSubClasses
                 TestGame
             ) 
     endif()

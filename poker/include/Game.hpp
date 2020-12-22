@@ -23,7 +23,7 @@ namespace poker{
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief Coordinates the poker module objects and the communication to the other modules during a game of poker        
 	 *
-	 * @version 1.0
+	 * @version 1.1
 	 * @date 2020-11-22
 	 * 
 	 * @copyright Copyright (c) 2020
@@ -31,19 +31,18 @@ namespace poker{
 	 */
     class Game{
         
-        private: 
+        protected: 
 
             bool getWinner();
 
             GameSettings settings_;
             MoneyTracker money_tracker_;
             DecisionProcessor decision_processor_;
-            GameStateController controller_;
+            std::unique_ptr<IController> controller_;
             std::shared_ptr<IPokerGui> gui_interface_;
             std::shared_ptr<IPokerDetect> detect_interface_;
             std::vector<BaseCard> public_cards_;
             std::vector<BaseCard> robot_cards_; 
-            int game_phase_;
                         
         public:
 
@@ -68,14 +67,15 @@ namespace poker{
                 data_(),
                 gui_interface_(nullptr),
                 detect_interface_(nullptr),
-                game_phase_(NOT_STARTED),
                 robot_cards_{},
                 public_cards_{},
                 settings_(settings),
                 money_tracker_(this->data_),
-                decision_processor_(this->data_),
-                controller_(this->data_, this->game_phase_, this->settings_, this->robot_cards_, this->public_cards_)
-            {};
+                decision_processor_(this->data_)
+            {
+                this->controller_ = std::make_unique<GameStateController>
+                    (this->data_, this->settings_, this->robot_cards_, this->public_cards_);
+            };
             ~Game() {};   
                 
             // Using default copy and move constructors. 
