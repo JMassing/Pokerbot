@@ -13,14 +13,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-18.04'
 
-container: 'massj/ubuntu1804:gcc7'
-
 stages: 
   - stage: Build
     displayName: Build Pokerbot
     jobs:
     - job: CloneRepo
       displayName: Clone Repository and update submodules
+      container: 'massj/ubuntu1804:gcc7'
       steps:
       - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
         clean: true  # whether to fetch clean each time
