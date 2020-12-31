@@ -1,0 +1,37 @@
+# Build the project using ubuntu1804 docker container
+# Conan build
+# Link to container image: https://github.com/JMassing/Ubuntu1804_gcc7_docker
+
+name: Pokerbot Docker-CI
+
+trigger:
+  branches:
+    include:
+      - master
+      - develop
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+variables:
+  installFolder: install
+  sourceFolder: source
+  buildFolder: build
+  packageFolder: package
+
+stages: 
+  - stage: Build
+    displayName: Build Pokerbot
+    jobs:
+    - job: CloneAndBuild
+      displayName: Clone Repository with updated submodules and build repo
+      container: 'massj/ubuntu1804:gcc7'
+      steps:
+      - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+        clean: true  # whether to fetch clean each time
+        #fetchDepth: 1  # the depth of commits to ask Git to fetch
+        #lfs: true  # whether to download Git-LFS files
+        submodules: true  # set to 'true' for a single level of submodules or 'recursive' to get submodules of submodules
+        #path: string  # path to check out source code, relative to the agent's build directory (e.g. \_work\1)
+        persistCredentials: true  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
+      - script: conan create . -pr conan_configs/gcc7_release
