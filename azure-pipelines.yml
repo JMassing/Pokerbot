@@ -35,5 +35,5 @@ stages:
         #path: string  # path to check out source code, relative to the agent's build directory (e.g. \_work\1)
         persistCredentials: true  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
       - script: conan install . -if $(installFolder) -pr conan_configs/gcc7_release
-      - script: conan build . -if $(installFolder) -bf $(buildFolder) -pf $(package_folder) --configure --build --install
-      - script: conan build . -if $(installFolder) -bf $(buildFolder) -pf $(package_folder) --test
+      - script: conan build . -if $(installFolder) -bf $(buildFolder) -pf $(packageFolder) --configure --build --install
+      - script: conan build . -if $(installFolder) -bf $(buildFolder) -pf $(packageFolder) --test
