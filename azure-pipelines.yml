@@ -1,0 +1,19 @@
+# Build the project using ubuntu1804 docker container
+# Conan build
+# Link to container image: https://github.com/JMassing/Ubuntu1804_gcc7_docker
+
+name: Pokerbot Docker-CI
+
+trigger:
+  branches:
+    include:
+      - master
+      - develop
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+container: 'massj/ubuntu1804:gcc7'
+
+steps:
+- script: conan --version
