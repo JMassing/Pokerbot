@@ -13,50 +13,20 @@ jobs:
     # cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-18.04
-
+    container: massj/ubuntu1804:gcc7
     steps:
     - uses: actions/checkout@v2
       
-    - name: Install Tools
-      run: |
-        sudo gem install apt-spy2
-        sudo apt-spy2 check
-        sudo apt-spy2 fix
-        sudo apt-get update
-        sudo apt install python3-setuptools
-        sudo apt install libglu1-mesa
-        sudo apt install libglu1-mesa-dev
-        sudo apt install xorg-dev
-        sudo apt install libglew-dev
-        sudo apt install libx11-dev
-        sudo apt install freeglut3-dev
-        sudo apt install mesa-common-dev
-        sudo apt install lcov
-        sudo apt install gcovr
-        sudo pip3 install conan
-      
     - name: Create Build Environment
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      #run: cmake -E make_directory ${{runner.workspace}}/build
+      shell: bash
       run: make prepare_release
 
     - name: Configure CMake
-      # Use a bash shell so we can use the same syntax for environment variable
-      # access regardless of the host operating system
       shell: bash
-      #working-directory: ${{runner.workspace}}/build
-      # Note the current convention is to use the -S and -B options here to specify source 
-      # and build directories, but this is only available with CMake 3.13 and higher.  
-      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      #run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
       run: make configure
       
     - name: Build
-      #working-directory: ${{runner.workspace}}/build
       shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      #run: cmake --build . --config $BUILD_TYPE
       run: make build_release
 
     - name: Unit Tests with Code Coverage
