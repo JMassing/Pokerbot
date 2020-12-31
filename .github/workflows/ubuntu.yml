@@ -16,6 +16,8 @@ jobs:
     container: massj/ubuntu1804:gcc7
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
       
     - name: Create Build Environment
       shell: bash

@@ -15,7 +15,9 @@ jobs:
     runs-on: windows-2016
 
     steps:
-    - uses: actions/checkout@v2      
+    - uses: actions/checkout@v2    
+     with:
+        submodules: true  
     - name: Install Tools
       run: pip install conan
       
