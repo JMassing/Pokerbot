@@ -16,10 +16,10 @@ pool:
 stages: 
   - stage: Build
     displayName: Build Pokerbot
+    container: 'massj/ubuntu1804:gcc7'
     jobs:
     - job: CloneRepo
       displayName: Clone Repository and update submodules
-      container: 'massj/ubuntu1804:gcc7'
       steps:
       - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
         clean: true  # whether to fetch clean each time
@@ -30,5 +30,6 @@ stages:
         persistCredentials: true  # set to 'true' to leave the OAuth token in the Git config after the initial fetch
     - job: ConanCreate
       displayName: Conan create build
+      dependsOn: CloneRepo
       steps:
-      - script: conan create. -pr ../conan_configs/gcc7_release
+      - script: conan create . -pr ../conan_configs/gcc7_release
