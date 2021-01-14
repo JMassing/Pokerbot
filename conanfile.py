@@ -14,6 +14,7 @@ class PokerbotConan(ConanFile):
     ]
     default_options = {"opencv:shared": False, "boost:shared": False, "gtest:shared": False}
     exports_sources = "*"
+    short_paths = True
 
     def source(self):
         pass
