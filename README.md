@@ -10,9 +10,9 @@ Welcome! This is an open-source project. It is intended for experimenting and te
 Pokerbot is a C++-project that uses OpenCV image processing methods to detect cards from a (USB) camera feed and can play texas hold'em poker against a human player. The decision making of the bot in this version is purely probability based using Monte Carlo Simulation. It takes the current game state into account and calculates the probability of winning with the bot's hand. The bot makes a decision based on the winning probability and the potsize and bets placed by the player. Refer to the HowTo section for instructions on how to build and use the Pokerbot. The Pokerbot is tested on Windows 10 and Linux Ubuntu 18.04 and 20.04.
 
 I am planning to implement the following in the future (in no particular order):
-* Use Deep Learning for card detection
-* Use Multithreading to improve runtime of Monte Carlo Simulation
-* Make the bot smarter by using a more sophisticated decision making
+- [ ] Use Deep Learning for card detection
+- [ ] Use Multithreading to improve runtime of Monte Carlo Simulation
+- [ ] Make the bot smarter by using a more sophisticated decision making
 
 ## Releases
 See [Releases](https://github.com/JMassing/Pokerbot/releases)
