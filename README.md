@@ -47,7 +47,7 @@ make build_release
 ```
 * The Pokerbot.exe is in the _<source>/build/bin_ folder.
 * After building the doxygen documentation it is in the _<source>/doxygen/html_ folder. Use index.html to open the documentation.
-* If you want to build the doxygen documentation yourself, you need [graphviz](https://graphviz.org/download/) installed. However, it is also available [online]((https://jmassing.github.io/Pokerbot_docs/index.html).
+* If you want to build the doxygen documentation yourself, you need [graphviz](https://graphviz.org/download/) installed. However, it is also available [online](https://jmassing.github.io/Pokerbot_docs/index.html).
 #### Build using Conan
 * Use the following command to build the project using conan
 ``` cmake
