@@ -23,7 +23,6 @@ namespace capture {
 	 * @copyright Copyright (c) 2020
 	 * 
 	 */
-
 	class OpenCvCam: public ICameraDevice
 	{ 
 		private:
@@ -33,52 +32,54 @@ namespace capture {
 
 		public:
 			
-            /**
-             * @brief Open video file or a capturing device or a IP video stream for video capturing.
-             * 
-             * @return true if connection could be opened
-             * @return false if connection could not be opened
-             */
-            bool open() override
-            {
-                return this->cap_.open(this->device_ID_ + this->api_ID_);
-            }
-            /**
-             * @brief Returns true if video capturing has been initialized already.
-             * 
-             * @return true 
-             * @return false 
-             */
-            bool isOpened() override
-            {
-                return this->cap_.isOpened();
-            }
-            /**
-             * @brief Read and store frame from video stream 
-             * 
-             * @return true 
-             * @return false if no frame has been grabbed
-             */
-            Image read() override
-            {
+			/**
+			 * @brief Open video file or a capturing device or a IP video stream for video capturing.
+			 * 
+			 * @return true if connection could be opened
+			 * @return false if connection could not be opened
+			 */
+			bool open() override
+			{
+				return this->cap_.open(this->device_ID_ + this->api_ID_);
+			}
+
+			/**
+			 * @brief Returns true if video capturing has been initialized already.
+			 * 
+			 * @return true 
+			 * @return false 
+			 */
+			bool isOpened() override
+			{
+				return this->cap_.isOpened();
+			}
+
+			/**
+			 * @brief Read and store frame from video stream 
+			 * 
+			 * @return true 
+			 * @return false if no frame has been grabbed
+			 */
+			Image read() override
+			{
 				Image img{};
-                this->cap_.read(img.image);
+				this->cap_.read(img.image);
 				return img;
-            }
-           
-            bool set(const int& prop_id, const int& value) override
-            {
-                return this->cap_.set(prop_id, value);
-            }
-            double get(const int& prop_id) const override
-            {
-                return this->cap_.get(prop_id);
-            }
-        	std::string getBackendName() override
-            {
-                return this->cap_.getBackendName();
-            }
-            
+			}
+
+			bool set(const int& prop_id, const int& value) override
+			{
+				return this->cap_.set(prop_id, value);
+			}
+			double get(const int& prop_id) const override
+			{
+				return this->cap_.get(prop_id);
+			}
+			std::string getBackendName() override
+			{
+				return this->cap_.getBackendName();
+			}
+
 			OpenCvCam(
 				const int& device_ID = 0, 
 				const int& api_ID = cv::CAP_ANY
@@ -86,7 +87,7 @@ namespace capture {
 				device_ID_(device_ID), 
 				cap_{}, 
 				api_ID_(api_ID)
-			{};
+				{};
 
 			OpenCvCam(
 				const std::string& video,
@@ -96,7 +97,7 @@ namespace capture {
 				cap_(video), 
 				device_ID_(device_ID), 
 				api_ID_(api_ID) 
-			{};
+				{};
 
 			~OpenCvCam() {};
 

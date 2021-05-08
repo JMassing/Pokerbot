@@ -55,16 +55,16 @@ namespace capture
 			{
 				return 
 				(
-				this->auto_exposure == other.auto_exposure 	&& 
-				this->auto_focus == other.auto_focus 	&&
-				this->auto_wb == other.auto_wb	&&
-				this->exposure_time == other.exposure_time	&&
-				this->brightness == other.brightness	&&
-				this->focus == other.focus	&&
-				this->zoom == other.zoom	&&
-				this->wb_temperature == other.wb_temperature &&
-				this->image_width == other.image_width &&
-				this->image_height == other.image_height 
+					this->auto_exposure == other.auto_exposure 	&& 
+					this->auto_focus == other.auto_focus 	&&
+					this->auto_wb == other.auto_wb	&&
+					this->exposure_time == other.exposure_time	&&
+					this->brightness == other.brightness	&&
+					this->focus == other.focus	&&
+					this->zoom == other.zoom	&&
+					this->wb_temperature == other.wb_temperature &&
+					this->image_width == other.image_width &&
+					this->image_height == other.image_height 
 				);
 			};
 
@@ -72,16 +72,16 @@ namespace capture
 			{
 				return 
 				(
-				this->auto_exposure != other.auto_exposure 	||
-				this->auto_focus != other.auto_focus 	||
-				this->auto_wb != other.auto_wb	||
-				this->exposure_time != other.exposure_time	||
-				this->brightness != other.brightness	 ||
-				this->focus != other.focus	||
-				this->zoom != other.zoom	||
-				this->wb_temperature != other.wb_temperature ||
-				this->image_width != other.image_width ||
-				this->image_height != other.image_height 
+					this->auto_exposure != other.auto_exposure 	||
+					this->auto_focus != other.auto_focus 	||
+					this->auto_wb != other.auto_wb	||
+					this->exposure_time != other.exposure_time	||
+					this->brightness != other.brightness	 ||
+					this->focus != other.focus	||
+					this->zoom != other.zoom	||
+					this->wb_temperature != other.wb_temperature ||
+					this->image_width != other.image_width ||
+					this->image_height != other.image_height 
 				);
 			};
 
