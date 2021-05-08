@@ -9,11 +9,12 @@
 
 namespace detect 
 {
-    /** *\ingroup detection
+	/** 
+	 * \ingroup detection
 	 * @class CornerSorter
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief Sort Corners of Card images
-     *  		
+	 *  		
 	 * @version 1.0
 	 * @date 2020-11-21
 	 * 
@@ -23,15 +24,15 @@ namespace detect
     class CornerSorter
 	{
 		public:    
-            /**
-             * @brief sorts corner points to orderexpected by perspectiveTransformation. 
-             * Start upper right corner -> going counter clockwise in image coordinates
-             * 
-             */	  
-            std::vector< cv::Point2f > sortCorners(
-               const std::vector< cv::Point2f >& points, 
-               const cv::Point2f& center
-               );   
+			/**
+			 * @brief sorts corner points to orderexpected by perspectiveTransformation. 
+			 * Start upper right corner -> going counter clockwise in image coordinates
+			 * 
+			 */	  
+			std::vector< cv::Point2f > sortCorners(
+				const std::vector< cv::Point2f >& points, 
+				const cv::Point2f& center
+				);   
 
 			CornerSorter(){};
 			~CornerSorter(){};

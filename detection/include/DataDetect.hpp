@@ -8,7 +8,8 @@
 
 namespace detect
 {
-	/** *\ingroup detection
+	/** 
+	 * \ingroup detection
 	 * @class DataDetect
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief Data structure containing detection module output data to poker module
@@ -22,9 +23,9 @@ namespace detect
     struct DataDetect
     {
 
-        std::vector<BaseCard> cards;
+		std::vector<BaseCard> cards;
 
-        DataDetect(): cards() {};
+		DataDetect(): cards() {};
 		~DataDetect(){};
 
 		// Using default copy and move constructors. 

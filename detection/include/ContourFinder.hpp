@@ -8,25 +8,25 @@
 
 namespace detect 
 {
-    /** *\ingroup detection
-	 * @class ContourFinder
-	 * @author Julian Massing (julimassing@gmail.com)
-	 * @brief Finds contours in Image
+    /** 
+     * \ingroup detection
+     * @class ContourFinder
+     * @author Julian Massing (julimassing@gmail.com)
+     * @brief Finds contours in Image
      *  		
-	 * @version 1.0
-	 * @date 2020-11-21
-	 * 
-	 * @copyright Copyright (c) 2020
-	 * 
-	 */
+     * @version 1.0
+     * @date 2020-11-21
+     * 
+     * @copyright Copyright (c) 2020
+     * 
+     */
 	class ContourFinder
 	{
 
-		public:
+        public:
 
             enum Filter { LARGEST_AREA, SMALLEST_AREA, LE_AREA, GE_AREA };
 
-            
             static void binarizeImage(
                 const cv::Mat & src, 
                 cv::Mat & dst, 
@@ -39,13 +39,14 @@ namespace detect
                 const int& threshold, 
                 const int& thresh_method = cv::THRESH_BINARY
                 );            
+            
             /** 
              * @brief filters contours after given method. Value ist given according to method. \n
-	         * Methods are: \n
-	         * - LARGEST_AREA = 0, only keept largest contour \n
+             * Methods are: \n
+             * - LARGEST_AREA = 0, only keept largest contour \n
              * - SMALLEST_AREA = 1, only keep smalles contour \n
-	         * - LE_AREA = 2, contour area is smaller/equal then given value \n
-	         * - GE_AREA = 3, contour area is larger/equal then given value \n
+             * - LE_AREA = 2, contour area is smaller/equal then given value \n
+             * - GE_AREA = 3, contour area is larger/equal then given value \n
              * 
              * @param contour Contours found in Image.
              * @param method Filtering method.
@@ -65,16 +66,16 @@ namespace detect
                 const std::vector<std::vector<cv::Point> >& contours
                 );	              
 
-			ContourFinder(){};
+            ContourFinder(){};
 
-			~ContourFinder(){};
+            ~ContourFinder(){};
 
-			// Using default copy and move constructors. 
-			ContourFinder(const ContourFinder& other) = default;	
-			ContourFinder& operator=(const ContourFinder& other) = default;
-			ContourFinder(ContourFinder&& other) noexcept = default;
-			ContourFinder& operator=(ContourFinder&& other) noexcept = default;
-					
+            // Using default copy and move constructors. 
+            ContourFinder(const ContourFinder& other) = default;	
+            ContourFinder& operator=(const ContourFinder& other) = default;
+            ContourFinder(ContourFinder&& other) noexcept = default;
+            ContourFinder& operator=(ContourFinder&& other) noexcept = default;
+
 	};
 
 }//namespace detect

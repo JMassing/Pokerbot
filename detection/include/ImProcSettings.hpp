@@ -4,7 +4,8 @@
 
 namespace detect
 {
-    /** *\ingroup detection
+    /** 
+     * \ingroup detection
 	 * @class ImProcSettings
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief Data structure containing image processing settings
@@ -41,44 +42,44 @@ namespace detect
         }
 
         ImProcSettings(): 
-            live_threshold(120), 
-            binary_threshold(120), 
-            identification_threshold(120)
+        live_threshold(120), 
+        binary_threshold(120), 
+        identification_threshold(120)
         {};
 
         ImProcSettings(int live_threshold, int binary_threshold, int identification_threshold): 
-            live_threshold(live_threshold), 
-            binary_threshold(binary_threshold), 
-            identification_threshold(identification_threshold)
+        live_threshold(live_threshold), 
+        binary_threshold(binary_threshold), 
+        identification_threshold(identification_threshold)
         {};
 
         bool operator==(const ImProcSettings& other) const
-		{
-			return 
-			(
+        {
+            return 
+            (
                 this->live_threshold == other.live_threshold &&
                 this->binary_threshold == other.binary_threshold &&
                 this->identification_threshold == other.identification_threshold
-			);
-		};
+            );
+        };
 
-		bool operator!=(const ImProcSettings& other) const
-		{
-		    return 
-			(
-			    this->live_threshold != other.live_threshold &&
+        bool operator!=(const ImProcSettings& other) const
+        {
+            return 
+            (
+                this->live_threshold != other.live_threshold &&
                 this->binary_threshold != other.binary_threshold &&
                 this->identification_threshold != other.identification_threshold
-			);
-		};
+            );
+        };
 
-        
-		~ImProcSettings(){};
 
-		// Using default copy and move constructors. 
-		ImProcSettings(const ImProcSettings& other) = default;	
-		ImProcSettings& operator=(const ImProcSettings& other) = default;
-		ImProcSettings(ImProcSettings&& other) noexcept = default;
-		ImProcSettings& operator=(ImProcSettings&& other) noexcept = default;
+        ~ImProcSettings(){};
+
+        // Using default copy and move constructors. 
+        ImProcSettings(const ImProcSettings& other) = default;	
+        ImProcSettings& operator=(const ImProcSettings& other) = default;
+        ImProcSettings(ImProcSettings&& other) noexcept = default;
+        ImProcSettings& operator=(ImProcSettings&& other) noexcept = default;
     };
 }// end namespace signals

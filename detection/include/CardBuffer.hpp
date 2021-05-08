@@ -14,7 +14,8 @@
 namespace detect
 {	
 
-	/** *\ingroup detection
+	/** 
+	 * \ingroup detection
 	 * @class CardBuffer
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief RingBuffer Pattern adapted for buffering Cards. 
@@ -49,7 +50,7 @@ namespace detect
 			bool getCard(Card& card_out);		
 			/**
 			 * @brief Override put function for card buffer to also update center point and 
-					 contour with the center point and contour of the latest card
+			 * contour with the center point and contour of the latest card
 			 * 
 			 */
 			void put(const Card& card_in, const int& frame_nr);
@@ -144,9 +145,10 @@ namespace detect
 				
 		}
 		// sort card_counter for highest amount of cards
-		std::sort(card_counter.begin(), card_counter.end(), 
-				  [](const auto& lhs, const auto& rhs){ return lhs.second > rhs.second; }
-       			);
+		std::sort( card_counter.begin(), card_counter.end(), 
+				   [](const auto& lhs, const auto& rhs){ return lhs.second > rhs.second; }
+    			 );
+				 
 		card_out.rank = card_counter.at(0).first.rank;
 		card_out.suit = card_counter.at(0).first.suit;
 		card_out.center_point = this->center_point_;

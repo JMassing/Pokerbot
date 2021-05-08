@@ -9,26 +9,27 @@
 namespace detect 
 {
     // CompileTime constants    
-	constexpr size_t CARD_BUFFER_SIZE = 30;
-    /** *\ingroup detection
-	 * @class BufferManager
-	 * @author Julian Massing (julimassing@gmail.com)
-	 * @brief Manages CardBuffers. Keeps track of new Buffers, adds new detected cards to the corresponding buffer, removes stale Buffers 
+    constexpr size_t CARD_BUFFER_SIZE = 30;
+    /** 
+     * \ingroup detection
+     * @class BufferManager
+     * @author Julian Massing (julimassing@gmail.com)
+     * @brief Manages CardBuffers. Keeps track of new Buffers, adds new detected cards to the corresponding buffer, removes stale Buffers 
      * and returns the detected cards.  
      *  		
-	 * @version 1.0
-	 * @date 2020-12-12
-	 * 
-	 * @copyright Copyright (c) 2020
-	 * 
-	 */
+     * @version 1.0
+     * @date 2020-12-12
+     * 
+     * @copyright Copyright (c) 2020
+     * 
+     */
     class BufferManager
 	{
         private:
 
             std::vector<CardBuffer<CARD_BUFFER_SIZE>> buffers_;
 
-		public:
+        public:
 
             /**
              * @brief Adds detected card to corresponding CardBuffer and updates the frame when
@@ -43,12 +44,14 @@ namespace detect
              * @param max_distance Max distance
              */
             void addDetectedCard(const Card& card, const int& detection_frame, const int& max_distance);
+
             /**
              * @brief Get the Buffered Cards 
              * 
              * @return std::vector<Card> 
              */
             std::vector<Card> getBufferedCards();
+
             /**
              * @brief Removes buffers that have not been updated in the last nr frames
              * given in update_threshold
@@ -57,6 +60,7 @@ namespace detect
              * @param current_frame 
              */
             void removeStaleBuffers(const int& update_threshold, const int& current_frame);
+
             /**
              * @brief Returns vector of existing buffers
              * 
@@ -67,13 +71,13 @@ namespace detect
                 return this->buffers_;
             }
 
-			BufferManager(): buffers_{}{};
-			~BufferManager(){};
+            BufferManager(): buffers_{}{};
+            ~BufferManager(){};
 
-			// Using default copy and move constructors. 
-			BufferManager(const BufferManager& other) = default;	
-			BufferManager& operator=(const BufferManager& other) = default;
-			BufferManager(BufferManager&& other) noexcept = default;
-			BufferManager& operator=(BufferManager&& other) noexcept = default;				
+            // Using default copy and move constructors. 
+            BufferManager(const BufferManager& other) = default;	
+            BufferManager& operator=(const BufferManager& other) = default;
+            BufferManager(BufferManager&& other) noexcept = default;
+            BufferManager& operator=(BufferManager&& other) noexcept = default;				
 	};
 }//namespace detect

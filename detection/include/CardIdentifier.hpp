@@ -17,7 +17,8 @@
 // 
 namespace detect 
 {
-    /** *\ingroup detection
+    /** 
+     * \ingroup detection
 	 * @class CardIdentifier
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief Compares Card Image to TrainImage and returns the rank and suit of the detected Card Image
@@ -33,9 +34,10 @@ namespace detect
         private: 
 
             std::vector<TrainImage> train_suits_;
-			std::vector<TrainImage> train_ranks_;
+            std::vector<TrainImage> train_ranks_;
             int& identification_threshold_;
             int& binarization_threshold_;
+
             /**
              * @brief Parameters for zoom into upper left corner. Ranks and Suit is
              * determined from zoomed image. Parameters were found empirically
@@ -44,6 +46,7 @@ namespace detect
             const int zoom_offset_ = 5;
             const double zoom_width_to_card_width_ratio_ = 0.25;
             const double zoom_height_to_card_height_ratio_ = 0.4;
+
             /**
              * @brief Upper limit for size of rank contour area as a ratio of the zoomed image area
              * This is used to filter out contours in the zoomed image that are to large to
@@ -54,10 +57,11 @@ namespace detect
             // Max comparison score to be considered a valid comparison. Empirical parameter
             const double max_score_ = 1.5;
 
-   			void loadTrainImages(
-                   const std::string &path, 
-                   std::vector<TrainImage>& train_images
-                   );			
+            void loadTrainImages(
+                const std::string &path, 
+                std::vector<TrainImage>& train_images
+                );		
+
             /**
              * @brief Calculates similarity of two images 
              * 
@@ -65,7 +69,8 @@ namespace detect
              * @param dst Second image
              * @return double L2-error
              */
-           	double compareImages(const cv::Mat &src, const cv::Mat &dst);		
+            double compareImages(const cv::Mat &src, const cv::Mat &dst);
+
             /**
              * @brief compares image to train images
              * 
@@ -75,40 +80,39 @@ namespace detect
              * @return std::pair<int, std::string> Pair of value corresponding to enum Cards and type ("rank" or "suit")
              */
             std::pair<int, std::string> compareToTrainImage(
-                const cv::Mat& image, 
-                std::vector<TrainImage> rank_images,
-                std::vector<TrainImage> suit_images
-                );	
+            const cv::Mat& image, 
+            std::vector<TrainImage> rank_images,
+            std::vector<TrainImage> suit_images
+            );	
 
-		public:    
+        public:    
 
             /**
              * @brief Identifies what Card is shown in Card Image.
              * Card Image is binarized and upper right corner is zoomed in.
-			 * Upper right corner is then compared to TrainImage using L2 Norm.
-	   	     * Lowest difference wins.
+             * Upper right corner is then compared to TrainImage using L2 Norm.
+             * Lowest difference wins.
              * 
              * @param card Detected card
              * @param card_image Training image
              */
-		      
-        	void identifyCard(Card& card, const cv::Mat& card_image);
+            void identifyCard(Card& card, const cv::Mat& card_image);
 
-			CardIdentifier(
+            CardIdentifier(
                 const std::string& path_to_rank_training_images,
                 const std::string& path_to_suit_training_images,
                 int& identification_threshold,
                 int& binarization_threshold
                 );
 
-			~CardIdentifier(){};
+            ~CardIdentifier(){};
 
-			// Using default copy and move constructors. 
-			CardIdentifier(const CardIdentifier& other) = default;	
-			CardIdentifier& operator=(const CardIdentifier& other) = default;
-			CardIdentifier(CardIdentifier&& other) noexcept = default;
-			CardIdentifier& operator=(CardIdentifier&& other) noexcept = default;
-					
+            // Using default copy and move constructors. 
+            CardIdentifier(const CardIdentifier& other) = default;	
+            CardIdentifier& operator=(const CardIdentifier& other) = default;
+            CardIdentifier(CardIdentifier&& other) noexcept = default;
+            CardIdentifier& operator=(CardIdentifier&& other) noexcept = default;
+
 	};
 
 }//namespace detect

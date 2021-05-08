@@ -9,14 +9,15 @@
 
 // Data Structure for training images
 namespace detect {
-    /** *\ingroup detection
+	/** 
+	 * \ingroup detection
 	 * @class TrainImage
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief Data structure containing training images. Taining images are stored in the Card_Imgs folder.
 	 *
 	 * @version 1.0
 	 * @date 2020-11-21
-     * 
+	 * 
 	 * @copyright Copyright (c) 2020
 	 * 
 	 */
