@@ -11,67 +11,67 @@ namespace detect{
         identification_threshold_(identification_threshold),
         binarization_threshold_(binarization_threshold)
     {
-        // reserve space for train images, these should be 13 ranks and 4 suits
+		// reserve space for train images, these should be 13 ranks and 4 suits
 		this->train_ranks_.reserve(13);
 		this->train_suits_.reserve(4);
 
 		this->loadTrainImages(
-                path_to_rank_training_images,
-                this->train_ranks_
-                );
+			path_to_rank_training_images,
+			this->train_ranks_
+			);
 
-	    this->loadTrainImages(
-                path_to_suit_training_images,
-                this->train_suits_
-                );
+		this->loadTrainImages(
+			path_to_suit_training_images,
+			this->train_suits_
+			);
     };
 	
     double CardIdentifier::compareImages(const cv::Mat &src, const cv::Mat &dst)
     {
-        if (src.size() == dst.size() && src.type() == dst.type())
+		if (src.size() == dst.size() && src.type() == dst.type())
 		{
-			 // Calculate the L2 relative error between images.
+			// Calculate the L2 relative error between images.
 			double errorL2 = cv::norm(src, dst, cv::NORM_L2);
 			// Convert to a reasonable scale, since L2 error is summed across all pixels of the image.
 			double similarity = errorL2 / static_cast<double>(src.rows * src.cols);
 			return similarity;
 		}
-		
+
 		return -1.0;		
     }			
 
 	void CardIdentifier::loadTrainImages(
-        const std::string &path, 
-        std::vector<TrainImage>& train_images
-        )
+		const std::string &path, 
+		std::vector<TrainImage>& train_images
+		)
 	{	
 		std::vector<std::string> file_names{};
 
 		cv::glob(path, file_names, false);		
 
-        // check if input could be read
+		// check if input could be read
 		if (file_names.size() == 0) 
-        {  
-            std::cout << "Training Images could not be read" << std::endl;
+		{  
+			std::cout << "Training Images could not be read" << std::endl;
 			return;
 		}	
 
 		for (const std::string &file_name: file_names) 
-        {
+		{
 			train_images.emplace_back(TrainImage{ file_name });
 		}		
 	}
 
      std::pair<int, std::string> CardIdentifier::compareToTrainImage(
-        const cv::Mat& image, 
-        std::vector<TrainImage> rank_images,
-		std::vector<TrainImage> suit_images
-        )
+			const cv::Mat& image, 
+			std::vector<TrainImage> rank_images,
+			std::vector<TrainImage> suit_images
+		)
     {
 		Mapping mapping;
-        double score = 10000.0;
-        int count = 0;
-        int val = Cards::UNKNOWN;
+		double score = 10000.0;
+		int count = 0;
+		int val = Cards::UNKNOWN;
 		std::string type = "UNKNOWN";
 
 		for (const auto& rank_image: rank_images)
@@ -88,8 +88,8 @@ namespace detect{
 					type = "rank";
 				}
 			}
-			
-            count++;
+
+			count++;
 		}
 
 		count = 0;
@@ -107,26 +107,24 @@ namespace detect{
 					type = "suit";
 				}
 			}
-			
-            count++;
+
+			count++;
 		}
 
-        return std::make_pair(val, type);
+		return std::make_pair(val, type);
     }
 
     
 	void CardIdentifier::identifyCard(Card& card, const cv::Mat& card_image) 
 	{
 		// Zoom into the upper left corner
-		int zoom_width = 
-            static_cast<int>(
-				static_cast<double>(card_image.cols) * this->zoom_width_to_card_width_ratio_
-				);
+		int zoom_width = static_cast<int>(
+			static_cast<double>(card_image.cols) * this->zoom_width_to_card_width_ratio_
+			);
 
-		int zoom_height = 
-            static_cast<int>(
-                static_cast<double>(card_image.rows) * this->zoom_height_to_card_height_ratio_
-                );
+		int zoom_height = static_cast<int>(
+			static_cast<double>(card_image.rows) * this->zoom_height_to_card_height_ratio_
+			);
 
 		cv::Rect zoom(this->zoom_offset_, this->zoom_offset_, zoom_width, zoom_height);
 
@@ -135,11 +133,11 @@ namespace detect{
 		// find contours in the zoomed in image giving rank and suit contours
 		std::vector<std::vector<cv::Point> > contours{};
 		contours = ContourFinder::findContours(
-            card_zoom, 
-            this->identification_threshold_, 
-            cv::THRESH_BINARY
-            );
-	
+			card_zoom, 
+			this->identification_threshold_, 
+			cv::THRESH_BINARY
+			);
+
 		// filter suit and rank image contours by area. 
 		double max_area = zoom_width * zoom_height * this->max_rank_area_ratio_ ;
 		double min_area = zoom_width;
@@ -150,24 +148,24 @@ namespace detect{
 		std::vector<cv::Rect> bounding_box;
 		for (const auto & contour: contours) {
 			bounding_box.emplace_back(cv::boundingRect(contour));
-		}
-		
+			}
+
 		// Identify suit and Rank of card
 		if (bounding_box.size() > 1)
 		{
 			cv::Mat img1, img2;
-			
+
 			// sort contours for size. Rank and suit have the 
 			// two largest bounding boxes
 			std::sort(
-                bounding_box.begin(), 
-                bounding_box.end(), 
-                [](const cv::Rect& lhs, const cv::Rect& rhs) {return lhs.area() > rhs.area();}
-                );
+				bounding_box.begin(), 
+				bounding_box.end(), 
+				[](const cv::Rect& lhs, const cv::Rect& rhs) {return lhs.area() > rhs.area();}
+				);
 
 			img1 = card_zoom(bounding_box.at(0)).clone();
 			img2 = card_zoom(bounding_box.at(1)).clone();
-		
+
 			cv::Mat img1_binary, img2_binary;
 
 			// resize suit train image to match rank train image size
@@ -180,34 +178,33 @@ namespace detect{
 
 			// Binarize rank and suit image			
 			img1_binary.create(
-                this->train_ranks_.at(0).getImage().image.size(), 
-                this->train_ranks_.at(0).getImage().image.type()
-                );
+				this->train_ranks_.at(0).getImage().image.size(), 
+				this->train_ranks_.at(0).getImage().image.type()
+				);
 
 			img2_binary.create(
-                this->train_ranks_.at(0).getImage().image.size(), 
-                this->train_ranks_.at(0).getImage().image.type()
-                );
+				this->train_ranks_.at(0).getImage().image.size(), 
+				this->train_ranks_.at(0).getImage().image.type()
+				);
 
 			cv::resize(img1, img1, img1_binary.size(), 0, 0, cv::INTER_LINEAR);
 			ContourFinder::binarizeImage(
-                img1, 
-                img1_binary, 
-                this->binarization_threshold_, 
-                cv::THRESH_BINARY_INV
-                );
+				img1, img1_binary, 
+				this->binarization_threshold_, 
+				cv::THRESH_BINARY_INV
+				);
 
 			cv::resize(img2, img2, img2_binary.size(), 0, 0, cv::INTER_LINEAR); 
 			ContourFinder::binarizeImage(
-                img2, img2_binary, 
-                this->binarization_threshold_, 
-                cv::THRESH_BINARY_INV
-                );
+				img2, img2_binary, 
+				this->binarization_threshold_, 
+				cv::THRESH_BINARY_INV
+				);
 
 			// Compare to train images
-			
-            std::pair<int, std::string> result_img1 = this->compareToTrainImage(img1_binary, this->train_ranks_, this->train_suits_);
-            std::pair<int, std::string> result_img2 = this->compareToTrainImage(img2_binary, this->train_ranks_, this->train_suits_);	
+
+			std::pair<int, std::string> result_img1 = this->compareToTrainImage(img1_binary, this->train_ranks_, this->train_suits_);
+			std::pair<int, std::string> result_img2 = this->compareToTrainImage(img2_binary, this->train_ranks_, this->train_suits_);	
 
 			if(result_img1.second == "rank")
 			{
@@ -223,7 +220,7 @@ namespace detect{
 				card.suit = result_img1.first;
 				card.suit_image.image = img1_binary;
 			}
- 	
+
 		}
 		else 
 		{
