@@ -20,13 +20,13 @@ namespace capture
 	{ 		    
 		public:
 
-            bool auto_exposure;
-            bool auto_focus;
+			bool auto_exposure;
+			bool auto_focus;
 			bool auto_wb;
-            int exposure_time;
-            int brightness;
-            int focus;
-            int zoom;
+			int exposure_time;
+			int brightness;
+			int focus;
+			int zoom;
 			int image_width;
 			int image_height;
 			int wb_temperature;
@@ -55,16 +55,16 @@ namespace capture
 			{
 				return 
 				(
-					this->auto_exposure == other.auto_exposure 	&& 
-					this->auto_focus == other.auto_focus 	&&
-					this->auto_wb == other.auto_wb	&&
-					this->exposure_time == other.exposure_time	&&
-					this->brightness == other.brightness	&&
-					this->focus == other.focus	&&
-					this->zoom == other.zoom	&&
-					this->wb_temperature == other.wb_temperature &&
-					this->image_width == other.image_width &&
-					this->image_height == other.image_height 
+				this->auto_exposure == other.auto_exposure 	&& 
+				this->auto_focus == other.auto_focus 	&&
+				this->auto_wb == other.auto_wb	&&
+				this->exposure_time == other.exposure_time	&&
+				this->brightness == other.brightness	&&
+				this->focus == other.focus	&&
+				this->zoom == other.zoom	&&
+				this->wb_temperature == other.wb_temperature &&
+				this->image_width == other.image_width &&
+				this->image_height == other.image_height 
 				);
 			};
 
@@ -72,30 +72,30 @@ namespace capture
 			{
 				return 
 				(
-					this->auto_exposure != other.auto_exposure 	||
-					this->auto_focus != other.auto_focus 	||
-					this->auto_wb != other.auto_wb	||
-					this->exposure_time != other.exposure_time	||
-					this->brightness != other.brightness	 ||
-					this->focus != other.focus	||
-					this->zoom != other.zoom	||
-					this->wb_temperature != other.wb_temperature ||
-					this->image_width != other.image_width ||
-					this->image_height != other.image_height 
+				this->auto_exposure != other.auto_exposure 	||
+				this->auto_focus != other.auto_focus 	||
+				this->auto_wb != other.auto_wb	||
+				this->exposure_time != other.exposure_time	||
+				this->brightness != other.brightness	 ||
+				this->focus != other.focus	||
+				this->zoom != other.zoom	||
+				this->wb_temperature != other.wb_temperature ||
+				this->image_width != other.image_width ||
+				this->image_height != other.image_height 
 				);
 			};
 
 			CameraSettings(): 
-				auto_exposure(true), 
-				auto_focus(true), 
-				auto_wb(true), 
-				exposure_time(-5), 
-				brightness(128), 
-				focus(40), 
-				zoom(40), 
-				image_width(1280), 
-				image_height(1024),
-				wb_temperature(4000)
+			auto_exposure(true), 
+			auto_focus(true), 
+			auto_wb(true), 
+			exposure_time(-5), 
+			brightness(128), 
+			focus(40), 
+			zoom(40), 
+			image_width(1280), 
+			image_height(1024),
+			wb_temperature(4000)
 			{};
 
 			~CameraSettings(){};
