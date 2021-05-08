@@ -5,7 +5,8 @@
 
 namespace detect {
 
-	/** *\ingroup detection
+	/** 
+	 * \ingroup detection
 	 * @class DetectPokerInterface
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief Implements communication interface between detection and poker module.
@@ -17,20 +18,19 @@ namespace detect {
 	 * @copyright Copyright (c) 2020
 	 * 
 	 */
-
 	class DetectPokerInterface: public poker::IPokerDetect
 	{ 
 		private:
 
-		DataDetect& data_;
+			DataDetect& data_;
 
 		public:
-			
-            DataDetect getData() const override { return this->data_; };
+
+			DataDetect getData() const override { return this->data_; };
 
 			explicit DetectPokerInterface(DataDetect& data): 
 				data_(data)
-			{};
+				{};
 
 			~DetectPokerInterface() {};
 

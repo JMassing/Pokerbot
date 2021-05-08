@@ -9,7 +9,8 @@
 
 namespace detect {
 
-	/** *\ingroup detection
+	/** 
+	 * \ingroup detection
 	 * @class ICardDetector
 	 * @author Julian Massing (julimassing@gmail.com)
 	 * @brief Interface which defines minimum required functionality for card detection class. 
