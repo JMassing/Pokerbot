@@ -21,15 +21,15 @@ namespace capture {
 	{ 
 		public:
 			
-            virtual bool open() = 0;
+			virtual bool open() = 0;
 			virtual bool isOpened() = 0;
 			virtual Image read() = 0;
-            virtual bool set(const int&, const int&) = 0;
-            virtual double get(const int&) const = 0;
-            virtual std::string getBackendName() = 0;
+			virtual bool set(const int&, const int&) = 0;
+			virtual double get(const int&) const = 0;
+			virtual std::string getBackendName() = 0;
 
 			virtual ~ICameraDevice() {};
-			
+
 	};
 
 } //end namespace capture
